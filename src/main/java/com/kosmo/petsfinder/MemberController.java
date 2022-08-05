@@ -192,6 +192,7 @@ public class MemberController {
 			session.setAttribute("id", dto.getMember_id());
 			session.setAttribute("name", dto.getMember_name());
 			session.setAttribute("email", dto.getMember_email());
+			session.setAttribute("type", dto.getMember_type());
 			if (save_check != null && save_check.equals("Y")) {
 				CookieManager.makeCookie(resp, "loginId", id, 86400);
 			} else {

@@ -65,9 +65,9 @@ public class HomeController {
 	public String sitterlist() {
 		return "./Petsitters/sitterlist";
 	}
-	@RequestMapping("/Petsitters/sitterview")
+	@RequestMapping("/Petsitters/sitterView")
 	public String sitterview() {
-		return "./Petsitters/sitterview";
+		return "./Petsitters/sitterView";
 	}
 	
 }

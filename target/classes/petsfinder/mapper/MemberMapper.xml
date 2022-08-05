@@ -69,9 +69,5 @@
 		UPDATE member SET member_type = 'sit' WHERE member_id = #{ member_id }
 	</update>
 	
-	<select id="sitter_info" parameterType="petsfinder.petsitters.PetsittersDTO">
-		SELECT * FROM sitter WHERE member_idx = #{ member_idx }
-	</select>
-	
 </mapper>
 
