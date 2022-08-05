@@ -1,5 +1,5 @@
 package petsfinder.abandonedanimal;
-
+//유기동물신고 DTO 
 public class ReportDTO {
 	
 	private int dclrAbnd_idx; // 유기동물신고 일련번호

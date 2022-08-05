@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!-- 입양후기 + 유기동물 상세보기 -->
 <!DOCTYPE html>
 <!-- saved from url=(0046)https://petplanet.co/petsitters/details/rsbzj1 -->
@@ -135,10 +137,14 @@
 														</div>
 													</div>
 												</div>
-												<!-- 후기 내용 전체 불러오기 -->
+												<!-- 댓글보기 전체 불러오기 -->
+												<c:forEach items="${reviewLists }" var="row">
 												<script>
-													function com_view () {
-														var com = document.getElementById('com')
+													
+													function com_view${row.review_idx} () {
+														var a = ${row.review_idx};
+														var id = "com" + a;
+														var com = document.getElementById(id)
 														if( com.style.display == 'none' ) {
 															com.style.display = 'flex'
 														} else {
@@ -146,184 +152,80 @@
 														}
 													}
 												</script>
+												</c:forEach>
+												
+												
+												
+												<!-- 입양후기 -->
 												<div style="margin-top: 38px;">
+													<c:forEach items="${reviewLists }" var="row">
 													<div
 														style="display: flex; flex-direction: column; border-top: 1px solid rgb(235, 235, 235); padding: 38px 0px;">
+														<!-- 이름,날짜,내용 -->
 														<div
 															style="display: flex; flex-direction: row; align-items: center;">
 															<img width="50" height="50"
-																src="./sitterView/0f9b46e53cf74ae3916d25246eacec9c.jpg"
+																src="../images/4.png"
 																style="object-fit: cover; border-radius: 50%;">
 															<div style="margin-left: 18px;">
 																<p
-																	style="font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);">이*훈</p>
+																	style="font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);">멤버일련번호..(원래는이름)${row.member_idx }</p>
 																<p
-																	style="font-size: 13px; line-height: 19px; color: rgb(76, 80, 86); margin-top: 6px;">2022년
-																	7월 21일</p>
+																	style="font-size: 13px; line-height: 19px; color: rgb(76, 80, 86); margin-top: 6px;">${row.review_regdate }</p>
 															</div>
 														</div>
 														<p
-															style="font-size: 15px; line-height: 25px; color: rgb(76, 80, 86); margin-top: 18px;">펫시팅은
-															처음이고 하로를 다른곳에 맡기는것도 처음이라서 걱정되는 부분이 많았는데~송*은 펫시터의 정성스러운
-															일지와 하로의 행복해 보이는 표정들이 저의 걱정을 싹 날려주었습니다~정말 감사합니다~진짜 진심으로
-															하로를 잘케어 해주신거 같아서 다시한번 감사드립니다~^^</p>
+															style="font-size: 15px; line-height: 25px; color: rgb(76, 80, 86); margin-top: 18px;">${row.review_content }</p>
+														<!-- 사진 -->
 														<div
 															style="display: flex; flex-direction: row; margin-top: 33px;">
 															<img width="90" height="90"
-																src="./sitterView/46bbf847d6434a20a033a18a0061879b.jpg"
+																src="../images/4.png"
 																style="border-radius: 2px; object-fit: cover; margin-right: 9px; user-select: none; cursor: pointer;"><img
 																width="90" height="90"
-																src="./sitterView/8a2b86f4fc534f73a15a434baebd53fa.jpg"
+																src="../images/4.png"
 																style="border-radius: 2px; object-fit: cover; margin-right: 9px; user-select: none; cursor: pointer;"><img
 																width="90" height="90"
-																src="./sitterView/01b9927be704472a8e4f75dbdfcf55ce.jpg"
+																src="../images/4.png"
 																style="border-radius: 2px; object-fit: cover; margin-right: 9px; user-select: none; cursor: pointer;">
 														</div>
-														<div
-															style="display: flex; flex-direction: row; justify-content: right; margin-top: 32px;">
+														<% int temp = 0; %>
+														<c:forEach items="${reviewCommLists }" var="rerow" varStatus="status">
 															
+															<c:if test="${rerow.review_idx eq row.review_idx }" >
+																<%  
+																if(temp < 1) {
+																	temp++;
+																%>
+																	<button onclick="com_view${row.review_idx}();" style='background: none; border: none;'>댓글보기</button>
+																<%}%>
+															</c:if>
+														</c:forEach>
+														
+														<div id="com${row.review_idx }" name="com${row.review_idx }" style="display: none; flex-direction: row; justify-content: right; margin-top: 32px;">
+														
+															<img width="50" height="50"
+															src="./sitterView/086d1c39b3704073bd35db5d5298e464.jpg"
+															style="object-fit: cover; border-radius: 50%;">
 															<div
 																style="background-color: rgb(250, 250, 252); width: 100%; padding: 20px 24px;">
 																<div
 																	style="display: flex; flex-direction: row; align-items: center;">
 																	<p
-																		style="font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);">펫시터님
+																		style="font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);">멤버일련번호..(원래는이름)${rerow.member_idx }님
 																		답글</p>
 																	<p
-																		style="font-size: 13px; line-height: 19px; color: rgb(157, 164, 180); margin-left: 9px;">10일
-																		전</p>
+																		style="font-size: 13px; line-height: 19px; color: rgb(157, 164, 180); margin-left: 9px;">${rerow.reviewcomm_regdate }</p>
 																</div>
-																<p
-																	style="font-size: 15px; line-height: 25px; color: rgb(85, 85, 85); margin-top: 12px;">첫
-																	돌봄 맡기시는 보호자님 .또 아이의 마음을 충분히 공감합니다_^^저두 저희 애들맡길때
-																	그맘일것같았어요 ~첫날 너무 낮설어해서 걱정했는데 같이 낮잠잔 이후 넘 잘놀구 에너지넘쳐서 저두
-																	뿌듯했습니다_^^ 유독 브라우니를 쫒아다니는 모습이 기억에남아 피식 웃게되네요~^^ 보호자님이
-																	믿고맡겨주셔서 저두 감사합니다 _^^</p>
+																<p style="font-size: 15px; line-height: 25px; color: rgb(85, 85, 85); margin-top: 12px;">${rerow.reviewcomm_content }</p>
 															</div>
+															
 														</div>
 													</div>
-													<div
-														style="display: flex; flex-direction: column; border-top: 1px solid rgb(235, 235, 235); padding: 38px 0px;">
-														<div
-															style="display: flex; flex-direction: row; align-items: center;">
-															<img width="50" height="50"
-																src="./sitterView/9c2f23c55ab14365b7018bd63e891471.jpg"
-																style="object-fit: cover; border-radius: 50%;">
-															<div style="margin-left: 18px;">
-																<p
-																	style="font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);">김*은</p>
-																<p
-																	style="font-size: 13px; line-height: 19px; color: rgb(76, 80, 86); margin-top: 6px;">2022년
-																	7월 3일</p>
-															</div>
-														</div>
-														<p
-															style="font-size: 15px; line-height: 25px; color: rgb(76, 80, 86); margin-top: 18px;">매번
-															꼼꼼하게 일지도 써주시고 동영상 편집도 너무 귀엽게 해주셔서 보는 내내 웃음이 떠나질 않았어요 - ♡♡
-
-															결혼 준비 중이라 대구에 갈 일이 많은데, 이 시기에 후추를 이렇게 예뻐해주시는 사장님을 알게 된 건
-															저희에겐 정말! 천운이라 생각해요!! 호텔이야 여러군데 있지만 며칠씩 맡기면서 마음 놓고 안심할 수
-															있는 곳은 없었거든요 ㅠㅠ 사회화 시기 때 후추가 강아지들을 많이 접해보지 않아서 어딜 가나 꼬리말고
-															구석에 숨어있기 바빴는데, 상주하는 예쁜 아이들(♡)이 헬퍼독 역할을 해줘서 지금은 먼저 다가가고
-															놀자고 해요! 얼마나 뿌듯한지 몰라요 ㅠㅠㅠ 이번에도 다녀와서 하루는 거의 녹초 상태였답니다 ^^ 매번
-															항상 감사드려요 ❤️❤️</p>
-														<div
-															style="display: flex; flex-direction: row; margin-top: 33px;">
-															<img width="90" height="90"
-																src="./sitterView/6a7dffb15ac44f28a39289bf5357ad23.jpg"
-																style="border-radius: 2px; object-fit: cover; margin-right: 9px; user-select: none; cursor: pointer;"><img
-																width="90" height="90"
-																src="./sitterView/cca49b9ba6354b839ae5a19e76608c55.jpg"
-																style="border-radius: 2px; object-fit: cover; margin-right: 9px; user-select: none; cursor: pointer;"><img
-																width="90" height="90"
-																src="./sitterView/3114e4e677ac4c3abb779c107f789061.jpg"
-																style="border-radius: 2px; object-fit: cover; margin-right: 9px; user-select: none; cursor: pointer;">
-														</div>
-														<div
-															style="display: flex; flex-direction: row; justify-content: right; margin-top: 32px;">
-															<img width="50" height="50"
-																src="./sitterView/08d8f81d5fd74638bcd1e4d6792e95d0.jpg"
-																style="object-fit: cover; border-radius: 50%;">
-															<div
-																style="background-color: rgb(250, 250, 252); width: 515px; padding: 20px 24px;">
-																<div
-																	style="display: flex; flex-direction: row; align-items: center;">
-																	<p
-																		style="font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);">펫시터님
-																		답글</p>
-																	<p
-																		style="font-size: 13px; line-height: 19px; color: rgb(157, 164, 180); margin-left: 9px;">10일
-																		전</p>
-																</div>
-																<p
-																	style="font-size: 15px; line-height: 25px; color: rgb(85, 85, 85); margin-top: 12px;">후추는
-																	이제 친구집 놀러오듯이 편히지내는 모습이죠~ㅎㅎ 머무는 동안만은 저희 가족이나 다름없이 항상 잘
-																	돌보겠습니다._^^ 그러니 후추 걱정은 마시구 즐겁게 결혼준비하시도록 앞으로도 잘케어하겠습니다~♡</p>
-															</div>
-														</div>
-													</div>
+													</c:forEach>
+													
 													<!-- 후기 폼!!!!!!!! -->
-													<div
-														style="display: flex; flex-direction: column; border-top: 1px solid rgb(235, 235, 235); padding: 38px 0px;">
-														<div
-															style="display: flex; flex-direction: row; align-items: center;">
-															<img width="50" height="50"
-																src="./sitterView/086d1c39b3704073bd35db5d5298e464.jpg"
-																style="object-fit: cover; border-radius: 50%;">
-															<div style="margin-left: 18px;">
-																<p
-																	style="font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);">장*영</p>
-																<p
-																	style="font-size: 13px; line-height: 19px; color: rgb(76, 80, 86); margin-top: 6px;">2022년
-																	6월 19일</p>
-															</div>
-														</div>
-														<p
-															style="font-size: 15px; line-height: 25px; color: rgb(76, 80, 86); margin-top: 18px;">펫플래닛
-															어플과 송*은 펫시터님은 만난건 저와 저희 블루에게 아주아주 큰 행운이었어요💕 이런 어플이 있는줄도
-															몰랐는데 지금알아서 너무 아쉬울정도로 대만족했어요. 일단 타 호텔은 산책x, 사진x,
-															일지x,세심한케어x 등 그냥 풀어놓고 하루 재워주는 곳이라면 펫플래닛은 펫시터분이 하나부터 열까지 우리
-															아이를 위해 정말 많이 신경써주고있다는걸 느끼게 해주네요. 2~3시간마다 올려주시는 일지만 봐도 얼마나
-															즐겁고 행복해보이는지😍 잘 짜여진 프로그램과 강아지 성향을 고려해서 산책, 놀이 해주시니까 정말
-															좋아요. 전문적인 지식을 가진분이라는게 느껴지는 조언까지도 다 만족입니다. 강아지와 함께할 수 없는
-															시간이 또 온다면 무조건 송*은님께 예약해서 강아지와 저 둘다 좋은시간 보낼거에요🐶😊 추가적으로
-															인생사진까지 이쁘게 찍어주셔서 저랑 남자친구 프로필 사진을 바로 바꿨어요 ㅋㅋ꺗ㅎㅎ</p>
-														<div
-															style="display: flex; flex-direction: row; margin-top: 33px;">
-															<img width="90" height="90"
-																src="./sitterView/58640337b6634e12a5719e1c2868c41d.jpg"
-																style="border-radius: 2px; object-fit: cover; margin-right: 9px; user-select: none; cursor: pointer;"><img
-																width="90" height="90"
-																src="./sitterView/28c79f31242f441b9f5a8cc6c36c4c01.jpg"
-																style="border-radius: 2px; object-fit: cover; margin-right: 9px; user-select: none; cursor: pointer;"><img
-																width="90" height="90"
-																src="./sitterView/15fad763db7d49489c1930ceff4f9195.jpg"
-																style="border-radius: 2px; object-fit: cover; margin-right: 9px; user-select: none; cursor: pointer;">
-														</div>
-														
-														<button onclick="com_view();" style='background: none; border: none;'>댓글보기</button>
-														<div id="com" name="com" style="display: none; flex-direction: row; justify-content: right; margin-top: 32px;">
-															<img width="50" height="50"
-															src="./sitterView/086d1c39b3704073bd35db5d5298e464.jpg"
-															style="object-fit: cover; border-radius: 50%;">
-															<div style="background-color: rgb(250, 250, 252); width: 515px; padding: 20px 24px;">
-																<div 
-																	style="display: flex; flex-direction: row; align-items: center;">
-																	<p
-																		style="font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);">펫시터님
-																		답글</p>
-																	<p
-																		style="font-size: 13px; line-height: 19px; color: rgb(157, 164, 180); margin-left: 9px;">1개월
-																		전</p>
-																</div>
-																<p style="font-size: 15px; line-height: 25px; color: rgb(85, 85, 85); margin-top: 12px;">꺅~감사합니다ㅎㅎ
-																	저야말루 즐거운 시간 이었습니다^^@ 첫 만남이라 어떤 친구일까 궁금했었는데 알고보니
-																	애.교.덩.어.리 였어요~^^ 2박3일 시간 가는줄 몰랐어요 ㅎㅎ 블루야~ 담에 꼭 다시 만나길
-																	바래~♡ 보호자님께두 감사합니다^^ 첫만남시 자세한 정보공유대화하며 시간내어주고 가셔서 블루가
-																	낯선공간에 빨리 적응할수 있었어요~^^♡</p>
-															</div>
-														</div>
-													</div>
+													
 													<div
 														style="display: flex; align-items: center; justify-content: center; height: 50px; border-radius: 25px; border: 1px solid rgb(129, 137, 155); margin-bottom: 100px; user-select: none; cursor: pointer; margin-top: 12px;">
 														<p

@@ -6,16 +6,17 @@
   
    <mapper namespace="petsfinder.abandonedanimal.AbandonedAnimalDAOImpl">
    
-   
+   <!-- 유기동물 상세보기 -->
    <select id="abandonedAnimalView" resultType="petsfinder.abandonedanimal.AbandonedAnimalDTO"
   		parameterType="petsfinder.abandonedanimal.AbandonedAnimalDTO">
   		SELECT * from abandonedAnimal where abani_idx=#{abani_idx}
    </select>
   	
-  	
+  	<!-- 유기동물 전체 수 가져오기 -->
   	<select id="getTotalCount" resultType="int">
   		SELECT COUNT(*) from abandonedAnimal
   	</select>
+  	<!-- 유기동물 리스트 가져오기 -->
   	<select id="listPage" resultType="petsfinder.abandonedanimal.AbandonedAnimalDTO">
   		SELECT * FROM (
   			SELECT Tb.*, rownum rNum FROM (
@@ -26,8 +27,27 @@
   		WHERE rNum<![CDATA[>=]]>#{param1} AND rNum<![CDATA[<=]]>#{param2}
   	</select>
   	
-  	
-  	
-  	
+  	<!-- 유기동물 신고 저장 -->
+  	<insert id="notifyForm" parameterType="petsfinder.abandonedanimal.ReportDTO">
+		INSERT INTO REPORT_ABANDONED_ANIMALS( dclrAbnd_idx,	dclrAbnd_loc, dclrAbnd_title, dclrAbnd_content
+											, dclrAbnd_photo, dclrAbnd_regdate,	dclrAbnd_stts, member_idx )
+									VALUES(	SEQ_dclrAbnd_idx.nextval, #{dclrAbnd_loc}, #{dclrAbnd_title}, #{dclrAbnd_content}
+											, #{dclrAbnd_photo}, sysdate, 'reg', #{member_idx})
+	</insert>
+  	<!-- 유기동물 후기 리스트 가져오기 -->
+  	<select id="abaAniReview" resultType="petsfinder.abandonedanimal.ReviewBoardDTO">
+  		select a.*,  NVL(b.countlike, 0) as countlike
+		from (select r.*, m.member_name 
+	        from review_board r, member m 
+	        where r.member_idx=m.member_idx and abani_idx=#{param1} 
+	        order by review_idx desc) a 
+		left OUTER JOIN (select  review_idx, count(review_idx) countlike 
+                   	 	from review_like group by review_idx) b 
+		on a.review_idx=b.review_idx
+  	</select>
+  	<!-- 그 입양동물 상세보기에서 쓰인 후기들의 댓글을 모두 가져오기 -->
+  	<select id="reviewComment" resultType="petsfinder.abandonedanimal.ReviewCommentDTO">
+  		select * from review_Comment where review_idx in(select review_idx from review_board where abani_idx=#{param1})
+  	</select>
    
    </mapper>
