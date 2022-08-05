@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+   <mapper namespace="petsfinder.abandonedanimal.AbandonedAnimalDAOImpl">
+   
+   
+   <select id="abandonedAnimalView" resultType="petsfinder.abandonedanimal.AbandonedAnimalDTO"
+  		parameterType="petsfinder.abandonedanimal.AbandonedAnimalDTO">
+  		SELECT * from abandonedAnimal where abani_idx=#{abani_idx}
+   </select>
+  	
+  	
+  	<select id="getTotalCount" resultType="int">
+  		SELECT COUNT(*) from abandonedAnimal
+  	</select>
+  	<select id="listPage" resultType="petsfinder.abandonedanimal.AbandonedAnimalDTO">
+  		SELECT * FROM (
+  			SELECT Tb.*, rownum rNum FROM (
+  				SELECT * FROM abandonedAnimal 
+  				ORDER BY abani_idx DESC 
+  			) Tb
+  		)
+  		WHERE rNum<![CDATA[>=]]>#{param1} AND rNum<![CDATA[<=]]>#{param2}
+  	</select>
+  	
+  	
+  	
+  	
+   
+   </mapper>
