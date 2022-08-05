@@ -567,13 +567,5 @@ public class MemberController {
 		}
 	}
 	
-	@RequestMapping("/sitterPage")
-	public String sitterPage(Model model, HttpServletRequest req, HttpSession session) {
-		
-		String m_idx = session.getAttribute("idx").toString();
-		
-		
-		return "sitterPage";
-	}
 	
 }

@@ -37,7 +37,7 @@
 				member_gender
 			)
 		values 
-			(SEQ_member_member_idx.nextval, #{ member_id }, #{ member_pass }, 'nor', #{ member_email },
+			(SEQ_member_idx.nextval, #{ member_id }, #{ member_pass }, 'nor', #{ member_email },
 				#{ member_addr }, #{ member_name }, #{ member_phone }, sysdate, #{ member_birth }, #{ member_gender })
 	</insert>
 	

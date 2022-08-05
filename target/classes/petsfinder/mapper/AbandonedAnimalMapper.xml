@@ -31,7 +31,7 @@
   	<insert id="notifyForm" parameterType="petsfinder.abandonedanimal.ReportDTO">
 		INSERT INTO REPORT_ABANDONED_ANIMALS( dclrAbnd_idx,	dclrAbnd_loc, dclrAbnd_title, dclrAbnd_content
 											, dclrAbnd_photo, dclrAbnd_regdate,	dclrAbnd_stts, member_idx )
-									VALUES(	SEQ_dclrAbnd_idx.nextval, #{dclrAbnd_loc}, #{dclrAbnd_title}, #{dclrAbnd_content}
+									VALUES(	SEQ_REPORT_idx.nextval, #{dclrAbnd_loc}, #{dclrAbnd_title}, #{dclrAbnd_content}
 											, #{dclrAbnd_photo}, sysdate, 'reg', #{member_idx})
 	</insert>
   	<!-- 유기동물 후기 리스트 가져오기 -->
