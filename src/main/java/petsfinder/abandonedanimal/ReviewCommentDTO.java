@@ -4,10 +4,19 @@ import java.sql.Date;
 //후기의 댓글 DTO 
 public class ReviewCommentDTO {
 	private int reviewcomm_idx ;
+	private String member_namec;
 	private String reviewcomm_content;
 	private Date reviewcomm_regdate;
 	private int review_idx;
 	private int member_idx;
+	
+	
+	public String getMember_namec() {
+		return member_namec;
+	}
+	public void setMember_namec(String member_namec) {
+		this.member_namec = member_namec;
+	}
 	public int getReviewcomm_idx() {
 		return reviewcomm_idx;
 	}

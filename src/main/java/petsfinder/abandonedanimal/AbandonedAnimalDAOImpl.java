@@ -20,7 +20,8 @@ public interface AbandonedAnimalDAOImpl {
 	public ArrayList<ReviewBoardDTO> abaAniReview(int abani_idx);
 	//그 입양동물 상세보기에서 쓰인 후기들의 댓글을 모두 가져오기
 	public ArrayList<ReviewCommentDTO> reviewComment(int abani_idx);
-	
+	//후기의 댓글 저장
+	public int commentInsert(ReviewCommentDTO reviewCommentDTO);
 	
 	
 }

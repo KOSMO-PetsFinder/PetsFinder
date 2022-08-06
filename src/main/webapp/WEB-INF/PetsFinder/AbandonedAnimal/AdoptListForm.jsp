@@ -209,11 +209,9 @@
               <p style="font-size: 16px; letter-spacing: -0.2px; line-height: 20px; color: #383c48; margin-top: 5px">
                 ${row.abani_age }
               </p>
-              <div style="display: flex; margin-top: 10px; width: 80px; justify-content: space-between; align-items: center">
-                <div style="width: 100px; display: flex; justify-content: space-between">
+              <p style="margin-top: 10px;">
                     ${row.abani_char }
-                </div>
-              </div>
+              </p>
             </div>
 	        </a>
 	        <c:if test="${vs.index%4 == 3}">

@@ -37,7 +37,7 @@
   	<!-- 유기동물 후기 리스트 가져오기 -->
   	<select id="abaAniReview" resultType="petsfinder.abandonedanimal.ReviewBoardDTO">
   		select a.*,  NVL(b.countlike, 0) as countlike
-		from (select r.*, m.member_name 
+		from (select r.*, m.member_name member_namer
 	        from review_board r, member m 
 	        where r.member_idx=m.member_idx and abani_idx=#{param1} 
 	        order by review_idx desc) a 
@@ -47,7 +47,25 @@
   	</select>
   	<!-- 그 입양동물 상세보기에서 쓰인 후기들의 댓글을 모두 가져오기 -->
   	<select id="reviewComment" resultType="petsfinder.abandonedanimal.ReviewCommentDTO">
-  		select * from review_Comment where review_idx in(select review_idx from review_board where abani_idx=#{param1})
+  		select 
+		    a.*, b.member_name member_namec
+		from (select * 
+		    from review_Comment 
+		    where review_idx 
+		    in(select review_idx 
+		        from review_board 
+		        where abani_idx=#{param1})) a, member b 
+		where a.member_idx=b.member_idx
   	</select>
+  	
+  	<!-- 후기의 댓글 저장 -->
+  	<insert id="commentInsert" parameterType="petsfinder.abandonedanimal.ReviewCommentDTO">
+		INSERT INTO review_Comment( reviewcomm_idx,	reviewcomm_content, reviewcomm_regdate, review_idx,member_idx)
+									VALUES(	SEQ_reviewcomm_idx.nextval, #{reviewcomm_content}, sysdate, #{review_idx}
+										, #{member_idx})
+	</insert>
+  	
+  	
+  	
    
    </mapper>

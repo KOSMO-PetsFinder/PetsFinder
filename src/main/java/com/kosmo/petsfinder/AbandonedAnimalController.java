@@ -55,30 +55,55 @@ public class AbandonedAnimalController {
 			= sqlSession.getMapper(AbandonedAnimalDAOImpl.class)
 			.abaAniReview(abandonedAnimalDTO.getAbani_idx());
 		
-		//그 입양동물 상세보기에서 쓰인 후기들의 댓글을 모두 가져오기
-		ArrayList<ReviewCommentDTO> reviewCommLists
-		= sqlSession.getMapper(AbandonedAnimalDAOImpl.class)
-		.reviewComment(abandonedAnimalDTO.getAbani_idx());
+		//후기가 있는지 확인할 문자
+		String revState = "";
+		//후기의 댓글을 받을 리스트 선언
+		ArrayList<ReviewCommentDTO> reviewCommLists =null;
 		
-		//유기동물 후기의 띄어쓰기 처리
-		for(ReviewBoardDTO dto : reviewLists){
-			String temp = dto.getReview_content().replace("\r\n","<br/>");
-			dto.setReview_content(temp);
+		//후기가 없을 때 
+		if(reviewLists.isEmpty()) {
+			revState = "nex";
+		}
+		//후기가 있을 때
+		else {
+			//유기동물 후기의 띄어쓰기 처리
+			for(ReviewBoardDTO dto : reviewLists){
+				String temp = dto.getReview_content().replace("\r\n","<br/>");
+				dto.setReview_content(temp);
+			}
+			//그 입양동물 상세보기에서 쓰인 후기들의 댓글을 모두 가져오기
+			reviewCommLists = sqlSession.getMapper(AbandonedAnimalDAOImpl.class)
+					.reviewComment(abandonedAnimalDTO.getAbani_idx());
+			// 후기의 댓글이 없을때 
+			if(reviewCommLists.isEmpty()) {
+				
+			}
+			//후기의 댓글이 있을 때 
+			else {
+				//후기의 댓글의 띄어쓰기 처리
+				for(ReviewCommentDTO dto : reviewCommLists){
+					String temp = dto.getReviewcomm_content().replace("\r\n","<br/>");
+					dto.setReviewcomm_content(temp);
+				}	
+			}
+			revState = "exe";
 		}
 		
-		//후기의 댓글의 띄어쓰기 처리
-		for(ReviewCommentDTO dto : reviewCommLists){
-			String temp = dto.getReviewcomm_content().replace("\r\n","<br/>");
-			dto.setReviewcomm_content(temp);
-		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		//모델에 저장
 		model.addAttribute("abandonedAnimalDTO",abandonedAnimalDTO);
 		model.addAttribute("reviewLists",reviewLists);
 		model.addAttribute("reviewCommLists",reviewCommLists);
-		
-		
-		
+		model.addAttribute("revState",revState);
 		
 		return "AbandonedAnimal/AdoptView";
 	}
@@ -133,10 +158,18 @@ public class AbandonedAnimalController {
 	}
 	
 	
-	
-	
-	
-	
+	@RequestMapping(value = "AbandonedAnimal/commentInsert.do")
+	public String CommentInsert(ReviewCommentDTO reviewCommentDTO,HttpServletRequest req) {
+		String idx = req.getParameter("abani_idx");
+		 
+		int result = 
+				sqlSession.getMapper(AbandonedAnimalDAOImpl.class).commentInsert(reviewCommentDTO);
+		if(result==1) {
+			System.out.println("저장성공!");
+		}
+		
+		return "redirect:/AbandonedAnimal/adoptView.do?abani_idx="+idx;
+	}
 	
 	
 	
