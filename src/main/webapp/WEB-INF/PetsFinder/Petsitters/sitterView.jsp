@@ -458,8 +458,9 @@
 										        		$('#endDate').datepicker("option", "minDate", dateText);
 										        		$('#endDate').val('');
 										        		$('#endDate').datepicker('enabled');
-										        		$('#startDate').removeClass('DateInput_input__focused DateInput_input__focused_2');
 										        		$('#endDate').addClass('DateInput_input__focused DateInput_input__focused_2');
+										        		$('#startDate').removeClass('DateInput_input__focused DateInput_input__focused_2');
+										        		$('table.ui-datepicker-calendar td').hover({backgroundColor: '#75c9ba'})
 										        	},
 										        	onClose : function(dateText) {
 										        		$('#sD').val(dateText);
@@ -473,7 +474,7 @@
 										        		$('#startDate').datepicker("option", "maxDate", dateText);
 										        		$('#cal_img').datepicker("option", "maxDate", dateText);
 										        		$('#eD').val(dateText);
-										        		location.href="<c:url value='/' />petsitters/list?sD=" + $('#sD').val() + "&eD=" + $('#eD').val();
+										        		location.href="<c:url value='/' />petsfinder/petsitters/reserve?sD=" + $('#sD').val() + "&eD=" + $('#eD').val();
 										        	},
 										        });
 										        
@@ -481,15 +482,16 @@
 										        	minDate : 'd',
 										        	onSelect : function(dateText) {
 										        		$('#startDate').datepicker("setDate", dateText);
-										        		/* 
-										        		$('#startDate').datepicker("option", "disabled", false);
-										        		 */
 										        	}
 										        });
 										
 										    });
 										</script>
 										<div>
+								        <form action="./ListSearch">
+									        <input type="hidden" id="sD" name="sD"/>
+									        <input type="hidden" id="eD" name="eD"/>
+											
 											<div
 												style="width: 375px; border-radius: 8px; border: 1px solid rgb(223, 227, 234); box-shadow: rgba(0, 0, 0, 0.07) 1px 3px 7px; padding-left: 32px; padding-right: 32px; padding-bottom: 32px;">
 												<p
@@ -559,6 +561,9 @@
 														요청</p>
 												</div>
 											</div>
+										</form>	
+											
+											
 											<div
 												style="width: 375px; border-radius: 8px; border: 1px solid rgb(223, 227, 234); box-shadow: rgba(0, 0, 0, 0.07) 1px 3px 7px; padding: 38px 32px; margin-top: 38px;">
 												<div

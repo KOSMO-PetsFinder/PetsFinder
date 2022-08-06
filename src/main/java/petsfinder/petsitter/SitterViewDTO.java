@@ -1,4 +1,4 @@
-package petsfinder.sitter;
+package petsfinder.petsitter;
 
 import java.sql.Date;
 

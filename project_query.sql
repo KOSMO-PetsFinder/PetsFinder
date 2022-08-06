@@ -51,3 +51,25 @@ INSERT INTO member
 (member_idx, member_id, member_pass, member_type, member_email, member_addr, member_name, member_phone, member_reg, member_birth, member_gender ) 
 VALUES
 (SEQ_MEMBER_IDX.NEXTVAL, 'jung1234', 'jung1234!', 'nor', 'sjw4070@naver.com', '07724 / 서울 강서구 초록마을로22길 35 / 402호', '채정우', '010-9380-0974', sysdate, '1989/01/27', 'M');
+
+INSERT INTO member 
+(member_idx, member_id, member_pass, member_type, member_email, member_addr, member_name, member_phone, member_reg, member_birth, member_gender ) 
+VALUES
+(SEQ_MEMBER_IDX.NEXTVAL, 'young6316', 'young6316@', 'nor', 'tjakffod@naver.com', '14090 / 경기 안양시 만안구 소곡로 78 / 101동', '서영은', '010-8339-6316', sysdate, '1996/03/16', 'F');
+
+INSERT INTO member 
+(member_idx, member_id, member_pass, member_type, member_email, member_addr, member_name, member_phone, member_reg, member_birth, member_gender ) 
+VALUES
+(SEQ_MEMBER_IDX.NEXTVAL, 'heon93', 'sshhoo1123', 'nor', 'honey@naver.com', '22750 / 인천 서구 크리스탈로 148 / 373동', '오승헌', '010-9255-4611', sysdate, '1993/06/05', 'M');
+
+INSERT INTO member 
+(member_idx, member_id, member_pass, member_type, member_email, member_addr, member_name, member_phone, member_reg, member_birth, member_gender ) 
+VALUES
+(SEQ_MEMBER_IDX.NEXTVAL, 'rladmsdkz', 'Kosmo1234!', 'nor', '00kimeunah00@naver.com', '63590 / 제주특별자치도 서귀포시 동문동로 7-1 / 1004동', '김은아', '010-1234-5678', sysdate, '1995/04/08', 'F');
+
+INSERT INTO member 
+(member_idx, member_id, member_pass, member_type, member_email, member_addr, member_name, member_phone, member_reg, member_birth, member_gender ) 
+VALUES
+(SEQ_MEMBER_IDX.NEXTVAL, 'wonjerry', 'kosmo1111!', 'nor', 'kenny9303@naver.com', '40240 / 경상북도 울릉군 울릉읍 독도이사부길 63 / 1동', '이원재', '010-2682-4951', sysdate, '1993/03/20', 'M');
+
+commit;
