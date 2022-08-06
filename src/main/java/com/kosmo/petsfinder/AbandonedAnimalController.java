@@ -155,7 +155,7 @@ public class AbandonedAnimalController {
 	public String adoptLatter() {
 		
 		return "AbandonedAnimal/AdoptLatter";
-	}
+	} 
 	
 	
 	@RequestMapping(value = "AbandonedAnimal/commentInsert.do")
