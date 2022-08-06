@@ -1,4 +1,4 @@
-package petsfinder.sitter;
+package petsfinder.petsitter;
 
 import petsfinder.member.MemberDTO;
 
