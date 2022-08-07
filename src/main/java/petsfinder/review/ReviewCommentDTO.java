@@ -1,4 +1,4 @@
-package petsfinder.abandonedanimal;
+package petsfinder.review;
 
 import java.sql.Date;
 //후기의 댓글 DTO 
@@ -9,7 +9,7 @@ public class ReviewCommentDTO {
 	private Date reviewcomm_regdate;
 	private int review_idx;
 	private int member_idx;
-	
+	private String member_photo;
 	
 	public String getMember_namec() {
 		return member_namec;
@@ -46,6 +46,12 @@ public class ReviewCommentDTO {
 	}
 	public void setMember_idx(int member_idx) {
 		this.member_idx = member_idx;
+	}
+	public String getMember_photo() {
+		return member_photo;
+	}
+	public void setMember_photo(String member_photo) {
+		this.member_photo = member_photo;
 	}
 	
 	

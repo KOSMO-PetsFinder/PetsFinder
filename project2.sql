@@ -456,9 +456,9 @@ CREATE TABLE sitter
 	-- 이용고객 수 
 	sit_CLIENT number NOT NULL,
 	-- 시터 총 별점
-	sit_startpoint number NOT NULL,
+	sit_starpoint number NOT NULL,
 	-- 시터가 별점을 받은 횟수 
-	sit_startcount number NOT NULL,
+	sit_starcount number NOT NULL,
 	PRIMARY KEY (sit_idx)
 );
 
@@ -528,7 +528,7 @@ CREATE TABLE sit_book
 );
 
 
--- 새 테이블
+-- 서비스 테이블
 CREATE TABLE TYPE_SERVICE
 (
 	-- 서비스 일련번호
@@ -552,7 +552,6 @@ CREATE TABLE TYPE_Tag
 	typTag_expln varchar2(200) NOT NULL,
 	PRIMARY KEY (typTag_idx)
 );
-
 
 
 /* Create Foreign Keys */

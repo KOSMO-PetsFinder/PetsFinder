@@ -225,7 +225,7 @@
 																style="object-fit: cover; border-radius: 50%;">
 															<div style="margin-left: 18px;">
 																<p
-																	style="font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);">${row.member_namer }</p>
+																	style="font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72); margtin-bottom: 0">${row.member_namer }</p>
 																<p
 																	style="font-size: 13px; line-height: 19px; color: rgb(76, 80, 86); margin-top: 6px;">${row.review_regdate }</p>
 															</div>
@@ -254,7 +254,7 @@
 																			if($('#like_check${row.review_idx}').val()==0){
 																				console.log("plus");
 																				$('#like_check${row.review_idx}').val('1');
-																				$('#like_img${row.review_idx}').attr('src', "../images/heart1.png");
+																				$('#like_img${row.review_idx}').attr('src', "../images/heart_o.png");
 																				var val01 = $('#like_num${row.review_idx}').val();
 																				var val02 = parseInt(val01) + 1;
 																				$('#like_num${row.review_idx}').val(val02);
@@ -263,7 +263,7 @@
 																			else{
 																				console.log("minus");
 																				$('#like_check${row.review_idx}').val('0');
-																				$('#like_img${row.review_idx}').attr('src', "../images/heart0.png");
+																				$('#like_img${row.review_idx}').attr('src', "../images/heart_x.png");
 																				var val01 = $('#like_num${row.review_idx}').val();
 																				var val02 = parseInt(val01) - 1;
 																				$('#like_num${row.review_idx}').val(val02);
@@ -292,12 +292,12 @@
 																<button type="button" id="like${row.review_idx}" name="like${row.review_idx}" style="border: 0;outline: 0;background-color: white;">
 																<c:if test="<%=likeEx==1 %>">
 																<p style="cursor: pointer;" id="like${row.review_idx }">
-																	<img id="like_img${row.review_idx}" src="../images/heart1.png" alt="" width="30" height="30" />
+																	<img id="like_img${row.review_idx}" src="../images/heart_o.png" alt="" width="20" height="20" />
 																</p>
 																</c:if>
 																<c:if test="<%=likeEx==0 %>">
 																<p style="cursor: pointer;" id="like${row.review_idx }">
-																	<img id="like_img${row.review_idx}" src="../images/heart0.png" alt="" width="30" height="30" />
+																	<img id="like_img${row.review_idx}" src="../images/heart_x.png" alt="" width="20" height="20" />
 																</p>
 																</c:if>
 																</button>
@@ -305,7 +305,7 @@
 																</c:if>
 																<c:if test="${not sessionIdx }">
 																<div style="padding-right: 10px;">
-																	<img id="like_img${row.review_idx}" src="../images/heart0.png" alt="" width="30" height="30" />
+																	<img id="like_img${row.review_idx}" src="../images/heart_o.png" alt="" width="20" height="20" />
 																</div>	
 																</c:if>
 																<div style=" width: 20px; margin-right: 30px;">
@@ -375,9 +375,9 @@
 														
 														
 															<div
-															style="display: flex; flex-direction: row; justify-content: right; margin-top: 32px;">
+															style="display: flex; flex-direction: row; align-self: flex-end; margin-top: 32px; width: 600px">
 															<img width="50" height="50"
-															src="./sitterView/086d1c39b3704073bd35db5d5298e464.jpg"
+															src="<c:url value='/' />Uploads/${ rerow.member_photo }"
 															style="object-fit: cover; border-radius: 50%;">
 															<div
 																style="background-color: rgb(250, 250, 252); width: 100%; padding: 20px 24px;">
@@ -385,7 +385,7 @@
 																	style="display: flex; flex-direction: row; align-items: center;">
 																	<p
 																		style="font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);">${rerow.member_namec }님
-																		답글</p>
+																		댓글</p>
 																	<p
 																		style="font-size: 13px; line-height: 19px; color: rgb(157, 164, 180); margin-left: 9px;">${rerow.reviewcomm_regdate }</p>
 																</div>

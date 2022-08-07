@@ -35,7 +35,7 @@
 											, #{dclrAbnd_photo}, sysdate, 'reg', #{member_idx})
 	</insert>
   	<!-- 유기동물 후기 리스트 가져오기 -->
-  	<select id="abaAniReview" resultType="petsfinder.abandonedanimal.ReviewBoardDTO">
+  	<select id="abaAniReview" resultType="petsfinder.review.ReviewBoardDTO">
   		select a.*,  NVL(b.countlike, 0) as countlike
 		from (select r.*, m.member_name member_namer
 	        from review_board r, member m 
@@ -46,9 +46,9 @@
 		on a.review_idx=b.review_idx
   	</select>
   	<!-- 그 입양동물 상세보기에서 쓰인 후기들의 댓글을 모두 가져오기 -->
-  	<select id="reviewComment" resultType="petsfinder.abandonedanimal.ReviewCommentDTO">
+  	<select id="reviewComment" resultType="petsfinder.review.ReviewCommentDTO">
   		select 
-		    a.*, b.member_name member_namec
+		    a.*, b.member_name member_namec, b.member_photo member_photo
 		from (select * 
 		    from review_Comment 
 		    where review_idx 
@@ -59,7 +59,7 @@
   	</select>
   	
   	<!-- 후기의 댓글 저장 -->
-  	<insert id="commentInsert" parameterType="petsfinder.abandonedanimal.ReviewCommentDTO">
+  	<insert id="commentInsert" parameterType="petsfinder.review.ReviewCommentDTO">
 		INSERT INTO review_Comment( reviewcomm_idx,	reviewcomm_content, reviewcomm_regdate, review_idx,member_idx)
 									VALUES(	SEQ_reviewcomm_idx.nextval, #{reviewcomm_content}, sysdate, #{review_idx}
 										, #{member_idx})
@@ -67,29 +67,29 @@
 	
 	
 	<!-- 좋아요 유무확인 -->
-	<select id="likeStatus" resultType="petsfinder.abandonedanimal.ReviewLikeDTO"
-	parameterType="petsfinder.abandonedanimal.ReviewLikeDTO">
+	<select id="likeStatus" resultType="petsfinder.review.ReviewLikeDTO"
+	parameterType="petsfinder.review.ReviewLikeDTO">
 		select * from review_like where review_idx = #{review_idx} and member_idx = #{member_idx}
 	</select>
 	
 	<!-- 좋아요 저장 -->
-	<insert id="insertLike" parameterType="petsfinder.abandonedanimal.ReviewLikeDTO">
+	<insert id="insertLike" parameterType="petsfinder.review.ReviewLikeDTO">
 		INSERT INTO review_like(reviewlike_idx, reviewlike_stt, review_idx, member_idx)
                            VALUES(SEQ_reviewlike_idx.nextval,1, #{review_idx}, #{member_idx})
 	</insert>
 	
 	<!-- 좋아요 0->1 -->
-	<update id="likeZeroToOne" parameterType="petsfinder.abandonedanimal.ReviewLikeDTO">
+	<update id="likeZeroToOne" parameterType="petsfinder.review.ReviewLikeDTO">
 		update review_like set reviewlike_stt = 1 where review_idx = #{review_idx} and member_idx = #{member_idx}
 	</update>
 	
 	<!-- 좋아요 1->0 -->
-	<update id="likeOntToZero" parameterType="petsfinder.abandonedanimal.ReviewLikeDTO">
+	<update id="likeOntToZero" parameterType="petsfinder.review.ReviewLikeDTO">
 		update review_like set reviewlike_stt = 0 where review_idx = #{review_idx} and member_idx = #{member_idx}
 	</update>
 	
 	<!-- 사용자가 좋아요한 후기 목록 -->
-	<select id="likeList" resultType="petsfinder.abandonedanimal.ReviewLikeDTO">
+	<select id="likeList" resultType="petsfinder.review.ReviewLikeDTO">
 		select l.*
 		from review_board b , review_like l 
 		where b.review_idx=l.review_idx and l.member_idx=#{param1} and l.reviewlike_stt=1

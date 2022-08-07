@@ -1,4 +1,4 @@
-package petsfinder.abandonedanimal;
+package petsfinder.review;
 
 public class ReviewLikeDTO {
 	private int reviewlike_idx; 

@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 import org.springframework.stereotype.Service;
 
+import petsfinder.review.ReviewBoardDTO;
+import petsfinder.review.ReviewCommentDTO;
+import petsfinder.review.ReviewLikeDTO;
+
 
 @Service
 public interface AbandonedAnimalDAOImpl {

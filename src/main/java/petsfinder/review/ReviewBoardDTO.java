@@ -1,4 +1,4 @@
-package petsfinder.abandonedanimal;
+package petsfinder.review;
 
 import java.sql.Date;
 

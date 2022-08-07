@@ -16,9 +16,9 @@ import petsfinder.abandonedanimal.AbandonedAnimalDAOImpl;
 import petsfinder.abandonedanimal.AbandonedAnimalDTO;
 import petsfinder.abandonedanimal.AdoptionAppDTO;
 import petsfinder.abandonedanimal.ReportDTO;
-import petsfinder.abandonedanimal.ReviewBoardDTO;
-import petsfinder.abandonedanimal.ReviewCommentDTO;
-import petsfinder.abandonedanimal.ReviewLikeDTO;
+import petsfinder.review.ReviewBoardDTO;
+import petsfinder.review.ReviewCommentDTO;
+import petsfinder.review.ReviewLikeDTO;
 
 @Controller
 public class AbandonedAnimalController {

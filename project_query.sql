@@ -73,3 +73,4 @@ VALUES
 (SEQ_MEMBER_IDX.NEXTVAL, 'wonjerry', 'kosmo1111!', 'nor', 'kenny9303@naver.com', '40240 / 경상북도 울릉군 울릉읍 독도이사부길 63 / 1동', '이원재', '010-2682-4951', sysdate, '1993/03/20', 'M');
 
 commit;
+

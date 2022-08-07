@@ -116,11 +116,11 @@
       function option_check01() {
         var no_pet = document.getElementById('no_pet');
         if (no_pet.style.borderColor == 'rgb(223, 227, 234)') {
-        	location.href='/Petsitters/sitterlist?p=0&'
+        	location.href='./list?p=0&'
 	        no_pet.style.borderColor = '#75c9ba';
 	        no_pet.style.color = '#75c9ba';
         } else {
-       		location.href='/Petsitters/sitterlist?'
+       		location.href='./list?'
 	        no_pet.style.borderColor = 'rgb(223, 227, 234)';
 	        no_pet.style.color = 'rgb(187, 193, 204)';
         }
@@ -128,11 +128,9 @@
       function option_check02() {
         var pick_up = document.getElementById('pick_up');
         if (pick_up.style.borderColor == 'rgb(223, 227, 234)') {
-          location.href='/Petsitters/sitterlist?pk=1&'
           pick_up.style.borderColor = '#75c9ba';
           pick_up.style.color = '#75c9ba';
         } else {
-          location.href='/Petsitters/sitterlist?'
           pick_up.style.borderColor = 'rgb(223, 227, 234)';
           pick_up.style.color = 'rgb(187, 193, 204)';
         }
@@ -140,11 +138,9 @@
       function option_check03(){
         var big = document.getElementById('big');
         if (big.style.borderColor == 'rgb(223, 227, 234)') {
-          location.href='/Petsitters/sitterlist?bg=1&'
           big.style.borderColor = '#75c9ba';
           big.style.color = '#75c9ba';
         } else {
-          location.href='/Petsitters/sitterlist?'
           big.style.borderColor = 'rgb(223, 227, 234)';
           big.style.color = 'rgb(187, 193, 204)';
         }
@@ -152,11 +148,9 @@
       function option_check04(){
         var space = document.getElementById('space');
         if (space.style.borderColor == 'rgb(223, 227, 234)') {
-          location.href='/Petsitters/sitterlist?sp=1&'
           space.style.borderColor = '#75c9ba';
           space.style.color = '#75c9ba';
         } else {
-          location.href='/Petsitters/sitterlist?'
           space.style.borderColor = 'rgb(223, 227, 234)';
           space.style.color = 'rgb(187, 193, 204)';
         }
@@ -164,11 +158,9 @@
       function option_check05(){
         var old_care = document.getElementById('old_care');
         if (old_care.style.borderColor == 'rgb(223, 227, 234)') {
-        	location.href='/Petsitters/sitterlist?oc=1&'
           old_care.style.borderColor = '#75c9ba';
           old_care.style.color = '#75c9ba';
         } else {
-          location.href='/Petsitters/sitterlist?'
           old_care.style.borderColor = 'rgb(223, 227, 234)';
           old_care.style.color = 'rgb(187, 193, 204)';
         }
@@ -267,7 +259,7 @@
       <div style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-bottom: 120px">
         <div style="width: 1024px; display: flex; justify-content: space-between; align-items: center">
             <p style="font-size: 23px; color: #393c47; letter-spacing: -0.2px; font-weight: 600">모든 펫시터를 만나보세요</p>
-            <a href="<c:url value="/"/>Petsitters/sitterlist?" style="
+            <a href="/petsitters/list?s_d=1" style="
               border: 1px solid #81899b;
               border-radius: 5px;
               width: 94px;
@@ -282,11 +274,29 @@
             </a>
         </div>
         <div style="width: 1024px; margin-top: 50px; display: flex; justify-content: space-between">
-            <a href="/petsitters/details/1" target="_blank" style="margin-right: 14px">
+            <!-- 오빠가 a태그를 이미 걸어놨네 -->
+            <!-- <a href="/petsitters/details/1" target="_blank" style="margin-right: 14px"> -->
             <div>
+            	<!-- 은아 수정중: 펫시터찾기 리스트 목록 클릭하면 상세보기로 넘어감 -->
               <div style="width: 245px; height: 170px; border-radius: 3px">
-                <img src="https://d1cd60iwvuzqnn.cloudfront.net/page/fd37e21adee1436c8b9341758eafe5d5.jpg" style="width: 245px; height: 170px; border-radius: 3px">
+              <!--/상위로가서 절대경로로 넘김  
+              <a href="/PetsFinder/Petsitters/sitterView.do">
+              </a>
+              href="/PetsFinder/Petsitters/sitterView.do"
+              
+             사진을 누르면 넘어가는것이 아닌 버튼을 만들어서 넘겨보자. 
+              -->
+              <img src="https://d1cd60iwvu//zqnn.cloudfront.net/page/fd37e21adee1436c8b9341758eafe5d5.jpg" 
+              style="width: 245px; height: 170px; border-radius: 3px" >
+             	<form name="SitterView" action="/PetsFinder/Petsitters/sitterView.do">
+             			<input name="member_idx" id="member_idx" type="dhidden" value="13" style="font-size: 13px; letter-spacing: -0.2px; line-height: 20px; color: #383c48; margin-top: 20px">
+             			<input name="sit_idx" id="sit_idx" type="dhidden" value="3" style="font-size: 13px; letter-spacing: -0.2px; line-height: 20px; color: #383c48; margin-top: 20px">
+             			<input name="member_idx" id="member_idx" type="dhidden" value="13" style="font-size: 13px; letter-spacing: -0.2px; line-height: 20px; color: #383c48; margin-top: 20px">
+	                
+	                <button type="submit" class="btn btn-primary"></button>
+             	</form>
               </div>
+              
               <p style="font-size: 13px; letter-spacing: -0.2px; line-height: 20px; color: #383c48; margin-top: 20px">
                 서울 서초구 서초1동
               </p>

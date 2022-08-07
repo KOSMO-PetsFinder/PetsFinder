@@ -193,6 +193,7 @@ public class MemberController {
 			session.setAttribute("name", dto.getMember_name());
 			session.setAttribute("email", dto.getMember_email());
 			session.setAttribute("type", dto.getMember_type());
+			System.out.println(session.getAttribute("type").toString());
 			if (save_check != null && save_check.equals("Y")) {
 				CookieManager.makeCookie(resp, "loginId", id, 86400);
 			} else {
@@ -466,12 +467,13 @@ public class MemberController {
 
 		int result = sqlSession.getMapper(MemberDAOImpl.class).pwReset(dto);
 		
-		if(result == 1)
+		if(result == 1) {
 			System.out.println("비밀번호 변경 성공");
-		else 
+			return "redirect:./Login";
+		} else {
 			System.out.println("비밀번호 변경 실패");
-		
-		return "redirect:./Login";
+			return "redirect:./pw_Reset";
+		}
 	}
 	
 	@RequestMapping(value="/re_Info", method = RequestMethod.POST)

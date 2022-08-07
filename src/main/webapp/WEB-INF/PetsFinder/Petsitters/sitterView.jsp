@@ -95,17 +95,20 @@
 													<!-- sitterDTO를 통해서 주소값을 넘김 하지만 같은 idx으로 member의 이름값을 넘길려면 회원가입시 sitter or normal 를 선택
 													해서  -->
 													<h1
-														style="font-size: 15px; color: rgb(76, 80, 86); line-height: 22px; letter-spacing: -0.2px; font-weight: bold;">${sitterViewList.sit_addr } 펫시터 / ${stMember.member_name } 님</h1>
+														style="font-size: 15px; color: rgb(76, 80, 86); line-height: 22px; letter-spacing: -0.2px; font-weight: bold;">${sitterViewList.sit_addr } 펫시터 / ${sitterViewList.member_name } 님</h1>
 													<p style="margin-top: 5px; font-size: 25px; color: rgb(56, 60, 72); line-height: 37px; letter-spacing: -0.2px;">${sitterViewLists.sit_title }</p>
 													<!-- 시터 신청시 체크박스로 선택한 것들 반복문으로 띄우기 -->
+													<!-- 시터태그 반복문 sitterTag.typtag_expln-->
 													<div style="display: flex; flex-flow: row wrap; margin-top: 12px; width: 458px;">
-														<p style="font-size: 14px; line-height: 21px; letter-spacing: -0.2px; color: rgb(94, 99, 109); margin-right: 7px;">#2인이하 가구</p>
-														<p style="font-size: 14px; line-height: 21px; letter-spacing: -0.2px; color: rgb(94, 99, 109); margin-right: 7px;">#단독주택</p>
+														<c:forEach items="${sitterTag}" var="sitterTag">
+														<p style="font-size: 14px; line-height: 21px; letter-spacing: -0.2px; color: rgb(94, 99, 109); margin-right: 7px;">#${sitterTag.typTag_expln }</p>
+														<!-- <p style="font-size: 14px; line-height: 21px; letter-spacing: -0.2px; color: rgb(94, 99, 109); margin-right: 7px;">#단독주택</p>
 														<p style="font-size: 14px; line-height: 21px; letter-spacing: -0.2px; color: rgb(94, 99, 109); margin-right: 7px;">#마당보유</p>
 														<p style="font-size: 14px; line-height: 21px; letter-spacing: -0.2px; color: rgb(94, 99, 109); margin-right: 7px;">#테라스보유</p>
 														<p style="font-size: 14px; line-height: 21px; letter-spacing: -0.2px; color: rgb(94, 99, 109); margin-right: 7px;">#산책로있어요</p>
 														<p style="font-size: 14px; line-height: 21px; letter-spacing: -0.2px; color: rgb(94, 99, 109); margin-right: 7px;">#반려동물있어요</p>
-														<p style="font-size: 14px; line-height: 21px; letter-spacing: -0.2px; color: rgb(94, 99, 109); margin-right: 7px;">#영주시휴천동 펫시터</p>
+														<p style="font-size: 14px; line-height: 21px; letter-spacing: -0.2px; color: rgb(94, 99, 109); margin-right: 7px;">#영주시휴천동 펫시터</p> -->
+														</c:forEach>
 													</div>
 												</div>
 											</div>
@@ -124,7 +127,7 @@
 													신원 검증 및 돌봄 환경의 안전성 검증이 완료된 펫시터입니다</p>
 											</div>
 											<div style="margin-top: 53px;">
-												<h2 style="font-weight: 600; font-size: 17px; letter-spacing: -0.2px; line-height: 25px; color: rgb(57, 60, 71);">${stMember.member_name }
+												<h2 style="font-weight: 600; font-size: 17px; letter-spacing: -0.2px; line-height: 25px; color: rgb(57, 60, 71);">${sitterViewList.member_name }
 													펫시터님을 소개합니다</h2>
 												<p style="font-size: 15px; line-height: 25px; color: rgb(85, 85, 85); margin-top: 32px;">
 													${sitterViewList.sit_intro }
@@ -146,8 +149,8 @@
 																	style="font-size: 15px; line-height: 22px; color: rgb(57, 60, 71);">${sitterViewList.pet_name }</p>
 																<p
 																	style="font-size: 13px; line-height: 18px; color: rgb(56, 60, 72); margin-top: 7px;">
-																	성별 : ${stPet.pet_gender } /
-																	나이 : ${stPet.pet_age }
+																	성별 : ${sitterViewList.pet_gender } /
+																	나이 : ${sitterViewList.pet_age }살
 																</p>
 															</div>
 														</div>
@@ -182,11 +185,64 @@
 											</div>
 											<!-- 시터가 이용 가능 서비스 체크한 내용 DB에서 불러오기 -->
 											<div style="margin-top: 85px; width: 600px;">
+												<!-- avalService 으로 뽑기  -->
 												<h2
 													style="font-weight: 600; font-size: 17px; letter-spacing: -0.2px; line-height: 25px; color: rgb(57, 60, 71); margin-bottom: 24px;">이용
 													가능 서비스</h2>
+												<!-- 이용가능 서비스 반복부분 -->
 												<div style="display: flex; flex-flow: row wrap;">
-													<div
+													<!-- 실내놀이 -->
+													<c:forEach items="${avalService }" var="avalService">
+														<div
+														style="display: flex; flex-direction: row; align-items: center; width: 200px; height: 69px;">
+														<c:if test="${avalService.typSrv_service eq '실내 놀이' }">
+														<img width="32" height="32"
+															src="<c:url value='/'/>sitterView/image8.png"/>
+														</c:if>
+														<c:if test="${avalService.typSrv_service eq '매일 산책' }">
+														<img width="32" height="32"
+															src="<c:url value='/'/>sitterView/image1.png"/>
+														</c:if>
+														<c:if test="${avalService.typSrv_service eq '응급 처치' }">
+														<img width="32" height="32"
+															src="<c:url value='/'/>sitterView/image10.png">
+														</c:if>
+														<c:if test="${avalService.typSrv_service eq '집앞 픽업' }">
+														<img width="32" height="32"
+															src="<c:url value='/'/>sitterView/image7.png">
+														</c:if>
+														<c:if test="${avalService.typSrv_service eq '모발 관리' }">
+														<img width="32" height="32"
+															src="<c:url value='/'/>sitterView/image9.png">
+														</c:if>
+														<c:if test="${avalService.typSrv_service eq '약물 복용' }">
+														<img width="32" height="32"
+															src="<c:url value='/'/>sitterView/image3.png">
+														</c:if>
+														<c:if test="${avalService.typSrv_service eq '목욕 가능' }">
+														<img width="32" height="32"
+															src="<c:url value='/'/>sitterView/image2.png">
+														</c:if>
+														<c:if test="${avalService.typSrv_service eq '장기 예약' }">
+														<img width="32" height="32"
+															src="<c:url value='/'/>sitterView/image4.png">
+														</c:if>
+														<c:if test="${avalService.typSrv_service eq '노견 케어' }">
+														<img width="32" height="32"
+															src="<c:url value='/'/>sitterView/image6.png">
+														</c:if>
+														<c:if test="${avalService.typSrv_service eq '퍼피 케어' }">
+														<img width="32" height="32"
+															src="<c:url value='/'/>sitterView/image5.png">
+														</c:if>
+														<div style="margin-left: 13px;">
+															<p style="font-size: 13px; letter-spacing: -0.2px; line-height: 19px; color: rgb(85, 85, 85);">${avalService.typSrv_service }</p>
+															<p style="font-size: 11px; letter-spacing: -0.2px; line-height: 17px; color: rgb(94, 99, 109); margin-top: 5px;">${avalService.typSrv_expln }</p>
+														</div>
+													</div>
+													</c:forEach>
+													<!-- 실내놀이 -->
+												<%-- 	<div
 														style="display: flex; flex-direction: row; align-items: center; width: 200px; height: 69px;">
 														<img width="32" height="32"
 															src="<c:url value='/'/>sitterView/image8.png"/>
@@ -194,8 +250,9 @@
 															<p style="font-size: 13px; letter-spacing: -0.2px; line-height: 19px; color: rgb(85, 85, 85);">실내놀이</p>
 															<p style="font-size: 11px; letter-spacing: -0.2px; line-height: 17px; color: rgb(94, 99, 109); margin-top: 5px;">터그놀이, 노즈워크 등</p>
 														</div>
-													</div>
-													<div
+													</div> --%>
+													<!-- 산책 -->
+													<%-- <div
 														style="display: flex; flex-direction: row; align-items: center; width: 200px; height: 69px;">
 														<img width="32" height="32"
 															src="<c:url value='/'/>sitterView/image1.png"/>
@@ -207,8 +264,9 @@
 																style="font-size: 11px; letter-spacing: -0.2px; line-height: 17px; color: rgb(94, 99, 109); margin-top: 5px;">산책
 																및 실외 배변 가능</p>
 														</div>
-													</div>
-													<div
+													</div> --%>
+													<!-- 응급 -->
+													<%-- <div
 														style="display: flex; flex-direction: row; align-items: center; width: 200px; height: 69px;">
 														<img width="32" height="32"
 															src="<c:url value='/'/>sitterView/image10.png">
@@ -220,8 +278,9 @@
 																style="font-size: 11px; letter-spacing: -0.2px; line-height: 17px; color: rgb(94, 99, 109); margin-top: 5px;">응급
 																상황 시 병원 이동 가능</p>
 														</div>
-													</div>
-													<div
+													</div> --%>
+													<!-- 집앞픽업 -->
+													<%-- <div
 														style="display: flex; flex-direction: row; align-items: center; width: 200px; height: 69px;">
 														<img width="32" height="32"
 															src="<c:url value='/'/>sitterView/image7.png">
@@ -233,8 +292,9 @@
 																style="font-size: 11px; letter-spacing: -0.2px; line-height: 17px; color: rgb(94, 99, 109); margin-top: 5px;">비용은
 																펫시터와 협의</p>
 														</div>
-													</div>
-													<div
+													</div> --%>
+													<!-- 모발 -->
+													<%-- <div
 														style="display: flex; flex-direction: row; align-items: center; width: 200px; height: 69px;">
 														<img width="32" height="32"
 															src="<c:url value='/'/>sitterView/image9.png">
@@ -246,8 +306,9 @@
 																style="font-size: 11px; letter-spacing: -0.2px; line-height: 17px; color: rgb(94, 99, 109); margin-top: 5px;">눈물
 																또는 빗질 관리 가능</p>
 														</div>
-													</div>
-													<div
+													</div> --%>
+													<!-- 약물 -->
+													<%-- <div
 														style="display: flex; flex-direction: row; align-items: center; width: 200px; height: 69px;">
 														<img width="32" height="32"
 															src="<c:url value='/'/>sitterView/image3.png">
@@ -259,8 +320,9 @@
 																style="font-size: 11px; letter-spacing: -0.2px; line-height: 17px; color: rgb(94, 99, 109); margin-top: 5px;">경구(입)
 																약물 복용 가능</p>
 														</div>
-													</div>
-													<div
+													</div> --%>
+													<!-- 목욕 -->
+													<%-- <div
 														style="display: flex; flex-direction: row; align-items: center; width: 200px; height: 69px;">
 														<img width="32" height="32"
 															src="<c:url value='/'/>sitterView/image2.png">
@@ -272,8 +334,9 @@
 																style="font-size: 11px; letter-spacing: -0.2px; line-height: 17px; color: rgb(94, 99, 109); margin-top: 5px;">비용은
 																펫시터와 협의</p>
 														</div>
-													</div>
-													<div
+													</div> --%>
+													<!-- 장기 -->
+													<%-- <div
 														style="display: flex; flex-direction: row; align-items: center; width: 200px; height: 69px;">
 														<img width="32" height="32"
 															src="<c:url value='/'/>sitterView/image4.png">
@@ -285,8 +348,9 @@
 																style="font-size: 11px; letter-spacing: -0.2px; line-height: 17px; color: rgb(94, 99, 109); margin-top: 5px;">14일
 																이상 돌봄 가능</p>
 														</div>
-													</div>
-													<div
+													</div> --%>
+													<!-- 노견 -->
+													<%-- <div
 														style="display: flex; flex-direction: row; align-items: center; width: 200px; height: 69px;">
 														<img width="32" height="32"
 															src="<c:url value='/'/>sitterView/image6.png">
@@ -298,8 +362,9 @@
 																style="font-size: 11px; letter-spacing: -0.2px; line-height: 17px; color: rgb(94, 99, 109); margin-top: 5px;">8년
 																이상 노견 돌봄 가능</p>
 														</div>
-													</div>
-													<div
+													</div> --%>
+													<!-- 퍼피 -->
+													<%-- <div
 														style="display: flex; flex-direction: row; align-items: center; width: 200px; height: 69px;">
 														<img width="32" height="32"
 															src="<c:url value='/'/>sitterView/image5.png">
@@ -311,7 +376,7 @@
 																style="font-size: 11px; letter-spacing: -0.2px; line-height: 17px; color: rgb(94, 99, 109); margin-top: 5px;">1년
 																미만 퍼피 돌봄 가능</p>
 														</div>
-													</div>
+													</div> --%>
 												</div>
 											</div>
 											<!-- 후기 -->
@@ -365,6 +430,7 @@
 												</div>
 												<!-- 후기 내용 전체 불러오기 -->
 												<div style="margin-top: 38px;">
+												<c:forEach items="${ stReview }" var="sr" varStatus="loop">
 													<div
 														style="display: flex; flex-direction: column; border-top: 1px solid rgb(235, 235, 235); padding: 38px 0px;">
 														<div
@@ -378,14 +444,21 @@
 																-->
 																<!-- 작성자 이름 부분은 조인쿼리문을 써야되는건가? -->
 																<p
-																	style="font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);">작성자이름</p>
+																	style="font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);">${sr.member_namer }</p>
 																<p
-																	style="font-size: 13px; line-height: 19px; color: rgb(76, 80, 86); margin-top: 6px;">${stReview.sitreview_regdate }
+																	style="font-size: 13px; line-height: 19px; color: rgb(76, 80, 86); margin-top: 6px;">${sr.review_regdate }
+																</p>
+															</div>
+															<div style="padding-right: 10px;">
+																<img id="like_img${sr.review_idx}" src="../images/heart0.png" alt="" width="30" height="30" />
+															</div>	
+															<div style=" width: 20px; margin-right: 30px;">
+																<p>
+																<input type="text" id="like_num${sr.review_idx}" style="width: 40px; height: 20px; border: 0" value="${sr.countlike }"/>
 																</p>
 															</div>
 														</div>
-														<p
-															style="font-size: 15px; line-height: 25px; color: rgb(76, 80, 86); margin-top: 18px;">${stReview.sitreview_content }</p>
+														<p style="font-size: 15px; line-height: 25px; color: rgb(76, 80, 86); margin-top: 18px;">${ sr.review_content}</p>
 														<div
 															style="display: flex; flex-direction: row; margin-top: 33px;">
 															<img width="90" height="90"
@@ -408,16 +481,17 @@
 																<div
 																	style="display: flex; flex-direction: row; align-items: center;">
 																	<p
-																		style="font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);">다른 작성자 답글</p>
+																		style="font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);">후기 댓글 이름</p>
 																	<p
-																		style="font-size: 13px; line-height: 19px; color: rgb(157, 164, 180); margin-left: 9px;">N일
-																		전</p>
+																		style="font-size: 13px; line-height: 19px; color: rgb(157, 164, 180); margin-left: 9px;">후기 댓글 날짜
+																	</p>
 																</div>
 																<p
-																	style="font-size: 15px; line-height: 25px; color: rgb(85, 85, 85); margin-top: 12px;">[답글내용]</p>
+																	style="font-size: 15px; line-height: 25px; color: rgb(85, 85, 85); margin-top: 12px;">후기 댓글 내용</p>
 															</div>
 														</div>
 													</div>
+												</c:forEach>
 													<div
 														style="display: flex; align-items: center; justify-content: center; height: 50px; border-radius: 25px; border: 1px solid rgb(129, 137, 155); margin-bottom: 100px; user-select: none; cursor: pointer; margin-top: 12px;">
 														<p
@@ -578,15 +652,6 @@
 															<p
 																style="font-size: 13px; line-height: 18px; color: rgb(56, 60, 72);">1박
 																케어</p>
-															<div
-																style="width: 1px; height: 15px; background-color: rgb(236, 237, 240); margin-left: 15px; margin-right: 15px;"></div>
-															<p
-																style="font-size: 13px; line-height: 18px; color: rgb(56, 60, 72);">데이케어</p>
-														</div>
-														<div style="display: flex;">
-															<img width="13" height="13"
-																src="../sitterView/question_mark.png"
-																class="ant-dropdown-trigger">
 														</div>
 													</div>
 												</div>
@@ -608,9 +673,7 @@
 															style="display: flex; align-items: center; flex-direction: row;">
 															<!-- 소형견 1박케어 s_fee_day -->
 															<p
-																style="font-size: 14px; letter-spacing: 0.5px; line-height: 20px; color: rgb(78, 82, 91); margin-right: 12px;">${ sitterViewList.s_fee_day}원</p>
-															<p
-																style="font-size: 14px; letter-spacing: 0.5px; line-height: 20px; color: rgb(78, 82, 91);">${ sitterViewList.s_fee_night}원</p>
+																style="font-size: 14px; letter-spacing: 0.5px; line-height: 20px; color: rgb(78, 82, 91); margin-right: 12px;">${ sitterViewList.s_fee}원</p>
 														</div>
 													</div>
 												</div>
@@ -630,9 +693,7 @@
 														<div
 															style="display: flex; align-items: center; flex-direction: row;">
 															<p
-																style="font-size: 14px; letter-spacing: 0.5px; line-height: 20px; color: rgb(78, 82, 91); margin-right: 12px;">${ sitterViewList.m_fee_day}원</p>
-															<p
-																style="font-size: 14px; letter-spacing: 0.5px; line-height: 20px; color: rgb(78, 82, 91);">${ sitterViewList.m_fee_night}원</p>
+																style="font-size: 14px; letter-spacing: 0.5px; line-height: 20px; color: rgb(78, 82, 91); margin-right: 12px;">${ sitterViewList.m_fee}원</p>
 														</div>
 													</div>
 												</div>
@@ -653,9 +714,7 @@
 														<div
 															style="display: flex; align-items: center; flex-direction: row;">
 															<p
-																style="font-size: 14px; letter-spacing: 0.5px; line-height: 20px; color: rgb(78, 82, 91); margin-right: 12px;">${ sitterViewList.b_fee_day}원</p>
-															<p
-																style="font-size: 14px; letter-spacing: 0.5px; line-height: 20px; color: rgb(78, 82, 91);">${ sitterViewList.b_fee_night}원</p>
+																style="font-size: 14px; letter-spacing: 0.5px; line-height: 20px; color: rgb(78, 82, 91); margin-right: 12px;">${ sitterViewList.b_fee}원</p>
 														</div>
 													</div>
 												</div>
@@ -1210,5 +1269,6 @@
 	</div>
 	<style data-styled="active" data-styled-version="5.1.1"></style> 
 	 -->
+	 <jsp:include page="../common/foot.jsp" />
 </body>
 </html>
