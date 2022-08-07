@@ -23,11 +23,25 @@
 	
 	<select id="stReview" resultType="petsfinder.review.ReviewBoardDTO">
 	
-	select * from review_board rb
-	inner join sitter s on s.sit_idx = rb.sit_idx
-	inner join member m on s.member_idx = m.member_idx
-	inner join review_comment rc on rc.review_idx = rb.review_idx
-	where s.sit_idx=#{sit_idx}
+		select
+		    a.*, NVL(b.countlike, 0) as countlike
+		from
+		    ( select 
+		        r.*, m.member_name member_namer
+		    from 
+		        review_board r, member m 
+		    where 
+		        r.member_idx = m.member_idx and sit_idx = #{ param1 }
+		    order by review_idx desc ) a
+		left outer join
+		    ( select
+		        review_idx, count(review_idx) countlike
+		    from 
+		        review_like
+		    where
+		        reviewLike_stt = 1 
+		    group by review_idx ) b
+		on a.review_idx = b.review_idx
 	
 	</select>
 	

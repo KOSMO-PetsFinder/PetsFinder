@@ -241,142 +241,6 @@
 														</div>
 													</div>
 													</c:forEach>
-													<!-- 실내놀이 -->
-												<%-- 	<div
-														style="display: flex; flex-direction: row; align-items: center; width: 200px; height: 69px;">
-														<img width="32" height="32"
-															src="<c:url value='/'/>sitterView/image8.png"/>
-														<div style="margin-left: 13px;">
-															<p style="font-size: 13px; letter-spacing: -0.2px; line-height: 19px; color: rgb(85, 85, 85);">실내놀이</p>
-															<p style="font-size: 11px; letter-spacing: -0.2px; line-height: 17px; color: rgb(94, 99, 109); margin-top: 5px;">터그놀이, 노즈워크 등</p>
-														</div>
-													</div> --%>
-													<!-- 산책 -->
-													<%-- <div
-														style="display: flex; flex-direction: row; align-items: center; width: 200px; height: 69px;">
-														<img width="32" height="32"
-															src="<c:url value='/'/>sitterView/image1.png"/>
-														<div style="margin-left: 13px;">
-															<p
-																style="font-size: 13px; letter-spacing: -0.2px; line-height: 19px; color: rgb(85, 85, 85);">매일
-																산책</p>
-															<p
-																style="font-size: 11px; letter-spacing: -0.2px; line-height: 17px; color: rgb(94, 99, 109); margin-top: 5px;">산책
-																및 실외 배변 가능</p>
-														</div>
-													</div> --%>
-													<!-- 응급 -->
-													<%-- <div
-														style="display: flex; flex-direction: row; align-items: center; width: 200px; height: 69px;">
-														<img width="32" height="32"
-															src="<c:url value='/'/>sitterView/image10.png">
-														<div style="margin-left: 13px;">
-															<p
-																style="font-size: 13px; letter-spacing: -0.2px; line-height: 19px; color: rgb(85, 85, 85);">응급
-																처치</p>
-															<p
-																style="font-size: 11px; letter-spacing: -0.2px; line-height: 17px; color: rgb(94, 99, 109); margin-top: 5px;">응급
-																상황 시 병원 이동 가능</p>
-														</div>
-													</div> --%>
-													<!-- 집앞픽업 -->
-													<%-- <div
-														style="display: flex; flex-direction: row; align-items: center; width: 200px; height: 69px;">
-														<img width="32" height="32"
-															src="<c:url value='/'/>sitterView/image7.png">
-														<div style="margin-left: 13px;">
-															<p
-																style="font-size: 13px; letter-spacing: -0.2px; line-height: 19px; color: rgb(85, 85, 85);">집앞
-																픽업</p>
-															<p
-																style="font-size: 11px; letter-spacing: -0.2px; line-height: 17px; color: rgb(94, 99, 109); margin-top: 5px;">비용은
-																펫시터와 협의</p>
-														</div>
-													</div> --%>
-													<!-- 모발 -->
-													<%-- <div
-														style="display: flex; flex-direction: row; align-items: center; width: 200px; height: 69px;">
-														<img width="32" height="32"
-															src="<c:url value='/'/>sitterView/image9.png">
-														<div style="margin-left: 13px;">
-															<p
-																style="font-size: 13px; letter-spacing: -0.2px; line-height: 19px; color: rgb(85, 85, 85);">모발
-																관리</p>
-															<p
-																style="font-size: 11px; letter-spacing: -0.2px; line-height: 17px; color: rgb(94, 99, 109); margin-top: 5px;">눈물
-																또는 빗질 관리 가능</p>
-														</div>
-													</div> --%>
-													<!-- 약물 -->
-													<%-- <div
-														style="display: flex; flex-direction: row; align-items: center; width: 200px; height: 69px;">
-														<img width="32" height="32"
-															src="<c:url value='/'/>sitterView/image3.png">
-														<div style="margin-left: 13px;">
-															<p
-																style="font-size: 13px; letter-spacing: -0.2px; line-height: 19px; color: rgb(85, 85, 85);">약물
-																복용</p>
-															<p
-																style="font-size: 11px; letter-spacing: -0.2px; line-height: 17px; color: rgb(94, 99, 109); margin-top: 5px;">경구(입)
-																약물 복용 가능</p>
-														</div>
-													</div> --%>
-													<!-- 목욕 -->
-													<%-- <div
-														style="display: flex; flex-direction: row; align-items: center; width: 200px; height: 69px;">
-														<img width="32" height="32"
-															src="<c:url value='/'/>sitterView/image2.png">
-														<div style="margin-left: 13px;">
-															<p
-																style="font-size: 13px; letter-spacing: -0.2px; line-height: 19px; color: rgb(85, 85, 85);">목욕
-																가능</p>
-															<p
-																style="font-size: 11px; letter-spacing: -0.2px; line-height: 17px; color: rgb(94, 99, 109); margin-top: 5px;">비용은
-																펫시터와 협의</p>
-														</div>
-													</div> --%>
-													<!-- 장기 -->
-													<%-- <div
-														style="display: flex; flex-direction: row; align-items: center; width: 200px; height: 69px;">
-														<img width="32" height="32"
-															src="<c:url value='/'/>sitterView/image4.png">
-														<div style="margin-left: 13px;">
-															<p
-																style="font-size: 13px; letter-spacing: -0.2px; line-height: 19px; color: rgb(85, 85, 85);">장기
-																예약</p>
-															<p
-																style="font-size: 11px; letter-spacing: -0.2px; line-height: 17px; color: rgb(94, 99, 109); margin-top: 5px;">14일
-																이상 돌봄 가능</p>
-														</div>
-													</div> --%>
-													<!-- 노견 -->
-													<%-- <div
-														style="display: flex; flex-direction: row; align-items: center; width: 200px; height: 69px;">
-														<img width="32" height="32"
-															src="<c:url value='/'/>sitterView/image6.png">
-														<div style="margin-left: 13px;">
-															<p
-																style="font-size: 13px; letter-spacing: -0.2px; line-height: 19px; color: rgb(85, 85, 85);">노견
-																케어</p>
-															<p
-																style="font-size: 11px; letter-spacing: -0.2px; line-height: 17px; color: rgb(94, 99, 109); margin-top: 5px;">8년
-																이상 노견 돌봄 가능</p>
-														</div>
-													</div> --%>
-													<!-- 퍼피 -->
-													<%-- <div
-														style="display: flex; flex-direction: row; align-items: center; width: 200px; height: 69px;">
-														<img width="32" height="32"
-															src="<c:url value='/'/>sitterView/image5.png">
-														<div style="margin-left: 13px;">
-															<p
-																style="font-size: 13px; letter-spacing: -0.2px; line-height: 19px; color: rgb(85, 85, 85);">퍼피
-																케어</p>
-															<p
-																style="font-size: 11px; letter-spacing: -0.2px; line-height: 17px; color: rgb(94, 99, 109); margin-top: 5px;">1년
-																미만 퍼피 돌봄 가능</p>
-														</div>
-													</div> --%>
 												</div>
 											</div>
 											<!-- 후기 -->
@@ -439,24 +303,24 @@
 																src="<c:url value='/'/>sitterView/0f9b46e53cf74ae3916d25246eacec9c.jpg"
 																style="object-fit: cover; border-radius: 50%;">
 															<div style="margin-left: 18px;">
-																<!--은아 수정중  
-																${"stReview"}
-																-->
-																<!-- 작성자 이름 부분은 조인쿼리문을 써야되는건가? -->
 																<p
 																	style="font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);">${sr.member_namer }</p>
 																<p
 																	style="font-size: 13px; line-height: 19px; color: rgb(76, 80, 86); margin-top: 6px;">${sr.review_regdate }
 																</p>
 															</div>
-															<div style="padding-right: 10px;">
-																<img id="like_img${sr.review_idx}" src="../images/heart0.png" alt="" width="30" height="30" />
-															</div>	
-															<div style=" width: 20px; margin-right: 30px;">
-																<p>
-																<input type="text" id="like_num${sr.review_idx}" style="width: 40px; height: 20px; border: 0" value="${sr.countlike }"/>
-																</p>
+															<!-- 후기 좋아요 -->
+															<div style="display: flex; flex-direction: row; margin-left:auto;  float: right;">
+																<div style="padding-right: 10px;">
+																	<img id="like_img${sr.review_idx}" src="../images/heart_o.png" alt="" width="20" height="20" />
+																</div>
+																<div style=" width: 20px; margin-right: 10px;">
+																	<p>
+																	<input type="text" id="like_num${sr.review_idx}" style="width: 40px; height: 20px; border: 0" value="${sr.countlike }"/>
+																	</p>
+																</div>
 															</div>
+															<!-- 후기 좋아요 -->
 														</div>
 														<p style="font-size: 15px; line-height: 25px; color: rgb(76, 80, 86); margin-top: 18px;">${ sr.review_content}</p>
 														<div

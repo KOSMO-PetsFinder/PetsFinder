@@ -13,9 +13,11 @@
 	<!-- jQuery -->
 	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>    
 	<script src="https://kit.fontawesome.com/54b3b8eebf.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <link rel="stylesheet" type="text/css" href="<c:url value='/' />css/calendar.css">
+	<link rel="stylesheet" href="../jquery/jquery-ui.css">
+	<script src="../jquery/jquery-ui.js"></script>
+    <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+    <%-- <link rel="stylesheet" type="text/css" href="<c:url value='/' />css/calendar.css"> --%>
     <title>Petsitters</title>
     <style>
       * {
@@ -73,7 +75,7 @@
 	      showMonthAfterYear: true,
 	      yearSuffix: '년',
 	      maxDate: 'D + 90',
-	      showButtonPanel: true,
+	      showButtonPanel: false,
 	      closeText : "닫기",
 	    });
         $('#startDate').datepicker({
@@ -82,7 +84,7 @@
         	onSelect : function(dateText){
         		$('#endDate').datepicker("option", "minDate", dateText);
         		$('#endDate').val('');
-	       		$('#endDate').datepicker("show");
+	       		$('#endDate').datepicker("toggle");
         	},
         	onClose : function(dateText) {
         		$('#sD').val(dateText);
@@ -195,7 +197,7 @@
           언제 맡기시나요?
           <div style="width: 475px; height: 59px; display: flex; align-items: center; border: 1px solid #cccccc; padding: 0 24px 0 17px; margin-top: 27px;">
             <!-- DatePicker -->
-            <input id="cal_img" type="image" style="border: 0; background-color: white; width: 30px; height: 30px" src="<c:url value='/' />images/calendar.png"/>
+            <img id="cal_img" style="border: 0; background-color: white; width: 30px; height: 30px" src="<c:url value='/' />images/calendar.png"/>
               <!-- <img src="/image/calendar.png" style="width: 30px; height: 30px" /> -->
             <div style="display: flex; align-items: center">
               <input
