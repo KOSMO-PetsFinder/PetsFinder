@@ -4,14 +4,16 @@
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    
+    <% int likeEx = 0; %>
+    <% boolean like1 = false; %>
 <!-- 입양후기 + 유기동물 상세보기 -->
 <!DOCTYPE html>
 <!-- saved from url=(0046)https://petplanet.co/petsitters/details/rsbzj1 -->
 <html>
 <head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -206,9 +208,11 @@
 												</c:forEach>
 												
 												
+												
+												
+												
 												<!-- 입양후기 --> 
 												<!-- 여기를 if문으로 감싸서 .. 처리  -->
-												
 												<div style="margin-top: 38px;">
 													<c:forEach items="${requestScope.reviewLists }" var="row">
 													<div
@@ -225,21 +229,92 @@
 																<p
 																	style="font-size: 13px; line-height: 19px; color: rgb(76, 80, 86); margin-top: 6px;">${row.review_regdate }</p>
 															</div>
-															<div style="display: flex; flex-direction: row; margin-left:auto;  float: right;">
+															<!-- 좋아요 -->
+															<!-- 좋아요 처리할 스크립트 -->
+															<script type="text/javascript">
+															$(function(){
+																var a = ${row.review_idx }
+																$('p[id=like${row.review_idx}]').click(function(){
+															
+																	$.ajax({
+																		
+																		url : "./like",
+																		
+																		type : "GET",
+																		
+																		data : {
+																			review_idx : a,
+																			member_idx : '${sessionScope.idx }',
+																			like_check : $('#like_check').val(),
+																			abani_idx : '${ abandonedAnimalDTO.abani_idx}',
+																		},
+															
+																		success : function () {
+																			
+																			if($('#like_check${row.review_idx}').val()==0){
+																				console.log("plus");
+																				$('#like_check${row.review_idx}').val('1');
+																				$('#like_img${row.review_idx}').attr('src', "../images/heart1.png");
+																				var val01 = $('#like_num${row.review_idx}').val();
+																				var val02 = parseInt(val01) + 1;
+																				$('#like_num${row.review_idx}').val(val02);
+																				
+																			}
+																			else{
+																				console.log("minus");
+																				$('#like_check${row.review_idx}').val('0');
+																				$('#like_img${row.review_idx}').attr('src', "../images/heart0.png");
+																				var val01 = $('#like_num${row.review_idx}').val();
+																				var val02 = parseInt(val01) - 1;
+																				$('#like_num${row.review_idx}').val(val02);
+																			}
+																		},
+																		
+																		error : function () {
+																			console.log("실패");
+																		},
+																	});
+																});
+															});
+															</script>
+															<div style="display: flex; flex-direction: row; margin-left:auto;  float: right; padding-right: 10px;">
+																<c:if test="${not empty sessionScope.idx }" var="sessionIdx">
+																
 																<div style="padding-right: 10px;">
-																<!-- 좋아요 -->
-																<p>
-																	<a href="">
-																		<img src="../images/heart0.png" alt="" width="30" height="30" />
-																	</a>
+																<% likeEx = 0; %>
+																<c:forEach items="${likeLists }" var="likerow">
+																<c:if test="${likerow.review_idx eq row.review_idx }">
+																<% likeEx =1; %>
+																</c:if>
+																</c:forEach>
+																
+																<input type="hidden" id="like_check${row.review_idx}" name="like_check${row.review_idx}" value="<%=likeEx %>"/>
+																<button type="button" id="like${row.review_idx}" name="like${row.review_idx}" style="border: 0;outline: 0;background-color: white;">
+																<c:if test="<%=likeEx==1 %>">
+																<p style="cursor: pointer;" id="like${row.review_idx }">
+																	<img id="like_img${row.review_idx}" src="../images/heart1.png" alt="" width="30" height="30" />
 																</p>
+																</c:if>
+																<c:if test="<%=likeEx==0 %>">
+																<p style="cursor: pointer;" id="like${row.review_idx }">
+																	<img id="like_img${row.review_idx}" src="../images/heart0.png" alt="" width="30" height="30" />
+																</p>
+																</c:if>
+																</button>
 																</div>
-																<div>
+																</c:if>
+																<c:if test="${not sessionIdx }">
+																<div style="padding-right: 10px;">
+																	<img id="like_img${row.review_idx}" src="../images/heart0.png" alt="" width="30" height="30" />
+																</div>	
+																</c:if>
+																<div style=" width: 20px; margin-right: 30px;">
 																	<p>
-																	123
+																	<input type="text" id="like_num${row.review_idx}" style="width: 40px; height: 20px; border: 0" value="${row.countlike }"/>
 																	</p>
 																</div>
 															</div>
+															<!-- 좋아요 끝 -->
 														</div>
 														<p
 															style="font-size: 15px; line-height: 25px; color: rgb(76, 80, 86); margin-top: 18px;">${row.review_content }</p>

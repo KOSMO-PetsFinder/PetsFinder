@@ -150,6 +150,7 @@ crossorigin="anonymous">
 		<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PDQCPDS"
 			height="0" width="0" style="display: none; visibility: hidden;"></iframe>
 	</noscript>
+	<form action="../AbandonedAnimal/AdoptApplicationForm.do" id="adoptionFrm" name="adoptionFrm" method="post" style="margin-top:100px">
 	<div style="display: flex; justify-content: right; color: #CCCCCC; padding-top: 35px">
     <img src="./images/mypage.png" alt="" style="width:30px; padding-right: 5px"> 마이페이지 > 입양신청관리 > 입양신청
   </div>
@@ -180,7 +181,7 @@ crossorigin="anonymous">
 													지원자 성명 <span style="color: #71A2FF">*</span>
 												</p>
 												<div style="margin-top: 15px">
-													<input type="text" value="" placeholder="이름"
+													<input type="text" name="ADPAPL_name" value="" placeholder="이름"
 														style="width: 100%; height: 50px; border: 1px solid #EBEBEB; border-radius: 5px; padding-left: 20px; padding-right: 20px" />
 												</div>
 											</div>
@@ -194,13 +195,13 @@ crossorigin="anonymous">
 													<div
 														style="display: flex; justify-content: center; align-items: center; border: 1px solid #EBEBEB; border-radius: 5px; flex-grow: 1; flex-basis: 0; height: 50px">
 														<!-- 여성버튼 -->	
-														<input type="button" value="여성" class="btn btn-default"  style="position: absolute; font-size: 17px; color: #333333;  width: 190px;">
+														여성<input type="radio" name="ADPAPL_gender" value="F" class="btn btn-default"  style="position: absolute; font-size: 17px; color: #333333;  width: 190px;">
 													</div>
 													<div style="width: 10px"></div>
 													<div
 														style="display: flex; justify-content: center; align-items: center; border: 1px solid #EBEBEB; border-radius: 5px; flex-grow: 1; flex-basis: 0; height: 50px">
 														<!-- 남성버튼 -->
-														<input type="button" value="남성" class="btn btn-default"  style="position: absolute; font-size: 17px; color: #333333;  width: 190px;">
+														남성<input type="radio" name="ADPAPL_gender" value="M" class="btn btn-default"  style="position: absolute; font-size: 17px; color: #333333;  width: 190px;">
 													</div>
 												</div>
 												
@@ -221,7 +222,7 @@ crossorigin="anonymous">
 													년생 부터 지원이 가능합니다.
 												</p>
 												<div style="margin-top: 15px">
-													<input type="number" value="" maxLength="8"
+													<input type="number" name="ADPAPL_birth" value="" maxLength="8"
 														placeholder="예) 19940101"
 														style="width: 100%; height: 50px; border: 1px solid #EBEBEB; border-radius: 5px; padding-left: 20px; padding-right: 20px" />
 												</div>
@@ -233,7 +234,7 @@ crossorigin="anonymous">
 												</p>
 												<p style="margin-top: 10px">입력한 휴대폰 번호로 합격 여부를 알려드립니다.</p>
 												<div style="margin-top: 15px">
-													<input type="number" value="" maxLength="12"
+													<input type="number" name="ADPAPL_tel" value="" maxLength="12"
 														placeholder="01012345678"
 														style="width: 100%; height: 50px; border: 1px solid #EBEBEB; border-radius: 5px; padding-left: 20px; padding-right: 20px" />
 												</div>
@@ -245,7 +246,7 @@ crossorigin="anonymous">
 												거주지 주소 <span style="color: #71A2FF">*</span>
 											</p>
 											<div style="margin-top: 15px">
-												<input type="text" value="" placeholder="예) 서울시 강남구 논현동"
+												<input type="text" name="ADPAPL_addr" value="" placeholder="예) 서울시 강남구 논현동"
 													style="width: 100%; height: 50px; border: 1px solid #EBEBEB; border-radius: 5px; padding-left: 20px; padding-right: 20px" />
 											</div>
 										</div>
@@ -259,7 +260,7 @@ crossorigin="anonymous">
 													<div style="display: flex; align-items: center">
 														<div
 															style="background-image: url(/static/images/applyform/unchecked.png); width: 21px; height: 21px; background-size: contain; margin-right: 12px"></div>
-														<input class="form-check-input" type="radio" id="solo">
+														<input class="form-check-input" name="adpapl_fNum" value="1" type="radio" id="solo">
 														<label class="form-check-label" for="solo" style="font-size: 17px; margin-left: 10px;">1인 가구</label>
 													</div>
 												</div>
@@ -269,7 +270,7 @@ crossorigin="anonymous">
 													<div style="display: flex; align-items: center">
 														<div
 															style="background-image: url(/static/images/applyform/unchecked.png); width: 21px; height: 21px; background-size: contain; margin-right: 12px"></div>
-														<input class="form-check-input" type="radio" id="couple">
+														<input class="form-check-input" name="adpapl_fNum" value="2" type="radio" id="couple">
 														<label class="form-check-label" for="couple" style="font-size: 17px; margin-left: 10px;">2인 가구</label>
 													</div>
 												</div>
@@ -279,7 +280,7 @@ crossorigin="anonymous">
 													<div style="display: flex; align-items: center">
 														<div
 															style="background-image: url(/static/images/applyform/unchecked.png); width: 21px; height: 21px; background-size: contain; margin-right: 12px"></div>
-														<input class="form-check-input" type="radio" id="plusbaby">
+														<input class="form-check-input" name="adpapl_fNum" value="3" type="radio" id="plusbaby">
 														<label class="form-check-label" for="plusbaby" style="font-size: 17px; margin-left: 10px;">3인 가구</label>
 													</div>
 												</div>
@@ -291,7 +292,7 @@ crossorigin="anonymous">
 													<div style="display: flex; align-items: center">
 														<div
 															style="background-image: url(/static/images/applyform/unchecked.png); width: 21px; height: 21px; background-size: contain; margin-right: 12px"></div>
-														<input class="form-check-input" type="radio" id="plusbaby2">
+														<input class="form-check-input" name="adpapl_fNum" value="4" type="radio" id="plusbaby2">
 														<label class="form-check-label" for="plusbaby2" style="font-size: 17px; margin-left: 10px;">4인 가구</label>
 													</div>
 												</div>
@@ -301,7 +302,7 @@ crossorigin="anonymous">
 													<div style="display: flex; align-items: center">
 														<div
 															style="background-image: url(/static/images/applyform/unchecked.png); width: 21px; height: 21px; background-size: contain; margin-right: 12px"></div>
-														<input class="form-check-input" type="radio" id="bigfamily">
+														<input class="form-check-input" name="adpapl_fNum" value="5" type="radio" id="bigfamily">
 														<label class="form-check-label" for="bigfamily" style="font-size: 17px; margin-left: 10px;">5인 가구 이상</label>
 													</div>
 												</div>
@@ -322,7 +323,7 @@ crossorigin="anonymous">
 													<div style="display: flex; align-items: center" class="form-check">
 														<div
 															style="background-image: url(/static/images/applyform/radio_unchecked.png); width: 21px; height: 21px; background-size: contain; margin-right: 12px"></div>
-														  <input class="form-check-input" type="radio" name="smokingStatus" id="smoker">
+														  <input class="form-check-input" name="ADPAPL_job" value="1" type="radio" name="smokingStatus" id="smoker">
   														<label class="form-check-label" for="smoker" style="font-size: 17px; margin-left: 10px">
 														    네, 직업이 있어요.
 														  </label>
@@ -333,7 +334,7 @@ crossorigin="anonymous">
 													<div style="display: flex; align-items: center" class="form-check">
 														<div
 															style="background-image: url(/static/images/applyform/radio_unchecked.png); width: 21px; height: 21px; background-size: contain; margin-right: 12px"></div>
-														<input class="form-check-input" type="radio" name="smokingStatus" id="nonsmoker">
+														<input class="form-check-input" name="ADPAPL_job" value="1" type="radio" name="smokingStatus" id="nonsmoker">
   														<label class="form-check-label" for="nonsmoker" style="font-size: 17px; margin-left: 10px">
 														    아니오, 직업이 없습니다.
 														  </label>
@@ -364,7 +365,7 @@ crossorigin="anonymous">
 												<div style="display: flex; align-items: center" class="form-check">
 													<div
 														style="background-image: url(/static/images/applyform/radio_unchecked.png); width: 21px; height: 21px; background-size: contain; margin-right: 12px"></div>
-													<input class="form-check-input" type="radio" name="Experience" id="10y">
+													<input class="form-check-input" name="ADPAPL_havepet" value="10년 이상" type="radio" id="10y">
 												  <label class="form-check-label" for="10y" style="font-size: 17px; margin-left: 5px">
 												    10년 이상
 												  </label>
@@ -376,7 +377,7 @@ crossorigin="anonymous">
 												<div style="display: flex; align-items: center" class="form-check">
 													<div
 														style="background-image: url(/static/images/applyform/radio_unchecked.png); width: 21px; height: 21px; background-size: contain; margin-right: 12px"></div>
-													<input class="form-check-input" type="radio" name="Experience" id="5to10y">
+													<input class="form-check-input" name="ADPAPL_havepet" value="5년 이상 - 10년 미만" type="radio" id="5to10y">
 												  <label class="form-check-label" for="5to10y" style="font-size: 17px; margin-left: 5px">
 												    5년 이상 - 10년 미만
 												  </label>
@@ -388,7 +389,7 @@ crossorigin="anonymous">
 												<div style="display: flex; align-items: center" class="form-check">
 													<div
 														style="background-image: url(/static/images/applyform/radio_unchecked.png); width: 21px; height: 21px; background-size: contain; margin-right: 12px"></div>
-													<input class="form-check-input" type="radio" name="Experience" id="1to5y">
+													<input class="form-check-input" name="ADPAPL_havepet" value="1년 이상 - 5년 미만" type="radio" id="1to5y">
 												  <label class="form-check-label" for="1to5y" style="font-size: 17px; margin-left: 5px">
 												    1년 이상 - 5년 미만
 												  </label>
@@ -402,7 +403,7 @@ crossorigin="anonymous">
 												<div style="display: flex; align-items: center" class="form-check">
 													<div
 														style="background-image: url(/static/images/applyform/radio_unchecked.png); width: 21px; height: 21px; background-size: contain; margin-right: 12px"></div>
-													<input class="form-check-input" type="radio" name="Experience" id="1y">
+													<input class="form-check-input" name="ADPAPL_havepet" value="1년 미만" type="radio" id="1y">
 												  <label class="form-check-label" for="1y" style="font-size: 17px; margin-left: 5px">
 												    1년 미만
 												  </label>
@@ -412,7 +413,7 @@ crossorigin="anonymous">
 												<div style="display: flex; align-items: center" class="form-check">
 													<div
 														style="background-image: url(/static/images/applyform/radio_unchecked.png); width: 21px; height: 21px; background-size: contain; margin-right: 12px"></div>
-													<input class="form-check-input" type="radio" name="Experience" id="noExperience">
+													<input class="form-check-input" name="ADPAPL_havepet" value="강아지 반려 경험 없음" type="radio" id="noExperience">
 												  <label class="form-check-label" for="noExperience" style="font-size: 17px; margin-left: 5px">
 												    강아지 반려 경험 없음
 												  </label>
@@ -654,9 +655,14 @@ crossorigin="anonymous">
 									</div>
 									<div
 										style="margin-top: 80px; display: flex; align-items: center; justify-content: center">
+										<script type="text/javascript">
+										function adoptionSubmit() {
+											document.adoptionFrm.submit();
+										}
+										</script>
 										<div
 											style="width: 270px; height: 70px; background-color: #71A2FF; border-radius: 5px; display: flex; justify-content: center; align-items: center; cursor: pointer">
-											<p style="font-size: 20px; font-weight: 600; color: white">최종
+											<p style="font-size: 20px; font-weight: 600; color: white" onclick="adoptionSubmit();">최종
 												제출</p>
 										</div>
 									</div>
@@ -666,5 +672,6 @@ crossorigin="anonymous">
 			</div>
 		</div>
 	</div>
+	</form>
 </body>
 </html>

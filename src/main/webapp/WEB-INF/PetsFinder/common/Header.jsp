@@ -85,8 +85,8 @@
                   <a href="<c:url value='/' />">입양후기</a>
                 </li>
                 <li class="last_menu_2depth">
-                  <a href="<c:url value='/' />">입양신청</a>
-                </li>
+   					<a href="<c:url value='/' />AbandonedAnimal/AdoptApplicationForm.do">입양신청</a>
+				</li>
               </ul>
             </li>
             <li class="admin">

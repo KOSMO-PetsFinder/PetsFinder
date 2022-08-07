@@ -3,6 +3,7 @@ package com.kosmo.petsfinder;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import petsfinder.abandonedanimal.AbandonedAnimalDAOImpl;
 import petsfinder.abandonedanimal.AbandonedAnimalDTO;
+import petsfinder.abandonedanimal.AdoptionAppDTO;
 import petsfinder.abandonedanimal.ReportDTO;
 import petsfinder.abandonedanimal.ReviewBoardDTO;
 import petsfinder.abandonedanimal.ReviewCommentDTO;
+import petsfinder.abandonedanimal.ReviewLikeDTO;
 
 @Controller
 public class AbandonedAnimalController {
@@ -23,28 +26,30 @@ public class AbandonedAnimalController {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	//유기동물 신고 폼 
-	@RequestMapping("/notifyForm.do")
-	public String notifyForm() {
-		System.out.println("Report Form Clear!");
-		return "notifyForm";
-	}
 	
-	@RequestMapping(value = "/notifyForm.do",method = RequestMethod.POST)
-	public String notifyForm(ReportDTO reportDTO, Model model,HttpServletRequest req) {
-	System.out.println(req.getParameter("dclrAbnd_loc"));
-	System.out.println(reportDTO.getDclrAbnd_title());
-	System.out.println(reportDTO.getDclrAbnd_content());
-    // repRegist()메서드를 호출
-    int result = sqlSession.getMapper(AbandonedAnimalDAOImpl.class).notifyForm(reportDTO);
-    System.out.println("입력결과:"+ result);
-    
-    return "redirect:./notifyForm.do";
-	}
 	
 	//유기동물 목록 상세보기 
 	@RequestMapping("AbandonedAnimal/adoptView.do")
-	public String AdoptView(AbandonedAnimalDTO abandonedAnimalDTO, Model model) {
+	public String AdoptView(AbandonedAnimalDTO abandonedAnimalDTO, Model model, HttpSession session) {
+		/*좋아요*/
+		//접속중인 사용자의 일련번호 받아오기 
+		int member_idx =0;  
+		if((String) session.getAttribute("idx")!=null) {
+			member_idx = Integer.parseInt((String) session.getAttribute("idx"));
+		}
+		ArrayList<ReviewLikeDTO> likeLists = null;
+		//로그아웃 상태
+		if(member_idx==0) {
+			
+		}
+		//로그인 상태
+		else {
+			//사용자가 좋아요한 후기들을 받아옴
+			likeLists = 
+					sqlSession.getMapper(AbandonedAnimalDAOImpl.class)
+					.likeList(member_idx);
+		}
+		/*좋아요*/
 		
 		//상세보기를 위해 유기동물 하나 가져오기
 		abandonedAnimalDTO
@@ -104,6 +109,7 @@ public class AbandonedAnimalController {
 		model.addAttribute("reviewLists",reviewLists);
 		model.addAttribute("reviewCommLists",reviewCommLists);
 		model.addAttribute("revState",revState);
+		model.addAttribute("likeLists",likeLists);
 		
 		return "AbandonedAnimal/AdoptView";
 	}
@@ -114,7 +120,7 @@ public class AbandonedAnimalController {
 	public String AbanAniList(Model model, HttpServletRequest req) {
 		//전체 갯수 가지고 오기
 		int totalRecordCount =
-				sqlSession.getMapper(AbandonedAnimalDAOImpl.class).getTotalCount();
+				sqlSession.getMapper(AbandonedAnimalDAOImpl.class).abAniGetTotalCount();
 		
 		//한 블럭에서 보여줄 유기동물 수 
 		int pageSize = 12;
@@ -157,9 +163,10 @@ public class AbandonedAnimalController {
 		return "AbandonedAnimal/AdoptLatter";
 	} 
 	
-	
+	//후기 댓글 입력
 	@RequestMapping(value = "AbandonedAnimal/commentInsert.do")
 	public String CommentInsert(ReviewCommentDTO reviewCommentDTO,HttpServletRequest req) {
+		//이전페이지로 돌아가기 위한 유기동물 일련번호
 		String idx = req.getParameter("abani_idx");
 		 
 		int result = 
@@ -171,9 +178,83 @@ public class AbandonedAnimalController {
 		return "redirect:/AbandonedAnimal/adoptView.do?abani_idx="+idx;
 	}
 	
+	//좋아요 처리 
+	@RequestMapping(value = "AbandonedAnimal/like")
+	public String Like(ReviewLikeDTO reviewLikeDTO,HttpServletRequest req) {
+		//이전페이지로 돌아가기 위한 유기동물 일련번호
+		String idx = req.getParameter("abani_idx");
+		
+		//좋아요가 이미 있는지 여부 확인 
+		ReviewLikeDTO dto = 
+				sqlSession.getMapper(AbandonedAnimalDAOImpl.class).likeStatus(reviewLikeDTO);
+		//좋아요가 없다면
+		if(dto==null) {
+			//좋아요 상태를 1로 새롭게 등록
+			sqlSession.getMapper(AbandonedAnimalDAOImpl.class).insertLike(reviewLikeDTO);
+			
+		}
+		//좋아요가 있다면
+		else {
+			//좋아요 상태(1)  
+			if(dto.getReviewlike_stt()==1) {
+				//좋아요 상태를 0으로 바꾼다.
+				sqlSession.getMapper(AbandonedAnimalDAOImpl.class).likeOntToZero(reviewLikeDTO);
+			}
+			//좋아요 상태X(0)
+			else {
+				//좋아요 상태를 1로 바꾼다.
+				sqlSession.getMapper(AbandonedAnimalDAOImpl.class).likeZeroToOne(reviewLikeDTO);
+			}
+		}
+	
+		
+		return "redirect:/AbandonedAnimal/adoptView.do?abani_idx="+idx;
+	}
 	
 	
 	
+	
+	/*원재님*/
+	/*
+	member_idx session에서 받아오는거 처리해야됨 
+	*/
+	//입양 신청 폼
+	@RequestMapping("AbandonedAnimal/AdoptApplicationForm.do")
+	public String AdoptApplicationForm() {
+		System.out.println("Adoption Form Clear!");
+		return "AbandonedAnimal/AdoptApplicationForm";
+	}
+	
+	@RequestMapping(value = "AbandonedAnimal/AdoptApplicationForm.do",method = RequestMethod.POST)
+	public String AdoptApplicationForm(AdoptionAppDTO adoptionAppDTO, Model model, HttpServletRequest req) {
+		System.out.println(req.getParameter("ADPAPL_name"));
+		System.out.println(adoptionAppDTO.getADPAPL_gender());
+		System.out.println(adoptionAppDTO.getADPAPL_birth());
+		
+	    int result = sqlSession.getMapper(AbandonedAnimalDAOImpl.class).AdoptApplicationForm(adoptionAppDTO);
+	    System.out.println("입력결과:"+ result);
+	    
+	    return "redirect:../";
+	}
+	
+	//유기동물 신고 폼 
+	@RequestMapping("/notifyForm.do")
+	public String notifyForm() {
+		System.out.println("Report Form Clear!");
+		return "notifyForm";
+	}
+	
+	@RequestMapping(value = "/notifyForm.do",method = RequestMethod.POST)
+	public String notifyForm(ReportDTO reportDTO, Model model,HttpServletRequest req) {
+		System.out.println(req.getParameter("dclrAbnd_loc"));
+		System.out.println(reportDTO.getDclrAbnd_title());
+		System.out.println(reportDTO.getDclrAbnd_content());
+	    // repRegist()메서드를 호출
+	    int result = sqlSession.getMapper(AbandonedAnimalDAOImpl.class).notifyForm(reportDTO);
+	    System.out.println("입력결과:"+ result);
+	    
+	    return "redirect:./notifyForm.do";
+	}
 	
 	
 	
