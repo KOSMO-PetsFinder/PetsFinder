@@ -367,7 +367,35 @@
 										</div>
 										<!-- 왼쪽 끝 -->
 										<!-- 오른쪽 시작 -->
-										<!-- 데이터피커 있는 자리 -->
+										
+										<!-- 예약 하기 -->
+									  	<script>
+									  		var noReservation = [];
+									  	</script>
+									    <c:if test="${ not empty re_list }">
+									 		<c:forEach items="${ re_list }" var="rl" varStatus="loop">
+									    <div>
+									    	<input type="hidden" id="${ loop.count }" value="${ rl.sit_idx }"/>
+									    	<input type="hidden" id="${ rl.sit_idx }start${ loop.count }" value="${ rl.sbook_start }"/>
+									    	<input type="hidden" id="${ rl.sit_idx }end${ loop.count }" value="${ rl.sbook_end }"/>
+									    </div>
+									    <script>
+									   	var sD_${ loop.count } = $('#${ rl.sit_idx }start${ loop.count }').val();
+									   	var eD_${ loop.count } = $('#${ rl.sit_idx }end${ loop.count }').val();
+									   	/* console.log(${loop.count})
+									   	console.log(sD_${ loop.count });
+									   	console.log(eD_${ loop.count }); */
+									   	for (var d = new Date(sD_${ loop.count }); d <= new Date(eD_${ loop.count }); d.setDate(d.getDate() + 1)) {
+									        noReservation.push($.datepicker.formatDate('yyyy-mm-dd', d));
+									    }
+										function noReserve(date) {
+									    	
+										   	var dateString = jQuery.datepicker.formatDate('yyyy-mm-dd', date);
+									        return [noReservation.indexOf(dateString) == -1];
+									    }
+									 	</script>
+									    	</c:forEach>
+									    </c:if>
 										<script>
 										    $(function() {
 											    $.datepicker.setDefaults({
@@ -388,32 +416,41 @@
 											    $('#startDate').click(function() {
 											    	$('#startDate').addClass('DateInput_input__focused DateInput_input__focused_2');
 											    })
+											    $('#endDate').click(function() {
+											    	$('#endDate').addClass('DateInput_input__focused DateInput_input__focused_2');
+											    })
 											    
 										        $('#startDate').datepicker({
 										        	minDate: 'D',
-										        	/* beforeShowDay: noReserve, */
+										        	beforeShowDay: noReserve,
 										        	onSelect : function(dateText){
+										        		$('#startDate').removeClass('DateInput_input__focused DateInput_input__focused_2')
+														$('#endDate').removeClass('DateInput_input__disabled DateInput_input__disabled_2')
+														$('#endDate').addClass('DateInput_input__focused DateInput_input__focused_2')
 										        		$('#endDate').datepicker("option", "minDate", dateText);
 										        		$('#endDate').val('');
-										        		$('#endDate').datepicker('enabled');
-										        		$('#endDate').addClass('DateInput_input__focused DateInput_input__focused_2');
-										        		$('#startDate').removeClass('DateInput_input__focused DateInput_input__focused_2');
-										        		$('table.ui-datepicker-calendar td').hover({backgroundColor: '#75c9ba'})
+										        		$('#endDate').datepicker('toggle');
 										        	},
 										        	onClose : function(dateText) {
 										        		$('#sD').val(dateText);
+										        		$('#startDate').removeClass('DateInput_input__focused DateInput_input__focused_2');
 										        	}
 										        });
 										        
 										        $('#endDate').datepicker({
 										        	minDate: 'D',
-										        	/* beforeShowDay: noReserve, */
+										        	beforeShowDay: noReserve,
 										        	onSelect : function(dateText) {
 										        		$('#startDate').datepicker("option", "maxDate", dateText);
 										        		$('#cal_img').datepicker("option", "maxDate", dateText);
 										        		$('#eD').val(dateText);
-										        		location.href="<c:url value='/' />petsfinder/petsitters/reserve?sD=" + $('#sD').val() + "&eD=" + $('#eD').val();
+										        		$('#endDate').removeClass('DateInput_input__focused DateInput_input__focused_2');
+										        		$('.ant-btn').removeAttr('disabled')
+										        		/* location.href="<c:url value='/' />petsfinder/petsitters/reserve?sD=" + $('#sD').val() + "&eD=" + $('#eD').val(); */
 										        	},
+										        	onClose : function() {
+										        		$('#endDate').removeClass('DateInput_input__focused DateInput_input__focused_2');
+										        	}
 										        });
 										        
 										        $('#cal_img').datepicker({
@@ -426,7 +463,7 @@
 										    });
 										</script>
 										<div>
-								        <form action="./ListSearch">
+								        <form action="./reserve">
 									        <input type="hidden" id="sD" name="sD"/>
 									        <input type="hidden" id="eD" name="eD"/>
 											
@@ -447,12 +484,6 @@
 																		autocomplete="off"
 																		aria-describedby="DateInput__screen-reader-message-startDate"
 																		value="">
-																	<p
-																		class="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
-																		id="DateInput__screen-reader-message-startDate">Navigate
-																		forward to interact with the calendar and select a
-																		date. Press the question mark key to get the keyboard
-																		shortcuts for changing dates.</p>
 																</div>	
 																<div
 																	class="DateRangePickerInput_arrow DateRangePickerInput_arrow_1"
@@ -461,37 +492,67 @@
 																		src="<c:url value='/'/>sitterView/date_picker_right_arrow.png">
 																</div>
 																<div
-																	class="DateInput DateInput_1 DateInput__disabled DateInput__disabled_2">
+																	class="DateInput DateInput_1 ">
 																	<input
 																		class="DateInput_input DateInput_input_1 DateInput_input__disabled DateInput_input__disabled_2"
 																		aria-label="체크아웃 날짜" type="text" id="endDate"
 																		name="endDate" placeholder="체크아웃 날짜"
-																		autocomplete="off" disabled=""
+																		autocomplete="off" 
 																		aria-describedby="DateInput__screen-reader-message-endDate"
 																		value="">
-																	<p
-																		class="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
-																		id="DateInput__screen-reader-message-endDate">Navigate
-																		backward to interact with the calendar and select a
-																		date. Press the question mark key to get the keyboard
-																		shortcuts for changing dates.</p>
 																</div>
 															</div>
 														</div>
 													</div>
 												</div>
+												<script>
+												$(function() {
+													var btn = 0;
+													$('.ant-btn').click(function() {
+														if (btn == 0) {
+															$('.ant-btn').addClass('ant-dropdown-open');
+															$('.ant-dropdown').attr({'style': 'display : inherit; left: 823px; top: 1127px; min-width: 311px;'})
+															btn = 1;						
+														} else if (btn == 1) {
+															$('.ant-btn').removeClass('ant-dropdown-open');
+															$('.ant-dropdown').attr({'style': 'display : none'})
+															btn = 0;
+														}
+													})
+													$('#close').click(function() {
+														$('.ant-dropdown').attr({'style': 'display : none'})
+													})
+												})
+												</script>
 												<p
 													style="font-family: &amp; quot; Noto Sans KR&amp;quot;; font-size: 14px; letter-spacing: -0.2px; line-height: 20px; color: rgb(57, 60, 71); margin-top: 38px; margin-bottom: 18px;">맡기시는
 													반려동물</p>
-												<button disabled="" type="button"
+												<button disabled type="button"
 													class="ant-btn ant-dropdown-trigger"
 													style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; width: 311px; height: 50px;">
-													<p
-														style="font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(153, 153, 153);">반려동물
-														선택</p>
+													<p id="p_cell" style="font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(153, 153, 153);">반려동물 선택</p>
 													<img width="13" height="7"
 														src="../sitterView/arrow_down.png">
 												</button>
+												<div id="money" style="display: none">
+												  <div style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; margin-top: 38px">
+												    <p style="font-family: 'Noto Sans KR'; font-size: 14px; letter-spacing: -0.2px; line-height: 20px; color: rgb(56, 60, 72)">합계 금액</p>
+												    <p style="font-weight: 600; font-size: 12px; letter-spacing: 0.2px; line-height: 18px; color: rgb(56, 60, 72)">원</p>
+												  </div>
+												  <div style="width: 310px; height: 1px; background-color: rgb(235, 235, 235); margin-top: 16px; margin-bottom: 19px"></div>
+												  <div style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; height: 32px">
+												    <div style="display: flex">
+												      <p style="font-size: 13px; line-height: 19px; color: rgb(94, 99, 109)">1박 비용</p>
+												      <span style="font-size: 13px; color: rgb(213, 53, 53)">(성수기 여부)</span
+												      ><span id="type" style="font-size: 13px; margin-left: 4px">/ </span>
+												    </div>
+												    <p style="font-size: 13px; line-height: 19px; color: rgb(94, 99, 109)">원</p>
+												  </div>
+												  <div style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; margin-top: 10px">
+												    <p style="font-size: 13px; line-height: 19px; color: rgb(94, 99, 109)">부가세 (10%)</p>
+												    <p style="font-size: 13px; line-height: 19px; color: rgb(94, 99, 109)">원</p>
+												  </div>
+												</div>
 												<div
 													style="display: flex; align-items: center; justify-content: center; width: 311px; height: 59px; border-radius: 3px; background-color: rgb(113, 162, 255); margin-top: 50px; user-select: none; cursor: pointer;">
 													<p
@@ -499,6 +560,359 @@
 														요청</p>
 												</div>
 											</div>
+											<!-- 반려동물 선택 창 -->
+											<script>
+											$(function() {
+
+												$('#s_minus').click(function() {
+													if($('#small').text() != 0) {
+														var s01 = $('#small').text()
+														var s02 = parseInt(s01) - 1
+														$('#small').text(s02)
+														if (s01 != 1) {
+															console.log('sm1')
+															var p01 = $('#p_cell').text()
+															var p02 = p01.replace('소형 ' + s01, '소형 ' + s02)
+															$('#p_cell').text(p02)
+														} else {
+															if ($('#p_cell').text().search('중형') != -1 || $('#p_cell').text().search('대형') != -1){
+																console.log('sm2')
+																var p01 = $('#p_cell').text()
+																var p02 = p01.replace('소형 ' + s01 + ', ', '')
+																$('#p_cell').text(p02)
+															}
+														}
+													}
+													if($('#big').text() == 0 && $('#middle').text() == 0 && $('#small').text() == 0) {
+														$('#p_cell').text('반려동물 선택')
+														$('#money').attr({'style' : 'display: none'})
+													}
+													
+												})
+												$('#s_plus').click(function() {
+													$('#money').attr({'style' : 'display: inherit'})
+													var s01 = $('#small').text()
+													var s02 = parseInt(s01) + 1
+													$('#small').text(s02)
+													if($('#p_cell').text() == '반려동물 선택') {
+														console.log('sp1')
+														var p = '소형 ' + s02
+														$('#p_cell').text(p)
+													} else if ($('#p_cell').text().search('소형') != -1 ) {
+														console.log('sp2')
+														var p01 = $('#p_cell').text()
+														var p02 = p01.replace('소형 ' + s01, '소형 ' + s02)
+														$('#p_cell').text(p02)
+													} else {
+														console.log('sp3')
+														var p01 = $('#p_cell').text()
+														var p02 = '소형 ' + s02 + ', ' + p01
+														$('#p_cell').text(p02)
+													}
+												})
+												$('#m_minus').click(function() {
+													if($('#middle').text() != 0) {
+														var m01 = $('#middle').text()
+														var m02 = parseInt(m01) - 1
+														$('#middle').text(m02)
+														if (m01 != 1) {
+															console.log('mm1')
+															var p01 = $('#p_cell').text()
+															var p02 = p01.replace('중형 ' + m01, '중형 ' +  m02)
+															$('#p_cell').text(p02)
+														} else {
+															if ($('#p_cell').text().search('대형') != -1){
+																console.log('mm2')
+																var p01 = $('#p_cell').text()
+																var p02 = p01.replace('중형 ' + m01 + ', ', '')
+																$('#p_cell').text(p02)
+															} else if ($('#p_cell').text().search('대형') == -1 && $('#p_cell').text().search('소형') != -1) {
+																console.log('mm3')
+																var p01 = $('#p_cell').text()
+																var p02 = p01.replace(', 중형 ' + m01, '')
+																$('#p_cell').text(p02)
+															}
+														}
+														
+													}
+													if($('#big').text() == 0 && $('#middle').text() == 0 && $('#small').text() == 0) {
+														$('#p_cell').text('반려동물 선택')
+														$('#money').attr({'style' : 'display: none'})
+													}
+												})
+												$('#m_plus').click(function() {
+													$('#money').attr({'style' : 'display: inherit'})
+													var m01 = $('#middle').text()
+													var m02 = parseInt(m01) + 1
+													$('#middle').text(m02)
+													if($('#p_cell').text() == '반려동물 선택') {
+														console.log('mp1')
+														var p = '중형 ' + m02
+														$('#p_cell').text(p)
+													} else {
+														if ($('#p_cell').text().search('중형') != -1 ) {
+															console.log('mp2')
+															var p01 = $('#p_cell').text()
+															var p02 = p01.replace('중형 ' + m01, '중형 ' +  m02)
+															$('#p_cell').text(p02)
+														} else {
+															if ($('#p_cell').text().search('소형') != -1 ) {
+																if ($('#p_cell').text().search('대형') == -1) {
+																	console.log('mp3')
+																	var p01 = $('#p_cell').text()
+																	var p02 = p01 + ', 중형 ' + m02
+																	$('#p_cell').text(p02)
+																} else {
+																	console.log('mp4')
+																	var p01 = $('#p_cell').text()
+																	var p02 = p01.replace(', ', ', 중형 ' +  m02 + ', ')
+																	$('#p_cell').text(p02)
+																}
+															} else {
+																if ($('#p_cell').text().search('대형') != -1) {
+																	console.log('mp5')
+																	var p01 = $('#p_cell').text()
+																	var p02 = '중형 ' + m02 + ', ' + p01
+																	$('#p_cell').text(p02)
+																}
+															}
+														}
+													}
+												})
+												$('#b_minus').click(function() {
+													if($('#big').text() != 0) {
+														var b01 = $('#big').text()
+														var b02 = parseInt(b01) - 1
+														$('#big').text(b02)
+														if (b01 != 1) {
+															console.log('bm1')
+															var p01 = $('#p_cell').text()
+															var p02 = p01.replace('대형 ' + b01, '대형 ' + b02)
+															$('#p_cell').text(p02)
+														} else {
+															if ($('#p_cell').text().search('소형') != -1 || $('#p_cell').text().search('중형') != -1){
+																console.log('bm2')
+																var p01 = $('#p_cell').text()
+																var p02 = p01.replace(', 대형 ' + b01, '')
+																$('#p_cell').text(p02)
+															}
+														}
+													}
+													if($('#big').text() == 0 && $('#middle').text() == 0 && $('#small').text() == 0) {
+														$('#p_cell').text('반려동물 선택')
+														$('#money').attr({'style' : 'display: none'})
+													}
+												})
+												$('#b_plus').click(function() {
+													$('#money').attr({'style' : 'display: inherit'})
+													var b01 = $('#big').text()
+													var b02 = parseInt(b01) + 1
+													$('#big').text(b02)
+													if($('#p_cell').text() == '반려동물 선택') {
+														console.log('bp1')
+														var p = '대형 ' + b02
+														$('#p_cell').text(p)
+													} else {
+														if ($('#p_cell').text().search('대형') != -1 ) {
+															console.log('bp2')
+															var p01 = $('#p_cell').text()
+															var p02 = p01.replace('대형 ' + b01, '대형 ' + b02)
+															$('#p_cell').text(p02)
+														} else {
+															console.log('bp3')
+															var p01 = $('#p_cell').text()
+															var p02 = p01 + ', 대형 ' + b02
+															$('#p_cell').text(p02)
+														}
+													}
+												})
+											})
+											</script>
+											<div style="position: absolute; top: -127px; left: 406px; width: 100%;">
+											  <div>
+											    <div class="ant-dropdown ant-dropdown-placement-bottomLeft" style="left: 823px; top: 1127px; min-width: 311px; display: none">
+											      <ul class="ant-dropdown-menu ant-dropdown-menu-light ant-dropdown-menu-root ant-dropdown-menu-vertical" role="menu" tabindex="0">
+											        <div style="padding: 32px 32px 24px">
+											          <div style="display: flex; flex-direction: row; justify-content: space-between">
+											            <div style="display: flex; flex-direction: column">
+											              <p style="font-family: 'Noto Sans KR'; font-size: 14px; letter-spacing: -0.2px; line-height: 20px; color: rgb(56, 60, 72)">
+											                소형견
+											              </p>
+											              <p style="font-size: 12px; letter-spacing: -0.2px; line-height: 17px; color: rgb(94, 99, 109); margin-top: 3px">7kg 미만</p>
+											            </div>
+											            <div style="display: flex; flex-direction: row; align-items: center">
+											              <div
+											              	id="s_minus"
+											                style="
+											                  display: flex;
+											                  align-items: center;
+											                  justify-content: center;
+											                  width: 30px;
+											                  height: 30px;
+											                  border-radius: 50%;
+											                  border: 1px solid rgb(113, 162, 255);
+											                  cursor: pointer;
+											                  user-select: none;
+											                "
+											              >
+											                <img width="8" src="../sitterView/select_pet_minus.png" />
+											              </div>
+											              <p
+											              	id="small"
+											                style="
+											                  font-size: 13px;
+											                  font-weight: 600;
+											                  letter-spacing: -0.2px;
+											                  line-height: 19px;
+											                  color: rgb(94, 99, 109);
+											                  margin-left: 20px;
+											                  margin-right: 20px;
+											                "
+											              >0</p>
+											              <div
+											              	id="s_plus"
+											                style="
+											                  display: flex;
+											                  align-items: center;
+											                  justify-content: center;
+											                  width: 30px;
+											                  height: 30px;
+											                  border-radius: 50%;
+											                  border: 1px solid rgb(113, 162, 255);
+											                  cursor: pointer;
+											                  user-select: none;
+											                "
+											              >
+											                <img width="8" height="8" src="../sitterView/select_pet_plus.png" />
+											              </div>
+											            </div>
+											          </div>
+											          <div style="display: flex; flex-direction: row; justify-content: space-between; margin-top: 24px">
+											            <div style="display: flex; flex-direction: column">
+											              <p style="font-family: 'Noto Sans KR'; font-size: 14px; letter-spacing: -0.2px; line-height: 20px; color: rgb(56, 60, 72)">
+											                중형견
+											              </p>
+											              <p style="font-size: 12px; letter-spacing: -0.2px; line-height: 17px; color: rgb(94, 99, 109); margin-top: 3px">7 - 14.9kg</p>
+											            </div>
+											            <div style="display: flex; flex-direction: row; align-items: center">
+											              <div
+											              	id="m_minus"
+											                style="
+											                  display: flex;
+											                  align-items: center;
+											                  justify-content: center;
+											                  width: 30px;
+											                  height: 30px;
+											                  border-radius: 50%;
+											                  border: 1px solid rgb(113, 162, 255);
+											                  cursor: pointer;
+											                  user-select: none;
+											                  opacity: 1;
+											                  pointer-events: all;
+											                "
+											              >
+											                <img width="8" src="../sitterView/select_pet_minus.png" />
+											              </div>
+											              <p
+											              	id="middle"
+											                style="
+											                  font-size: 13px;
+											                  font-weight: 600;
+											                  letter-spacing: -0.2px;
+											                  line-height: 19px;
+											                  color: rgb(94, 99, 109);
+											                  margin-left: 20px;
+											                  margin-right: 20px;
+											                "
+											              >0</p>
+											              <div
+											              	id="m_plus"
+											                style="
+											                  display: flex;
+											                  align-items: center;
+											                  justify-content: center;
+											                  width: 30px;
+											                  height: 30px;
+											                  border-radius: 50%;
+											                  border: 1px solid rgb(113, 162, 255);
+											                  cursor: pointer;
+											                  user-select: none;
+											                  opacity: 1;
+											                  pointer-events: all;
+											                "
+											              >
+											                <img width="8" height="8" src="../sitterView/select_pet_plus.png" />
+											              </div>
+											            </div>
+											          </div>
+											          <div style="display: flex; flex-direction: row; justify-content: space-between; margin-top: 24px">
+											            <div style="display: flex; flex-direction: column">
+											              <p style="font-family: 'Noto Sans KR'; font-size: 14px; letter-spacing: -0.2px; line-height: 20px; color: rgb(56, 60, 72)">
+											                대형견
+											              </p>
+											              <p style="font-size: 12px; letter-spacing: -0.2px; line-height: 17px; color: rgb(94, 99, 109); margin-top: 3px">15kg 이상</p>
+											            </div>
+											            <div style="display: flex; flex-direction: row; align-items: center">
+											              <div
+											              	id="b_minus"
+											                style="
+											                  display: flex;
+											                  align-items: center;
+											                  justify-content: center;
+											                  width: 30px;
+											                  height: 30px;
+											                  border-radius: 50%;
+											                  border: 1px solid rgb(113, 162, 255);
+											                  cursor: pointer;
+											                  user-select: none;
+											                  opacity: 1;
+											                  pointer-events: all;
+											                "
+											              >
+											                <img width="8" src="../sitterView/select_pet_minus.png" />
+											              </div>
+											              <p
+											              	id="big"
+											                style="
+											                  font-size: 13px;
+											                  font-weight: 600;
+											                  letter-spacing: -0.2px;
+											                  line-height: 19px;
+											                  color: rgb(94, 99, 109);
+											                  margin-left: 20px;
+											                  margin-right: 20px;
+											                "
+											              >0</p>
+											              <div
+											              	id="b_plus"
+											                style="
+											                  display: flex;
+											                  align-items: center;
+											                  justify-content: center;
+											                  width: 30px;
+											                  height: 30px;
+											                  border-radius: 50%;
+											                  border: 1px solid rgb(113, 162, 255);
+											                  cursor: pointer;
+											                  user-select: none;
+											                  opacity: 1;
+											                  pointer-events: all;
+											                "
+											              >
+											                <img width="8" height="8" src="../sitterView/select_pet_plus.png" />
+											              </div>
+											            </div>
+											          </div>
+											          <div style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; margin-top: 32px">
+											            <p style="font-size: 12px; line-height: 18px; color: rgb(129, 137, 155)">최대 6마리까지만 선택 가능합니다</p>
+											            <p id="close" style="font-family: 'Noto Sans KR'; font-size: 12px; line-height: 18px; color: rgb(113, 162, 255); cursor: pointer">닫기</p>
+											          </div>
+											        </div>
+											      </ul>
+											    </div>
+											  </div>
+											</div>
+											
 										</form>	
 											
 											
@@ -1081,29 +1495,20 @@
 			</div>
 		</div>
 	</div>
+<!-- 	
 	<script async="" data-next-page="/details" src="../sitterView/details.js"></script>
-	<!--
-	지워도 이상 없음
+
 	<script async="" data-next-page="/_app"	src="../sitterView/_app.js"></script>
-	 -->
-	<!--
-	지워도 이상 없음
+
 	<script	src="../sitterView/webpack-4b444dab214c6491079c.js"	async=""></script>
-	 -->
-	<!--
-	지워도 이상 없음
+
 	<script	src="../sitterView/commons.7c16b5d39bd35b619670.js"	async=""></script>
-	 -->
-	<!--  
-	지워도 이상 없음 	
+
 	<script	src="../sitterView/styles.58a0c59fae1a4a2af04e.js" async=""></script>
-	 -->
-	<!-- 
-	지워도 이상 없음 
+
 	<script	src="../sitterView/main-02a579c90518306d4183.js" async=""></script>
-	 -->
-	<!-- 
-	지워도 이상 없음
+
+
 	<script type="application/ld+json">{
     "@context": "http://schema.org",
     "@type": "Person",
@@ -1117,9 +1522,9 @@
         "https://apps.apple.com/us/app/%ED%8E%AB%ED%94%8C%EB%9E%98%EB%8B%9B-%EC%97%84%EC%84%A0%EB%90%9C-%ED%8E%AB%EC%8B%9C%ED%84%B0/id1343097834"
     ]
 	}</script>
-	--> 
-	<!-- 
-	지워도 이상 없음
+ -->
+
+<!-- 
 	<div id="ch-plugin">
 		<div id="ch-plugin-core">
 			<style data-styled="active" data-styled-version="5.1.1"></style>
@@ -1134,5 +1539,7 @@
 	<style data-styled="active" data-styled-version="5.1.1"></style> 
 	 -->
 	 <jsp:include page="../common/foot.jsp" />
+
+	 
 </body>
 </html>

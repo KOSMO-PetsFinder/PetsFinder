@@ -124,50 +124,50 @@ public class PetSitterController {
 	public String SitterViewmemberInfo(Model model, HttpServletRequest req, HttpSession session) {
 		
 		int member_idx = Integer.parseInt(req.getParameter("member_idx"));
-		System.out.println("member_idx:"+member_idx);
+//		System.out.println("member_idx:"+member_idx);
 		int sit_idx = Integer.parseInt(req.getParameter("sit_idx"));
-		System.out.println("sit_idx:"+sit_idx);
+//		System.out.println("sit_idx:"+sit_idx);
 		
 		//Sitter 테이블 정보 추출
 		PetSitterDTO petSitterDTO = new PetSitterDTO();
 		petSitterDTO.setMember_idx(member_idx);
 		PetSitterDTO sitterViewList = sqlSession.getMapper(PetSitterDAOImpl.class).sitterView(member_idx);
-		
-		//Member테이블 정보 추출
-		//MemberDTO stMember = sqlSession.getMapper(PetSitterDAOImpl.class).stMember(petSitterDTO);
-		
-		//Pet 테이블 정보 추출
-		petSitterDTO.setSit_idx(sit_idx);
-		//PetDTO stPet = sqlSession.getMapper(PetSitterDAOImpl.class).stPet(petSitterDTO);
-		
-		
+		model.addAttribute("sitterViewList",sitterViewList);
 		
 		//sitterReview 테이블 정보 추출
 		ArrayList<ReviewBoardDTO> stReview = sqlSession.getMapper(PetSitterDAOImpl.class).stReview(sit_idx);
-		
+		model.addAttribute("stReview", stReview);
 		
 		//이용가능서비스 테이블 추출 (DTO가 아니라 1개 이상의 결과이기 때문에 ArrayList로 담아야함)
-		//PetSitterDTO avalService = sqlSession.getMapper(PetSitterDAOImpl.class).avalService(petSitterDTO);
 		ArrayList<PetSitterDTO> avalService = sqlSession.getMapper(PetSitterDAOImpl.class).avalService(sit_idx);
+		model.addAttribute("avalService",avalService);
 		
 		//시터 태그 테이블 추출
 		ArrayList<PetSitterDTO> sitterTag = sqlSession.getMapper(PetSitterDAOImpl.class).sitterTag(sit_idx);
-		
-		model.addAttribute("sitterViewList",sitterViewList);
-		//model.addAttribute("stMember",stMember);
-		//model.addAttribute("stPet", stPet);
-		model.addAttribute("stReview", stReview);
-		model.addAttribute("avalService",avalService);
 		model.addAttribute("sitterTag",sitterTag);
 		
-		System.out.println("sitterViewList:"+sitterViewList);
-		//System.out.println("stMember:"+stMember);
-		//System.out.println("stPet"+stPet);
-		System.out.println("stReview"+stReview);
-		System.out.println("avalService"+avalService);
-		System.out.println("sitterTag"+sitterTag);
+		
+		// 예약 가능 날짜 가져오기
+		ArrayList<PetSitterDTO> re_list = sqlSession.getMapper(PetSitterDAOImpl.class).reserved(sit_idx);
+		model.addAttribute("re_list", re_list);
+//		System.out.println(re_list);
+		
+//		System.out.println("sitterViewList:"+sitterViewList);
+//		System.out.println("stReview"+stReview);
+//		System.out.println("avalService"+avalService);
+//		System.out.println("sitterTag"+sitterTag);
 		
 		return "./Petsitters/sitterView"; 
 	 
+	}
+	
+	@RequestMapping("/petsitters/reserve")
+	public String reserve(Model model, HttpServletRequest req) {
+		
+		PetSitterDTO petSitterDTO = new PetSitterDTO();
+		
+		String sbook_start = req.getParameter("sD");
+		
+		return "./Petsitters/sitterView";
 	}
 }

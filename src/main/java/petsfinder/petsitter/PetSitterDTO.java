@@ -222,7 +222,7 @@ public class PetSitterDTO {
 	}
 	
 	/*회원정보*/
-	//		-- 이름
+	// 이름
 	private String member_name;
 	
 	public String getMember_name() {
@@ -231,5 +231,35 @@ public class PetSitterDTO {
 	public void setMember_name(String member_name) {
 		this.member_name = member_name;
 	}
+	
+	/* 예약 */
+	// 펫시터 예약 일련번호
+	private int sbook_idx;
+	// 시터 일련번호
+	// private int sit_idx;
+	// 예약 시작일
+	private String sbook_start;
+	// 예약 마지막일
+	private String sbook_end;
+
+	public int getSbook_idx() {
+		return sbook_idx;
+	}
+	public void setSbook_idx(int sbook_idx) {
+		this.sbook_idx = sbook_idx;
+	}
+	public String getSbook_start() {
+		return sbook_start;
+	}
+	public void setSbook_start(String sbook_start) {
+		this.sbook_start = sbook_start;
+	}
+	public String getSbook_end() {
+		return sbook_end;
+	}
+	public void setSbook_end(String sbook_end) {
+		this.sbook_end = sbook_end;
+	}
+	
 	
 }

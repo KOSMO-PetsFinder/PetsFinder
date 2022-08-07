@@ -7,20 +7,27 @@
   
 <mapper namespace="petsfinder.petsitter.PetSitterDAOImpl">
 
+	<!-- 상세보기 -->
+	
+	<!-- 전체 목록 조회 -->
 	<select id="sitterView" resultType="petsfinder.petsitter.PetSitterDTO">
 	
-	select 
-    s.member_idx,
-    s.sit_idx, sit_title, sit_intro, sit_addr, s_fee, m_fee, b_fee, sit_client, sit_startpoint, sit_startcount,
-    member_name, pet_idx, pet_age, pet_name, pet_gender
-	from 
-	    sitter s
-	inner join pet p on s.member_idx = p.member_idx 
-	inner join member m on s.member_idx = m.member_idx
-	where s.member_idx=#{member_idx}
+		select 
+		    s.member_idx,
+		    s.sit_idx, sit_title, sit_intro, sit_addr, s_fee, m_fee, b_fee, sit_client, sit_startpoint, sit_startcount,
+		    member_name, 
+		    pet_idx, pet_age, pet_name, pet_gender
+		from 
+		    sitter s
+		inner join 
+			pet p on s.member_idx = p.member_idx 
+		inner join 
+			member m on s.member_idx = m.member_idx
+		where s.member_idx=#{member_idx}
 
 	</select>
 	
+	<!-- 후기, 좋아요 조회 -->
 	<select id="stReview" resultType="petsfinder.review.ReviewBoardDTO">
 	
 		select
@@ -45,42 +52,60 @@
 	
 	</select>
 	
-	
+	<!-- 가능 서비스 조회 -->
 	<select id="avalService" resultType="petsfinder.petsitter.PetSitterDTO">
 	
-	select typsrv_expln , typSrv_service from type_service 
-	where typsrv_idx in (select typsrv_idx from available_services 
-	where sit_idx = #{ sit_idx })
-	order by typsrv_idx asc
+		select 
+			typsrv_expln , typSrv_service 
+		from 
+			type_service 
+		where 
+			typsrv_idx 
+			in 
+				(
+					select 
+						typsrv_idx from available_services 
+					where 
+						sit_idx = #{ sit_idx }
+				)
+		order by typsrv_idx asc
 	</select>
 	
+	<!-- 시터 태그 조회 -->
 	<select id="sitterTag" resultType="petsfinder.petsitter.PetSitterDTO">
 	
-	select typTag_expln from type_tag where typTag_idx in (select typTag_idx from sitter_tag where sit_idx=#{ sit_idx })
+		select typTag_expln from type_tag where typTag_idx in (select typTag_idx from sitter_tag where sit_idx=#{ sit_idx })
 	
 	</select>
 
-	<!-- <select id="sitterView" resultType="petsfinder.petsitter.PetSitterDTO">
-		SELECT * FROM sitter WHERE member_idx = #{member_sidx}
+	<!-- 시터별 예약된 날짜 조회 -->
+	<select id="reserved" resultType="petsfinder.petsitter.PetSitterDTO">
+		select * from sit_book where sit_idx = #{ sit_idx }
 	</select>
-	
-	<select id="stMember" resultType="petsfinder.member.MemberDTO">
-		SELECT * FROM member WHERE member_idx = #{member_idx}
+
+	<!-- 예약 등록 -->
+	<insert id="reserve" parameterType="petsfinder.petsitter.PetSitterDTO">
+		insert into sit_book values (seq_sit_book_idx.nextval, #{ sit_idx }, #{ sbook_start }, #{ sbook_end } )
+	</insert>
+
+
+
+	<!-- 리스트 -->
+	<!-- 예약 날짜 조회 -->
+	<select id="reserveSearchInfo" resultType="petsfinder.petsitter.PetSitterDTO">
+		select * from sitter where sit_idx not in (select sit_idx from sit_book where ( sbook_start <![CDATA[<=]]> #{ sbook_start } and sbook_end <![CDATA[>]]> #{ sbook_start } ) or (sbook_start <![CDATA[<]]> #{ sbook_end } and sbook_end <![CDATA[>=]]> #{ sbook_end } ))
 	</select>
-	
-	<select id="stPet" resultType="petsfinder.member.PetDTO">
-		SELECT * FROM pet WHERE member_idx = #{member_idx}
-	</select>
-	
-	<select id="stReview" resultType="petsfinder.petsitter.PetSitterDTO">
-		SELECT * FROM review_board WHERE sit_idx = #{sit_idx}
-	</select>
-	 -->
-	
+
+
+
+
+
+	<!-- 시터 등록 시 기존 정보 조회 -->
+	<!-- 태그 -->	
 	<select id="sit_tag" resultType="String">
 		select typtag_expln from type_tag where typtag_idx in (select typtag_idx from sitter_tag where sit_idx = #{ sit_idx })
 	</select>
-	
+	<!-- 서비스 -->
 	<select id="sit_service" resultType="Integer">
 		select typsrv_idx from available_services where sit_idx = #{ sit_idx }
 	</select>
