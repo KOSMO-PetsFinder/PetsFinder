@@ -188,7 +188,7 @@
 		<div>
 	        <img
 	          	style="
-		            width: 480px;
+		            width: 500px;
 		            height: 650px;
 		            margin-top: 71px;
 		            margin-left: auto;

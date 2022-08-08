@@ -1,12 +1,19 @@
+<%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+    <% int likeEx = 0; %>
+    <% boolean like1 = false; %>
 <!-- 입양후기 + 유기동물 상세보기 -->
 <!DOCTYPE html>
 <!-- saved from url=(0046)https://petplanet.co/petsitters/details/rsbzj1 -->
 <html>
 <head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -65,13 +72,12 @@
 										style="margin-top: 73px; margin-left: auto; margin-right: auto; width: 1027px; display: flex; flex-direction: row; justify-content: space-between;">
 										<div>
 											<div style="display: flex; flex-direction: row;">
-												<div
-													style="overflow: hidden; width: 90px; height: 90px; border: none; border-radius: 12px; margin-top: 5px;">
+												<div style="overflow: hidden; width: 90px; height: 90px; border: none; border-radius: 12px; margin-top: 5px;">
 													<img width="90" height="90" alt="경북 영주시 휴천동 펫시터"
 														src="./sitterView/08d8f81d5fd74638bcd1e4d6792e95d0.jpg"
 														style="object-fit: cover; display: inline-block;">
 												</div>
-												<div style="margin-left: 32px;">
+												<div style="margin-left: 32px;" >
 													<h1
 														style="font-size: 15px; color: rgb(76, 80, 86); line-height: 22px; letter-spacing: -0.2px;">${abandonedAnimalDTO.abani_species }</h1>
 													<p style="margin-top: 5px; font-size: 25px; color: rgb(56, 60, 72); line-height: 37px; letter-spacing: -0.2px;">${abandonedAnimalDTO.abani_kind }</p>
@@ -80,6 +86,14 @@
 														<p style="font-size: 14px; line-height: 21px; letter-spacing: -0.2px; color: rgb(94, 99, 109); margin-right: 7px;">#${abandonedAnimalDTO.abani_age }</p>
 														<p style="font-size: 14px; line-height: 21px; letter-spacing: -0.2px; color: rgb(94, 99, 109); margin-right: 7px;">#${abandonedAnimalDTO.abani_gender }</p>
 													</div>
+												</div>
+												<div style="display: inline-block; margin-left:auto;  float: right;">
+													<c:if test="${abandonedAnimalDTO.abani_stat eq 'adopt'  }">
+													<span class="badge rounded-pill bg-success">입양완료</span>
+													</c:if>
+													<c:if test="${abandonedAnimalDTO.abani_stat eq 'prtct'  }">
+													<span class="badge rounded-pill bg-primary">보호중</span>
+													</c:if>
 												</div>
 											</div>
 											<div
@@ -94,14 +108,43 @@
 												<p
 													style="font-size: 12px; letter-spacing: -0.2px; line-height: 18px; color: rgb(85, 85, 85); margin-top: 5px;">5단계 신원 검증 및 돌봄 환경의 안전성 검증이 완료된 펫츠 파인더입니다</p>
 											</div>
-											<div style="margin-top: 53px;">
+											<div  style="margin-top: 53px; width: 1027px;">
 												<h2 style="font-weight: 600; font-size: 17px; letter-spacing: -0.2px; line-height: 25px; color: rgb(57, 60, 71);">아이를 소개합니다.</h2>
 												<p style="font-size: 15px; line-height: 25px; color: rgb(85, 85, 85); margin-top: 32px;">
 													${abandonedAnimalDTO.abani_char }
 												</p>
 											</div>
-												
-											<!-- 후기 -->
+											
+											
+											<!-- 보호중일 경우엔 입양하기 버튼을 생성   -->
+											<c:if test="${abandonedAnimalDTO.abani_stat eq 'prtct'  }">
+											 <!-- 날짜 계산 -->
+									        <fmt:formatDate var="sDate" value="${abandonedAnimalDTO.abani_regdate }" pattern="yyyyMMdd" />
+									        <fmt:parseDate var="pDate" value="${sDate }" pattern="yyyyMMdd" />
+									        <fmt:parseNumber value="${pDate.time / (1000*60*60*24)}" integerOnly="true" var="isDate" scope="request" />
+									        <%long currentMilliseconds = new Date().getTime();
+											String nDate = String.valueOf(currentMilliseconds /(1000*60*60*24) -1); %>
+									        <fmt:parseNumber value="<%=nDate %>" integerOnly="true" var="nowDate" scope="request" />
+											<!-- 등록일로부터 10일이 지나면 nowDate - isDate >=10  -->
+											<c:if test="${nowDate - isDate >=10}">
+												<div style="margin-top: 80px;">
+												입양신청 버튼 
+												</div>
+											</c:if>
+											</c:if>
+											
+											
+											
+											<!-- 입양중일 경우 -->
+											<c:if test="${abandonedAnimalDTO.abani_stat eq 'adopt'  }">
+											<!-- 후기가 없을 때  -->
+											<c:if test="${revState eq 'nex' }">
+												<div style="margin-top: 80px;">
+												후기등록 버튼? 
+												</div>
+											</c:if>
+											<!-- 후기가 있을 때  -->
+											<c:if test="${revState eq 'exe' }">
 											<div style="margin-top: 80px;">
 												<div style="display: flex; flex-direction: row; align-items: center; margin-bottom: 38px;">
 													<h2 style="font-weight: 600; font-size: 22px; letter-spacing: -0.2px; line-height: 33px; color: rgb(57, 60, 71); margin-right: 20px; margin-bottom: 0px;">입양 후기</h2>
@@ -151,14 +194,27 @@
 															com.style.display = 'none'
 														}
 													}
+													function commentView${row.review_idx}() {
+														var a = ${row.review_idx};
+														var id = "Comment" + a;
+														var com = document.getElementById(id)
+														if( com.style.display == 'none' ) {
+															com.style.display = 'flex'
+														} else {
+															com.style.display = 'none'
+														}
+													}
 												</script>
 												</c:forEach>
 												
 												
 												
-												<!-- 입양후기 -->
+												
+												
+												<!-- 입양후기 --> 
+												<!-- 여기를 if문으로 감싸서 .. 처리  -->
 												<div style="margin-top: 38px;">
-													<c:forEach items="${reviewLists }" var="row">
+													<c:forEach items="${requestScope.reviewLists }" var="row">
 													<div
 														style="display: flex; flex-direction: column; border-top: 1px solid rgb(235, 235, 235); padding: 38px 0px;">
 														<!-- 이름,날짜,내용 -->
@@ -169,10 +225,96 @@
 																style="object-fit: cover; border-radius: 50%;">
 															<div style="margin-left: 18px;">
 																<p
-																	style="font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);">멤버일련번호..(원래는이름)${row.member_idx }</p>
+																	style="font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72); margtin-bottom: 0">${row.member_namer }</p>
 																<p
 																	style="font-size: 13px; line-height: 19px; color: rgb(76, 80, 86); margin-top: 6px;">${row.review_regdate }</p>
 															</div>
+															<!-- 좋아요 -->
+															<!-- 좋아요 처리할 스크립트 -->
+															<script type="text/javascript">
+															$(function(){
+																var a = ${row.review_idx }
+																$('p[id=like${row.review_idx}]').click(function(){
+															
+																	$.ajax({
+																		
+																		url : "./like",
+																		
+																		type : "GET",
+																		
+																		data : {
+																			review_idx : a,
+																			member_idx : '${sessionScope.idx }',
+																			like_check : $('#like_check').val(),
+																			abani_idx : '${ abandonedAnimalDTO.abani_idx}',
+																		},
+															
+																		success : function () {
+																			
+																			if($('#like_check${row.review_idx}').val()==0){
+																				console.log("plus");
+																				$('#like_check${row.review_idx}').val('1');
+																				$('#like_img${row.review_idx}').attr('src', "../images/heart_o.png");
+																				var val01 = $('#like_num${row.review_idx}').val();
+																				var val02 = parseInt(val01) + 1;
+																				$('#like_num${row.review_idx}').val(val02);
+																				
+																			}
+																			else{
+																				console.log("minus");
+																				$('#like_check${row.review_idx}').val('0');
+																				$('#like_img${row.review_idx}').attr('src', "../images/heart_x.png");
+																				var val01 = $('#like_num${row.review_idx}').val();
+																				var val02 = parseInt(val01) - 1;
+																				$('#like_num${row.review_idx}').val(val02);
+																			}
+																		},
+																		
+																		error : function () {
+																			console.log("실패");
+																		},
+																	});
+																});
+															});
+															</script>
+															<div style="display: flex; flex-direction: row; margin-left:auto;  float: right; padding-right: 10px;">
+																<c:if test="${not empty sessionScope.idx }" var="sessionIdx">
+																
+																<div style="padding-right: 10px;">
+																<% likeEx = 0; %>
+																<c:forEach items="${likeLists }" var="likerow">
+																<c:if test="${likerow.review_idx eq row.review_idx }">
+																<% likeEx =1; %>
+																</c:if>
+																</c:forEach>
+																
+																<input type="hidden" id="like_check${row.review_idx}" name="like_check${row.review_idx}" value="<%=likeEx %>"/>
+																<button type="button" id="like${row.review_idx}" name="like${row.review_idx}" style="border: 0;outline: 0;background-color: white;">
+																<c:if test="<%=likeEx==1 %>">
+																<p style="cursor: pointer;" id="like${row.review_idx }">
+																	<img id="like_img${row.review_idx}" src="../images/heart_o.png" alt="" width="20" height="20" />
+																</p>
+																</c:if>
+																<c:if test="<%=likeEx==0 %>">
+																<p style="cursor: pointer;" id="like${row.review_idx }">
+																	<img id="like_img${row.review_idx}" src="../images/heart_x.png" alt="" width="20" height="20" />
+																</p>
+																</c:if>
+																</button>
+																</div>
+																</c:if>
+																<c:if test="${not sessionIdx }">
+																<div style="padding-right: 10px;">
+																	<img id="like_img${row.review_idx}" src="../images/heart_o.png" alt="" width="20" height="20" />
+																</div>	
+																</c:if>
+																<div style=" width: 20px; margin-right: 30px;">
+																	<p>
+																	<input type="text" id="like_num${row.review_idx}" style="width: 40px; height: 20px; border: 0" value="${row.countlike }"/>
+																	</p>
+																</div>
+															</div>
+															<!-- 좋아요 끝 -->
 														</div>
 														<p
 															style="font-size: 15px; line-height: 25px; color: rgb(76, 80, 86); margin-top: 18px;">${row.review_content }</p>
@@ -188,7 +330,30 @@
 																width="90" height="90"
 																src="../images/4.png"
 																style="border-radius: 2px; object-fit: cover; margin-right: 9px; user-select: none; cursor: pointer;">
+															<c:if test="${sessionScope.idx ne null }">
+															<div style="display: flex; flex-direction: column-reverse; margin-left:auto;  float: right; vertical-align:bottom; padding-bottom: 3px;">
+																<p onclick="commentView${row.review_idx}()" style="cursor: pointer;" >
+																	댓글달기
+																	<img src="../images/comment.png" alt="" width="20" height="20" />
+																</p>
+															</div>
+															</c:if>
 														</div>
+														<!-- 댓글 폼 -->
+														<div style="display: none; flex-direction: column; margin-top: 33px; align-items: center;" id="Comment${row.review_idx }">
+														<form action="<c:url value='/' />AbandonedAnimal/commentInsert.do">
+														<input type="hidden" name="review_idx" value="${row.review_idx }">
+														<input type="hidden" name="member_idx" value="${sessionScope.idx }">
+														<input type="hidden" name="abani_idx" value="${abandonedAnimalDTO.abani_idx }">
+														<div>
+															<textarea style="width:972px; height: 150px; margin-top: 30px;" name="reviewcomm_content"></textarea>														
+														</div>
+														<div style="display: flex; flex-direction: column-reverse; margin-left:auto;  float: right; vertical-align:bottom; padding-bottom: 3px; padding-top: 10px; padding-right:25px;">
+															<button type="submit" class="btn btn-info">등록</button>
+														</div>
+														</form>
+														</div>
+														
 														<% int temp = 0; %>
 														<c:forEach items="${reviewCommLists }" var="rerow" varStatus="status">
 															
@@ -202,38 +367,50 @@
 															</c:if>
 														</c:forEach>
 														
-														<div id="com${row.review_idx }" name="com${row.review_idx }" style="display: none; flex-direction: row; justify-content: right; margin-top: 32px;">
+														<div id="com${row.review_idx }" name="com${row.review_idx }" style="display: none; flex-direction: column; justify-content: right; margin-top: 32px;">
 														
+														<c:forEach items="${reviewCommLists }" var="rerow" varStatus="status">
+														<c:if test="${rerow.review_idx eq row.review_idx }" >
+														
+														
+														
+															<div
+															style="display: flex; flex-direction: row; align-self: flex-end; margin-top: 32px; width: 600px">
 															<img width="50" height="50"
-															src="./sitterView/086d1c39b3704073bd35db5d5298e464.jpg"
+															src="<c:url value='/' />Uploads/${ rerow.member_photo }"
 															style="object-fit: cover; border-radius: 50%;">
 															<div
 																style="background-color: rgb(250, 250, 252); width: 100%; padding: 20px 24px;">
 																<div
 																	style="display: flex; flex-direction: row; align-items: center;">
 																	<p
-																		style="font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);">멤버일련번호..(원래는이름)${rerow.member_idx }님
-																		답글</p>
+																		style="font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);">${rerow.member_namec }님
+																		댓글</p>
 																	<p
 																		style="font-size: 13px; line-height: 19px; color: rgb(157, 164, 180); margin-left: 9px;">${rerow.reviewcomm_regdate }</p>
 																</div>
 																<p style="font-size: 15px; line-height: 25px; color: rgb(85, 85, 85); margin-top: 12px;">${rerow.reviewcomm_content }</p>
 															</div>
+															</div>
 															
+														</c:if>
+														</c:forEach>
 														</div>
 													</div>
 													</c:forEach>
 													
 													<!-- 후기 폼!!!!!!!! -->
 													
-													<div
+													<!-- <div
 														style="display: flex; align-items: center; justify-content: center; height: 50px; border-radius: 25px; border: 1px solid rgb(129, 137, 155); margin-bottom: 100px; user-select: none; cursor: pointer; margin-top: 12px;">
 														<p
-															style="font-size: 14px; letter-spacing: -0.2px; line-height: 20px; color: rgb(56, 60, 72);">펫시터
+															style="font-size: 14px; letter-spacing: -0.2px; line-height: 20px; color: rgb(56, 60, 72);">입양
 															후기 더보기</p>
-													</div>
+													</div> -->
 												</div>
 											</div>
+											</c:if>
+											</c:if>
 										</div>
 										<!-- 왼쪽 끝 -->
 									</div>

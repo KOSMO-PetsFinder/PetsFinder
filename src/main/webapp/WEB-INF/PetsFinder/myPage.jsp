@@ -96,9 +96,9 @@
                   <li>
                     <a href="./notifyForm.do" target="rightwin">유기동물 신고</a>
                   </li>
-                <c:if test="">
+                <c:if test="${ sessionScope.type eq 'sit' }">
                   <li>
-                    <a href="" >시터 페이지 생성 및 수정</a>
+                    <a href="./petsitterForm" target="rightwin">시터 페이지 생성 및 수정</a>
                   </li>
                 </c:if> 
                   <li>
@@ -124,7 +124,7 @@
       </div>
       <!-- right -->
       <div class="container" style="display: flex; justify-content: center;">
-        <iframe src="" name="rightwin" scrolling="auto" frameborder="1" width="1600" height="1000">
+        <iframe src="" name="rightwin" scrolling="auto" frameborder="1" width="1600" height="10000">
         </iframe>
       </div>
     </div>
