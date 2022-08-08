@@ -429,7 +429,7 @@
 														$('#endDate').addClass('DateInput_input__focused DateInput_input__focused_2')
 										        		$('#endDate').datepicker("option", "minDate", dateText);
 										        		$('#endDate').val('');
-										        		$('#endDate').datepicker('toggle');
+										        		/* $('#endDate').datepicker('toggle'); */
 										        	},
 										        	onClose : function(dateText) {
 										        		$('#sD').val(dateText);
@@ -464,8 +464,8 @@
 										</script>
 										<div>
 								        <form action="./reserve">
-									        <input type="hidden" id="sD" name="sD"/>
-									        <input type="hidden" id="eD" name="eD"/>
+									        <input type="hid den" id="sD" name="sD"/>
+									        <input type="hid den" id="eD" name="eD"/>
 											
 											<div
 												style="width: 375px; border-radius: 8px; border: 1px solid rgb(223, 227, 234); box-shadow: rgba(0, 0, 0, 0.07) 1px 3px 7px; padding-left: 32px; padding-right: 32px; padding-bottom: 32px;">
@@ -507,12 +507,23 @@
 												</div>
 												<script>
 												$(function() {
+													/* 예약 기간 호출 함수 */
+													function ran(sd, ed) {
+												    	console.log(sd)
+												    	var sD_date = new Date(sd)
+														var eD_date = new Date(ed)
+														var range = (eD_date - sD_date) / 86400000;
+										        		console.log(range)
+												    }
+													
 													var btn = 0;
+													/* 반려동물 선택 창 출력 */
 													$('.ant-btn').click(function() {
 														if (btn == 0) {
 															$('.ant-btn').addClass('ant-dropdown-open');
 															$('.ant-dropdown').attr({'style': 'display : inherit; left: 823px; top: 1127px; min-width: 311px;'})
-															btn = 1;						
+															btn = 1;
+															ran($('#sD').val(), $('#eD').val())
 														} else if (btn == 1) {
 															$('.ant-btn').removeClass('ant-dropdown-open');
 															$('.ant-dropdown').attr({'style': 'display : none'})
@@ -537,7 +548,7 @@
 												<div id="money" style="display: none">
 												  <div style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; margin-top: 38px">
 												    <p style="font-family: 'Noto Sans KR'; font-size: 14px; letter-spacing: -0.2px; line-height: 20px; color: rgb(56, 60, 72)">합계 금액</p>
-												    <p style="font-weight: 600; font-size: 12px; letter-spacing: 0.2px; line-height: 18px; color: rgb(56, 60, 72)">원</p>
+												    <p id="sum" style="font-weight: 600; font-size: 12px; letter-spacing: 0.2px; line-height: 18px; color: rgb(56, 60, 72)"></p>
 												  </div>
 												  <div style="width: 310px; height: 1px; background-color: rgb(235, 235, 235); margin-top: 16px; margin-bottom: 19px"></div>
 												  <div style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; height: 32px">
@@ -546,11 +557,11 @@
 												      <span style="font-size: 13px; color: rgb(213, 53, 53)">(성수기 여부)</span
 												      ><span id="type" style="font-size: 13px; margin-left: 4px">/ </span>
 												    </div>
-												    <p style="font-size: 13px; line-height: 19px; color: rgb(94, 99, 109)">원</p>
+												    <p id="day" style="font-size: 13px; line-height: 19px; color: rgb(94, 99, 109)"></p>
 												  </div>
 												  <div style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; margin-top: 10px">
 												    <p style="font-size: 13px; line-height: 19px; color: rgb(94, 99, 109)">부가세 (10%)</p>
-												    <p style="font-size: 13px; line-height: 19px; color: rgb(94, 99, 109)">원</p>
+												    <p id="tax" style="font-size: 13px; line-height: 19px; color: rgb(94, 99, 109)"></p>
 												  </div>
 												</div>
 												<div
@@ -560,26 +571,58 @@
 														요청</p>
 												</div>
 											</div>
-											<!-- 반려동물 선택 창 -->
+											<!-- 반려동물 선택 창 & 금액 계산 -->
 											<script>
 											$(function() {
-
+												
+												/* 소형 요금, 세금, 합계 */
+												var s_fee = ${ sitterViewList.s_fee }
+												var s_tax = s_fee / 10
+												var s_sum = parseInt(s_fee + s_tax)
+												
+												var m_fee = ${ sitterViewList.m_fee }
+												var m_tax = m_fee / 10
+												var m_sum = parseInt(m_fee + m_tax)
+												
+												var b_fee = ${ sitterViewList.b_fee }
+												var b_tax = b_fee / 10
+												var b_sum = parseInt(b_fee + b_tax)
+												
 												$('#s_minus').click(function() {
 													if($('#small').text() != 0) {
 														var s01 = $('#small').text()
 														var s02 = parseInt(s01) - 1
 														$('#small').text(s02)
+														
+														var day = parseInt($('#day').text().split('원')[0])
+														
 														if (s01 != 1) {
 															console.log('sm1')
 															var p01 = $('#p_cell').text()
 															var p02 = p01.replace('소형 ' + s01, '소형 ' + s02)
 															$('#p_cell').text(p02)
+															
+															var day01 = day - s_fee
+															var tax01 = day01 / 10
+															var sum01 = parseInt(day01 + tax01)
+															
+															$('#day').text(day01 + '원')
+															$('#tax').text(tax01 + '원')
+															$('#sum').text(sum01 + '원')
 														} else {
 															if ($('#p_cell').text().search('중형') != -1 || $('#p_cell').text().search('대형') != -1){
 																console.log('sm2')
 																var p01 = $('#p_cell').text()
 																var p02 = p01.replace('소형 ' + s01 + ', ', '')
 																$('#p_cell').text(p02)
+																
+																var day01 = day - s_fee
+																var tax01 = day01 / 10
+																var sum01 = parseInt(day01 + tax01)
+																
+																$('#day').text(day01 + '원')
+																$('#tax').text(tax01 + '원')
+																$('#sum').text(sum01 + '원')
 															}
 														}
 													}
@@ -594,20 +637,45 @@
 													var s01 = $('#small').text()
 													var s02 = parseInt(s01) + 1
 													$('#small').text(s02)
+													
+													console.log(range)
+													var day = parseInt($('#day').text().split('원')[0])
+													
 													if($('#p_cell').text() == '반려동물 선택') {
 														console.log('sp1')
 														var p = '소형 ' + s02
 														$('#p_cell').text(p)
+														
+														$('#day').text(s_fee + '원')
+														$('#tax').text(s_tax + '원')
+														$('#sum').text(s_sum + '원')
+														
 													} else if ($('#p_cell').text().search('소형') != -1 ) {
 														console.log('sp2')
 														var p01 = $('#p_cell').text()
 														var p02 = p01.replace('소형 ' + s01, '소형 ' + s02)
 														$('#p_cell').text(p02)
+														
+														var day01 = s_fee + day
+														var tax01 = day01 / 10
+														var sum01 = parseInt(day01 + tax01)
+														
+														$('#day').text(day01 + '원')
+														$('#tax').text(tax01 + '원')
+														$('#sum').text(sum01 + '원')
 													} else {
 														console.log('sp3')
 														var p01 = $('#p_cell').text()
 														var p02 = '소형 ' + s02 + ', ' + p01
 														$('#p_cell').text(p02)
+														
+														var day01 = s_fee + day
+														var tax01 = day01 / 10
+														var sum01 = parseInt(day01 + tax01)
+														
+														$('#day').text(day01 + '원')
+														$('#tax').text(tax01 + '원')
+														$('#sum').text(sum01 + '원')
 													}
 												})
 												$('#m_minus').click(function() {
@@ -615,25 +683,51 @@
 														var m01 = $('#middle').text()
 														var m02 = parseInt(m01) - 1
 														$('#middle').text(m02)
+														
+														var day = parseInt($('#day').text().split('원')[0])
+														
 														if (m01 != 1) {
 															console.log('mm1')
 															var p01 = $('#p_cell').text()
 															var p02 = p01.replace('중형 ' + m01, '중형 ' +  m02)
 															$('#p_cell').text(p02)
+															
+															var day01 = day - m_fee
+															var tax01 = day01 / 10
+															var sum01 = parseInt(day01 + tax01)
+															
+															$('#day').text(day01 + '원')
+															$('#tax').text(tax01 + '원')
+															$('#sum').text(sum01 + '원')
 														} else {
 															if ($('#p_cell').text().search('대형') != -1){
 																console.log('mm2')
 																var p01 = $('#p_cell').text()
 																var p02 = p01.replace('중형 ' + m01 + ', ', '')
 																$('#p_cell').text(p02)
+																
+																var day01 = day - m_fee
+																var tax01 = day01 / 10
+																var sum01 = parseInt(day01 + tax01)
+																
+																$('#day').text(day01 + '원')
+																$('#tax').text(tax01 + '원')
+																$('#sum').text(sum01 + '원')
 															} else if ($('#p_cell').text().search('대형') == -1 && $('#p_cell').text().search('소형') != -1) {
 																console.log('mm3')
 																var p01 = $('#p_cell').text()
 																var p02 = p01.replace(', 중형 ' + m01, '')
 																$('#p_cell').text(p02)
+																
+																var day01 = day - m_fee
+																var tax01 = day01 / 10
+																var sum01 = parseInt(day01 + tax01)
+																
+																$('#day').text(day01 + '원')
+																$('#tax').text(tax01 + '원')
+																$('#sum').text(sum01 + '원')
 															}
 														}
-														
 													}
 													if($('#big').text() == 0 && $('#middle').text() == 0 && $('#small').text() == 0) {
 														$('#p_cell').text('반려동물 선택')
@@ -645,16 +739,31 @@
 													var m01 = $('#middle').text()
 													var m02 = parseInt(m01) + 1
 													$('#middle').text(m02)
+													
+													var day = parseInt($('#day').text().split('원')[0])
+													
 													if($('#p_cell').text() == '반려동물 선택') {
 														console.log('mp1')
 														var p = '중형 ' + m02
 														$('#p_cell').text(p)
+														
+														$('#day').text(m_fee + '원')
+														$('#tax').text(m_tax + '원')
+														$('#sum').text(m_sum + '원')
 													} else {
 														if ($('#p_cell').text().search('중형') != -1 ) {
 															console.log('mp2')
 															var p01 = $('#p_cell').text()
 															var p02 = p01.replace('중형 ' + m01, '중형 ' +  m02)
 															$('#p_cell').text(p02)
+															
+															var day01 = day + m_fee
+															var tax01 = day01 / 10
+															var sum01 = parseInt(day01 + tax01)
+															
+															$('#day').text(day01 + '원')
+															$('#tax').text(tax01 + '원')
+															$('#sum').text(sum01 + '원')
 														} else {
 															if ($('#p_cell').text().search('소형') != -1 ) {
 																if ($('#p_cell').text().search('대형') == -1) {
@@ -662,11 +771,27 @@
 																	var p01 = $('#p_cell').text()
 																	var p02 = p01 + ', 중형 ' + m02
 																	$('#p_cell').text(p02)
+																	
+																	var day01 = day + m_fee
+																	var tax01 = day01 / 10
+																	var sum01 = parseInt(day01 + tax01)
+																	
+																	$('#day').text(day01 + '원')
+																	$('#tax').text(tax01 + '원')
+																	$('#sum').text(sum01 + '원')
 																} else {
 																	console.log('mp4')
 																	var p01 = $('#p_cell').text()
 																	var p02 = p01.replace(', ', ', 중형 ' +  m02 + ', ')
 																	$('#p_cell').text(p02)
+																	
+																	var day01 = day + m_fee
+																	var tax01 = day01 / 10
+																	var sum01 = parseInt(day01 + tax01)
+																	
+																	$('#day').text(day01 + '원')
+																	$('#tax').text(tax01 + '원')
+																	$('#sum').text(sum01 + '원')
 																}
 															} else {
 																if ($('#p_cell').text().search('대형') != -1) {
@@ -674,6 +799,14 @@
 																	var p01 = $('#p_cell').text()
 																	var p02 = '중형 ' + m02 + ', ' + p01
 																	$('#p_cell').text(p02)
+																	
+																	var day01 = day + m_fee
+																	var tax01 = day01 / 10
+																	var sum01 = parseInt(day01 + tax01)
+																	
+																	$('#day').text(day01 + '원')
+																	$('#tax').text(tax01 + '원')
+																	$('#sum').text(sum01 + '원')
 																}
 															}
 														}
@@ -684,17 +817,36 @@
 														var b01 = $('#big').text()
 														var b02 = parseInt(b01) - 1
 														$('#big').text(b02)
+														
 														if (b01 != 1) {
 															console.log('bm1')
 															var p01 = $('#p_cell').text()
 															var p02 = p01.replace('대형 ' + b01, '대형 ' + b02)
 															$('#p_cell').text(p02)
+															
+															var day = parseInt($('#day').text().split('원')[0])
+															
+															var day01 = day - b_fee
+															var tax01 = day01 / 10
+															var sum01 = parseInt(day01 + tax01)
+															
+															$('#day').text(day01 + '원')
+															$('#tax').text(tax01 + '원')
+															$('#sum').text(sum01 + '원')
 														} else {
 															if ($('#p_cell').text().search('소형') != -1 || $('#p_cell').text().search('중형') != -1){
 																console.log('bm2')
 																var p01 = $('#p_cell').text()
 																var p02 = p01.replace(', 대형 ' + b01, '')
 																$('#p_cell').text(p02)
+																
+																var day01 = day - b_fee
+																var tax01 = day01 / 10
+																var sum01 = parseInt(day01 + tax01)
+																
+																$('#day').text(day01 + '원')
+																$('#tax').text(tax01 + '원')
+																$('#sum').text(sum01 + '원')
 															}
 														}
 													}
@@ -708,24 +860,49 @@
 													var b01 = $('#big').text()
 													var b02 = parseInt(b01) + 1
 													$('#big').text(b02)
+													
+													var day = parseInt($('#day').text().split('원')[0])
+													
+													
 													if($('#p_cell').text() == '반려동물 선택') {
 														console.log('bp1')
 														var p = '대형 ' + b02
 														$('#p_cell').text(p)
+														
+														$('#day').text(b_fee + '원')
+														$('#tax').text(b_tax + '원')
+														$('#sum').text(b_sum + '원')
 													} else {
 														if ($('#p_cell').text().search('대형') != -1 ) {
 															console.log('bp2')
 															var p01 = $('#p_cell').text()
 															var p02 = p01.replace('대형 ' + b01, '대형 ' + b02)
 															$('#p_cell').text(p02)
+															
+															var day01 = day + b_fee
+															var tax01 = day01 / 10
+															var sum01 = parseInt(day01 + tax01)
+															
+															$('#day').text(day01 + '원')
+															$('#tax').text(tax01 + '원')
+															$('#sum').text(sum01 + '원')
 														} else {
 															console.log('bp3')
 															var p01 = $('#p_cell').text()
 															var p02 = p01 + ', 대형 ' + b02
 															$('#p_cell').text(p02)
+															
+															var day01 = day + b_fee
+															var tax01 = day01 / 10
+															var sum01 = parseInt(day01 + tax01)
+															
+															$('#day').text(day01 + '원')
+															$('#tax').text(tax01 + '원')
+															$('#sum').text(sum01 + '원')
 														}
 													}
 												})
+												
 											})
 											</script>
 											<div style="position: absolute; top: -127px; left: 406px; width: 100%;">

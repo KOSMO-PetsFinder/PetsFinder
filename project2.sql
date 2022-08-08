@@ -402,7 +402,7 @@ CREATE TABLE review_board
 );
 
 
--- 시터후기 댓글 테이블
+-- 후기 댓글 테이블
 CREATE TABLE review_Comment
 (
 	-- 입양후기 댓글 일련번호
@@ -419,10 +419,10 @@ CREATE TABLE review_Comment
 );
 
 
--- 시터후기 좋아요 테이블
+-- 후기 좋아요 테이블
 CREATE TABLE review_like
 (
-	-- 입양후기 좋아요 일련번호
+	-- 후기 좋아요 일련번호
 	reviewlike_idx number NOT NULL,
 	-- 좋아요 상태 (0,1)
 	reviewlike_stt number NOT NULL,

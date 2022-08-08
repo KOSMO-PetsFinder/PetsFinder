@@ -98,7 +98,6 @@
               <ul>
                 <li><a href="<c:url value='/' />Petsitters/petsitters">시터찾기</a></li>
                 <li><a href="<c:url value='/' />Petsitters/sitterreview">시터이용후기</a></li>
-                <li><a href="<c:url value='/' />Petsitters/sitterView">시터상세보기</a></li>
                 <li class="last_menu_2depth">
                   <a href="<c:url value='/' />">근처 동물병원</a>
                 </li>
