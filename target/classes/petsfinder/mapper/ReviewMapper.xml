@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+  <mapper namespace="petsfinder.review.ReviewBoardDAOImpl">
+  	<select id="getTotalCount" resultType="int">select count(*) from review_board</select>
+  	<select id="PSlist" resultType="petsfinder.review.ReviewBoardDTO" >
+  		select rb.*, pet_name from 
+  		(select Tb.*, rownum rNum from 
+  		(select * from review_board 
+  		where review_flag='sit' order by REVIEW_IDX desc )
+  		 Tb ) 
+  		 rb inner join pet p on rb.member_idx = p.member_idx 
+  		 where rNum between #{param1} and #{param2}
+  	</select>
+  </mapper>

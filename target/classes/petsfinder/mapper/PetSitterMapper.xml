@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="petsfinder.petsitter.PetSitterDAOImpl">
+
+	<select id="sitterView" resultType="petsfinder.petsitter.PetSitterDTO">
+   
+	   select 
+	    s.member_idx,
+	    s.sit_idx, sit_title, sit_intro, sit_addr, s_fee, m_fee, b_fee, sit_client, sit_startpoint, sit_startcount,
+	    member_name, 
+	    pet_idx, pet_age, pet_name, pet_gender
+	   from 
+	       sitter s
+	   inner join pet p on s.member_idx = p.member_idx 
+	   inner join member m on s.member_idx = m.member_idx
+	   where s.member_idx=#{member_idx}
+
+   </select>
+	
+	<select id="stReview" resultType="petsfinder.petsitter.PetSitterDTO">
+	
+	select * from review_board rb
+	inner join sitter s on s.sit_idx = rb.sit_idx
+	inner join member m on s.member_idx = m.member_idx
+	inner join review_comment rc on rc.review_idx = rb.review_idx
+	where s.sit_idx=#{sit_idx}
+	
+	</select>
+	
+	
+	<select id="avalService" resultType="petsfinder.petsitter.PetSitterDTO">
+	
+	select typsrv_expln , typSrv_service from type_service 
+	where typsrv_idx in (select typsrv_idx from available_services 
+	where sit_idx = (select sit_idx from (select * from sitter where member_idx = #{member_idx})))
+	</select>
+	
+	<select id="sitterTag" resultType="petsfinder.petsitter.PetSitterDTO">
+	
+	select typTag_expln from type_tag where typTag_idx in (select typTag_idx from sitter_tag where sit_idx=#{sit_idx})
+	
+	</select>
+
+	<!-- <select id="sitterView" resultType="petsfinder.petsitter.PetSitterDTO">
+		SELECT * FROM sitter WHERE member_idx = #{member_sidx}
+	</select>
+	
+	<select id="stMember" resultType="petsfinder.member.MemberDTO">
+		SELECT * FROM member WHERE member_idx = #{member_idx}
+	</select>
+	
+	<select id="stPet" resultType="petsfinder.member.PetDTO">
+		SELECT * FROM pet WHERE member_idx = #{member_idx}
+	</select>
+	
+	<select id="stReview" resultType="petsfinder.petsitter.PetSitterDTO">
+		SELECT * FROM review_board WHERE sit_idx = #{sit_idx}
+	</select>
+	 -->
+	 
+	 
+	<!--  <select id="getTotalCountSearchTag" resultType="int" parameterType="petsfinder.petsitter.PetSitterDTO">
+	 	select count(*) from sitter
+	 	<if test="searchTxt != null and !searchTxt.equals('')">
+	 		where ${  
+	 	</if>
+	 </select> -->
+	
+</mapper>

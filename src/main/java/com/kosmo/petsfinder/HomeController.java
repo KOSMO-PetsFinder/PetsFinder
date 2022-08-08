@@ -57,10 +57,6 @@ public class HomeController {
 	public String sitter() {
 		return "./Petsitters/petsitters";
 	}
-	@RequestMapping("/Petsitters/sitterreview")
-	public String sitterreview() {
-		return "./Petsitters/sitterreview";
-	}
 	@RequestMapping("/Petsitters/sitterlist")
 	public String sitterlist() {
 		return "./Petsitters/sitterlist";

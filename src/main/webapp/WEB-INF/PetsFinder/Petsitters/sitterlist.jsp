@@ -115,12 +115,12 @@
       /* option */
       function option_check01() {
         var no_pet = document.getElementById('no_pet');
-        if (no_pet.style.borderColor == 'rgb(223, 227, 234)') {
-        	location.href='/Petsitters/sitterlist?p=0&'
+        if (location.href=='/PetsFinder/Petsitters/sitterlist?') {
+        	location.href='/PetsFinder/Petsitters/sitterlist?p=0&'
 	        no_pet.style.borderColor = '#75c9ba';
 	        no_pet.style.color = '#75c9ba';
         } else {
-       		location.href='/Petsitters/sitterlist?'
+       		location.href='/PetsFinder/Petsitters/sitterlist?'
 	        no_pet.style.borderColor = 'rgb(223, 227, 234)';
 	        no_pet.style.color = 'rgb(187, 193, 204)';
         }
@@ -128,11 +128,11 @@
       function option_check02() {
         var pick_up = document.getElementById('pick_up');
         if (pick_up.style.borderColor == 'rgb(223, 227, 234)') {
-          location.href='/Petsitters/sitterlist?pk=1&'
+          location.href='/PetsFinder/Petsitters/sitterlist?pk=1&'
           pick_up.style.borderColor = '#75c9ba';
           pick_up.style.color = '#75c9ba';
         } else {
-          location.href='/Petsitters/sitterlist?'
+          location.href='/PetsFinder/Petsitters/sitterlist?'
           pick_up.style.borderColor = 'rgb(223, 227, 234)';
           pick_up.style.color = 'rgb(187, 193, 204)';
         }
@@ -140,11 +140,11 @@
       function option_check03(){
         var big = document.getElementById('big');
         if (big.style.borderColor == 'rgb(223, 227, 234)') {
-          location.href='/Petsitters/sitterlist?bg=1&'
+          location.href='/PetsFinder/Petsitters/sitterlist?bg=1&'
           big.style.borderColor = '#75c9ba';
           big.style.color = '#75c9ba';
         } else {
-          location.href='/Petsitters/sitterlist?'
+          location.href='/PetsFinder/Petsitters/sitterlist?'
           big.style.borderColor = 'rgb(223, 227, 234)';
           big.style.color = 'rgb(187, 193, 204)';
         }
@@ -152,11 +152,11 @@
       function option_check04(){
         var space = document.getElementById('space');
         if (space.style.borderColor == 'rgb(223, 227, 234)') {
-          location.href='/Petsitters/sitterlist?sp=1&'
+          location.href='/PetsFinder/Petsitters/sitterlist?sp=1&'
           space.style.borderColor = '#75c9ba';
           space.style.color = '#75c9ba';
         } else {
-          location.href='/Petsitters/sitterlist?'
+          location.href='/PetsFinder/Petsitters/sitterlist?'
           space.style.borderColor = 'rgb(223, 227, 234)';
           space.style.color = 'rgb(187, 193, 204)';
         }
@@ -164,11 +164,11 @@
       function option_check05(){
         var old_care = document.getElementById('old_care');
         if (old_care.style.borderColor == 'rgb(223, 227, 234)') {
-        	location.href='/Petsitters/sitterlist?oc=1&'
+        	location.href='/PetsFinder/Petsitters/sitterlist?oc=1&'
           old_care.style.borderColor = '#75c9ba';
           old_care.style.color = '#75c9ba';
         } else {
-          location.href='/Petsitters/sitterlist?'
+          location.href='/PetsFinder/Petsitters/sitterlist?'
           old_care.style.borderColor = 'rgb(223, 227, 234)';
           old_care.style.color = 'rgb(187, 193, 204)';
         }
@@ -242,7 +242,7 @@
         </p> 
         <div style="display: flex; justify-content: space-between; ">
           <div style="display: flex; justify-content: space-between; width: 712px;">
-            <a href="javascript:option_check01();" id="no_pet" style="width: 150px; height: 55px; display: flex; align-items: center; justify-content: center; border: 1.5px solid rgb(223, 227, 234); border-radius: 28px; box-shadow: rgba(0, 0, 0, 0.03) 0px 2px 3px 0px; color: rgb(187, 193, 204)">
+            <a  id="no_pet" style="width: 150px; height: 55px; display: flex; align-items: center; justify-content: center; border: 1.5px solid rgb(223, 227, 234); border-radius: 28px; box-shadow: rgba(0, 0, 0, 0.03) 0px 2px 3px 0px; color: rgb(187, 193, 204)">
               <p style="font-size: 15px; font-weight: 600;">반려동물 없음</p>
             </a>
             <a href="javascript:option_check02();" id="pick_up" style="width: 122px; height: 55px; display: flex; align-items: center; justify-content: center; border: 1.5px solid rgb(223, 227, 234); border-radius: 28px; box-shadow: rgba(0, 0, 0, 0.03) 0px 2px 3px 0px; color: rgb(187, 193, 204);">
