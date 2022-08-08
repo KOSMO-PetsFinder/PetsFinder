@@ -5,7 +5,7 @@ import java.sql.Date;
 public class AbandonedAnimalDTO {
 	private int abani_idx;
 	private String abani_kind;
-	private String abani_gender; 
+	private String abani_gender1; 
 	private String abani_loc; 
 	private Date  abani_regdate;
 	private int abani_neut; 
@@ -15,7 +15,27 @@ public class AbandonedAnimalDTO {
 	private int abani_vaccin;
 	private String abani_species;
 	private String abani_char;
+	private int adoptmember_idx;
 	
+	
+	public String getAbani_stat() {
+		return abani_stat;
+	}
+	public void setAbani_stat(String abani_stat) {
+		this.abani_stat = abani_stat;
+	}
+	public String getAbani_gender1() {
+		return abani_gender1;
+	}
+	public void setAbani_gender1(String abani_gender1) {
+		this.abani_gender1 = abani_gender1;
+	}
+	public int getAdoptmember_idx() {
+		return adoptmember_idx;
+	}
+	public void setAdoptmember_idx(int adoptmember_idx) {
+		this.adoptmember_idx = adoptmember_idx;
+	}
 	public String getAbani_char() {
 		return abani_char;
 	}
@@ -34,12 +54,6 @@ public class AbandonedAnimalDTO {
 	public void setAbani_kind(String abani_kind) {
 		this.abani_kind = abani_kind;
 	}
-	public String getAbani_gender() {
-		return abani_gender;
-	}
-	public void setAbani_gender(String abani_gender) {
-		this.abani_gender = abani_gender;
-	}
 	public String getAbani_loc() {
 		return abani_loc;
 	}
@@ -57,12 +71,6 @@ public class AbandonedAnimalDTO {
 	}
 	public void setAbani_neut(int abani_neut) {
 		this.abani_neut = abani_neut;
-	}
-	public String getAbani_stat() {
-		return abani_stat;
-	}
-	public void setAbani_stat(String abani_stat) {
-		this.abani_stat = abani_stat;
 	}
 	public String getAbani_photo() {
 		return abani_photo;

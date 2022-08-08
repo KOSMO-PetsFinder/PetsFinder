@@ -9,12 +9,15 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import petsfinder.abandonedanimal.AbandonedAnimalDAOImpl;
 import petsfinder.abandonedanimal.AbandonedAnimalDTO;
 import petsfinder.abandonedanimal.AdoptionAppDTO;
+import petsfinder.abandonedanimal.ParameterDTO;
 import petsfinder.abandonedanimal.ReportDTO;
 import petsfinder.review.ReviewBoardDTO;
 import petsfinder.review.ReviewCommentDTO;
@@ -117,10 +120,42 @@ public class AbandonedAnimalController {
 	
 	//유기동물 리스트 
 	@RequestMapping("AbandonedAnimal/abanAniList.do")
-	public String AbanAniList(Model model, HttpServletRequest req) {
+	public String AbanAniList(Model model, HttpServletRequest req,ParameterDTO parameterDTO) {
+		
+		String insUrl = ""; 
+		
+		//날짜가 있다면
+		if(!"".equals(parameterDTO.getsD()) && parameterDTO.getsD()!=null && !"".equals(parameterDTO.geteD()) && parameterDTO.geteD()!=null ) {
+			System.out.println("날짜 넘어옴 ");
+			insUrl += "sD="+parameterDTO.getsD()+"&eD="+parameterDTO.geteD()+"";
+			
+		}
+		//날짜가 없다면
+		else {
+			parameterDTO.setsD(null);
+			parameterDTO.seteD(null);
+		}
+		//종, 성별이 있다면
+		if( !"".equals(parameterDTO.getSpecies()) && parameterDTO.getSpecies()!=null && !"".equals(parameterDTO.getGender()) && parameterDTO.getGender()!=null) {
+			System.out.println("종, 성별 넘어옴");
+			insUrl += "species="+parameterDTO.getSpecies()+"&gender="+parameterDTO.getGender()+"";
+			
+		}
+		//종, 성별이 없다면
+		else {
+			parameterDTO.setSpecies(null);
+			parameterDTO.setGender(null);
+		}
+		
+		
+		
+		
+		
 		//전체 갯수 가지고 오기
 		int totalRecordCount =
-				sqlSession.getMapper(AbandonedAnimalDAOImpl.class).abAniGetTotalCount();
+				sqlSession.getMapper(AbandonedAnimalDAOImpl.class).abAniGetTotalCount(parameterDTO);
+		
+		System.out.println("ddd"+ totalRecordCount);
 		
 		//한 블럭에서 보여줄 유기동물 수 
 		int pageSize = 12;
@@ -132,6 +167,9 @@ public class AbandonedAnimalController {
 		//가져올 유기동물의 시작과 끝
 		int start = 1;
 		int end = nowPage * pageSize;
+		//parameterDTO에 start와 end값 저장
+		parameterDTO.setStart(start);
+		parameterDTO.setEnd(end);
 		
 		//모든 유기동물을 불러왔을 때 더보기 버튼을 삭제하기 위한 값
 		int moreStop = 0;
@@ -142,21 +180,102 @@ public class AbandonedAnimalController {
 		
 		//유기동물 리스트 
 		ArrayList<AbandonedAnimalDTO> lists =
-				sqlSession.getMapper(AbandonedAnimalDAOImpl.class).listPage(start, end);
+				sqlSession.getMapper(AbandonedAnimalDAOImpl.class).abAniListPage(parameterDTO);
 		
 		//모델에 저장
 		model.addAttribute("moreStop", moreStop);
 		model.addAttribute("lists", lists);
 		model.addAttribute("nowPage", nowPage);
+		model.addAttribute("insUrl", insUrl);
+		model.addAttribute("parameterDTO", parameterDTO);
 		
 		return "AbandonedAnimal/AdoptListForm";
 	}
 	
-	@RequestMapping(value = "AbandonedAnimal/adoptApplicationForm.do")
-	public String adoptApplicationForm() {
+	
+	
+	
+	
+	
+	
+	//-----------------------------------------------------------------------ing
+	//json데이터를 반환해서 .. 
+	@RequestMapping(value = "AbandonedAnimal/abAniList",method = RequestMethod.POST)
+	@ResponseBody
+	public ArrayList<AbandonedAnimalDTO> abAniList(AbandonedAnimalDTO abandonedAnimalDTO , 
+			HttpServletRequest req, ParameterDTO parameterDTO) {
 		
-		return "AbandonedAnimal/adoptApplicationForm";
+		//날짜가 있다면
+		if(!"".equals(parameterDTO.getsD()) && parameterDTO.getsD()!=null && !"".equals(parameterDTO.geteD()) && parameterDTO.geteD()!=null ) {
+			System.out.println("날짜 넘어옴 ");
+			
+		}
+		//날짜가 없다면
+		else {
+			parameterDTO.setsD(null);
+			parameterDTO.seteD(null);
+		}
+		//종, 성별이 있다면
+		if( !"".equals(parameterDTO.getSpecies()) && parameterDTO.getSpecies()!=null && !"".equals(parameterDTO.getGender()) && parameterDTO.getGender()!=null) {
+			System.out.println("종, 성별 넘어옴");
+			
+		}
+		//종, 성별이 없다면
+		else {
+			parameterDTO.setSpecies(null);
+			parameterDTO.setGender(null);
+		}
+		
+		
+		
+		
+		
+		//전체 갯수 가지고 오기
+		int totalRecordCount =
+				sqlSession.getMapper(AbandonedAnimalDAOImpl.class).abAniGetTotalCount(parameterDTO);
+		
+		
+		//한 블럭에서 보여줄 유기동물 수 
+		int pageSize = 12;
+		
+		//현제 페이지를 받아옴
+		int nowPage = (req.getParameter("nowPage")==null 
+				|| req.getParameter("nowPage").equals("")) 
+					? 1 : Integer.parseInt(req.getParameter("nowPage"))+1;
+		
+		
+		//가져올 유기동물의 시작과 끝
+		int start = ((nowPage-1) * pageSize) +1; //13
+		int end = nowPage * pageSize; // 24
+		//parameterDTO에 start와 end값 저장
+		parameterDTO.setStart(start);
+		parameterDTO.setEnd(end);
+		
+		//모든 유기동물을 불러왔을 때 더보기 버튼을 삭제하기 위한 값
+		int moreStop = 0;
+		if(totalRecordCount <= end) {
+			moreStop =1;
+		}
+		
+		
+		//유기동물 리스트 
+		ArrayList<AbandonedAnimalDTO> lists =
+				sqlSession.getMapper(AbandonedAnimalDAOImpl.class).abAniListPage(parameterDTO);
+		
+		return lists;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@RequestMapping(value = "AbandonedAnimal/adoptLatter.do")
 	public String adoptLatter() {
 		
@@ -179,8 +298,8 @@ public class AbandonedAnimalController {
 	}
 	
 	//좋아요 처리 
-	@RequestMapping(value = "AbandonedAnimal/like")
-	public String Like(ReviewLikeDTO reviewLikeDTO,HttpServletRequest req) {
+	@RequestMapping(value = "AbandonedAnimal/abanilike")
+	public String abaniLike(ReviewLikeDTO reviewLikeDTO,HttpServletRequest req) {
 		//이전페이지로 돌아가기 위한 유기동물 일련번호
 		String idx = req.getParameter("abani_idx");
 		

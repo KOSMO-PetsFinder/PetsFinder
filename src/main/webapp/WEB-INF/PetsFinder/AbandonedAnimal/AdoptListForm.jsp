@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>    
     <script src="https://kit.fontawesome.com/54b3b8eebf.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -50,6 +51,8 @@
   	<jsp:include page="../common/Header.jsp" />
     <script>
     
+    
+    
     $(function() {
 	    $.datepicker.setDefaults({
 	      dateFormat: 'yy-mm-dd',
@@ -67,11 +70,12 @@
 	      closeText : "닫기",
 	    });
         $('#startDate').datepicker({
-        	minDate: 'D',
+        	//minDate: 'D',
         	onSelect : function(dateText){
         		$('#endDate').datepicker("option", "minDate", dateText);
         		$('#endDate').val('');
-	       		$('#endDate').datepicker("show");
+        		$("#endDate").datepicker( "option", "disabled", false );
+	       		$('#endDate').datepicker("toggle");
         	},
         	onClose : function(dateText) {
         		$('#sD').val(dateText);
@@ -85,7 +89,7 @@
         		$('#startDate').datepicker("option", "maxDate", dateText);
         		$('#cal_img').datepicker("option", "maxDate", dateText);
         		$('#eD').val(dateText);
-        		location.href="<c:url value='/' />petsitters/list?sD=" + $('#sD').val() + "&eD=" + $('#eD').val();
+        		location.href="<c:url value='/' />AbandonedAnimal/abanAniList.do?sD=" + $('#sD').val() + "&eD=" + $('#eD').val();
         	},
         });
         
@@ -98,6 +102,63 @@
 
     });
     </script>
+    <!-- ajax시작 -->
+    <script type="text/javascript">
+    function moreList(){
+		console.log('dddddd')
+		$.ajax({
+			url : "./abAniList",
+			type : "POST",
+			data : {
+				"nowPage" : ${nowPage },
+				"sD" : $('#startDate').val(),
+				"eD" : $('#endDate').val(),
+				"species" : $('#paramSpecies').val(),
+				"gender" : $('#paramGender').val(),
+			},
+		    dataType : 'json',
+			success : function (lists) {
+				console.log(lists.length);
+				var content="";    
+				var vs=0;        
+				for(var i=0; i<lists.length; i++){ 
+					if(vs%4 ==0) {
+						content += "<div style='width: 1024px; margin-top: 50px; display: flex; justify-content: space-between'>";
+					}               
+					content += "<a href='./adoptView.do?abani_idx="+lists[i].abani_idx+"' target='_blank' style='margin-right: 14px'>"               
+							
+					+ "<div><div style='width: 245px; height: 170px; border-radius: 3px'><img src='../images/4.png' alt='아이 사진' style='width: 245px; height: 170px; border-radius: 3px'></div><p style='font-size: 16px; letter-spacing: -0.2px; line-height: 20px; color: #383c48; margin-top: 20px'>";
+					if(lists[i].abani_species=='cat') {
+						content += "고양이";
+					}
+					else {
+						content += "강아지";
+					}
+						content += "- " +lists[i].abani_kind + "</p><p style='font-size: 16px; letter-spacing: -0.2px; line-height: 20px; color: #383c48; margin-top: 5px'>"
+									+ lists[i].abani_age +"</p><p style='margin-top: 10px;'>"
+									+ lists[i].abani_char + "</p></div></a>";
+					if(vs%4==3) {
+						content += "</div>";
+					}
+					vs++;           
+				}
+				
+				if(lists.length<12){
+					moreBtn.style.display = 'none';   
+				}
+				$(content).appendTo("#table_abani");
+				//nowPage처리 
+				var val01 = $('#nowPage').val();
+				var val02 = parseInt(val01) + 1;
+				$('#nowPage').val(val02);
+			}, 
+			
+			error : function () {
+				console.log("실패");
+			},
+		});
+	};
+	</script>
     <!-- main_menu -->
     <!-- main_menu -->
     <div style="display: flex; justify-content: center; flex-direction: column; padding-top: 180px; padding-bottom:85px; align-items: center; box-shadow: rgba(0, 0, 0, 0.05) 0px 2px 20px;">
@@ -111,7 +172,7 @@
               </div>
               <div>
                 <select
-                  id=""
+                  id="species"
                   name="species"
                   style="width: 100px; height: 52px; border: 0; margin: 0px 12px; padding: 1px 2px"
                 >
@@ -122,22 +183,22 @@
               </div>
               <div>
                 <select
-                  id=""
-                  name="age"
+                  id="gender"
+                  name="gender"
                   style="width: 100px; height: 52px; border: 0; margin: 0px 12px; padding: 1px 2px"
                 >
-                  <option value="">선택</option>
-                  <option value="1">1살</option>
-                  <option value="2">2살</option>
-                  <option value="3">3살</option>
-                  <option value="4">4살</option>
-                  <option value="5">5살이상</option>
-                  <option value="10">10살이상</option>
+                  <option value="" >선택</option>
+                  <option value="F">암컷</option>
+                  <option value="M">수컷</option>
                 </select>
               </div>
             </div>
           </form>
         </div>
+        <!-- 받은 값들 -->
+        <input type="hidden" id="paramGender" value="${parameterDTO.gender }" >
+        <input type="hidden" id="paramSpecies" value="${parameterDTO.species }" >
+        <input type="hidden" id="nowPage" value="1" >
         <form action="./ListSearch">
         <input type="hidden" id="sD" name="sD"/>
         <input type="hidden" id="eD" name="eD"/>
@@ -146,10 +207,11 @@
           등록일
           <div style="width: 475px; height: 59px; display: flex; align-items: center; border: 1px solid #cccccc; padding: 0 24px 0 17px; margin-top: 27px;">
             <!-- DatePicker -->
-            <input id="cal_img" type="image" style="border: 0; background-color: white; width: 30px; height: 30px" src="<c:url value='/' />images/calendar.png"/>
+            <input disabled="disabled" id="cal_img" type="image" style="border: 0; background-color: white; width: 30px; height: 30px" src="<c:url value='/' />images/calendar.png"/>
               <!-- <img src="/image/calendar.png" style="width: 30px; height: 30px" /> -->
             <div style="display: flex; align-items: center">
               <input
+                value="${parameterDTO.sD }"
                 type="text"
                 id="startDate"
                 name="startDate"
@@ -164,6 +226,8 @@
               </div>
               <div>
                 <input
+                  value="${parameterDTO.eD }"
+                  disabled="disabled"
                   type="text"
                   id="endDate"
                   name="endDate"
@@ -171,7 +235,7 @@
                   placeholder="종료 날짜"
                   autocomplete="off"
                   aria-describedby="DateInput__screen-reader-message-endDate"
-                  style="border: 0; outline: 0; width: 150px; height: 46px; padding: 11px 11px 9px; margin: 0 0 0 20px"
+                  style="border: 0; outline: 0; width: 150px; height: 46px; padding: 11px 11px 9px; margin: 0 0 0 20px;background-color: white;"
                 />
               </div>
             </div>
@@ -181,14 +245,15 @@
       </div>
     <!-- middle(소스 가져옴) : DB에서 가져와서 출력하도록 변경해야 함. -->
     <div style="width: 100%; display: flex; flex-direction: column; align-items: center; padding-top: 130px">
-      <div style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-bottom: 120px">
+      <div  style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-bottom: 120px">
         <div style="width: 1024px; display: flex; justify-content: space-between; align-items: center">
           <p style="font-size: 23px; color: #393c47; letter-spacing: -0.2px; font-weight: 600">모든 아이들을 만나보세요</p>
         </div>
+        <div id="table_abani">
         <!-- 첫 번째 줄 -->
         <c:forEach items="${lists }" var="row" varStatus="vs">
 	        <c:if test="${vs.index%4 == 0  }">
-				<div style="width: 1024px; margin-top: 50px; display: flex; justify-content: space-between">
+			<div style="width: 1024px; margin-top: 50px; display: flex; justify-content: space-between">
 			</c:if>	
 			<a href="./adoptView.do?abani_idx=${row.abani_idx }" target="_blank" style="margin-right: 14px">
             <div>
@@ -215,17 +280,16 @@
             </div>
 	        </a>
 	        <c:if test="${vs.index%4 == 3}">
-				</div>
+			</div>
 			</c:if>	
         </c:forEach>
+        </div>
         <br />
-        <div class="adoptPlus_btn">
+        <div id="moreBtn" class="adoptPlus_btn">
         <!-- 문법 -->
-        <c:if test="${moreStop eq 0 }">
-	          <a class="ad_plus" href="./abanAniList.do?nowPage=${nowPage }" >
+	          <a class="ad_plus" href="javascript:moreList();"  >
 	            <p style="font-size: 18px; margin-bottom: 0; font-weight: bold;"> + 더보기</p>
 	          </a>
-        </c:if>
         </div>
       </div>
     </div>

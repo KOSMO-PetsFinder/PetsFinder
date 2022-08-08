@@ -84,7 +84,7 @@
 													<!-- 시터 신청시 체크박스로 선택한 것들 반복문으로 띄우기 -->
 													<div style="display: flex; flex-flow: row wrap; margin-top: 12px; width: 458px;">
 														<p style="font-size: 14px; line-height: 21px; letter-spacing: -0.2px; color: rgb(94, 99, 109); margin-right: 7px;">#${abandonedAnimalDTO.abani_age }</p>
-														<p style="font-size: 14px; line-height: 21px; letter-spacing: -0.2px; color: rgb(94, 99, 109); margin-right: 7px;">#${abandonedAnimalDTO.abani_gender }</p>
+														<p style="font-size: 14px; line-height: 21px; letter-spacing: -0.2px; color: rgb(94, 99, 109); margin-right: 7px;">#${abandonedAnimalDTO.abani_gender1 }</p>
 													</div>
 												</div>
 												<div style="display: inline-block; margin-left:auto;  float: right;">
@@ -127,9 +127,12 @@
 									        <fmt:parseNumber value="<%=nDate %>" integerOnly="true" var="nowDate" scope="request" />
 											<!-- 등록일로부터 10일이 지나면 nowDate - isDate >=10  -->
 											<c:if test="${nowDate - isDate >=10}">
-												<div style="margin-top: 80px;">
-												입양신청 버튼 
+											<c:if test="${not empty sessionScope.idx  }">
+												<div style="margin-top: 80px; margin-bottom: 80px;padding-left: 40%;" >
+													 <button onclick="location.href='<c:url value='/' />AbandonedAnimal/AdoptApplicationForm.do?abani_idx=${abandonedAnimalDTO.abani_idx }';" 
+													 type="button" class="btn btn-success" style="width: 200px;height: 50px;">입양하기</button>
 												</div>
+											</c:if>
 											</c:if>
 											</c:if>
 											
@@ -137,10 +140,11 @@
 											
 											<!-- 입양중일 경우 -->
 											<c:if test="${abandonedAnimalDTO.abani_stat eq 'adopt'  }">
-											<!-- 후기가 없을 때  -->
-											<c:if test="${revState eq 'nex' }">
+											<!-- 유기동물을 입양한 유저일 떄 -->
+											<c:if test="${sessionScope.idx eq  abandonedAnimalDTO.adoptmember_idx}">
 												<div style="margin-top: 80px;">
-												후기등록 버튼? 
+													<button onclick="location.href='#';"
+													type="button" class="btn btn-success" style="width: 200px;height: 50px;">후기등록</button> 
 												</div>
 											</c:if>
 											<!-- 후기가 있을 때  -->
