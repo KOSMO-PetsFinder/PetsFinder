@@ -186,7 +186,7 @@
 											
 											
 											<!-- 보호중일 경우엔 입양하기 버튼을 생성   -->
-											<c:if test="${abandonedAnimalDTO.abani_stat eq 'prtct'  }">
+											<c:if test="${abandonedAnimalDTO.abani_stat eq 'prtct' }">
 											 <!-- 날짜 계산 -->
 									        <fmt:formatDate var="sDate" value="${abandonedAnimalDTO.abani_regdate }" pattern="yyyyMMdd" />
 									        <fmt:parseDate var="pDate" value="${sDate }" pattern="yyyyMMdd" />

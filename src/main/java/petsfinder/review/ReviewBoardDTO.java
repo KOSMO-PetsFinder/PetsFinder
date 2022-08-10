@@ -3,6 +3,7 @@ package petsfinder.review;
 import java.sql.Date;
 
 public class ReviewBoardDTO {
+
 	private int review_idx; //후기게시판 일련번호
 	private String review_content; //후기게시판 내용
 	private Date review_regdate; //후기게시판 등록일
@@ -13,6 +14,7 @@ public class ReviewBoardDTO {
 	private int abani_idx; //유기동물 일련번호
 	private String member_namer; //멤버의 이름
 	private int countlike; //좋아요 수 
+	private String pet_name;
 	
 	public String getMember_namer() {
 		return member_namer;
@@ -72,7 +74,15 @@ public class ReviewBoardDTO {
 		return abani_idx;
 	}
 	public void setAbani_idx(int abani_idx) {
+
 		this.abani_idx = abani_idx;
+	}
+
+	public String getPet_name() {
+		return pet_name;
+	}
+	public void setPet_name(String pet_name) {
+		this.pet_name = pet_name;
 	}
 	
 	private String member_photo;
@@ -84,4 +94,5 @@ public class ReviewBoardDTO {
 		this.member_photo = member_photo;
 	}
 	
+
 }

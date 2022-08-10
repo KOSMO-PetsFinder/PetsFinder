@@ -26,7 +26,7 @@ public class PetSitterDTO {
 	private int sit_startpoint;
 	// 시터가 별점을 받은 횟수 
 	private int sit_startcount;
-	
+
 	public int getSit_idx() {
 		return sit_idx;
 	}
@@ -260,6 +260,5 @@ public class PetSitterDTO {
 	public void setSbook_end(String sbook_end) {
 		this.sbook_end = sbook_end;
 	}
-	
 	
 }

@@ -3,6 +3,7 @@ package petsfinder.review;
 //후기의 댓글 DTO 
 public class ReviewCommentDTO {
 	private int reviewcomm_idx ;
+
 	private String member_namec;
 	private String reviewcomm_content;
 	private String reviewcomm_regdate;

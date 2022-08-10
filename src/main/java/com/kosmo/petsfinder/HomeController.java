@@ -59,22 +59,5 @@ public class HomeController {
 		return "passCheck";
 	}
 	
-	// Petsitters
-	@RequestMapping("/Petsitters/petsitters")
-	public String sitter() {
-		return "./Petsitters/petsitters";
-	}
-	@RequestMapping("/Petsitters/sitterreview")
-	public String sitterreview() {
-		return "./Petsitters/sitterreview";
-	}
-	@RequestMapping("/Petsitters/sitterlist")
-	public String sitterlist() {
-		return "./Petsitters/sitterlist";
-	}
-	@RequestMapping("/Petsitters/sitterView")
-	public String sitterview() {
-		return "./Petsitters/sitterView";
-	}
-	
+
 }

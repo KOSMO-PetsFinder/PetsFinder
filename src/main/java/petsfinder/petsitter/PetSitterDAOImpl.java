@@ -2,8 +2,12 @@ package petsfinder.petsitter;
 
 import java.util.ArrayList;
 
+import org.springframework.stereotype.Service;
+
 import petsfinder.review.ReviewBoardDTO;
 
+
+@Service
 public interface PetSitterDAOImpl {
 	
 	
@@ -20,6 +24,12 @@ public interface PetSitterDAOImpl {
 	public ArrayList<PetSitterDTO> reserved(int sit_idx);
 	// 예약 등록
 	public int reserve(PetSitterDTO petSitterDTO);
+	//시터 리스트 전체 개수 가져오기
+	public int getTotalCount();
+	//펫시터찾기 페이지 미니 리스트 1,2,3
+	public ArrayList<PetSitterDTO> listPage(int s, int e);
+	public ArrayList<PetSitterDTO> listPage1(int s, int e);
+	public ArrayList<PetSitterDTO> listPage2(int s, int e);
 	
 	
 	/* 리스트 */
@@ -32,5 +42,5 @@ public interface PetSitterDAOImpl {
 
 	// 서비스 출력
 	public ArrayList<Integer> sit_service(int sit_idx);
-	
+
 }

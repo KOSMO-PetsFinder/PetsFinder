@@ -35,6 +35,7 @@
 						<div>
 							<div class="wrapper">
 								<div>
+								<input type="hid den" value="${member_idx }"/>
 									<div
 										style="z-index: 1; width: 100px; height: 36px; display: flex; align-items: center; justify-content: center; border: 1px solid rgb(223, 227, 234); border-radius: 3px; position: absolute; top: 109px; right: 24px; background-color: white; cursor: pointer; user-select: none;">
 										<img width="22" height="22"
@@ -94,7 +95,7 @@
 													<!-- 연습 -->
 														<p style="margin-top: 5px; font-size: 25px; color: rgb(56, 60, 72); line-height: 37px; 
 														letter-spacing: -0.2px;"></p>
-													<%-- <input type="hidd en" value="${sitterViewList.member_idx }"/> --%>
+													
 													<!-- sitterDTO를 통해서 주소값을 넘김 하지만 같은 idx으로 member의 이름값을 넘길려면 회원가입시 sitter or normal 를 선택
 													해서  -->
 													<h1
@@ -248,6 +249,7 @@
 											</div>
 											<!-- 후기 -->
 											<div style="margin-top: 80px;">
+											<c:forEach items="" var="row">
 												<div style="display: flex; flex-direction: row; align-items: center; margin-bottom: 38px;">
 													<h2 style="font-weight: 600; font-size: 22px; letter-spacing: -0.2px; line-height: 33px; color: rgb(57, 60, 71); margin-right: 20px; margin-bottom: 0px;">펫시터 후기 N개</h2>
 													<!-- 후기 중 사진 불러오기 -->
@@ -264,6 +266,7 @@
 															src="<c:url value='/'/>sitterView/star_1.png">
 													</div>
 												</div>
+												</c:forEach>
 												<div style="display: flex; flex-direction: row;">
 													<div
 														style="display: flex; overflow: hidden; border-radius: 3px; margin-right: 9px; user-select: none; cursor: pointer; position: relative;">
