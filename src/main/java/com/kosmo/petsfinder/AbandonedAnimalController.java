@@ -1,6 +1,8 @@
 package com.kosmo.petsfinder;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -283,18 +285,32 @@ public class AbandonedAnimalController {
 	} 
 	
 	//후기 댓글 입력
-	@RequestMapping(value = "AbandonedAnimal/commentInsert.do")
-	public String CommentInsert(ReviewCommentDTO reviewCommentDTO,HttpServletRequest req) {
-		//이전페이지로 돌아가기 위한 유기동물 일련번호
-		String idx = req.getParameter("abani_idx");
-		 
+	@RequestMapping(value = "AbandonedAnimal/commentInsert.do",method = RequestMethod.GET)
+	@ResponseBody
+	public ReviewCommentDTO CommentInsert(ReviewCommentDTO reviewCommentDTO, HttpSession session) {
+		//글쓴 사람의 정보를 불러옴
+		String sIdx = (String) session.getAttribute("idx");
+		int idx =Integer.parseInt(sIdx);
+		String name = (String) session.getAttribute("name");
+		String photo = (String) session.getAttribute("photo");
+		
+		//등록한 날짜
+		Date today = new Date();
+		SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+		
+		//댓글 저장
 		int result = 
 				sqlSession.getMapper(AbandonedAnimalDAOImpl.class).commentInsert(reviewCommentDTO);
 		if(result==1) {
 			System.out.println("저장성공!");
 		}
-		
-		return "redirect:/AbandonedAnimal/adoptView.do?abani_idx="+idx;
+		//반환할 dto에 필요한 정보 저장
+		reviewCommentDTO.setMember_idx(idx);
+		reviewCommentDTO.setMember_namec(name);
+		reviewCommentDTO.setMember_photo(photo);
+		reviewCommentDTO.setReviewcomm_regdate(date.format(today));
+		reviewCommentDTO.setReview_idx(1);
+		return reviewCommentDTO;
 	}
 	
 	//좋아요 처리 
@@ -374,6 +390,51 @@ public class AbandonedAnimalController {
 	    
 	    return "redirect:./notifyForm.do";
 	}
+	
+	
+	
+	/*택수*/
+	//입양후기 목록 매퍼쪽 고치고 리스트 받고 어돕트레터 jsp 모델이던 뭐던 전송
+	@RequestMapping("AbandonedAnimal/adoptlatter.do")
+	public String adoptLatter(Model model, HttpServletRequest req) {
+		
+		int totalRecordCount =
+				sqlSession.getMapper(AbandonedAnimalDAOImpl.class)
+					.reviewGetTotalCount();
+		
+		int pageSize = 4;
+		int blockPage = 2;
+		int totalPage = (int)Math.ceil((double)totalRecordCount/pageSize);
+		
+		int nowPage = (req.getParameter("nowPage")==null 
+						|| req.getParameter("nowPage").equals(""))
+							? 1 : Integer.parseInt(req.getParameter("nowPage"));
+		
+		int start = (nowPage-1) * pageSize + 1;
+		int end = nowPage * pageSize;
+		  
+
+		ArrayList<ReviewBoardDTO> lists =
+			sqlSession.getMapper(AbandonedAnimalDAOImpl.class).listPage(start, end);
+		
+		
+		String pagingImg =
+			petsfinder.utils.PagingUtil.pagingImg(totalRecordCount, pageSize, blockPage, nowPage,
+				req.getContextPath()+"/AbandonedAnimal/adoptLatter.do?");
+		model.addAttribute("pagingImg", pagingImg);
+		
+		for(ReviewBoardDTO dto : lists)
+		{
+			String temp = 
+				dto.getReview_content().replace("\r\n", "<br/>");
+			dto.setReview_content(temp);
+		}
+		model.addAttribute("lists", lists);
+		
+		return "AbandonedAnimal/AdoptLatter";
+	}
+
+	
 	
 	
 	
