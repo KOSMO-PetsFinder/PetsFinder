@@ -6,14 +6,46 @@
   
 <mapper namespace="petsfinder.petsitter.PetSitterDAOImpl">
 
-	<!-- 상세보기 -->
+	<!-- 리스트 -->
+	<!-- 리스트 전체 개수 가져오기 -->
+	<select id="getTotalCount" resultType="int">
+		SELECT COUNT(*) from
+		sitter
+	</select>
 	
+	<!-- 미니리스트 1번째 -->
+	<select id="listPage" resultType="petsfinder.petsitter.PetSitterDTO">
+		SELECT * FROM sitter s 
+		FULL OUTER JOIN sitter_photo sp 
+		ON s.sit_idx = sp.sit_idx 
+		where s.sit_idx between #{param1} and #{param2}
+		order by s.sit_idx desc
+	</select>
+	<!-- 미니리스트 2번재 -->
+	<select id="listPage1" resultType="petsfinder.petsitter.PetSitterDTO">
+		SELECT * FROM sitter s
+		FULL OUTER JOIN sitter_photo sp
+		ON s.sit_idx = sp.sit_idx 
+		where s.sit_idx between #{param1} and #{param2}
+		order by s.sit_idx asc
+		
+	</select>
+	<!-- 미니리스트 3번째 -->
+	<select id="listPage2" resultType="petsfinder.petsitter.PetSitterDTO">
+		SELECT * FROM sitter s
+		FULL OUTER JOIN sitter_photo sp
+		ON s.sit_idx = sp.sit_idx
+		where s.sit_idx between #{param1} and #{param2}
+		order by s.sit_client desc
+		
+	</select>
+	<!-- 상세보기 -->
 	<!-- 전체 목록 조회 -->
 	<select id="sitterView" resultType="petsfinder.petsitter.PetSitterDTO">
 	
 		select 
 		    s.member_idx,
-		    s.sit_idx, sit_title, sit_intro, sit_addr, s_fee, m_fee, b_fee, sit_client, sit_startpoint, sit_startcount,
+		    s.sit_idx, sit_title, sit_intro, sit_addr, s_fee, m_fee, b_fee, sit_client, sit_starpoint, sit_starcount,
 		    member_name, 
 		    pet_idx, pet_age, pet_name, pet_gender
 		from 

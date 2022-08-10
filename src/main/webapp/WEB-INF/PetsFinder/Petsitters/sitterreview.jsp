@@ -31,7 +31,8 @@
       <div style="display: flex; justify-content: space-around;">
         <!-- 후기 시작 -->
 	    <c:forEach items="${reviewlist }" var="list">
-	    <input type="hidden" id="${nowPage }" />
+	    <input type="hidden" value="${list.member_idx }" />
+	    <input type="hidden" value="${list.sit_idx }" />
         <div style="width: 480px; padding-top: 50px; padding-bottom: 50px">
           <div
             style="

@@ -284,164 +284,78 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div style="display: flex; margin-top: 55px;">
-                                            <div
-                                                style="width: 1028px; height: 260px; border: 1px solid rgb(235, 235, 235); display: flex; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.07) 0px 0px 12px 0px; position: relative; align-items: center;">
-                                                <div
-                                                    style="position: absolute; width: 70px; height: 70px; border-radius: 35px; background-color: rgb(94, 99, 109); top: 20px; left: 20px; display: flex; align-items: center; justify-content: center; flex-direction: column; z-index: 10;">
-                                                    <p
-                                                        style="font-size: 18px; color: white; font-weight: 600; line-height: 24px;">
-                                                        10%</p>
-                                                    <p
-                                                        style="font-size: 13px; color: white; font-weight: 600; line-height: 17px;">
-                                                        할인</p>
-                                                </div>
-                                                <div
-                                                    style="width: 390px; height: 250px; border-radius: 5px; margin-left: 5px; overflow: hidden; position: relative;">
-                                                    <div>
-                                                        <div class="slick-slider slick-initialized" dir="ltr">
-                                                            <div class="slick-list">
-                                                                <div class="slick-track"
-                                                                    style="opacity: 1; transform: translate3d(0px, 0px, 0px);">
-                                                                    <div data-index="-1" tabindex="-1"
-                                                                        class="slick-slide slick-cloned"
-                                                                        aria-hidden="true" style="width: 0px;"></div>
-                                                                    <div data-index="0"
-                                                                        class="slick-slide slick-active slick-current"
-                                                                        tabindex="-1" aria-hidden="false"
-                                                                        style="outline: none; width: 0px;">
-                                                                        <div><img
-                                                                                src="./sitterList/8c995eb9f1e4468d81e0404cf1db93cb.jpeg"
-                                                                                alt="사랑과 안락함이 넘치는💕"
-                                                                                style="width: 390px; height: 250px; border-radius: 3px; object-fit: cover;"><a
-                                                                                href="https://petplanet.co/petsitters/details/qlg5kj"
-                                                                                target="_blank" tabindex="-1"
-                                                                                style="width: 100%; display: inline-block;">
-                                                                                <div
-                                                                                    style="width: 390px; height: 50px; display: flex; position: absolute; bottom: 5px; justify-content: center; background-image: linear-gradient(to top, rgba(51, 51, 51, 0.2), rgba(128, 128, 128, 0)); z-index: 20;">
-                                                                                </div>
-                                                                            </a></div>
-                                                                    </div>
-                                                                    <div data-index="1" class="slick-slide"
-                                                                        tabindex="-1" aria-hidden="true"
-                                                                        style="outline: none; width: 0px;"></div>
-                                                                    <div data-index="2" class="slick-slide"
-                                                                        tabindex="-1" aria-hidden="true"
-                                                                        style="outline: none; width: 0px;"></div>
-                                                                    <div data-index="3" class="slick-slide"
-                                                                        tabindex="-1" aria-hidden="true"
-                                                                        style="outline: none; width: 0px;"></div>
-                                                                    <div data-index="4" class="slick-slide"
-                                                                        tabindex="-1" aria-hidden="true"
-                                                                        style="outline: none; width: 0px;"></div>
-                                                                    <div data-index="5" class="slick-slide"
-                                                                        tabindex="-1" aria-hidden="true"
-                                                                        style="outline: none; width: 0px;"></div>
-                                                                    <div data-index="6" tabindex="-1"
-                                                                        class="slick-slide slick-cloned"
-                                                                        aria-hidden="true" style="width: 0px;">
-                                                                        <div><a href="https://petplanet.co/petsitters/details/qlg5kj"
-                                                                                target="_blank" tabindex="-1"
-                                                                                style="width: 100%; display: inline-block;"><img
-                                                                                    src="./sitterList/8c995eb9f1e4468d81e0404cf1db93cb.jpeg"
-                                                                                    alt="사랑과 안락함이 넘치는💕"
-                                                                                    style="width: 390px; height: 250px; border-radius: 3px; object-fit: cover;">
-                                                                                <div
-                                                                                    style="width: 390px; height: 50px; display: flex; position: absolute; bottom: 5px; justify-content: center; background-image: linear-gradient(to top, rgba(51, 51, 51, 0.2), rgba(128, 128, 128, 0)); z-index: 20;">
-                                                                                </div>
-                                                                            </a></div>
-                                                                    </div>
-                                                                  
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div><img width="100%" height="59px"
-                                                                src="./sitterList/gradient.png"
-                                                                style="object-fit: cover; position: absolute; bottom: 0px; left: 0px; right: 0px;">
-                                                        </div>
-                                                        <div
-                                                            style="display: flex; flex-direction: row; justify-content: center; align-items: flex-end; position: absolute; z-index: 999; bottom: 0px; left: 0px; right: 0px; height: 59px;">
-                                                            <div
-                                                                style="display: flex; flex-direction: row; align-items: center; justify-content: center; margin-bottom: 12px;">
-                                                                <div
-                                                                    style="width: 8px; height: 8px; border-radius: 50%; background-color: white; margin-left: 4px; margin-right: 4px;">
-                                                                </div>
-                                                                <div
-                                                                    style="width: 6px; height: 6px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.7); margin-left: 4px; margin-right: 4px;">
-                                                                </div>
-                                                                <div
-                                                                    style="width: 6px; height: 6px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.7); margin-left: 4px; margin-right: 4px;">
-                                                                </div>
-                                                                <div
-                                                                    style="width: 4px; height: 4px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.7); margin-left: 4px; margin-right: 4px;">
-                                                                </div>
-                                                                <div
-                                                                    style="width: 2px; height: 2px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.7); margin-left: 4px; margin-right: 4px;">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div
-                                                            style="position: absolute; left: 0px; top: 0px; bottom: 0px; width: 50px; display: flex; align-items: center; justify-content: center; z-index: 10; cursor: pointer; background-image: linear-gradient(to right, rgba(51, 51, 51, 0.3), rgba(128, 128, 128, 0));">
-                                                            <div
-                                                                style="width: 40px; height: 40px; z-index: 10; display: flex; align-items: center; justify-content: center;">
-                                                                <img src="./sitterList/arrow_white_left.png"
-                                                                    style="width: 10px; height: 20px;"></div>
-                                                        </div>
-                                                        <div
-                                                            style="position: absolute; right: 0px; top: 0px; bottom: 0px; width: 50px; display: flex; align-items: center; justify-content: center; z-index: 10; cursor: pointer; background-image: linear-gradient(to left, rgba(51, 51, 51, 0.3), rgba(128, 128, 128, 0));">
-                                                            <div
-                                                                style="width: 40px; height: 40px; z-index: 10; display: flex; align-items: center; justify-content: center;">
-                                                                <img src="./sitterList/arrow_white_right.png"
-                                                                    style="width: 10px; height: 20px;"></div>
-                                                        </div>
-                                                    </div>
-                                                </div><a href="https://petplanet.co/petsitters/details/qlg5kj"
-                                                    target="_blank"
-                                                    style="padding: 30px 33px 0px 38px; height: 100%; display: flex; flex-grow: 1; flex-direction: column; justify-content: space-between; align-items: center;">
-                                                    <div
-                                                        style="width: 100%; border-bottom: 1px solid rgb(235, 235, 235); padding-bottom: 15px;">
-                                                        <p
-                                                            style="font-family: &quot;Noto Sans KR&quot;; font-size: 14px; letter-spacing: -0.1px; color: rgb(94, 99, 109);">
-                                                            서울 강남구 압구정동</p>
-                                                        <p
-                                                            style="font-size: 20px; font-family: &quot;Noto Sans KR&quot;; letter-spacing: -0.2px; color: rgb(56, 60, 72); margin-top: 9.5px;">
-                                                            사랑과 안락함이 넘치는💕</p>
-                                                    </div>
-                                                    <div
-                                                        style="display: flex; justify-content: space-between; width: 100%; height: 100%; padding-top: 18px;">
-                                                        <div
-                                                            style="display: flex; flex-direction: column; justify-content: space-between;">
-                                                            <p
-                                                                style="color: rgb(56, 60, 72); font-size: 13px; letter-spacing: -0.3px; max-width: 400px;">
-                                                                아파트 · 2인 이하 가구 · 반려동물 없어요</p>
-                                                            <div
-                                                                style="display: flex; align-items: center; flex-direction: row; margin-bottom: 30px;">
-                                                                <div
-                                                                    style="width: 64.63px; display: flex; justify-content: space-between;">
-                                                                    <div
-                                                                        style="display: flex; flex: 1 1 0%; justify-content: space-between;">
-                                                                        <img src="./sitterList/star_1.png"
-                                                                            style="width: 11px; height: 11px;"><img
-                                                                            src="./sitterList/star_1.png"
-                                                                            style="width: 11px; height: 11px;"><img
-                                                                            src="./sitterList/star_1.png"
-                                                                            style="width: 11px; height: 11px;"><img
-                                                                            src="./sitterList/star_1.png"
-                                                                            style="width: 11px; height: 11px;"><img
-                                                                            src="./sitterList/star_1.png"
-                                                                            style="width: 11px; height: 11px;"></div>
-                                                                </div>
-                                                                <p
-                                                                    style="font-family: &quot;Noto Sans KR&quot;; font-size: 12px; line-height: 18px; color: rgb(94, 99, 109); letter-spacing: -0.2px; margin-left: 8px;">
-                                                                    후기 2개</p>
-                                                            </div>
-                                                        </div>
-                                                      
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        
+											<!-- List출력 부분 -->
+											<c:forEach items="${lists }" var="row">
+											<form action="<c:url value='/'/>Petsitters/sitterView.do" method="POST">
+											
+												<input type="hid den" value="${row.member_idx }" name="member_idx" />
+		                                        <input type="hid den" value="${row.sit_idx }" name="sit_idx" />
+												<div
+													style="width: 1028px; height: 260px; border: 1px solid rgb(235, 235, 235); display: flex; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.07) 0px 0px 12px 0px; position: relative; align-items: center;">
+
+													<div
+														style="width: 390px; height: 250px; border-radius: 5px; margin-left: 5px; overflow: hidden; position: relative;">
+														<div>
+															<input type="image"
+																					src="<c:url value='/' />Uploads/${row.sitphoto_photo }"
+																					style="width: 390px; height: 250px; border-radius: 3px; object-fit: cover;" />
+														</div>
+															
+													</div>
+													<div
+														style="padding: 30px 33px 0px 38px; height: 100%; display: flex; flex-grow: 1; flex-direction: column; justify-content: space-between; align-items: center;">
+														<div
+															style="width: 100%; border-bottom: 1px solid rgb(235, 235, 235); padding-bottom: 15px;">
+															<p
+																style="font-family: &amp; amp; quot; Noto Sans KR&amp;amp; quot;; font-size: 14px; letter-spacing: -0.1px; color: rgb(94, 99, 109);">
+																${row.sit_addr }</p>
+															<p> <a href="<c:url value='/'/>Petsitters/sitterView.do?member_idx=${row.member_idx }&sit_idx=${row.sit_idx }" style="font-size: 20px; font-family: &amp; amp; quot; Noto Sans KR&amp;amp; quot;; letter-spacing: -0.2px; color: rgb(56, 60, 72); margin-top: 9.5px;">
+																${row.sit_title }</a></p>
+														</div>
+														<div
+															style="display: flex; justify-content: space-between; width: 100%; height: 100%; padding-top: 18px;">
+															<div
+																style="display: flex; flex-direction: column; justify-content: space-between;">
+																<p
+																	style="color: rgb(56, 60, 72); font-size: 13px; letter-spacing: -0.3px; max-width: 400px;">
+																	${row.sit_intro }</p>
+																<div
+																	style="display: flex; align-items: center; flex-direction: row; margin-bottom: 30px;">
+																	<div
+																		style="width: 64.63px; display: flex; justify-content: space-between;">
+																		<div
+																			style="display: flex; flex: 1 1 0%; justify-content: space-between;">
+
+																		</div>
+																	</div>
+																	<p
+																		style="font-family: &amp; amp; quot; Noto Sans KR&amp;amp; quot;; font-size: 12px; line-height: 18px; color: rgb(94, 99, 109); letter-spacing: -0.2px; margin-left: 8px;">
+																		이용 고객 수 : ${row.sit_CLIENT }</p>
+																</div>
+															</div>
+															<div
+																style="display: flex; flex-direction: column; justify-content: flex-end; margin-bottom: 30px;">
+																<div style="display: flex; align-items: center;">
+																	<p
+																		style="font-size: 17px; color: rgb(79, 82, 90); letter-spacing: 0.5px;">
+																		₩${row.s_fee }</p>
+																	<div
+																		style="width: 32px; height: 21px; border: 1px solid rgb(197, 201, 208); border-radius: 3px; display: flex; align-items: center; justify-content: center; margin-left: 10px;">
+																		<p
+																			style="font-family: &amp; amp; quot; Noto Sans KR&amp;amp; quot;; font-size: 11px; letter-spacing: -0.2px; color: rgb(79, 82, 90);">
+																			1 박</p>
+																	</div>
+																</div>
+																<div
+																	style="display: flex; margin-top: 10px; align-items: center;">
+
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</form>
+											</c:forEach>
                                               
                                        
                          

@@ -17,7 +17,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import petsfinder.petsitter.PetSitterDAOImpl;
 import petsfinder.petsitter.PetSitterDTO;
+import petsfinder.review.ReviewBoardDAOImpl;
 import petsfinder.review.ReviewBoardDTO;
+import petsfinder.utils.PagingUtil;
 
 @Controller
 public class PetSitterController {
@@ -170,4 +172,82 @@ public class PetSitterController {
 		
 		return "./Petsitters/sitterView";
 	}
+	
+	
+	@RequestMapping("/Petsitters/sitterreview")
+	public String PSreview(Model model, HttpServletRequest req) {
+		
+		int totalRecordCount = sqlSession.getMapper(ReviewBoardDAOImpl.class).getTotalCount();
+		
+		int pageSize = 3;
+		int blockPage = 4;
+		
+		int nowPage = req.getParameter("nowPage")==null ? 1:Integer.parseInt(req.getParameter("nowPage"));
+		
+		int totalPage = (int)Math.ceil((double)totalRecordCount/pageSize);
+		int start = (nowPage-1) * pageSize +1;
+		int end = nowPage + pageSize;
+		
+		ArrayList<ReviewBoardDTO> reviewlist = sqlSession.getMapper(ReviewBoardDAOImpl.class).PSlist(start, end);
+		String pagingImg = PagingUtil.pagingImg(totalRecordCount, pageSize, blockPage, nowPage, req.getContextPath()+
+				"/petsitter/sitterreview?");
+		
+		model.addAttribute("pagingImg", pagingImg);
+		
+		for(ReviewBoardDTO dto : reviewlist) {
+			String temp = dto.getReview_content().replace("\r\n", "<br/>");
+			dto.setReview_content(temp);
+		}
+		model.addAttribute("reviewlist", reviewlist);
+		
+		return "./Petsitters/sitterreview";
+	}
+	
+	//시터 전체보기 혹은 검색시 나타나는 전체 시터리스트
+	@RequestMapping("/Petsitters/sitterlist")
+	public String sitterList(Model model, HttpServletRequest req) {
+
+		int totalRecordCount = sqlSession.getMapper(PetSitterDAOImpl.class).getTotalCount();
+
+		int pageSize = 5;
+
+		int blockPage = 2;
+
+		int totalPage = (int) Math.ceil((double) totalRecordCount / pageSize);
+
+		int nowPage = (req.getParameter("nowPage") == null || req.getParameter("nowPage").equals("")) ? 1
+				: Integer.parseInt(req.getParameter("nowPage"));
+
+		int start = (nowPage - 1) * pageSize + 1;
+		int end = nowPage * pageSize;
+		
+		
+		ArrayList<PetSitterDTO> lists = sqlSession.getMapper(PetSitterDAOImpl.class).listPage(start, end);
+		String pagingImg = PagingUtil.pagingImg(totalRecordCount, pageSize, blockPage, nowPage,
+				req.getContextPath() + "/Petsitters/sitterlist?");
+		model.addAttribute("pagingImg", pagingImg);
+
+		model.addAttribute("lists", lists);
+		
+
+		return "./Petsitters/sitterlist";
+	}
+	//시터 찾기 처음 들어갔을 때의 페이지 (페이징 처리 필요 없이 4개만 가져오면됨)
+	@RequestMapping("/Petsitters/petsitters")
+	public String sitter(Model model, HttpServletRequest req) {
+
+		int start = 1;
+		int end = 4;
+		
+		ArrayList<PetSitterDTO> lists = sqlSession.getMapper(PetSitterDAOImpl.class).listPage(start, end);
+		ArrayList<PetSitterDTO> lists1 = sqlSession.getMapper(PetSitterDAOImpl.class).listPage1(start, end);
+		ArrayList<PetSitterDTO> lists2 = sqlSession.getMapper(PetSitterDAOImpl.class).listPage2(start, end);
+
+		model.addAttribute("lists", lists);
+		model.addAttribute("lists1",lists1);
+		model.addAttribute("lists2",lists2);
+		return "./Petsitters/petsitters";
+	}
+	
+	
 }

@@ -2,33 +2,12 @@ package petsfinder.petsitter;
 
 import java.util.ArrayList;
 
-<<<<<<< HEAD
-import petsfinder.member.MemberDTO;
+import org.springframework.stereotype.Service;
 
-public interface PetSitterDAOImpl {
-	
-	//시터테이블 정보
-	public PetSitterDTO sitterView(PetSitterDTO member_idx);
-	//시터의 멤버테이블 정보(시터이름용)
-	public MemberDTO stMember(MemberDTO member_idx);
-	//펫테이블 정보
-	public PetSitterDTO stPet(PetSitterDTO member_idx);
-	//시터후기
-	public PetSitterDTO stReview(PetSitterDTO sit_idx);
-	//시터의 멤버테이블 정보(시터 이름용)
-	
-	//시터의 멤버테이블 정보(시터 이름용)
-	//시터 이용 가능 서비스 
-	public ArrayList<PetSitterDTO> avalService(PetSitterDTO member_idx);
-	//시터 태그 
-	public ArrayList<PetSitterDTO> sitterTag(PetSitterDTO sit_idx);
-	
-	public int getTotalCountSearchTag(PetSitterDTO petSitterDTO);
-	public ArrayList<PetSitterDTO> searchTaglist(PetSitterDTO petSitterDTO);
-
-=======
 import petsfinder.review.ReviewBoardDTO;
 
+
+@Service
 public interface PetSitterDAOImpl {
 	
 	
@@ -45,6 +24,12 @@ public interface PetSitterDAOImpl {
 	public ArrayList<PetSitterDTO> reserved(int sit_idx);
 	// 예약 등록
 	public int reserve(PetSitterDTO petSitterDTO);
+	//시터 리스트 전체 개수 가져오기
+	public int getTotalCount();
+	//펫시터찾기 페이지 미니 리스트 1,2,3
+	public ArrayList<PetSitterDTO> listPage(int s, int e);
+	public ArrayList<PetSitterDTO> listPage1(int s, int e);
+	public ArrayList<PetSitterDTO> listPage2(int s, int e);
 	
 	
 	/* 리스트 */
@@ -57,6 +42,5 @@ public interface PetSitterDAOImpl {
 
 	// 서비스 출력
 	public ArrayList<Integer> sit_service(int sit_idx);
-	
->>>>>>> branch 'main' of https://github.com/KOSMO-PetsFinder/PetsFinder.git
+
 }
