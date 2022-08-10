@@ -360,11 +360,17 @@ public class AbandonedAnimalController {
 		return "AbandonedAnimal/AdoptApplicationForm";
 	}
 	
+	//입양 신청 
 	@RequestMapping(value = "AbandonedAnimal/AdoptApplicationForm.do",method = RequestMethod.POST)
-	public String AdoptApplicationForm(AdoptionAppDTO adoptionAppDTO, Model model, HttpServletRequest req) {
-		System.out.println(req.getParameter("ADPAPL_name"));
-		System.out.println(adoptionAppDTO.getADPAPL_gender());
-		System.out.println(adoptionAppDTO.getADPAPL_birth());
+	public String AdoptApplicationForm(AdoptionAppDTO adoptionAppDTO, Model model, HttpServletRequest req,HttpSession session) {
+		//System.out.println(req.getParameter("ADPAPL_name"));
+		//System.out.println(adoptionAppDTO.getADPAPL_gender());
+		//System.out.println(adoptionAppDTO.getADPAPL_birth());
+		//멤버 idx를 받아서 dto에 저장
+		int member_idx = Integer.parseInt((String) session.getAttribute("idx"));
+		adoptionAppDTO.setMember_idx(member_idx);
+		int abani_idx = Integer.parseInt(req.getParameter("abani_idx"));
+		adoptionAppDTO.setAbani_idx(abani_idx);
 		
 	    int result = sqlSession.getMapper(AbandonedAnimalDAOImpl.class).AdoptApplicationForm(adoptionAppDTO);
 	    System.out.println("입력결과:"+ result);
@@ -378,17 +384,24 @@ public class AbandonedAnimalController {
 		System.out.println("Report Form Clear!");
 		return "notifyForm";
 	}
-	
+	//유기동물 신고 
 	@RequestMapping(value = "/notifyForm.do",method = RequestMethod.POST)
-	public String notifyForm(ReportDTO reportDTO, Model model,HttpServletRequest req) {
-		System.out.println(req.getParameter("dclrAbnd_loc"));
-		System.out.println(reportDTO.getDclrAbnd_title());
-		System.out.println(reportDTO.getDclrAbnd_content());
-	    // repRegist()메서드를 호출
+	public String notifyForm(ReportDTO reportDTO, Model model,HttpServletRequest req,HttpSession session) {
+		
+		
+//		System.out.println(req.getParameter("dclrAbnd_loc"));
+//		System.out.println(reportDTO.getDclrAbnd_title());
+//		System.out.println(reportDTO.getDclrAbnd_content());
+		
+		//멤버 idx를 받아서 dto에 저장
+		int member_idx = Integer.parseInt((String) session.getAttribute("idx"));
+		reportDTO.setMember_idx(member_idx);
+		
+		// repRegist()메서드를 호출
 	    int result = sqlSession.getMapper(AbandonedAnimalDAOImpl.class).notifyForm(reportDTO);
 	    System.out.println("입력결과:"+ result);
 	    
-	    return "redirect:./notifyForm.do";
+	    return "myPage";
 	}
 	
 	

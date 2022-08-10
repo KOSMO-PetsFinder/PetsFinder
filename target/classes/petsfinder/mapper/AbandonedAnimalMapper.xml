@@ -145,12 +145,11 @@
 	
   	<!-- 입양 후기 후기 리스트 -->  
 	<select id="reviewGetTotalCount" resultType="int">
-		SELECT COUNT(*) from review_board
+		SELECT COUNT(*) from review_board where review_flag='adp'
 	</select>
 	
 	<select id="listPage" resultType="petsfinder.review.ReviewBoardDTO">
-		select * from review_board order by review_idx desc
-		
+		select * from review_board where review_flag='adp' order by review_idx desc
 		<!-- SELECT * FROM (
 			SELECT Tb.*, rownum rNum FROM (
 				SELECT * FROM review_board ORDER BY review_idx DESC
