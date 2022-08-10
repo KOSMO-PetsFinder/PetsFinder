@@ -128,7 +128,7 @@
                                                             </div>
                                                             <!-- </div> -->
                                                         </div>
-                                                        <script>
+                                                        <%-- <script>
                                                         	var service = "#check"
                                                         </script>
                                                         <c:forEach items="${ services }" var="s" varStatus="loop">
@@ -137,7 +137,7 @@
                                                        			$('#check${s.typsrv_idx}')
                                                        		})
                                                        	</script>
-                                                        </c:forEach>
+                                                        </c:forEach> --%>
                                                         <div
                                                             style="display: flex; flex-direction: column; flex-grow: 1; flex-basis: 0; margin-top: 54px">
                                                             <p style=" font-weight: 600; color: #555555">

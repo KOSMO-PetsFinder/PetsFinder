@@ -13,11 +13,11 @@
 	<!-- jQuery -->
 	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>    
 	<script src="https://kit.fontawesome.com/54b3b8eebf.js" crossorigin="anonymous"></script>
-	<link rel="stylesheet" href="../jquery/jquery-ui.css">
-	<script src="../jquery/jquery-ui.js"></script>
-    <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
-    <%-- <link rel="stylesheet" type="text/css" href="<c:url value='/' />css/calendar.css"> --%>
+	<!-- <link rel="stylesheet" href="../jquery/jquery-ui.css">
+	<script src="../jquery/jquery-ui.js"></script> -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" type="text/css" href="<c:url value='/' />css/calendar.css">
     <title>Petsitters</title>
     <style>
       * {
@@ -282,7 +282,25 @@
             <a href="/petsitters/details/1" target="_blank" style="margin-right: 14px">
             <div>
               <div style="width: 245px; height: 170px; border-radius: 3px">
+<<<<<<< HEAD
                 <img src="<c:url value='/' />Uploads/${row.sitphoto_photo }" style="width: 245px; height: 170px; border-radius: 3px">
+=======
+              <!--/상위로가서 절대경로로 넘김  
+              <a href="/PetsFinder/Petsitters/sitterView.do">
+              </a>
+              href="/PetsFinder/Petsitters/sitterView.do"
+              
+             사진을 누르면 넘어가는것이 아닌 버튼을 만들어서 넘겨보자. 
+              -->
+              <img src="https://d1cd60iwvu//zqnn.cloudfront.net/page/fd37e21adee1436c8b9341758eafe5d5.jpg" 
+              style="width: 245px; height: 170px; border-radius: 3px" >
+             	<form name="SitterView" action="/PetsFinder/Petsitters/sitterView.do">
+             			<input name="sit_idx" id="sit_idx" type="dhidden" value="2" style="font-size: 13px; letter-spacing: -0.2px; line-height: 20px; color: #383c48; margin-top: 20px">
+             			<input name="member_idx" id="member_idx" type="dhidden" value="17" style="font-size: 13px; letter-spacing: -0.2px; line-height: 20px; color: #383c48; margin-top: 20px">
+	                
+	                <button type="submit" class="btn btn-primary"></button>
+             	</form>
+>>>>>>> branch 'main' of https://github.com/KOSMO-PetsFinder/PetsFinder.git
               </div>
               <p style="font-size: 13px; letter-spacing: -0.2px; line-height: 20px; color: #383c48; margin-top: 20px">
                 주소 : ${row.sit_addr }

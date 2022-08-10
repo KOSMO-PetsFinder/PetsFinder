@@ -1,17 +1,22 @@
 package petsfinder.review;
 
-import java.sql.Date;
 //후기의 댓글 DTO 
 public class ReviewCommentDTO {
 	private int reviewcomm_idx ;
 
 	private String member_namec;
 	private String reviewcomm_content;
-	private Date reviewcomm_regdate;
+	private String reviewcomm_regdate;
 	private int review_idx;
 	private int member_idx;
 	private String member_photo;
 	
+	public String getReviewcomm_regdate() {
+		return reviewcomm_regdate;
+	}
+	public void setReviewcomm_regdate(String reviewcomm_regdate) {
+		this.reviewcomm_regdate = reviewcomm_regdate;
+	}
 	public String getMember_namec() {
 		return member_namec;
 	}
@@ -29,12 +34,6 @@ public class ReviewCommentDTO {
 	}
 	public void setReviewcomm_content(String reviewcomm_content) {
 		this.reviewcomm_content = reviewcomm_content;
-	}
-	public Date getReviewcomm_regdate() {
-		return reviewcomm_regdate;
-	}
-	public void setReviewcomm_regdate(Date reviewcomm_regdate) {
-		this.reviewcomm_regdate = reviewcomm_regdate;
 	}
 	public int getReview_idx() {
 		return review_idx;

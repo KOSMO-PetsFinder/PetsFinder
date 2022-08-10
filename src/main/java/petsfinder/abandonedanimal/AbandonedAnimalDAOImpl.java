@@ -15,9 +15,9 @@ public interface AbandonedAnimalDAOImpl {
 	//유기동물 하나 가져오기
 	public AbandonedAnimalDTO abandonedAnimalView(AbandonedAnimalDTO abandonedAnimalDTO);
 	//유기동물 전체 갯수 가져오기
-	public int abAniGetTotalCount();
+	public int abAniGetTotalCount(ParameterDTO parameterDTO);
 	//유기동물 목록 가져오기
-	public ArrayList<AbandonedAnimalDTO> listPage(int s, int e);
+	public ArrayList<AbandonedAnimalDTO> abAniListPage(ParameterDTO parameterDTO);
 	//유기동물 신고 저장
 	public int notifyForm(ReportDTO reportDTO);
 	//유기동물 입양 후기 가져오기
@@ -38,4 +38,10 @@ public interface AbandonedAnimalDAOImpl {
 	public ArrayList<ReviewLikeDTO> likeList(int member_idx);
 	//입양 신청 저장
 	public int AdoptApplicationForm(AdoptionAppDTO adoptionAppDTO);
+	//입양 후기 전체 갯수 가져오기
+	public int reviewGetTotalCount();
+	//입양 후기 목록 가져오기
+	public ArrayList<ReviewBoardDTO> listPage(int s, int e);
+	
+	
 }

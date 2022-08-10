@@ -12,7 +12,7 @@ public class ReviewBoardDTO {
 	private int sit_idx; //시터 일련번호
 	private int member_idx; //멤버 일련번호
 	private int abani_idx; //유기동물 일련번호
-	private String member_namer; //멤버의 이름 
+	private String member_namer; //멤버의 이름
 	private int countlike; //좋아요 수 
 	private String pet_name;
 	
@@ -77,10 +77,23 @@ public class ReviewBoardDTO {
 
 		this.abani_idx = abani_idx;
 	}
+<<<<<<< HEAD
 	public String getPet_name() {
 		return pet_name;
 	}
 	public void setPet_name(String pet_name) {
 		this.pet_name = pet_name;
 	}
+=======
+	
+	private String member_photo;
+
+	public String getMember_photo() {
+		return member_photo;
+	}
+	public void setMember_photo(String member_photo) {
+		this.member_photo = member_photo;
+	}
+	
+>>>>>>> branch 'main' of https://github.com/KOSMO-PetsFinder/PetsFinder.git
 }

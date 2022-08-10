@@ -82,7 +82,7 @@
                   <a href="<c:url value='/' />AbandonedAnimal/abanAniList.do">유기동물</a>
                 </li>
                 <li>
-                  <a href="<c:url value='/' />">입양후기</a>
+                  <a href="<c:url value='/' />AbandonedAnimal/adoptlatter.do">입양후기</a>
                 </li>
                 <li class="last_menu_2depth">
    					<a href="<c:url value='/' />AbandonedAnimal/AdoptApplicationForm.do">입양신청</a>

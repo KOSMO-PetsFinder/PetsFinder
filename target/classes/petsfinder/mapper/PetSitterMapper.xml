@@ -65,7 +65,7 @@
 		    a.*, NVL(b.countlike, 0) as countlike
 		from
 		    ( select 
-		        r.*, m.member_name member_namer
+		        r.*, m.member_name member_namer, member_photo
 		    from 
 		        review_board r, member m 
 		    where 
