@@ -128,16 +128,19 @@
                                                             </div>
                                                             <!-- </div> -->
                                                         </div>
-                                                        <%-- <script>
-                                                        	var service = "#check"
-                                                        </script>
+                                                        <script>
+                                                        $(function () {
                                                         <c:forEach items="${ services }" var="s" varStatus="loop">
-                                                       	<script>
-                                                       		$(function() {
-                                                       			$('#check${s.typsrv_idx}')
-                                                       		})
+                                                        	var service = "check"
+                                                       		service += ${ s }
+                                                       		var se = document.getElementById(service)
+                                                       		console.log(se.value)
+                                                       		if(${s} == se.value) {
+                                                       			se.setAttribute('checked', true)
+                                                       		}
+                                                        </c:forEach>
+                                                        })
                                                        	</script>
-                                                        </c:forEach> --%>
                                                         <div
                                                             style="display: flex; flex-direction: column; flex-grow: 1; flex-basis: 0; margin-top: 54px">
                                                             <p style=" font-weight: 600; color: #555555">
@@ -147,20 +150,20 @@
                                                                 <div class="form-check" style="margin-right: 10px;">
                                                                     <input class="form-check-input" type="checkbox"
                                                                         id="check1" name="option1"
-                                                                        value="play" >
-                                                                    <label class="form-check-label" for="check1" style="font-size:17px;">실내놀이(터그놀이, 노즈워크
+                                                                        value="1" checked>
+                                                                    <label class="form-check-label" for="check1" style="font-size:17px;">실내 놀이(터그놀이, 노즈워크
                                                                         등)</label>
                                                                 </div>
                                                                 <div class="form-check" style="margin-right: 10px;">
                                                                     <input class="form-check-input" type="checkbox"
                                                                         id="check2" name="option2"
-                                                                        value="walk" >
-                                                                    <label class="form-check-label" for="check2" style="font-size:17px;">매일산책(산책 및 실외 배변
+                                                                        value="2" >
+                                                                    <label class="form-check-label" for="check2" style="font-size:17px;">매일 산책(산책 및 실외 배변
                                                                         가능)</label>
                                                                 </div>
                                                                 <div class="form-check" style="margin-right: 10px;">
                                                                     <input class="form-check-input" type="checkbox"
-                                                                        id="check3" name="option3" value="emergency"
+                                                                        id="check3" name="option3" value="3"
                                                                         >
                                                                     <label class="form-check-label" for="check3" style="font-size:17px;">응급처치(응급시 병원 이동
                                                                         가능)</label>
@@ -170,46 +173,48 @@
                                                                 <div class="form-check" style="margin-right: 10px;">
                                                                     <input class="form-check-input" type="checkbox"
                                                                         id="check4" name="option4"
-                                                                        value="pickup" >
-                                                                    <label class="form-check-label" for="check4" style="font-size:17px;">집앞 픽업(비용은 협의)</label>
+                                                                        value="4" >
+                                                                    <label class="form-check-label" for="check4" style="font-size:17px;">집앞 픽업(비용은 펫시터와 협의)</label>
                                                                 </div>
                                                                 <div class="form-check" style="margin-right: 10px;">
                                                                     <input class="form-check-input" type="checkbox"
                                                                         id="check5" name="option5"
-                                                                        value="hair" >
-                                                                    <label class="form-check-label" for="check5" style="font-size:17px;">모발관리(눈물 또는 빗질관리 가능)</label>
+                                                                        value="5" >
+                                                                    <label class="form-check-label" for="check5" style="font-size:17px;">모발 관리(눈물 또는 빗질 관리 가능)</label>
                                                                 </div>
                                                                 <div class="form-check" style="margin-right: 10px;">
                                                                     <input class="form-check-input" type="checkbox"
-                                                                        id="check6" name="option6" value="pills"
+                                                                        id="check6" name="option6" value="6"
                                                                         >
-                                                                    <label class="form-check-label" for="check6" style="font-size:17px;">약물 복용(경구(입)복용 가능)</label>
+                                                                    <label class="form-check-label" for="check6" style="font-size:17px;">약물 복용(경구(입)약물 복용 가능)</label>
                                                                 </div>
                                                             </div>
                                                             <div style="display: flex; padding-bottom: 5px;">
                                                                 <div class="form-check" style="margin-right: 10px;">
                                                                     <input class="form-check-input" type="checkbox"
                                                                         id="check7" name="option7"
-                                                                        value="bath" >
-                                                                    <label class="form-check-label" for="check7" style="font-size:17px;">목욕 가능(비용은 협의)</label>
+                                                                        value="7" >
+                                                                    <label class="form-check-label" for="check7" style="font-size:17px;">목욕 가능(비용은 펫시터와 협의)</label>
                                                                 </div>
                                                                 <div class="form-check" style="margin-right: 10px;">
                                                                     <input class="form-check-input" type="checkbox"
                                                                         id="check8" name="option8"
-                                                                        value="longcare" >
-                                                                    <label class="form-check-label" for="check8" style="font-size:17px;">장기예약(14일 이상)</label>
+                                                                        value="8" >
+                                                                    <label class="form-check-label" for="check8" style="font-size:17px;">장기 예약(14일 이상 돌봄 가능)</label>
                                                                 </div>
                                                                 <div class="form-check" style="margin-right: 10px;">
                                                                     <input class="form-check-input" type="checkbox"
-                                                                        id="check9" name="option9" value="oldcare"
+                                                                        id="check9" name="option9" value="9"
                                                                         >
-                                                                    <label class="form-check-label" for="check9" style="font-size:17px;">노견케어(8년이상)</label>
+                                                                    <label class="form-check-label" for="check9" style="font-size:17px;">노견 케어(8년 이상 노견 돌봄 가능)</label>
                                                                 </div>
-                                                                <div class="form-check" style="margin-right: 10px;">
+                                                            </div>
+                                                            <div style="display: flex; padding-bottom: 5px;">
+                                                           		<div class="form-check" style="margin-right: 10px;">
                                                                     <input class="form-check-input" type="checkbox"
-                                                                        id="check10" name="option10" value="puppycare"
+                                                                        id="check10" name="option10" value="10"
                                                                         >
-                                                                    <label class="form-check-label" for="check10" style="font-size:17px;">퍼피케어(1년미만의 퍼피)</label>
+                                                                    <label class="form-check-label" for="check10" style="font-size:17px;">퍼피 케어(1년 미만 퍼피 돌봄 가능)</label>
                                                                 </div>
                                                             </div>
                                                         </div>

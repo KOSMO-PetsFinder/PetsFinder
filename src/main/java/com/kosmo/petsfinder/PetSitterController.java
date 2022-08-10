@@ -33,6 +33,7 @@ public class PetSitterController {
 			List<String> tags = new ArrayList<String>();
 			tags = sqlSession.getMapper(PetSitterDAOImpl.class).sit_tag(petsitterDTO.getSit_idx());			
 			ArrayList<Integer> services = sqlSession.getMapper(PetSitterDAOImpl.class).sit_service(petsitterDTO.getSit_idx());
+			System.out.println(services);
 			model.addAttribute("tags", tags);
 			model.addAttribute("services", services);
 		}
@@ -107,13 +108,13 @@ public class PetSitterController {
 				continue;
 			}
 		}
-//		System.out.println(sit_title);
-//		System.out.println(typTag);
-//		System.out.println(sit_intro);
-//		System.out.println(s_fee);
-//		System.out.println(m_fee);
-//		System.out.println(b_fee);
-//		
+		System.out.println(sit_title);
+		System.out.println(typTag);
+		System.out.println(sit_intro);
+		System.out.println(s_fee);
+		System.out.println(m_fee);
+		System.out.println(b_fee);
+		
 		return "default";
 	}
 	
@@ -160,13 +161,15 @@ public class PetSitterController {
 	 
 	}
 	
-	@RequestMapping("/petsitters/reserve")
-	public String reserve(Model model, HttpServletRequest req) {
-		
-		PetSitterDTO petSitterDTO = new PetSitterDTO();
-		
-		String sbook_start = req.getParameter("sD");
-		
-		return "./Petsitters/sitterView";
-	}
+	/*
+	 * @RequestMapping("/petsitters/reserve") public String reserve(Model model,
+	 * HttpServletRequest req) {
+	 * 
+	 * PetSitterDTO petSitterDTO = new PetSitterDTO();
+	 * 
+	 * String sbook_start = req.getParameter("sD"); String sbook_end =
+	 * req.getParameter("eD");
+	 * 
+	 * return "./Petsitters/sitterView"; }
+	 */
 }

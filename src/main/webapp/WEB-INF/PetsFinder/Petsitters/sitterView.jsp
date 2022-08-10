@@ -15,8 +15,11 @@
 <link rel="stylesheet" href="../sitterView/styles.7298462c.chunk.css" />
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>    
-<link rel="stylesheet" href="../jquery/jquery-ui.css">
-<script src="../jquery/jquery-ui.js"></script>
+<!-- <link rel="stylesheet" href="../jquery/jquery-ui.css">
+<script src="../jquery/jquery-ui.js"></script> -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="../css/calendar.css">
 </head>
 <body>
   	<jsp:include page="../common/Header.jsp" />
@@ -429,7 +432,9 @@
 											    
 										        $('#startDate').datepicker({
 										        	minDate: 'D',
+										        	<c:if test="${ not empty re_list }">
 										        	beforeShowDay: noReserve,
+										        	</c:if>
 										        	onSelect : function(dateText){
 										        		
 										        		$('#startDate').removeClass('DateInput_input__focused DateInput_input__focused_2')
@@ -458,7 +463,7 @@
 														/* 시작 날짜 선택 시 종료 날짜 값 비우기 */
 										        		$('#endDate').val('');
 														
-										        		$('#endDate').datepicker('show');
+										        		$('#endDate').datepicker('toggle');
 										        		
 										        	},
 										        	onClose : function(dateText) {
@@ -470,7 +475,9 @@
 										        
 										        $('#endDate').datepicker({
 										        	minDate: 'D',
+										        	<c:if test="${ not empty re_list }">
 										        	beforeShowDay: noReserve,
+										        	</c:if>
 										        	onShow : function() {
 										        		$('#endDate').addClass('DateInput_input__focused DateInput_input__focused_2');
 										        	},
@@ -498,6 +505,7 @@
 										</script>
 										<div>
 								        <form action="./reserve">
+								        	<input type="hidden" id="sit" value="${ sitterViewList.sit_idx }"/>
 									        <input type="hidden" id="sD" name="sD"/>
 									        <input type="hidden" id="eD" name="eD"/>
 											

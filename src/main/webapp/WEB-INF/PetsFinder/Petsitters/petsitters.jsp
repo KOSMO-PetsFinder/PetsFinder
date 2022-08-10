@@ -118,11 +118,9 @@
       function option_check01() {
         var no_pet = document.getElementById('no_pet');
         if (no_pet.style.borderColor == 'rgb(223, 227, 234)') {
-        	location.href='./list?p=0&'
 	        no_pet.style.borderColor = '#75c9ba';
 	        no_pet.style.color = '#75c9ba';
         } else {
-       		location.href='./list?'
 	        no_pet.style.borderColor = 'rgb(223, 227, 234)';
 	        no_pet.style.color = 'rgb(187, 193, 204)';
         }

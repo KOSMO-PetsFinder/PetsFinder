@@ -30,16 +30,15 @@ DROP TABLE TYPE_Tag CASCADE CONSTRAINTS;
 
 /* Drop Sequences */
 
-DROP SEQUENCE SEQ_abandonedAnimal_abani_idx;
-DROP SEQUENCE SEQ_ADOPTION_APPLICATION_ADPAPL_idx;
-DROP SEQUENCE SEQ_ADOPTION_BOARD_adoptboard_idx;
-DROP SEQUENCE SEQ_ADOPTION_Comment_adoptcomm_idx;
+DROP SEQUENCE SEQ_abani_idx;
+DROP SEQUENCE SEQ_ADOPTION_idx;
+DROP SEQUENCE SEQ_adoptcomm_idx;
 DROP SEQUENCE SEQ_ADOPTION_like_adoptlike_idx;
 DROP SEQUENCE SEQ_ADOPTION_like_sitrevlike_idx;
 DROP SEQUENCE SEQ_ADOPTION_list_ADOPlist_idx;
 DROP SEQUENCE SEQ_ADOPTION_REVIEW_BOARD_adoptboard_idx;
-DROP SEQUENCE SEQ_APPROVAL_APR_idx;
-DROP SEQUENCE SEQ_faq_board_faq_idx;
+DROP SEQUENCE SEQ_APR_idx;
+DROP SEQUENCE SEQ_faq_idx;
 DROP SEQUENCE SEQ_member_member_idx;
 DROP SEQUENCE SEQ_NOTICE_BOARD_notboard_idx;
 DROP SEQUENCE SEQ_pet_pet_idx;
@@ -59,7 +58,7 @@ DROP SEQUENCE SEQ_sitter_photo_sitphoto_idx;
 DROP SEQUENCE SEQ_sitter_review_review_idx;
 DROP SEQUENCE SEQ_sitter_review_sitreview_idx;
 DROP SEQUENCE SEQ_sitter_sit_idx;
-DROP SEQUENCE SEQ_sit_book_sbook_idx;
+DROP SEQUENCE SEQ_sbook_idx;
 DROP SEQUENCE SEQ_TYPE_SERVICE_typSrv_idx;
 DROP SEQUENCE SEQ_TYPE_Tag_typTag_idx;
 
@@ -75,7 +74,7 @@ CREATE SEQUENCE SEQ_ADPAPL_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE
 -- 입양 목록 시퀀스
 CREATE SEQUENCE SEQ_ADOPlist_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
 -- 승인 시퀀스
-CREATE SEQUENCE SEQ_APPROVAL_APR_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
+CREATE SEQUENCE SEQ_APR_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
 -- FAQ 시퀀스
 CREATE SEQUENCE SEQ_faq_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
 -- 회원 시퀀스
@@ -101,7 +100,7 @@ CREATE SEQUENCE SEQ_sitphoto_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVAL
 -- 시터 (상세보기 내용) 시퀀스
 CREATE SEQUENCE SEQ_sitter_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
 -- 시터 예약 시퀀스
-CREATE SEQUENCE SEQ_sit_book_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
+CREATE SEQUENCE SEQ_sbook_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
 -- 시터 이용가능 서비스 시퀀스
 CREATE SEQUENCE SEQ_typSrv_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
 -- 시터 태그 시퀀스
@@ -121,7 +120,7 @@ CREATE TABLE abandonedAnimal
 	-- 유기동물 성별(F,M)
 	abani_gender char(1) NOT NULL,
 	-- 유기동물 발생장소
-	abani_loc varchar2(30) NOT NULL,
+	abani_loc varchar2(100) NOT NULL,
 	-- 유기동물 접수일
 	abani_regdate date NOT NULL,
 	-- 유기동물 중성화여부(1,0)
@@ -377,13 +376,11 @@ CREATE TABLE RESIDENCE_TYPE
 );
 
 
--- 시터후기 테이블
+-- 후기 테이블
 CREATE TABLE review_board
 (
 	-- 후기 일련번호
 	review_idx number NOT NULL,
-	-- 제목
-	review_title varchar2(100) NOT NULL,
 	-- 내용
 	review_content  varchar2(1000) NOT NULL,
 	-- 등록일
@@ -405,7 +402,7 @@ CREATE TABLE review_board
 -- 후기 댓글 테이블
 CREATE TABLE review_Comment
 (
-	-- 입양후기 댓글 일련번호
+	-- 후기 댓글 일련번호
 	reviewcomm_idx number NOT NULL,
 	-- 댓글 내용
 	reviewcomm_content varchar2(1000) NOT NULL,

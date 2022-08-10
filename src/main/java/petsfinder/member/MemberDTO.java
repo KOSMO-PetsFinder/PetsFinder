@@ -2,7 +2,7 @@ package petsfinder.member;
 
 public class MemberDTO {
 //	-- 회원번호
-	private String member_idx;
+	private int member_idx;
 //	-- 아이디
 	private String member_id;
 //	-- 비밀번호
@@ -27,10 +27,10 @@ public class MemberDTO {
 	private String member_photo;
 	
 	
-	public String getMember_idx() {
+	public int getMember_idx() {
 		return member_idx;
 	}
-	public void setMember_idx(String member_idx) {
+	public void setMember_idx(int member_idx) {
 		this.member_idx = member_idx;
 	}
 	public String getMember_id() {

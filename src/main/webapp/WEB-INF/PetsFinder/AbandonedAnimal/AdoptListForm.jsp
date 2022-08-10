@@ -38,7 +38,7 @@
         display: flex; 
         justify-content: center;
         align-items: center; 
-        background-color: #71A2FF; 
+        background-color: #75c9ba; 
         color: white; 
         margin: 10px 20px 40px 0; 
         border-radius: 26px; 
@@ -288,14 +288,14 @@
         <div id="moreBtn" class="adoptPlus_btn">
         <!-- 문법 -->
 	          <a class="ad_plus" href="javascript:moreList();"  >
-	            <p style="font-size: 18px; margin-bottom: 0; font-weight: bold;"> + 더보기</p>
+	            <p style="font-size: 18px; margin-bottom: 0; font-weight: bold; color: white"> + 더보기</p>
 	          </a>
         </div>
       </div>
     </div>
 <!-- <div style="width: 100%; height: 2488px;"></div> -->
   <!-- app02 -->
-  <div class="container-fluid" style="height: 430px; display: flex; align-items: flex-end; justify-content: center; background-color: #6C9CFB;">
+  <div class="container-fluid" style="height: 430px; display: flex; align-items: flex-end; justify-content: center; background-color: #75c9ba;">
     <div style="width: 1440px; display: flex; justify-content: space-between; padding-left: 210px; padding-right: 152px;">
       <div style="display: flex; align-items: center; justify-content: space-between; flex-grow: 1;">
         <!-- left -->

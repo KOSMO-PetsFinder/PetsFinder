@@ -110,4 +110,8 @@
 		select typsrv_idx from available_services where sit_idx = #{ sit_idx }
 	</select>
 	
+	<update id="sit_update">
+		UPDATE sitter SET sit_title = #{ sit_title }, sit_intro = #{ sit_intro }, 
+	</update>
+	
 </mapper>
