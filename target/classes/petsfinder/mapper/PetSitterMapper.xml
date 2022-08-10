@@ -14,7 +14,7 @@
 	
 		select 
 		    s.member_idx,
-		    s.sit_idx, sit_title, sit_intro, sit_addr, s_fee, m_fee, b_fee, sit_client, sit_startpoint, sit_startcount,
+		    s.sit_idx, sit_title, sit_intro, sit_addr, s_fee, m_fee, b_fee, sit_client, sit_starpoint, sit_starcount,
 		    member_name, 
 		    pet_idx, pet_age, pet_name, pet_gender
 		from 
@@ -34,7 +34,7 @@
 		    a.*, NVL(b.countlike, 0) as countlike
 		from
 		    ( select 
-		        r.*, m.member_name member_namer
+		        r.*, m.member_name member_namer, member_photo
 		    from 
 		        review_board r, member m 
 		    where 

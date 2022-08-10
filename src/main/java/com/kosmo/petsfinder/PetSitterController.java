@@ -29,16 +29,15 @@ public class PetSitterController {
 	public String petsitterForm(Model model, HttpServletRequest req, HttpSession session) throws Exception {
 		
 		PetSitterDTO petsitterDTO = sqlSession.getMapper(PetSitterDAOImpl.class).sitterView(Integer.parseInt(session.getAttribute("idx").toString()));
-		System.out.println(petsitterDTO.getSit_idx());
-		List<String> tags = new ArrayList<String>();
-		tags = sqlSession.getMapper(PetSitterDAOImpl.class).sit_tag(petsitterDTO.getSit_idx());
-		ArrayList<Integer> services = sqlSession.getMapper(PetSitterDAOImpl.class).sit_service(petsitterDTO.getSit_idx());
-		System.out.println(tags);
-		System.out.println(services);
+		if (petsitterDTO != null) {
+			List<String> tags = new ArrayList<String>();
+			tags = sqlSession.getMapper(PetSitterDAOImpl.class).sit_tag(petsitterDTO.getSit_idx());			
+			ArrayList<Integer> services = sqlSession.getMapper(PetSitterDAOImpl.class).sit_service(petsitterDTO.getSit_idx());
+			model.addAttribute("tags", tags);
+			model.addAttribute("services", services);
+		}
 		
 		model.addAttribute("s_info", petsitterDTO);
-		model.addAttribute("tags", tags);
-		model.addAttribute("services", services);
 		
 		return "petsitterForm";
 	}

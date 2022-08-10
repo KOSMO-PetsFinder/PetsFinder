@@ -385,7 +385,7 @@ CREATE TABLE review_board
 	-- 제목
 	review_title varchar2(100) NOT NULL,
 	-- 내용
-	review_content varchar2(1000) NOT NULL,
+	review_content  varchar2(1000) NOT NULL,
 	-- 등록일
 	review_regdate date NOT NULL,
 	-- 사진

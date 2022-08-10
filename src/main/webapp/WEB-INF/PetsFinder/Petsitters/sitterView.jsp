@@ -96,7 +96,7 @@
 													해서  -->
 													<h1
 														style="font-size: 15px; color: rgb(76, 80, 86); line-height: 22px; letter-spacing: -0.2px; font-weight: bold;">${sitterViewList.sit_addr } 펫시터 / ${sitterViewList.member_name } 님</h1>
-													<p style="margin-top: 5px; font-size: 25px; color: rgb(56, 60, 72); line-height: 37px; letter-spacing: -0.2px;">${sitterViewLists.sit_title }</p>
+													<p style="margin-top: 5px; font-size: 25px; color: rgb(56, 60, 72); line-height: 37px; letter-spacing: -0.2px;">${sitterViewList.sit_title }</p>
 													<!-- 시터 신청시 체크박스로 선택한 것들 반복문으로 띄우기 -->
 													<!-- 시터태그 반복문 sitterTag.typtag_expln-->
 													<div style="display: flex; flex-flow: row wrap; margin-top: 12px; width: 458px;">
@@ -299,9 +299,16 @@
 														style="display: flex; flex-direction: column; border-top: 1px solid rgb(235, 235, 235); padding: 38px 0px;">
 														<div
 															style="display: flex; flex-direction: row; align-items: center;">
+															<c:if test="${ not empty sr.member_photo }" var="res">
+															<img width="50" height="50"
+																	src="<c:url value='/'/>Uploads/${ sr.member_photo }"
+																style="object-fit: cover; border-radius: 50%;">
+															</c:if>
+															<c:if test="${ not res }">
 															<img width="50" height="50"
 																src="<c:url value='/'/>sitterView/0f9b46e53cf74ae3916d25246eacec9c.jpg"
 																style="object-fit: cover; border-radius: 50%;">
+															</c:if>
 															<div style="margin-left: 18px;">
 																<p
 																	style="font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);">${sr.member_namer }</p>
@@ -386,11 +393,11 @@
 									   	console.log(sD_${ loop.count });
 									   	console.log(eD_${ loop.count }); */
 									   	for (var d = new Date(sD_${ loop.count }); d <= new Date(eD_${ loop.count }); d.setDate(d.getDate() + 1)) {
-									        noReservation.push($.datepicker.formatDate('yyyy-mm-dd', d));
+									        noReservation.push($.datepicker.formatDate('yy-mm-dd', d));
 									    }
 										function noReserve(date) {
 									    	
-										   	var dateString = jQuery.datepicker.formatDate('yyyy-mm-dd', date);
+										   	var dateString = jQuery.datepicker.formatDate('yy-mm-dd', date);
 									        return [noReservation.indexOf(dateString) == -1];
 									    }
 									 	</script>
@@ -424,24 +431,51 @@
 										        	minDate: 'D',
 										        	beforeShowDay: noReserve,
 										        	onSelect : function(dateText){
+										        		
 										        		$('#startDate').removeClass('DateInput_input__focused DateInput_input__focused_2')
-														$('#endDate').removeClass('DateInput_input__disabled DateInput_input__disabled_2')
 														$('#endDate').addClass('DateInput_input__focused DateInput_input__focused_2')
+
+														// 시작 선택 날짜
+														var selectDate = $.datepicker.formatDate('yy-mm-dd', new Date(dateText))
+														
+										        		/*
+										        		예약 되어 있는 날짜가 저장되어 있는 배열
+										        		console.log(noReservation) 
+										        		*/
+										        		/*
+										        		예약 되어 있는 날짜가 저장되어 있는 배열과 시작 선택 날짜를 비교하여
+										        		종료 날짜 선택 가능 마지막 날 정하는 부분
+										        		*/
+														for (var i = 0; i < noReservation.length; i++) {
+														    if (selectDate <= noReservation[i]) {
+															    console.log(noReservation[i])
+															    $('#endDate').datepicker("option", "maxDate", noReservation[i]);
+															    break;
+														    }
+													  	}
+														/* 종료 날짜 선택 가능 시작 날 정하는 부분 */
 										        		$('#endDate').datepicker("option", "minDate", dateText);
+														/* 시작 날짜 선택 시 종료 날짜 값 비우기 */
 										        		$('#endDate').val('');
-										        		/* $('#endDate').datepicker('toggle'); */
+														
+										        		$('#endDate').datepicker('show');
+										        		
 										        	},
 										        	onClose : function(dateText) {
 										        		$('#sD').val(dateText);
 										        		$('#startDate').removeClass('DateInput_input__focused DateInput_input__focused_2');
+										        		
 										        	}
 										        });
 										        
 										        $('#endDate').datepicker({
 										        	minDate: 'D',
 										        	beforeShowDay: noReserve,
+										        	onShow : function() {
+										        		$('#endDate').addClass('DateInput_input__focused DateInput_input__focused_2');
+										        	},
 										        	onSelect : function(dateText) {
-										        		$('#startDate').datepicker("option", "maxDate", dateText);
+										        		/* $('#startDate').datepicker("option", "maxDate", dateText); */
 										        		$('#cal_img').datepicker("option", "maxDate", dateText);
 										        		$('#eD').val(dateText);
 										        		$('#endDate').removeClass('DateInput_input__focused DateInput_input__focused_2');
@@ -464,8 +498,8 @@
 										</script>
 										<div>
 								        <form action="./reserve">
-									        <input type="hid den" id="sD" name="sD"/>
-									        <input type="hid den" id="eD" name="eD"/>
+									        <input type="hidden" id="sD" name="sD"/>
+									        <input type="hidden" id="eD" name="eD"/>
 											
 											<div
 												style="width: 375px; border-radius: 8px; border: 1px solid rgb(223, 227, 234); box-shadow: rgba(0, 0, 0, 0.07) 1px 3px 7px; padding-left: 32px; padding-right: 32px; padding-bottom: 32px;">
@@ -494,7 +528,7 @@
 																<div
 																	class="DateInput DateInput_1 ">
 																	<input
-																		class="DateInput_input DateInput_input_1 DateInput_input__disabled DateInput_input__disabled_2"
+																		class="DateInput_input DateInput_input_1 "
 																		aria-label="체크아웃 날짜" type="text" id="endDate"
 																		name="endDate" placeholder="체크아웃 날짜"
 																		autocomplete="off" 
@@ -507,15 +541,6 @@
 												</div>
 												<script>
 												$(function() {
-													/* 예약 기간 호출 함수 */
-													function ran(sd, ed) {
-												    	console.log(sd)
-												    	var sD_date = new Date(sd)
-														var eD_date = new Date(ed)
-														var range = (eD_date - sD_date) / 86400000;
-										        		console.log(range)
-												    }
-													
 													var btn = 0;
 													/* 반려동물 선택 창 출력 */
 													$('.ant-btn').click(function() {
@@ -523,7 +548,7 @@
 															$('.ant-btn').addClass('ant-dropdown-open');
 															$('.ant-dropdown').attr({'style': 'display : inherit; left: 823px; top: 1127px; min-width: 311px;'})
 															btn = 1;
-															ran($('#sD').val(), $('#eD').val())
+															
 														} else if (btn == 1) {
 															$('.ant-btn').removeClass('ant-dropdown-open');
 															$('.ant-dropdown').attr({'style': 'display : none'})
@@ -574,7 +599,14 @@
 											<!-- 반려동물 선택 창 & 금액 계산 -->
 											<script>
 											$(function() {
-												
+												/* 예약 기간 호출 함수 */
+												function ran(sd, ed) {
+											    	var sD_date = new Date(sd)
+													var eD_date = new Date(ed)
+													var range = (eD_date - sD_date + 86400000) / 86400000;
+									        		
+											    	return range;
+											    }
 												/* 소형 요금, 세금, 합계 */
 												var s_fee = ${ sitterViewList.s_fee }
 												var s_tax = s_fee / 10
@@ -594,6 +626,7 @@
 														var s02 = parseInt(s01) - 1
 														$('#small').text(s02)
 														
+														var r = ran($('#sD').val(), $('#eD').val())
 														var day = parseInt($('#day').text().split('원')[0])
 														
 														if (s01 != 1) {
@@ -602,9 +635,9 @@
 															var p02 = p01.replace('소형 ' + s01, '소형 ' + s02)
 															$('#p_cell').text(p02)
 															
-															var day01 = day - s_fee
-															var tax01 = day01 / 10
-															var sum01 = parseInt(day01 + tax01)
+															var day01 = parseInt(day - s_fee * r) 
+															var tax01 = parseInt(day01 / 10)
+															var sum01 = day01 + tax01
 															
 															$('#day').text(day01 + '원')
 															$('#tax').text(tax01 + '원')
@@ -616,9 +649,9 @@
 																var p02 = p01.replace('소형 ' + s01 + ', ', '')
 																$('#p_cell').text(p02)
 																
-																var day01 = day - s_fee
-																var tax01 = day01 / 10
-																var sum01 = parseInt(day01 + tax01)
+																var day01 = parseInt(day - s_fee * r) 
+																var tax01 = parseInt(day01 / 10)
+																var sum01 = day01 + tax01
 																
 																$('#day').text(day01 + '원')
 																$('#tax').text(tax01 + '원')
@@ -630,7 +663,6 @@
 														$('#p_cell').text('반려동물 선택')
 														$('#money').attr({'style' : 'display: none'})
 													}
-													
 												})
 												$('#s_plus').click(function() {
 													$('#money').attr({'style' : 'display: inherit'})
@@ -638,7 +670,7 @@
 													var s02 = parseInt(s01) + 1
 													$('#small').text(s02)
 													
-													console.log(range)
+													var r = ran($('#sD').val(), $('#eD').val())
 													var day = parseInt($('#day').text().split('원')[0])
 													
 													if($('#p_cell').text() == '반려동물 선택') {
@@ -646,9 +678,9 @@
 														var p = '소형 ' + s02
 														$('#p_cell').text(p)
 														
-														$('#day').text(s_fee + '원')
-														$('#tax').text(s_tax + '원')
-														$('#sum').text(s_sum + '원')
+														$('#day').text((s_fee * r) + '원')
+														$('#tax').text((s_tax * r) + '원')
+														$('#sum').text((s_sum * r) + '원')
 														
 													} else if ($('#p_cell').text().search('소형') != -1 ) {
 														console.log('sp2')
@@ -656,9 +688,9 @@
 														var p02 = p01.replace('소형 ' + s01, '소형 ' + s02)
 														$('#p_cell').text(p02)
 														
-														var day01 = s_fee + day
-														var tax01 = day01 / 10
-														var sum01 = parseInt(day01 + tax01)
+														var day01 = parseInt(day + s_fee * r) 
+														var tax01 = parseInt(day01 / 10)
+														var sum01 = day01 + tax01
 														
 														$('#day').text(day01 + '원')
 														$('#tax').text(tax01 + '원')
@@ -669,9 +701,9 @@
 														var p02 = '소형 ' + s02 + ', ' + p01
 														$('#p_cell').text(p02)
 														
-														var day01 = s_fee + day
-														var tax01 = day01 / 10
-														var sum01 = parseInt(day01 + tax01)
+														var day01 = parseInt(day + s_fee * r) 
+														var tax01 = parseInt(day01 / 10)
+														var sum01 = day01 + tax01
 														
 														$('#day').text(day01 + '원')
 														$('#tax').text(tax01 + '원')
@@ -684,6 +716,7 @@
 														var m02 = parseInt(m01) - 1
 														$('#middle').text(m02)
 														
+														var r = ran($('#sD').val(), $('#eD').val())
 														var day = parseInt($('#day').text().split('원')[0])
 														
 														if (m01 != 1) {
@@ -692,9 +725,9 @@
 															var p02 = p01.replace('중형 ' + m01, '중형 ' +  m02)
 															$('#p_cell').text(p02)
 															
-															var day01 = day - m_fee
-															var tax01 = day01 / 10
-															var sum01 = parseInt(day01 + tax01)
+															var day01 = parseInt(day - m_fee * r)
+															var tax01 = parseInt(day01 / 10)
+															var sum01 = day01 + tax01
 															
 															$('#day').text(day01 + '원')
 															$('#tax').text(tax01 + '원')
@@ -706,9 +739,9 @@
 																var p02 = p01.replace('중형 ' + m01 + ', ', '')
 																$('#p_cell').text(p02)
 																
-																var day01 = day - m_fee
-																var tax01 = day01 / 10
-																var sum01 = parseInt(day01 + tax01)
+																var day01 = parseInt(day - m_fee * r)
+																var tax01 = parseInt(day01 / 10)
+																var sum01 = day01 + tax01
 																
 																$('#day').text(day01 + '원')
 																$('#tax').text(tax01 + '원')
@@ -719,9 +752,9 @@
 																var p02 = p01.replace(', 중형 ' + m01, '')
 																$('#p_cell').text(p02)
 																
-																var day01 = day - m_fee
-																var tax01 = day01 / 10
-																var sum01 = parseInt(day01 + tax01)
+																var day01 = parseInt(day - m_fee * r)
+																var tax01 = parseInt(day01 / 10)
+																var sum01 = day01 + tax01
 																
 																$('#day').text(day01 + '원')
 																$('#tax').text(tax01 + '원')
@@ -740,6 +773,7 @@
 													var m02 = parseInt(m01) + 1
 													$('#middle').text(m02)
 													
+													var r = ran($('#sD').val(), $('#eD').val())
 													var day = parseInt($('#day').text().split('원')[0])
 													
 													if($('#p_cell').text() == '반려동물 선택') {
@@ -747,9 +781,9 @@
 														var p = '중형 ' + m02
 														$('#p_cell').text(p)
 														
-														$('#day').text(m_fee + '원')
-														$('#tax').text(m_tax + '원')
-														$('#sum').text(m_sum + '원')
+														$('#day').text((m_fee * r) + '원')
+														$('#tax').text((m_tax * r) + '원')
+														$('#sum').text((m_sum * r) + '원')
 													} else {
 														if ($('#p_cell').text().search('중형') != -1 ) {
 															console.log('mp2')
@@ -757,9 +791,9 @@
 															var p02 = p01.replace('중형 ' + m01, '중형 ' +  m02)
 															$('#p_cell').text(p02)
 															
-															var day01 = day + m_fee
-															var tax01 = day01 / 10
-															var sum01 = parseInt(day01 + tax01)
+															var day01 = parseInt(day + m_fee * r)
+															var tax01 = parseInt(day01 / 10)
+															var sum01 = day01 + tax01
 															
 															$('#day').text(day01 + '원')
 															$('#tax').text(tax01 + '원')
@@ -772,9 +806,9 @@
 																	var p02 = p01 + ', 중형 ' + m02
 																	$('#p_cell').text(p02)
 																	
-																	var day01 = day + m_fee
-																	var tax01 = day01 / 10
-																	var sum01 = parseInt(day01 + tax01)
+																	var day01 = parseInt(day + m_fee * r)
+																	var tax01 = parseInt(day01 / 10)
+																	var sum01 = day01 + tax01
 																	
 																	$('#day').text(day01 + '원')
 																	$('#tax').text(tax01 + '원')
@@ -785,9 +819,9 @@
 																	var p02 = p01.replace(', ', ', 중형 ' +  m02 + ', ')
 																	$('#p_cell').text(p02)
 																	
-																	var day01 = day + m_fee
-																	var tax01 = day01 / 10
-																	var sum01 = parseInt(day01 + tax01)
+																	var day01 = parseInt(day + m_fee * r)
+																	var tax01 = parseInt(day01 / 10)
+																	var sum01 = day01 + tax01
 																	
 																	$('#day').text(day01 + '원')
 																	$('#tax').text(tax01 + '원')
@@ -800,9 +834,9 @@
 																	var p02 = '중형 ' + m02 + ', ' + p01
 																	$('#p_cell').text(p02)
 																	
-																	var day01 = day + m_fee
-																	var tax01 = day01 / 10
-																	var sum01 = parseInt(day01 + tax01)
+																	var day01 = parseInt(day + m_fee * r)
+																	var tax01 = parseInt(day01 / 10)
+																	var sum01 = day01 + tax01
 																	
 																	$('#day').text(day01 + '원')
 																	$('#tax').text(tax01 + '원')
@@ -818,17 +852,19 @@
 														var b02 = parseInt(b01) - 1
 														$('#big').text(b02)
 														
+														var r = ran($('#sD').val(), $('#eD').val())
+														var day = parseInt($('#day').text().split('원')[0])
+														
 														if (b01 != 1) {
 															console.log('bm1')
 															var p01 = $('#p_cell').text()
 															var p02 = p01.replace('대형 ' + b01, '대형 ' + b02)
 															$('#p_cell').text(p02)
 															
-															var day = parseInt($('#day').text().split('원')[0])
 															
-															var day01 = day - b_fee
-															var tax01 = day01 / 10
-															var sum01 = parseInt(day01 + tax01)
+															var day01 = parseInt(day - b_fee * r)
+															var tax01 = parseInt(day01 / 10)
+															var sum01 = day01 + tax01
 															
 															$('#day').text(day01 + '원')
 															$('#tax').text(tax01 + '원')
@@ -840,9 +876,9 @@
 																var p02 = p01.replace(', 대형 ' + b01, '')
 																$('#p_cell').text(p02)
 																
-																var day01 = day - b_fee
-																var tax01 = day01 / 10
-																var sum01 = parseInt(day01 + tax01)
+																var day01 = parseInt(day - b_fee * r)
+																var tax01 = parseInt(day01 / 10)
+																var sum01 = day01 + tax01
 																
 																$('#day').text(day01 + '원')
 																$('#tax').text(tax01 + '원')
@@ -861,17 +897,17 @@
 													var b02 = parseInt(b01) + 1
 													$('#big').text(b02)
 													
+													var r = ran($('#sD').val(), $('#eD').val())
 													var day = parseInt($('#day').text().split('원')[0])
-													
 													
 													if($('#p_cell').text() == '반려동물 선택') {
 														console.log('bp1')
 														var p = '대형 ' + b02
 														$('#p_cell').text(p)
 														
-														$('#day').text(b_fee + '원')
-														$('#tax').text(b_tax + '원')
-														$('#sum').text(b_sum + '원')
+														$('#day').text((b_fee * r) + '원')
+														$('#tax').text((b_tax * r) + '원')
+														$('#sum').text((b_sum * r) + '원')
 													} else {
 														if ($('#p_cell').text().search('대형') != -1 ) {
 															console.log('bp2')
@@ -879,9 +915,9 @@
 															var p02 = p01.replace('대형 ' + b01, '대형 ' + b02)
 															$('#p_cell').text(p02)
 															
-															var day01 = day + b_fee
-															var tax01 = day01 / 10
-															var sum01 = parseInt(day01 + tax01)
+															var day01 = parseInt(day + b_fee * r)
+															var tax01 = parseInt(day01 / 10)
+															var sum01 = day01 + tax01
 															
 															$('#day').text(day01 + '원')
 															$('#tax').text(tax01 + '원')
@@ -892,9 +928,9 @@
 															var p02 = p01 + ', 대형 ' + b02
 															$('#p_cell').text(p02)
 															
-															var day01 = day + b_fee
-															var tax01 = day01 / 10
-															var sum01 = parseInt(day01 + tax01)
+															var day01 = parseInt(day + b_fee * r)
+															var tax01 = parseInt(day01 / 10)
+															var sum01 = day01 + tax01
 															
 															$('#day').text(day01 + '원')
 															$('#tax').text(tax01 + '원')
@@ -902,7 +938,6 @@
 														}
 													}
 												})
-												
 											})
 											</script>
 											<div style="position: absolute; top: -127px; left: 406px; width: 100%;">

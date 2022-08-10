@@ -13,11 +13,11 @@
 	<!-- jQuery -->
 	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>    
 	<script src="https://kit.fontawesome.com/54b3b8eebf.js" crossorigin="anonymous"></script>
-	<link rel="stylesheet" href="../jquery/jquery-ui.css">
-	<script src="../jquery/jquery-ui.js"></script>
-    <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
-    <%-- <link rel="stylesheet" type="text/css" href="<c:url value='/' />css/calendar.css"> --%>
+	<!-- <link rel="stylesheet" href="../jquery/jquery-ui.css">
+	<script src="../jquery/jquery-ui.js"></script> -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" type="text/css" href="<c:url value='/' />css/calendar.css">
     <title>Petsitters</title>
     <style>
       * {
@@ -291,9 +291,8 @@
               <img src="https://d1cd60iwvu//zqnn.cloudfront.net/page/fd37e21adee1436c8b9341758eafe5d5.jpg" 
               style="width: 245px; height: 170px; border-radius: 3px" >
              	<form name="SitterView" action="/PetsFinder/Petsitters/sitterView.do">
-             			<input name="member_idx" id="member_idx" type="dhidden" value="13" style="font-size: 13px; letter-spacing: -0.2px; line-height: 20px; color: #383c48; margin-top: 20px">
-             			<input name="sit_idx" id="sit_idx" type="dhidden" value="3" style="font-size: 13px; letter-spacing: -0.2px; line-height: 20px; color: #383c48; margin-top: 20px">
-             			<input name="member_idx" id="member_idx" type="dhidden" value="13" style="font-size: 13px; letter-spacing: -0.2px; line-height: 20px; color: #383c48; margin-top: 20px">
+             			<input name="sit_idx" id="sit_idx" type="dhidden" value="2" style="font-size: 13px; letter-spacing: -0.2px; line-height: 20px; color: #383c48; margin-top: 20px">
+             			<input name="member_idx" id="member_idx" type="dhidden" value="17" style="font-size: 13px; letter-spacing: -0.2px; line-height: 20px; color: #383c48; margin-top: 20px">
 	                
 	                <button type="submit" class="btn btn-primary"></button>
              	</form>
