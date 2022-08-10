@@ -282,9 +282,8 @@
             <a href="/petsitters/details/1" target="_blank" style="margin-right: 14px">
             <div>
               <div style="width: 245px; height: 170px; border-radius: 3px">
-<<<<<<< HEAD
+
                 <img src="<c:url value='/' />Uploads/${row.sitphoto_photo }" style="width: 245px; height: 170px; border-radius: 3px">
-=======
               <!--/상위로가서 절대경로로 넘김  
               <a href="/PetsFinder/Petsitters/sitterView.do">
               </a>
@@ -294,13 +293,6 @@
               -->
               <img src="https://d1cd60iwvu//zqnn.cloudfront.net/page/fd37e21adee1436c8b9341758eafe5d5.jpg" 
               style="width: 245px; height: 170px; border-radius: 3px" >
-             	<form name="SitterView" action="/PetsFinder/Petsitters/sitterView.do">
-             			<input name="sit_idx" id="sit_idx" type="dhidden" value="2" style="font-size: 13px; letter-spacing: -0.2px; line-height: 20px; color: #383c48; margin-top: 20px">
-             			<input name="member_idx" id="member_idx" type="dhidden" value="17" style="font-size: 13px; letter-spacing: -0.2px; line-height: 20px; color: #383c48; margin-top: 20px">
-	                
-	                <button type="submit" class="btn btn-primary"></button>
-             	</form>
->>>>>>> branch 'main' of https://github.com/KOSMO-PetsFinder/PetsFinder.git
               </div>
               <p style="font-size: 13px; letter-spacing: -0.2px; line-height: 20px; color: #383c48; margin-top: 20px">
                 주소 : ${row.sit_addr }

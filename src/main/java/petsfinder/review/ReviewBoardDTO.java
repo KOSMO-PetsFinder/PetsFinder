@@ -77,14 +77,13 @@ public class ReviewBoardDTO {
 
 		this.abani_idx = abani_idx;
 	}
-<<<<<<< HEAD
+
 	public String getPet_name() {
 		return pet_name;
 	}
 	public void setPet_name(String pet_name) {
 		this.pet_name = pet_name;
 	}
-=======
 	
 	private String member_photo;
 
@@ -95,5 +94,5 @@ public class ReviewBoardDTO {
 		this.member_photo = member_photo;
 	}
 	
->>>>>>> branch 'main' of https://github.com/KOSMO-PetsFinder/PetsFinder.git
+
 }
