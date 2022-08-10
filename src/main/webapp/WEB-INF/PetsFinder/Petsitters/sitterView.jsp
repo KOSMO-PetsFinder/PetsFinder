@@ -32,7 +32,7 @@
 						<div>
 							<div class="wrapper">
 								<div>
-								<input type="hidden" value="${member_idx }"/>
+								<input type="hid den" value="${member_idx }"/>
 									<div
 										style="z-index: 1; width: 100px; height: 36px; display: flex; align-items: center; justify-content: center; border: 1px solid rgb(223, 227, 234); border-radius: 3px; position: absolute; top: 109px; right: 24px; background-color: white; cursor: pointer; user-select: none;">
 										<img width="22" height="22"
