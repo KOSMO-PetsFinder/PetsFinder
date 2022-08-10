@@ -105,7 +105,6 @@
     <!-- ajax시작 -->
     <script type="text/javascript">
     function moreList(){
-		console.log('dddddd')
 		$.ajax({
 			url : "./abAniList",
 			type : "POST",
@@ -251,8 +250,10 @@
         </div>
         <div id="table_abani">
         <!-- 첫 번째 줄 -->
-        <c:forEach items="${lists }" var="row" varStatus="vs">
-	        <c:if test="${vs.index%4 == 0  }">
+        <c:set var="i" value="0" />
+		<c:set var="j" value="4" />
+        <c:forEach items="${lists }" var="row" >
+	          <c:if test="${i%j == 0 }">
 			<div style="width: 1024px; margin-top: 50px; display: flex; justify-content: space-between">
 			</c:if>	
 			<a href="./adoptView.do?abani_idx=${row.abani_idx }" target="_blank" style="margin-right: 14px">
@@ -279,17 +280,20 @@
               </p>
             </div>
 	        </a>
-	        <c:if test="${vs.index%4 == 3}">
+	         <c:if test="${i%j == j-1 }">
 			</div>
 			</c:if>	
+			<c:set var="i" value="${i+1 }" />
         </c:forEach>
         </div>
         <br />
         <div id="moreBtn" class="adoptPlus_btn">
         <!-- 문법 -->
+        <c:if test="${moreStop eq 0 }">
 	          <a class="ad_plus" href="javascript:moreList();"  >
 	            <p style="font-size: 18px; margin-bottom: 0; font-weight: bold; color: white"> + 더보기</p>
 	          </a>
+	    </c:if>
         </div>
       </div>
     </div>

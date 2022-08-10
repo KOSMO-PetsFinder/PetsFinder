@@ -88,6 +88,9 @@
                   <li>
                     <a href="./passCheck?mode=i" target="rightwin">회원정보 수정</a>
                   </li>
+                  <li>
+                    <a href="./petsitterRegist" target="rightwin">시터 페이지 생성</a>
+                  </li>
                 </ul>
               </li>
               <li class="uk-parent">
@@ -98,7 +101,7 @@
                   </li>
                 <c:if test="${ sessionScope.type eq 'sit' }">
                   <li>
-                    <a href="./petsitterForm" target="rightwin">시터 페이지 생성 및 수정</a>
+                    <a href="./petsitterForm" target="rightwin">시터 페이지 수정</a>
                   </li>
                 </c:if> 
                   <li>

@@ -38,4 +38,10 @@ public interface AbandonedAnimalDAOImpl {
 	public ArrayList<ReviewLikeDTO> likeList(int member_idx);
 	//입양 신청 저장
 	public int AdoptApplicationForm(AdoptionAppDTO adoptionAppDTO);
+	//입양 후기 전체 갯수 가져오기
+	public int reviewGetTotalCount();
+	//입양 후기 목록 가져오기
+	public ArrayList<ReviewBoardDTO> listPage(int s, int e);
+	
+	
 }

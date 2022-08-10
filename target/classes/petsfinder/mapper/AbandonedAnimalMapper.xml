@@ -143,7 +143,21 @@
 	</insert>
 	
 	
-  	
+  	<!-- 입양 후기 후기 리스트 -->  
+	<select id="reviewGetTotalCount" resultType="int">
+		SELECT COUNT(*) from review_board
+	</select>
+	
+	<select id="listPage" resultType="petsfinder.review.ReviewBoardDTO">
+		select * from review_board order by review_idx desc
+		
+		<!-- SELECT * FROM (
+			SELECT Tb.*, rownum rNum FROM (
+				SELECT * FROM review_board ORDER BY review_idx DESC
+			) Tb
+		)
+		WHERE rNum BETWEEN #{param1} AND #{param2} -->
+	</select>
   	
   	
    

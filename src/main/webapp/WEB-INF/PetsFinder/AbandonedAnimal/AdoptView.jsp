@@ -17,8 +17,77 @@
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-</head>
+</head> 
 <body cz-shortcut-listen="true">
+	<c:forEach items="${reviewLists }" var="row">
+	<!-- ajax시작 -->
+    <script type="text/javascript">
+    var today = new Date();
+
+    var year = today.getFullYear();
+    var month = ('0' + (today.getMonth() + 1)).slice(-2);
+    var day = ('0' + today.getDate()).slice(-2);
+
+    var dateString = year + '-' + month  + '-' + day;
+
+    console.log(dateString);
+    function commentInsert${row.review_idx}(){
+    	var reviewcomm_content = $("#reviewcomm_content${row.review_idx }").val();
+    	var member_idx = "${sessionScope.idx}";
+    	var review_idx = "${row.review_idx}"
+    	var member_namec = "${sessionScope.name}";
+    	var member_photo = "${sessionScope.photo}";
+		var reviewcomm_regdate = dateString;
+    	var formData = $("#comm${row.review_idx}").serialize();
+		$.ajax({
+			url : "./commentInsert.do",
+			type : "GET",
+			data : {
+				"reviewcomm_content" : reviewcomm_content,
+				"member_idx" : member_idx,
+				"review_idx" : review_idx,
+				"reviewcomm_regdate" : reviewcomm_regdate,
+			},
+			dataType : 'text',
+			success : function () {
+				console.log("성공");
+				var content=""; 
+				content += "<div style='display: flex; flex-direction: row; align-self: flex-end; margin-top: 32px; width: 600px'><img width='50' height='50'";
+				content += "src='<c:url value='/' />Uploads/"+member_photo+"' style='object-fit: cover; border-radius: 50%;'>";
+				content += "<div style='background-color: rgb(250, 250, 252); width: 100%; padding: 20px 24px;'>";
+				content	+= "<div style='display: flex; flex-direction: row; align-items: center;'>";
+				content += "<p style='font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);'>" +member_namec+"님";
+				content += "댓글</p><p style='font-size: 13px; line-height: 19px; color: rgb(157, 164, 180); margin-left: 9px;'>" +reviewcomm_regdate+"</p>";
+				content	+= "</div>";
+				content	+= "<p style='font-size: 15px; line-height: 25px; color: rgb(85, 85, 85); margin-top: 12px;'>"+reviewcomm_content+"</p>";
+            	content	+= "</div></div>";
+				$(content).appendTo("#com${row.review_idx}");
+				
+				//내용 삭제..
+				document.getElementById("reviewcomm_content${row.review_idx }").value='';
+				//이게 none으로 되고
+				var a = ${row.review_idx};
+				var id = "Comment" + a;
+				var com = document.getElementById(id)
+				com.style.display = 'none'
+				//댓글보기 나오게 
+				a = ${row.review_idx};
+				id = "com" + a;
+				com = document.getElementById(id)
+				com.style.display = 'flex'
+				//쓴 댓글로 이동
+				var location = document.querySelector("#scroll${row.review_idx}").offsetTop;
+				window.scrollTo({top:location, behavior:'smooth'});
+			}, 
+			
+			error:function(request, status, error) {
+				console.log("실패");
+				
+	        },
+		});
+	};
+	</script>
+	</c:forEach>
 	<noscript>
 		<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PDQCPDS"
 			height="0" width="0" style="display: none; visibility: hidden;"></iframe>
@@ -345,15 +414,15 @@
 														</div>
 														<!-- 댓글 폼 -->
 														<div style="display: none; flex-direction: column; margin-top: 33px; align-items: center;" id="Comment${row.review_idx }">
-														<form action="<c:url value='/' />AbandonedAnimal/commentInsert.do">
-														<input type="hidden" name="review_idx" value="${row.review_idx }">
-														<input type="hidden" name="member_idx" value="${sessionScope.idx }">
-														<input type="hidden" name="abani_idx" value="${abandonedAnimalDTO.abani_idx }">
+														<form name="comm${row.review_idx }" id="comm${row.review_idx }">
+														<input type="hidden" id="review_idx${row.review_idx }" name="review_idx" value="${row.review_idx }">
+														<input type="hidden" id="member_idx${row.review_idx }" name="member_idx" value="${sessionScope.idx }">
+														<input type="hidden" id="abani_idx${row.review_idx }" name="abani_idx" value="${abandonedAnimalDTO.abani_idx }">
 														<div>
-															<textarea style="width:972px; height: 150px; margin-top: 30px;" name="reviewcomm_content"></textarea>														
+															<textarea style="width:972px; height: 150px; margin-top: 30px;" id="reviewcomm_content${row.review_idx }" name="reviewcomm_content"></textarea>														
 														</div>
 														<div style="display: flex; flex-direction: column-reverse; margin-left:auto;  float: right; vertical-align:bottom; padding-bottom: 3px; padding-top: 10px; padding-right:25px;">
-															<button type="submit" class="btn btn-info">등록</button>
+															<button type="button" onclick="commentInsert${row.review_idx }();" class="btn btn-info">등록</button>
 														</div>
 														</form>
 														</div>
@@ -373,7 +442,7 @@
 														
 														<div id="com${row.review_idx }" name="com${row.review_idx }" style="display: none; flex-direction: column; justify-content: right; margin-top: 32px;">
 														
-														<c:forEach items="${reviewCommLists }" var="rerow" varStatus="status">
+														<c:forEach items="${reviewCommLists }" var="rerow" varStatus="index">
 														<c:if test="${rerow.review_idx eq row.review_idx }" >
 														
 														
@@ -398,7 +467,11 @@
 															</div>
 															
 														</c:if>
+														<c:if test="${index.last  }">
+														<div id="scroll${row.review_idx }"></div>
+														</c:if>
 														</c:forEach>
+														
 														</div>
 													</div>
 													</c:forEach>
