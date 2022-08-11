@@ -149,13 +149,10 @@
 	</select>
 	
 	<select id="listPage" resultType="petsfinder.review.ReviewBoardDTO">
-		select * from review_board where review_flag='adp' order by review_idx desc
-		<!-- SELECT * FROM (
-			SELECT Tb.*, rownum rNum FROM (
-				SELECT * FROM review_board ORDER BY review_idx DESC
-			) Tb
-		)
-		WHERE rNum BETWEEN #{param1} AND #{param2} -->
+		select c.*, d.member_name member_name from 
+		(select a.adoplist_idx, b.* from ADOPTION_list a, 
+		review_board b where a.abani_idx=b.abani_idx and review_flag ='adp' order by review_idx desc) c, 
+		member d where c.member_idx=d.member_idx
 	</select>
 	
 	<!-- 유기동물 등록 -->

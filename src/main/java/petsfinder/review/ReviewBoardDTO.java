@@ -12,21 +12,18 @@ public class ReviewBoardDTO {
 	private int sit_idx; //시터 일련번호
 	private int member_idx; //멤버 일련번호
 	private int abani_idx; //유기동물 일련번호
-	private String member_namer; //멤버의 이름
+	private String member_name; //멤버의 이름
 	private int countlike; //좋아요 수 
 	private String pet_name;
+	private int adopList_idx;
 	
-	public String getMember_namer() {
-		return member_namer;
+	
+	
+	public int getAdopList_idx() {
+		return adopList_idx;
 	}
-	public void setMember_namer(String member_namer) {
-		this.member_namer = member_namer;
-	}
-	public int getCountlike() {
-		return countlike;
-	}
-	public void setCountlike(int countlike) {
-		this.countlike = countlike;
+	public void setAdopList_idx(int adopList_idx) {
+		this.adopList_idx = adopList_idx;
 	}
 	public int getReview_idx() {
 		return review_idx;
@@ -74,25 +71,29 @@ public class ReviewBoardDTO {
 		return abani_idx;
 	}
 	public void setAbani_idx(int abani_idx) {
-
 		this.abani_idx = abani_idx;
 	}
-
+	public String getMember_name() {
+		return member_name;
+	}
+	public void setMember_name(String member_name) {
+		this.member_name = member_name;
+	}
+	public int getCountlike() {
+		return countlike;
+	}
+	public void setCountlike(int countlike) {
+		this.countlike = countlike;
+	}
 	public String getPet_name() {
 		return pet_name;
 	}
 	public void setPet_name(String pet_name) {
 		this.pet_name = pet_name;
 	}
-	
-	private String member_photo;
 
-	public String getMember_photo() {
-		return member_photo;
-	}
-	public void setMember_photo(String member_photo) {
-		this.member_photo = member_photo;
-	}
-	
 
+	
+	
+	
 }
