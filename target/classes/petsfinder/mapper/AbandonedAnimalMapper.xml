@@ -157,6 +157,16 @@
 		)
 		WHERE rNum BETWEEN #{param1} AND #{param2} -->
 	</select>
+	
+	<!-- 유기동물 등록 -->
+	<insert id="abAniRegist" parameterType="petsfinder.abandonedanimal.AbandonedAnimalDTO">
+		INSERT INTO abandonedAnimal( abani_idx, abani_kind, abani_gender
+									, abani_loc, abani_regdate,	abani_neut, abani_stat
+									, abani_photo, abani_age, abani_vaccin, abani_species,abani_char )
+                VALUES(	SEQ_abani_idx.nextval, #{abani_kind}, #{abani_gender1}, #{abani_loc}
+                        , #{abani_regdate}, #{abani_neut}, 'prtct', '사진경로'
+                        , #{abani_age}, #{abani_vaccin}, #{abani_species}, #{abani_char} )
+	</insert>
   	
   	
    

@@ -349,6 +349,49 @@ public class AbandonedAnimalController {
 	
 	
 	
+	
+	
+	
+	//유기동물 등록
+	@RequestMapping(value = "AbandonedAnimal/abandonedAnimalRegistration.do",method = RequestMethod.GET)
+	public String abandonedAnimalReg() {
+		
+		return "AbandonedAnimal/AbandonedAnimalRegistration";
+	}
+	@RequestMapping(value = "AbandonedAnimal/abandonedAnimalRegistration.do",method = RequestMethod.POST)
+	public String abAniRegAction(AbandonedAnimalDTO abandonedAnimalDTO) {
+		System.out.println("ddd"+abandonedAnimalDTO.getAbani_neut());
+		
+		
+		int result = 
+				sqlSession.getMapper(AbandonedAnimalDAOImpl.class).abAniRegist(abandonedAnimalDTO);
+		if(result ==1) {
+			System.out.println("등록성공!");
+		}
+		
+		
+		return "redirect:../";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/*원재님*/
 	/*
 	member_idx session에서 받아오는거 처리해야됨 
@@ -446,6 +489,12 @@ public class AbandonedAnimalController {
 		
 		return "AbandonedAnimal/AdoptLatter";
 	}
+	
+	
+	
+	
+	
+	
 
 	
 	

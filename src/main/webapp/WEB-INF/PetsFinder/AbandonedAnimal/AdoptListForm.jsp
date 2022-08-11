@@ -308,6 +308,12 @@
             간단한 소개
           </p>
         </div>
+        
+        <!-- 테스트용 버튼 -->
+		<a href="<c:url value='/' />AbandonedAnimal/abandonedAnimalRegistration.do">유기동물 등록 ^^</a>       
+
+        <!-- 테스트용 버튼 -->
+
         <!-- right -->
         <div>
           <!-- 입양 관련 이미지 -->

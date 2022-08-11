@@ -42,6 +42,8 @@ public interface AbandonedAnimalDAOImpl {
 	public int reviewGetTotalCount();
 	//입양 후기 목록 가져오기
 	public ArrayList<ReviewBoardDTO> listPage(int s, int e);
+	//유기동물 등록
+	public int abAniRegist(AbandonedAnimalDTO abandonedAnimalDTO);
 	
 	
 }
