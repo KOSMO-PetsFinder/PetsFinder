@@ -184,7 +184,7 @@
 	<!-- 리스트 더보기 -->
    <select id="petsitterPage" resultType="petsfinder.petsitter.PetSitterDTO" parameterType="petsfinder.petsitter.ParameterDTO">
       SELECT * FROM sitter s
-      FULL OUTER JOIN sitter_photo sp
+      FULL OUTER JOIN (select * from sitter_photo where sitphoto_idx in (select min(sitphoto_idx) from sitter_photo group by sit_idx)) sp
       ON s.sit_idx = sp.sit_idx 
       where s.sit_idx between #{start} and #{end}
       order by s.sit_idx desc

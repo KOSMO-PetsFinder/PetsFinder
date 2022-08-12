@@ -349,7 +349,7 @@
            
         </form>      
       <br/><br/>
-      <div style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-bottom: 180px">
+      <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
         <div style="width: 1024px; display: flex; justify-content: space-between; align-items: center">
           <p style="font-size: 23px; color: #393c47; letter-spacing: -0.2px; font-weight: 600">신규 펫시터 10% 할인!</p>
           <a href="<c:url value='/' />Petsitters/sitterlist" style="

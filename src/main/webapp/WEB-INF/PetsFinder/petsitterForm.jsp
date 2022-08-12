@@ -290,7 +290,7 @@
                                                         <div
                                                             style="display: flex; flex-direction: column; flex-grow: 1; flex-basis: 0; margin-top: 54px">
                                                             <p style=" font-weight: 600; color: #555555">
-                                                                메인사진 <span style="color: #71A2FF">*</span>
+                                                                메인사진 (첫번째로 첨부한 사진이 메인 사진으로 등록됩니다.) <span style="color: #71A2FF">*</span>
                                                             </p>
                                                             <input class="form-control" type="file" name="ofile" multiple>
                                                         </div>
