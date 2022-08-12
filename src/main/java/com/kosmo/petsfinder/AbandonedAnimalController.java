@@ -39,8 +39,8 @@ public class AbandonedAnimalController {
 		/*좋아요*/
 		//접속중인 사용자의 일련번호 받아오기 
 		int member_idx =0;  
-		if((String) session.getAttribute("idx")!=null) {
-			member_idx = Integer.parseInt((String) session.getAttribute("idx"));
+		if(session.getAttribute("idx")!=null) {
+			member_idx = Integer.parseInt(session.getAttribute("idx").toString());
 		}
 		ArrayList<ReviewLikeDTO> likeLists = null;
 		//로그아웃 상태

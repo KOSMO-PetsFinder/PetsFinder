@@ -46,7 +46,7 @@
             </li>
             <li style="color:lightgray">&nbsp;|</li>
             <li class="last_menu" style="padding-right:15px;">
-              <a><i class="fa-solid fa-shield-dog"></i> 펫시터</a>
+              <a class="about_a" href="#"><i class="fa-solid fa-shield-dog"></i> 펫시터</a>
             </li>
             <li style="color:lightgray">&nbsp;|</li>
              <li class="no_2depth"><a href="#"><i class="fa-solid fa-cart-shopping"></i> Shop</a></li>
@@ -96,8 +96,12 @@
             </li>
             <li class="sitter" >
               <ul>
-                <li><a href="<c:url value='/' />Petsitters/petsitters">시터찾기</a></li>
-                <li><a href="<c:url value='/' />Petsitters/sitterreview">시터이용후기</a></li>
+                <li>
+                	<a href="<c:url value='/' />Petsitters/petsitters">시터찾기</a>
+                </li>
+                <li>
+                	<a href="<c:url value='/' />Petsitters/sitterreview">시터이용후기</a>
+                </li>
                 <li class="last_menu_2depth">
                   <a href="<c:url value='/' />">근처 동물병원</a>
                 </li>

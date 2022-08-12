@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
@@ -37,16 +38,13 @@
                         <div class="desktop hidden-s">
                             <section style="width: 100%;">
                                 <div style="width: 1000px; margin: 0px auto;">
-                                    <!-- <h2 style="font-size: 50px; font-weight: 600; color: #555555">
-										신고하기</h2> -->
                                 </div>
                             </section>
                             <section style="background-color: #FAFAFB; margin-top: 102px">
                                 <form name="petsitterFrm" action="./petsitterRegist" method="POST" enctype="multipart/form-data">
+                                	<input type="hidden" name="sit_idx" value="${ s_info.sit_idx }"/>
                                     <div style="width: 1000px; margin: 0px auto; padding-top: 95px">
                                         <h1 style=" color: #264a8f;">시터 마이페이지</h1>
-                                        <!-- <p style="font-size: 27px; font-weight: 500; color: #555555">1.
-                                            기본 정보</p> -->
                                         <div
                                             style="background-color: white; border: 1px solid #EBEBEB; border-radius: 12px; padding: 80px; padding-bottom: 20px; margin-top: 46px">
                                             <div style="display: flex; align-items: center">
@@ -60,30 +58,101 @@
                                                             style="width: 100%; height: 50px; border: 1px solid #EBEBEB; border-radius: 5px; padding-left: 20px; padding-right: 20px" />
                                                     </div>
                                                 </div>
-                                                <script>
-                                                	var tag = "";
-                                                </script>
-                                                <c:forEach items="${ tags }" var="t" varStatus="loop">
-                                                <script>
-                                                	tag += '# ${ t } ';
-                                                </script>
-                                                </c:forEach>
-                                                <script>
-                                                	$(function() {
-                                                		$('#tag').val(tag)
-                                                	})
-                                                </script>
-                                                <div
-                                                    style="display: flex; flex-direction: column; flex-grow: 1; flex-basis: 0; margin-right: 40px">
-                                                    <p style=" font-weight: 600; color: #555555">
-                                                        태그
-                                                    </p>
-                                                    <div style="margin-top: 15px">
-                                                        <input class="form-control" type="text" name="typTag_type" id="tag"
-                                                            style="width: 100%; height: 50px; border: 1px solid #EBEBEB; border-radius: 5px; padding-left: 20px; padding-right: 20px" />
-                                                    </div>
-                                                </div>
                                             </div>
+                                            <script>
+                                            	var tag = "";
+                                            <c:forEach items="${ sit_tags }" var="t" varStatus="loop">
+                                            	tag += '${ t }, ';
+                                            </c:forEach>
+                                            	$(function() {
+                                            		$('#tag').val(tag)
+                                            	})
+                                            </script>
+										 	<script src="https://unpkg.com/@yaireo/tagify"></script>
+										    <!-- 폴리필 (구버젼 브라우저 지원) -->
+										    <script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+										    <style>
+										    
+										    	.tagify{    
+												  width: 100%;
+												  max-width: 700px;
+												}
+										    	.tagify--outside{
+											        --tag-bg: #75c9ba;
+													--tag-hover: #ce0078;
+													--tag-text-color: #fff;
+													--tags-border-color: silver;
+													--tag-text-color--edit: #111;
+													--tag-remove-bg: var(--tag-hover);
+													--tag-pad: 0.6em 1em;
+													--tag-inset-shadow-size: 1.3em;
+													--tag-remove-btn-bg--hover: black;
+													display: inline-block;
+													min-width: 0;
+													border: none;
+											    }
+											 
+											    .tagify--outside .tagify__input{
+											      order: -1;
+											      flex: 100%;
+											      border: 1px solid #cccccc;
+											      margin-bottom: 1em;
+											      transition: .1s;
+											    }
+											 
+											    .tagify--outside .tagify__input:hover{ border-color:var(--tagify-dd-color-primary); }
+											    .tagify--outside.tagify--focus .tagify__input{
+											      transition:0s;
+											      border-color: var(--tagify-dd-color-primary);
+											    }
+										    	:root {
+										    		--tagify-dd-color-primary: #75c9ba;
+										    		--tagify-dd-bg-color: white;
+										    		--tagify-dd-item-pad: .3em .5em;
+										    	}
+												.tagify--outside .tagify__tag {
+												  margin-top: 0;
+												}
+												.tagify--outside .tagify__tag > div {
+												  border-radius: 25px;
+												  width: 120px;
+												}
+												.tagify--outside .tagify__tag__removeBtn {
+												  opacity: 0;
+												  transform: translateX(-6px) scale(0.5);
+												  margin-left: -3ch;
+												  transition: 0.12s;
+												}
+												.tagify--outside .tagify__tag:hover .tagify__tag__removeBtn {
+												  transform: none;
+												  opacity: 1;
+												  margin-left: -1ch;
+												}
+												
+										    </style>
+                                            <div style="display: flex; flex-direction: column; flex-grow: 1; flex-basis: 0; margin-right: 40px; margin-top: 54px">
+                                                <p style=" font-weight: 600; color: #555555">
+                                                    태그
+                                                </p>
+                                               	<input name='tags-outside' class='tagify--outside' id="tag" placeholder='태그를 입력하세요'>
+                                            </div>
+											<script>
+									      	var input = document.querySelector('.tagify--outside');
+											var tagify = new Tagify(input, {
+										    	whitelist : [
+									        	<c:forEach items="${ tags }" var="t" varStatus="loop">
+									        		'${ t }',
+									        	</c:forEach>
+									        	],
+									      		userInput: false,
+									      		dropdown: {
+									      		    position: "input",
+									      		    enabled : 0 // always opens dropdown when input gets focus
+									      		},
+										    })
+											
+										    </script>                                                
+                                            
                                             <div style="display: flex; align-items: center; margin-top: 54px">
                                                 <div
                                                     style="display: flex; flex-direction: column; flex-grow: 1; flex-basis: 0">
@@ -117,7 +186,7 @@
                                                                 placeholder="1박 케어"
                                                                 style="width: 20%; height: 50px; border: 1px solid #EBEBEB; border-radius: 5px; padding-left: 20px; padding-right: 20px" />
                                                         </div>
-                                                        <div style="margin-top: 15px">
+                                                        <div style="margin-top: 45px">
                                                             <p
                                                                 style=" font-size: 17px; font-weight: 600; color: #555555">
                                                                 - 대형견 (15키로 이상)</p>
@@ -150,7 +219,7 @@
                                                                 <div class="form-check" style="margin-right: 10px;">
                                                                     <input class="form-check-input" type="checkbox"
                                                                         id="check1" name="option1"
-                                                                        value="1" checked>
+                                                                        value="1" >
                                                                     <label class="form-check-label" for="check1" style="font-size:17px;">실내 놀이(터그놀이, 노즈워크
                                                                         등)</label>
                                                                 </div>
@@ -236,8 +305,7 @@
                                                     style="margin-top: 80px; display: flex; align-items: center; justify-content: center">
                                                     <div
                                                         style="width: 250px; height: 60px; background-color: #264a8f; border-radius: 5px; display: flex; justify-content: center; cursor: pointer">
-                                                        <p style="font-size: 20px; padding-top: 16px; font-weight: 500; color: white" onclick="petsitterSubmit();">작성 완료
-                                                        </p>
+                                                        <p style="font-size: 20px; padding-top: 16px; font-weight: 500; color: white" onclick="petsitterSubmit();">작성 완료</p>
                                                     </div>
                                                 </div>
 											</div>

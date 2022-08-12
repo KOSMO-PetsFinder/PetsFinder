@@ -144,6 +144,8 @@ crossorigin="anonymous">
 	href="/_next/static/css/styles.7298462c.chunk.css" />
 <link rel="stylesheet"
 	href="/_next/static/css/static/aga_gQ2FFDHz3WZk3zSb8/pages/_app.js.548dbefb.chunk.css" />
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 </head>
 <body> 
 	<noscript>
@@ -190,21 +192,33 @@ crossorigin="anonymous">
 												<p style="font-size: 17px; font-weight: 600; color: #555555">
 													성별 <span style="color: #71A2FF">*</span>
 												</p>
-												
+												<script>
+													function genderVal(b) {
+														var a = $(b).val();
+														if(a == '남성') {
+															$('#male').val('M')
+															$('#female').val('')
+														} else if (a == '여성') {
+															$('#female').val('F')
+															$('#male').val('')
+														}
+													}
+												</script>
+												<input type="hidden" id="female" name="F">
+												<input type="hidden" id="male" name="M" >
 												<div style="display: flex; margin-top: 15px">
 													<div
 														style="display: flex; justify-content: center; align-items: center; border: 1px solid #EBEBEB; border-radius: 5px; flex-grow: 1; flex-basis: 0; height: 50px">
 														<!-- 여성버튼 -->	
-														여성<input type="radio" name="ADPAPL_gender" value="F" class="btn btn-default"  style="position: absolute; font-size: 17px; color: #333333;  width: 190px;">
+														<input type="button" value="여성" id="F" class="btn btn-default"  style="position: absolute; font-size: 17px; color: #333333;  width: 190px;" onclick="genderVal(this);">
 													</div>
 													<div style="width: 10px"></div>
 													<div
 														style="display: flex; justify-content: center; align-items: center; border: 1px solid #EBEBEB; border-radius: 5px; flex-grow: 1; flex-basis: 0; height: 50px">
 														<!-- 남성버튼 -->
-														남성<input type="radio" name="ADPAPL_gender" value="M" class="btn btn-default"  style="position: absolute; font-size: 17px; color: #333333;  width: 190px;">
+														<input type="button" value="남성" id="M" class="btn btn-default"  style="position: absolute; font-size: 17px; color: #333333;  width: 190px;" onclick="genderVal(this);">
 													</div>
 												</div>
-												
 											</div>
 										</div>
 										<div

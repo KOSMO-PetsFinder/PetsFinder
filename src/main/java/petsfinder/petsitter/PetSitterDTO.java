@@ -23,9 +23,9 @@ public class PetSitterDTO {
 	// 이용고객 수 
 	private int sit_CLIENT;
 	// 시터 총 별점
-	private int sit_startpoint;
+	private int sit_starpoint;
 	// 시터가 별점을 받은 횟수 
-	private int sit_startcount;
+	private int sit_starcount;
 
 	public int getSit_idx() {
 		return sit_idx;
@@ -81,17 +81,17 @@ public class PetSitterDTO {
 	public void setSit_CLIENT(int sit_CLIENT) {
 		this.sit_CLIENT = sit_CLIENT;
 	}
-	public int getSit_startpoint() {
-		return sit_startpoint;
+	public int getSit_starpoint() {
+		return sit_starpoint;
 	}
-	public void setSit_startpoint(int sit_startpoint) {
-		this.sit_startpoint = sit_startpoint;
+	public void setSit_starpoint(int sit_starpoint) {
+		this.sit_starpoint = sit_starpoint;
 	}
-	public int getSit_startcount() {
-		return sit_startcount;
+	public int getSit_starcount() {
+		return sit_starcount;
 	}
-	public void setSit_startcount(int sit_startcount) {
-		this.sit_startcount = sit_startcount;
+	public void setSit_starcount(int sit_starcount) {
+		this.sit_starcount = sit_starcount;
 	}
 	
 	/* 시터 글 등록 시 사진 */
