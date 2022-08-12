@@ -18,4 +18,6 @@ public interface MemberDAOImpl {
 	public int pwReset(MemberDTO memberDTO);
 	
 	public int infoUpdate(MemberDTO memberDTO);
+	
+	public String addr(String idx);
 }

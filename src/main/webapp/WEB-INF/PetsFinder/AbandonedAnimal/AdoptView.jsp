@@ -324,7 +324,7 @@
 															
 																	$.ajax({
 																		
-																		url : "./like",
+																		url : "./abanilike",
 																		
 																		type : "GET",
 																		

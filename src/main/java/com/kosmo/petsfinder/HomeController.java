@@ -1,5 +1,7 @@
 package com.kosmo.petsfinder;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -44,8 +46,13 @@ public class HomeController {
 	
 	// My page
 	@RequestMapping("/myPage")
-	public String myPage() {
-		return "myPage";
+	public String myPage(HttpSession session) {
+		
+		if(session.getAttribute("idx") != null) {
+			return "myPage";			
+		} else {
+			return "main";
+		}
 	}
 	@RequestMapping("/passCheck")
 	public String passCheck() {

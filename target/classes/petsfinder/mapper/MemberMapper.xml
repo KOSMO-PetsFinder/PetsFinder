@@ -69,5 +69,9 @@
 		UPDATE member SET member_type = 'sit' WHERE member_id = #{ member_id }
 	</update>
 	
+	<select id="addr" resultType="String">
+		select member_addr from member where member_idx = #{ member_idx }
+	</select>
+	
 </mapper>
 

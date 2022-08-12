@@ -118,39 +118,38 @@
 											style="margin-right: 2px;">
 										<p style="font-size: 14px; letter-spacing: -0.2px; line-height: 20px; color: rgb(57, 60, 71);">공유하기</p>
 									</div>
-									<div style="z-index: 0; display: flex; flex-direction: row; width: 100%; height: 580px; margin-top: 85px; position: relative;" id="demo" class="carousel slide" data-bs-ride="carousel">
+									<!-- 이미지 -->
+									<script>
+									function photo() {
+										$('#photo0').addClass('active')
+										$('#p0').addClass('active')
+									}
+									$(function() {
+										photo();
+									})
+									</script>
+									<div style="z-index: 0; display: flex; flex-direction: row; width: 100%; height: 580px; margin-top: 85px; position: relative;" id="Sitter_Photo" class="carousel slide" data-bs-ride="carousel">
 											<div class="carousel-indicators">
-												<button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
-												<button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
-												<button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+												<c:forEach items="${ sit_photo }" var="p" varStatus="loop">
+												<button id="p${ loop.count - 1 }" type="button" data-bs-target="#Sitter_Photo" data-bs-slide-to="${ loop.count - 1 }" class=""></button>
+												</c:forEach>
 											</div>
-											<!-- 이미지 -->
 											<div style="width: 100%; height: 580px;" class="carousel-inner">
-												<div class="carousel-item active">
-													<img alt="경북 영주시 휴천동, 송*은 펫시터 환경" width="1500" height="580"
+												<c:forEach items="${ sit_photo }" var="photo" varStatus="loop">
+												<div id="photo${ loop.count - 1 }" class="carousel-item">
+													<img alt="시터 사진" width="1500" height="580"
 														class="d-block"
-														src="<c:url value='/'/>sitterView/e0b00068f0f84976a9442d8a89e18646.jpg"
-														style="object-fit: cover; width: 100%; user-select: none; cursor: pointer;">
+														src="<c:url value='/'/>Uploads/${ photo.sitphoto_photo }"
+														style="object-fit: contain; width: 100%; user-select: none; cursor: pointer;">
 												</div>
-												<div class="carousel-item">
-													<img alt="경북 영주시 휴천동, 송*은 펫시터 환경" width="1500" height="580"
-														class="d-block"
-														src="<c:url value='/'/>sitterView/e0b00068f0f84976a9442d8a89e18646.jpg"
-														style="object-fit: cover; width: 100%; user-select: none; cursor: pointer;">
-												</div>
-												<div class="carousel-item">
-													<img alt="경북 영주시 휴천동, 송*은 펫시터 환경" width="1500" height="580"
-														class="d-block"
-														src="<c:url value='/'/>sitterView/e0b00068f0f84976a9442d8a89e18646.jpg"
-														style="object-fit: cover; width: 100%; user-select: none; cursor: pointer;">
-												</div>
+												</c:forEach>
 											</div>
-											<button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
-												<span class="carousel-control-prev-icon"></span>
-											</button>
-											<button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
-												<span class="carousel-control-next-icon"></span>
-											</button>
+											<button class="carousel-control-prev" type="button" data-bs-target="#Sitter_Photo" data-bs-slide="prev">
+											    <span class="carousel-control-prev-icon"></span>
+										  	</button>
+										  	<button class="carousel-control-next" type="button" data-bs-target="#Sitter_Photo" data-bs-slide="next">
+											    <span class="carousel-control-next-icon"></span>
+										  	</button>
 									</div>
 									<!-- 이미지 끝 -->
 									<div
@@ -323,6 +322,7 @@
 															<h2
 																style="font-weight: 600; font-size: 22px; letter-spacing: -0.2px; line-height: 33px; color: rgb(57, 60, 71); margin-right: 20px; margin-bottom: 0px;">
 																펫시터 후기 ${ view_reviewRecordCount }개</h2>
+
 															<!-- 별점부분 -->
 															<div
 																style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 113px;">
@@ -473,7 +473,6 @@
 																		</script>
 																		<!-- 후기 좋아요 -->
 																		<div style="display: flex; flex-direction: row; margin-left:auto;  float: right;">
-																			
 																			<c:if test="${not empty sessionScope.idx }" var="sessionIdx">
 																				<div style="padding-right: 10px;">
 																					<% likeEx=0; %>
@@ -531,10 +530,7 @@
 																		
 																	</div>	
 																</div>	
-																
-																
 															
-																
 																<p style="font-size: 15px; line-height: 25px; color: rgb(76, 80, 86); margin-top: 18px;">${ sr.review_content}</p>
 																<div style="display: flex; flex-direction: row; margin-top: 33px;">
 																	<img width="90" height="90" src="<c:url value='/' />Uploads/${ sr.review_photo }" style="border-radius: 2px; object-fit: cover; margin-right: 9px; user-select: none; cursor: pointer;">
@@ -545,7 +541,7 @@
 																				댓글보기
 																				<img src="../images/comment.png" alt="" width="15" height="15" style="color:#75c9ba;" />
 																			</p>
-																		<c:if test="${sessionScope.idx ne null }">
+																		<c:if test="${sessionScope.idx ne null }" var="sessionIdx">
 																			<p onclick="commentView${sr.review_idx}()" style="cursor: pointer; color:#75c9ba; " >
 																				댓글쓰기
 																				<img src="../images/comment.png" alt="" width="15" height="15" style="color:#75c9ba;" />
@@ -694,7 +690,7 @@
 														/* 시작 날짜 선택 시 종료 날짜 값 비우기 */
 										        		$('#endDate').val('');
 														
-										        		$('#endDate').datepicker('show');
+										        		$('#endDate').datepicker('toggle');
 										        		
 										        	},
 										        	onClose : function(dateText) {
@@ -735,13 +731,8 @@
 										    });
 										</script>
 										<div>
-										<!-- 예약 form 시작 -->
-										<script>
-											function reserveSubmit() {
-												document.reserveFrm.submit();
-											}
-										</script>
-								        <form action="./bookEmailInfo.do" name="reserveFrm">
+								        <form action="./reserve">
+								        	<input type="hidden" id="sit" value="${ sitterView.sit_idx }"/>
 									        <input type="hidden" id="sD" name="sD"/>
 									        <input type="hidden" id="eD" name="eD"/>
 									        <input name="member_name" type="hidden" value="${ sitterView.member_name }"/>
@@ -843,6 +834,7 @@
 											</div>
 											<!-- 반려동물 선택 창 & 금액 계산 -->
 											<script>
+											
 											$(function() {
 												/* 예약 기간 호출 함수 */
 												function ran(sd, ed) {
@@ -882,7 +874,7 @@
 															
 															var day01 = parseInt(day - s_fee * r) 
 															var tax01 = parseInt(day01 / 10)
-															var sum01 = day01 + tax01
+															var sum01 = (day01 + tax01).toLocaleString('ko-KR')
 															
 															$('#day').text(day01 + '원')
 															$('#tax').text(tax01 + '원')
@@ -896,7 +888,7 @@
 																
 																var day01 = parseInt(day - s_fee * r) 
 																var tax01 = parseInt(day01 / 10)
-																var sum01 = day01 + tax01
+																var sum01 = (day01 + tax01).toLocaleString('ko-KR')
 																
 																$('#day').text(day01 + '원')
 																$('#tax').text(tax01 + '원')
@@ -925,7 +917,7 @@
 														
 														$('#day').text((s_fee * r) + '원')
 														$('#tax').text((s_tax * r) + '원')
-														$('#sum').text((s_sum * r) + '원')
+														$('#sum').text((s_sum * r).toLocaleString('ko-KR') + '원')
 														
 													} else if ($('#p_cell').text().search('소형') != -1 ) {
 														console.log('sp2')
@@ -933,9 +925,9 @@
 														var p02 = p01.replace('소형 ' + s01, '소형 ' + s02)
 														$('#p_cell').text(p02)
 														
-														var day01 = parseInt(day + s_fee * r) 
+														var day01 = parseInt(day + s_fee * r)
 														var tax01 = parseInt(day01 / 10)
-														var sum01 = day01 + tax01
+														var sum01 = (day01 + tax01).toLocaleString('ko-KR')
 														
 														$('#day').text(day01 + '원')
 														$('#tax').text(tax01 + '원')
@@ -948,7 +940,7 @@
 														
 														var day01 = parseInt(day + s_fee * r) 
 														var tax01 = parseInt(day01 / 10)
-														var sum01 = day01 + tax01
+														var sum01 = (day01 + tax01).toLocaleString('ko-KR')
 														
 														$('#day').text(day01 + '원')
 														$('#tax').text(tax01 + '원')
@@ -972,7 +964,7 @@
 															
 															var day01 = parseInt(day - m_fee * r)
 															var tax01 = parseInt(day01 / 10)
-															var sum01 = day01 + tax01
+															var sum01 = (day01 + tax01).toLocaleString('ko-KR')
 															
 															$('#day').text(day01 + '원')
 															$('#tax').text(tax01 + '원')
@@ -986,7 +978,7 @@
 																
 																var day01 = parseInt(day - m_fee * r)
 																var tax01 = parseInt(day01 / 10)
-																var sum01 = day01 + tax01
+																var sum01 = (day01 + tax01).toLocaleString('ko-KR')
 																
 																$('#day').text(day01 + '원')
 																$('#tax').text(tax01 + '원')
@@ -999,7 +991,7 @@
 																
 																var day01 = parseInt(day - m_fee * r)
 																var tax01 = parseInt(day01 / 10)
-																var sum01 = day01 + tax01
+																var sum01 = (day01 + tax01).toLocaleString('ko-KR')
 																
 																$('#day').text(day01 + '원')
 																$('#tax').text(tax01 + '원')
@@ -1028,7 +1020,7 @@
 														
 														$('#day').text((m_fee * r) + '원')
 														$('#tax').text((m_tax * r) + '원')
-														$('#sum').text((m_sum * r) + '원')
+														$('#sum').text((m_sum * r).toLocaleString('ko-KR') + '원')
 													} else {
 														if ($('#p_cell').text().search('중형') != -1 ) {
 															console.log('mp2')
@@ -1038,7 +1030,7 @@
 															
 															var day01 = parseInt(day + m_fee * r)
 															var tax01 = parseInt(day01 / 10)
-															var sum01 = day01 + tax01
+															var sum01 = (day01 + tax01).toLocaleString('ko-KR')
 															
 															$('#day').text(day01 + '원')
 															$('#tax').text(tax01 + '원')
@@ -1053,7 +1045,7 @@
 																	
 																	var day01 = parseInt(day + m_fee * r)
 																	var tax01 = parseInt(day01 / 10)
-																	var sum01 = day01 + tax01
+																	var sum01 = (day01 + tax01).toLocaleString('ko-KR')
 																	
 																	$('#day').text(day01 + '원')
 																	$('#tax').text(tax01 + '원')
@@ -1066,7 +1058,7 @@
 																	
 																	var day01 = parseInt(day + m_fee * r)
 																	var tax01 = parseInt(day01 / 10)
-																	var sum01 = day01 + tax01
+																	var sum01 = (day01 + tax01).toLocaleString('ko-KR')
 																	
 																	$('#day').text(day01 + '원')
 																	$('#tax').text(tax01 + '원')
@@ -1081,7 +1073,7 @@
 																	
 																	var day01 = parseInt(day + m_fee * r)
 																	var tax01 = parseInt(day01 / 10)
-																	var sum01 = day01 + tax01
+																	var sum01 = (day01 + tax01).toLocaleString('ko-KR')
 																	
 																	$('#day').text(day01 + '원')
 																	$('#tax').text(tax01 + '원')
@@ -1106,10 +1098,9 @@
 															var p02 = p01.replace('대형 ' + b01, '대형 ' + b02)
 															$('#p_cell').text(p02)
 															
-															
 															var day01 = parseInt(day - b_fee * r)
 															var tax01 = parseInt(day01 / 10)
-															var sum01 = day01 + tax01
+															var sum01 = (day01 + tax01).toLocaleString('ko-KR')
 															
 															$('#day').text(day01 + '원')
 															$('#tax').text(tax01 + '원')
@@ -1123,7 +1114,7 @@
 																
 																var day01 = parseInt(day - b_fee * r)
 																var tax01 = parseInt(day01 / 10)
-																var sum01 = day01 + tax01
+																var sum01 = (day01 + tax01).toLocaleString('ko-KR')
 																
 																$('#day').text(day01 + '원')
 																$('#tax').text(tax01 + '원')
@@ -1152,7 +1143,7 @@
 														
 														$('#day').text((b_fee * r) + '원')
 														$('#tax').text((b_tax * r) + '원')
-														$('#sum').text((b_sum * r) + '원')
+														$('#sum').text((b_sum * r).toLocaleString('ko-KR') + '원')
 													} else {
 														if ($('#p_cell').text().search('대형') != -1 ) {
 															console.log('bp2')
@@ -1162,7 +1153,7 @@
 															
 															var day01 = parseInt(day + b_fee * r)
 															var tax01 = parseInt(day01 / 10)
-															var sum01 = day01 + tax01
+															var sum01 = (day01 + tax01).toLocaleString('ko-KR')
 															
 															$('#day').text(day01 + '원')
 															$('#tax').text(tax01 + '원')
@@ -1175,7 +1166,7 @@
 															
 															var day01 = parseInt(day + b_fee * r)
 															var tax01 = parseInt(day01 / 10)
-															var sum01 = day01 + tax01
+															var sum01 = (day01 + tax01).toLocaleString('ko-KR')
 															
 															$('#day').text(day01 + '원')
 															$('#tax').text(tax01 + '원')
@@ -1185,7 +1176,7 @@
 												})
 											})
 											</script>
-											<div style="position: absolute; top: -127px; left: 406px; width: 100%;">
+											<div style="position: absolute; top: -127px; left: 300px; width: 100%;">
 											  <div>
 											    <div class="ant-dropdown ant-dropdown-placement-bottomLeft" style="left: 823px; top: 1127px; min-width: 311px; display: none">
 											      <ul class="ant-dropdown-menu ant-dropdown-menu-light ant-dropdown-menu-root ant-dropdown-menu-vertical" role="menu" tabindex="0">
@@ -1407,8 +1398,8 @@
 														<div
 															style="display: flex; align-items: center; flex-direction: row;">
 															<!-- 소형견 1박케어 s_fee_day -->
-															<p
-																style="font-size: 14px; letter-spacing: 0.5px; line-height: 20px; color: rgb(78, 82, 91); margin-right: 12px;">${ sitterView.s_fee}원</p>
+															<p style="font-size: 14px; letter-spacing: 0.5px; line-height: 20px; color: rgb(78, 82, 91); margin-right: 12px;"><fmt:formatNumber value="${ sitterView.s_fee}" pattern="#,###" />원</p>
+
 														</div>
 													</div>
 												</div>
@@ -1428,7 +1419,7 @@
 														<div
 															style="display: flex; align-items: center; flex-direction: row;">
 															<p
-																style="font-size: 14px; letter-spacing: 0.5px; line-height: 20px; color: rgb(78, 82, 91); margin-right: 12px;">${ sitterView.m_fee}원</p>
+																style="font-size: 14px; letter-spacing: 0.5px; line-height: 20px; color: rgb(78, 82, 91); margin-right: 12px;"><fmt:formatNumber value="${ sitterView.m_fee}" pattern="#,###" />원</p>
 														</div>
 													</div>
 												</div>
@@ -1449,7 +1440,8 @@
 														<div
 															style="display: flex; align-items: center; flex-direction: row;">
 															<p
-																style="font-size: 14px; letter-spacing: 0.5px; line-height: 20px; color: rgb(78, 82, 91); margin-right: 12px;">${ sitterView.b_fee}원</p>
+=======
+																style="font-size: 14px; letter-spacing: 0.5px; line-height: 20px; color: rgb(78, 82, 91); margin-right: 12px;"><fmt:formatNumber value="${ sitterView.b_fee}" pattern="#,###" />원</p>
 														</div>
 													</div>
 												</div>

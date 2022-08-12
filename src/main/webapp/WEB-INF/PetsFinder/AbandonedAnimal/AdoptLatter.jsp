@@ -5,11 +5,18 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Adopt Latter</title>
-    <!-- jQuery -->
+
+    <meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<!-- Bootstrap CDN (이미지 케러셀) -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+	
+	<link rel="stylesheet" href="../sitterView/_app.js.548dbefb.chunk.css" />
+	<link rel="stylesheet" href="../sitterView/styles.7298462c.chunk.css" />
+	<!-- jQuery -->
 	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>    
 	<link rel="stylesheet" href="../jquery/jquery-ui.css">
 	<script src="../jquery/jquery-ui.js"></script>
@@ -64,7 +71,7 @@
               />
             </div>
             <div style="display: flex; justify-content: space-between; width: 381px; margin-top: 35px">
-              <p style="font-size: 23px; color: rgb(51, 51, 51); font-weight: 500; letter-spacing: -0.2px">너구리 보호자님</p>
+              <p style="font-size: 22px; color: rgb(51, 51, 51); font-weight: 500; letter-spacing: -2px">${row.adopList_idx} 번째 손을 잡아주신 ${row.member_name}님</p>
               <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 80px">
                 <img width="13" height="13" src="/static/images/common/star_1.png" /><img
                   width="13"
@@ -95,6 +102,7 @@
             >
              	
              	${row.review_content}
+				
             </p>
 
 	    	<!-- 반복 부분 -->

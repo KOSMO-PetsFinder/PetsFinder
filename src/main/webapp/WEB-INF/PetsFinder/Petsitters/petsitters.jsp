@@ -122,7 +122,6 @@
 	        no_pet.style.borderColor = '#75c9ba';
 	        no_pet.style.color = '#75c9ba';
         } else {
-       		location.href='./list?'
 	        no_pet.style.borderColor = 'rgb(223, 227, 234)';
 	        no_pet.style.color = 'rgb(187, 193, 204)';
         }
@@ -305,7 +304,7 @@
             </div>
             </a>
             </c:forEach>
-            </div>
+         </div>
         </form>   
       <br/><br/>
       <div style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-bottom: 120px">
@@ -363,6 +362,7 @@
               justify-content: center;
             "><p style="font-size: 15px; color: #81899b; display: flex; align-items: center">
               전체 보기<img src="<c:url value='/' />images/arrow_right_gray.png" style="width: 7px; height: 11px; margin-left: 6px"></p></a>
+        </div>
         </div>
         <!-- 3번째 최신순 -->
         <form action="<c:url value='/'/>Petsitters/sitterView.do" method="POST">
@@ -432,7 +432,6 @@
 	        </c:if>
         	</div>
         </div>
-        
     </div>
 <!-- <div style="width: 100%; height: 2488px;"></div> -->
   <!-- app02 -->

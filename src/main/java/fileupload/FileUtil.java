@@ -38,10 +38,8 @@ public class FileUtil {
 	public static String getUuid() {
 		// 생성된 원본 그대로 출력. 하이픈이 포함된 문자열.
 		String uuid = UUID.randomUUID().toString();
-		System.out.println("생성된 UUID-1 : " + uuid);
 		// 하이픈을 제거한 상태로 출력.
 		uuid = uuid.replaceAll("-", "");
-		System.out.println("생성된 UUID-2 : " + uuid);
 		return uuid;
 	}
 	

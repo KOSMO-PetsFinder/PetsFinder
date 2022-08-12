@@ -16,7 +16,7 @@
 	<!-- 미니리스트 1번째 -->
 	<select id="listPage" resultType="petsfinder.petsitter.PetSitterDTO">
 		SELECT * FROM sitter s 
-		FULL OUTER JOIN sitter_photo sp 
+		FULL OUTER JOIN (select * from sitter_photo where sitphoto_idx in (select min(sitphoto_idx) from sitter_photo group by sit_idx)) sp 
 		ON s.sit_idx = sp.sit_idx 
 		where s.sit_idx between #{param1} and #{param2}
 		order by s.sit_idx desc
@@ -24,7 +24,7 @@
 	<!-- 미니리스트 2번재 -->
 	<select id="listPage1" resultType="petsfinder.petsitter.PetSitterDTO">
 		SELECT * FROM sitter s
-		FULL OUTER JOIN sitter_photo sp
+		FULL OUTER JOIN (select * from sitter_photo where sitphoto_idx in (select min(sitphoto_idx) from sitter_photo group by sit_idx)) sp
 		ON s.sit_idx = sp.sit_idx 
 		where s.sit_idx between #{param1} and #{param2}
 		order by s.sit_idx asc
@@ -33,7 +33,7 @@
 	<!-- 미니리스트 3번째 -->
 	<select id="listPage2" resultType="petsfinder.petsitter.PetSitterDTO">
 		SELECT * FROM sitter s
-		FULL OUTER JOIN sitter_photo sp
+		FULL OUTER JOIN (select * from sitter_photo where sitphoto_idx in (select min(sitphoto_idx) from sitter_photo group by sit_idx)) sp
 		ON s.sit_idx = sp.sit_idx
 		where s.sit_idx between #{param1} and #{param2}
 		order by s.sit_client desc
@@ -55,11 +55,14 @@
 		inner join 
 			member m on s.member_idx = m.member_idx
 		where sit_idx = #{ sit_idx }
-
 	</select>
 	
-	
-	
+
+	<!-- 사진 조회 -->
+	<select id="sit_photo" resultType="petsfinder.petsitter.PetSitterDTO">
+		select * from sitter_photo where sit_idx = #{ sit_idx }
+	</select>
+
 	<!-- 후기, 좋아요 조회 -->
 	<select id="stReview" resultType="petsfinder.review.ReviewBoardDTO">
 	
@@ -109,46 +112,7 @@
 		select typTag_expln from type_tag where typTag_idx in (select typTag_idx from sitter_tag where sit_idx=#{ sit_idx })
 	</select>
 
-	<!-- 시터별 예약된 날짜 조회 -->
-	<select id="reserved" resultType="petsfinder.petsitter.PetSitterDTO">
-		select * from sit_book where sit_idx = #{ sit_idx }
-	</select>
-
-	<!-- 예약 등록 -->
-	<insert id="reserve" parameterType="petsfinder.petsitter.PetSitterDTO">
-		insert into sit_book values (seq_sit_book_idx.nextval, #{ sit_idx }, #{ sbook_start }, #{ sbook_end } )
-	</insert>
-
-
-
-	<!-- 리스트 -->
-	<!-- 예약 날짜 조회 -->
-	<select id="reserveSearchInfo" resultType="petsfinder.petsitter.PetSitterDTO">
-		select * from sitter where sit_idx not in (select sit_idx from sit_book where ( sbook_start <![CDATA[<=]]> #{ sbook_start } and sbook_end <![CDATA[>]]> #{ sbook_start } ) or (sbook_start <![CDATA[<]]> #{ sbook_end } and sbook_end <![CDATA[>=]]> #{ sbook_end } ))
-	</select>
-
-	<!-- 리스트 더보기 -->
-   <select id="petsitterPage" resultType="petsfinder.petsitter.PetSitterDTO" parameterType="petsfinder.petsitter.ParameterDTO">
-      SELECT * FROM sitter s
-      FULL OUTER JOIN sitter_photo sp
-      ON s.sit_idx = sp.sit_idx 
-      where s.sit_idx between #{start} and #{end}
-      order by s.sit_idx desc
-   </select>
-
-
-	<!-- 시터 등록 시 기존 정보 조회 -->
-	<!-- 태그 -->	
-	<select id="sit_tag" resultType="String">
-		select typtag_expln from type_tag where typtag_idx in (select typtag_idx from sitter_tag where sit_idx = #{ sit_idx })
-	</select>
-	<!-- 서비스 -->
-	<select id="sit_service" resultType="Integer">
-		select typsrv_idx from available_services where sit_idx = #{ sit_idx }
-	</select>
-	
-	
-  	<!-- 후기의 댓글 저장 -->
+	<!-- 후기의 댓글 저장 -->
   	<insert id="commentInsert1" parameterType="petsfinder.review.ReviewCommentDTO">
 		INSERT INTO review_Comment( reviewcomm_idx,	reviewcomm_content, reviewcomm_regdate, review_idx,member_idx)
 									VALUES(	SEQ_reviewcomm_idx.nextval, #{reviewcomm_content}, sysdate, #{review_idx}
@@ -200,5 +164,83 @@
 	<select id="getTotalCount_sitter" resultType="int">
   		select count(*) from review_board where review_flag='sit' and sit_idx= #{param1}
   	</select>
+
+	<!-- 시터별 예약된 날짜 조회 -->
+	<select id="reserved" resultType="petsfinder.petsitter.PetSitterDTO">
+		select * from sit_book where sit_idx = #{ sit_idx }
+	</select>
+
+	<!-- 예약 등록 -->
+	<insert id="reserve" parameterType="petsfinder.petsitter.PetSitterDTO">
+		insert into sit_book values (seq_sit_book_idx.nextval, #{ sit_idx }, #{ sbook_start }, #{ sbook_end } )
+	</insert>
+
+	<!-- 리스트 -->
+	<!-- 예약 날짜 조회 -->
+	<select id="reserveSearchInfo" resultType="petsfinder.petsitter.PetSitterDTO">
+		select * from sitter where sit_idx not in (select sit_idx from sit_book where ( sbook_start <![CDATA[<=]]> #{ sbook_start } and sbook_end <![CDATA[>]]> #{ sbook_start } ) or (sbook_start <![CDATA[<]]> #{ sbook_end } and sbook_end <![CDATA[>=]]> #{ sbook_end } ))
+	</select>
+
+	<!-- 리스트 더보기 -->
+   <select id="petsitterPage" resultType="petsfinder.petsitter.PetSitterDTO" parameterType="petsfinder.petsitter.ParameterDTO">
+      SELECT * FROM sitter s
+      FULL OUTER JOIN sitter_photo sp
+      ON s.sit_idx = sp.sit_idx 
+      where s.sit_idx between #{start} and #{end}
+      order by s.sit_idx desc
+   </select>
+
+	<!-- 시터 등록 시 기존 정보 조회 -->
+	<select id="sit_view" resultType="petsfinder.petsitter.PetSitterDTO">
+		select * from sitter where member_idx = #{ member_idx }
+	</select>
+	
+	<!-- 태그 -->	
+	<select id="sit_tag" resultType="String">
+		select typtag_expln from type_tag where typtag_idx in (select typtag_idx from sitter_tag where sit_idx = #{ sit_idx })
+	</select>
+	<select id="tags" resultType="String">
+		select typtag_expln from type_tag
+	</select>
+	<!-- 서비스 -->
+	<select id="sit_service" resultType="Integer">
+		select typsrv_idx from available_services where sit_idx = #{ sit_idx }
+	</select>
+	
+
+	<!-- 시터 정보 수정 -->
+	<!-- 태그 -->
+	<delete id="d_tag">
+		DELETE FROM sitter_tag WHERE sit_idx = #{ sit_idx }
+	</delete>
+	<insert id="u_tag">
+		INSERT INTO sitter_tag VALUES (#{ param1 }, #{ param2 })
+	</insert>
+	
+	<!-- 서비스 -->
+	<delete id="d_serve">
+		DELETE FROM available_services WHERE sit_idx = #{ sit_idx }
+	</delete>
+	<insert id="u_serve">
+		INSERT INTO available_services VALUES (#{ param1 }, #{ param2 })
+	</insert>
+	
+	<!-- 시터 정보 -->
+	<update id="u_sitter" parameterType="petsfinder.petsitter.PetSitterDTO">	
+		UPDATE sitter SET sit_title = #{ sit_title }, sit_intro = #{ sit_intro }, s_fee = #{ s_fee }, m_fee = #{ m_fee }, b_fee = #{ b_fee } WHERE sit_idx = #{ sit_idx }
+	</update>
+	
+	<insert id="i_sitter" parameterType="petsfinder.petsitter.PetSitterDTO">
+		INSERT INTO sitter VALUES (SEQ_sitter_idx.nextval, #{ sit_title }, #{ sit_intro }, #{ sit_addr }, #{ member_idx }, #{ s_fee }, #{ m_fee }, #{ b_fee }, 0, 0, 0)
+	</insert>
+	
+	<!-- 시터 사진 -->
+	<insert id="i_photo">
+		INSERT INTO sitter_photo VALUES (SEQ_sitphoto_idx.nextval, #{ param1 }, #{ param2 })
+	</insert>
+	
+	<delete id="d_photo">
+		DELETE FROM sitter_photo WHERE sit_idx = #{ sit_idx }
+	</delete>
 
 </mapper>

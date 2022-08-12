@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,15 +25,26 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+
 import petsfinder.petsitter.ParameterDTO;
+
+import fileupload.FileUtil;
+import petsfinder.member.MemberDAOImpl;
+
 import petsfinder.petsitter.PetSitterDAOImpl;
 import petsfinder.petsitter.PetSitterDTO;
 import petsfinder.review.ReviewBoardDAOImpl;
@@ -51,86 +63,106 @@ public class PetSitterController {
 	@RequestMapping("/petsitterForm")
 	public String petsitterForm(Model model, HttpServletRequest req, HttpSession session) throws Exception {
 		
-		PetSitterDTO petsitterDTO = sqlSession.getMapper(PetSitterDAOImpl.class).sitterView(Integer.parseInt(session.getAttribute("idx").toString()));
+		PetSitterDTO petsitterDTO = sqlSession.getMapper(PetSitterDAOImpl.class).sit_view(Integer.parseInt(session.getAttribute("idx").toString()));
 		if (petsitterDTO != null) {
+			List<String> sit_tags = new ArrayList<String>();
+			sit_tags = sqlSession.getMapper(PetSitterDAOImpl.class).sit_tag(petsitterDTO.getSit_idx());	
 			List<String> tags = new ArrayList<String>();
-			tags = sqlSession.getMapper(PetSitterDAOImpl.class).sit_tag(petsitterDTO.getSit_idx());			
+			tags = sqlSession.getMapper(PetSitterDAOImpl.class).tags();
+			System.out.println(sit_tags);
 			ArrayList<Integer> services = sqlSession.getMapper(PetSitterDAOImpl.class).sit_service(petsitterDTO.getSit_idx());
+			model.addAttribute("sit_tags", sit_tags);
 			model.addAttribute("tags", tags);
 			model.addAttribute("services", services);
+			model.addAttribute("s_info", petsitterDTO);
 		}
-		
-		model.addAttribute("s_info", petsitterDTO);
 		
 		return "petsitterForm";
 	}
     
+	@SuppressWarnings("unused")
 	@RequestMapping(value="/petsitterRegist", method = RequestMethod.POST)
-	public String petsitterRegist(Model model, HttpServletRequest req, MultipartHttpServletRequest mr) {
+	public String petsitterRegist(Model model, HttpServletRequest req, MultipartHttpServletRequest mr, HttpSession session) throws Exception {
 		
-		PetSitterDTO petsitterDTO = new PetSitterDTO();
+		PetSitterDTO dto = new PetSitterDTO();
 		
+		// sitter 테이블 쪽 받아오기
+		int sit_idx = Integer.parseInt(req.getParameter("sit_idx"));
 		String sit_title = req.getParameter("sit_title");
-		String typTag = req.getParameter("typTag");
 		String sit_intro = req.getParameter("sit_intro");
-		String s_fee = req.getParameter("s_fee");
-		String m_fee = req.getParameter("m_fee");
-		String b_fee = req.getParameter("b_fee");
+		int s_fee = Integer.parseInt(req.getParameter("s_fee"));
+		int m_fee = Integer.parseInt(req.getParameter("m_fee"));
+		int b_fee = Integer.parseInt(req.getParameter("b_fee"));
 		
-		for (int i = 1; i <= 10; i++) {
-			petsitterDTO.setTypSrv_service(req.getParameter("option" + i));
-			System.out.println(req.getParameter("option" + i));
-			if ((petsitterDTO.getTypSrv_service()).equals("play")) {
-				
-				System.out.println(i);
-				petsitterDTO.setTypSrv_expln("실내놀이(터그놀이, 노즈워크 등)");
-				System.out.println("설명 : " + petsitterDTO.getTypSrv_expln());
-				
-			} else if ((petsitterDTO.getTypSrv_service()).equals("walk")) {
-				
-				System.out.println(i);
-				petsitterDTO.setTypSrv_expln("매일산책(산책 및 실외 배변 가능)");
-				System.out.println("설명 : " + petsitterDTO.getTypSrv_expln());
-				
-			} else if ((petsitterDTO.getTypSrv_service()).equals("emergency")) {
-				
-				System.out.println(i);
-				petsitterDTO.setTypSrv_expln("응급처치(응급시 병원 이동 가능)");
-				System.out.println("설명 : " + petsitterDTO.getTypSrv_expln());
-				
-			} else if ((petsitterDTO.getTypSrv_service()).equals("pickup")) {
-				System.out.println(i);
-				petsitterDTO.setTypSrv_expln("집앞 픽업(비용은 협의)");
-				System.out.println("설명 : " + petsitterDTO.getTypSrv_expln());
-			} else if ((petsitterDTO.getTypSrv_service()).equals("hair")) {
-				System.out.println(i);
-				petsitterDTO.setTypSrv_expln("모발관리(눈물 또는 빗질관리 가능)");
-				System.out.println("설명 : " + petsitterDTO.getTypSrv_expln());
-			} else if ((petsitterDTO.getTypSrv_service()).equals("pills")) {
-				System.out.println(i);
-				petsitterDTO.setTypSrv_expln("약물 복용(경구(입)복용 가능)");
-				System.out.println("설명 : " + petsitterDTO.getTypSrv_expln());
-			} else if ((petsitterDTO.getTypSrv_service()).equals("bath")) {
-				System.out.println(i);
-				petsitterDTO.setTypSrv_expln("목욕 가능(비용은 협의)");
-				System.out.println("설명 : " + petsitterDTO.getTypSrv_expln());
-			} else if ((petsitterDTO.getTypSrv_service()).equals("longcare")) {
-				System.out.println(i);
-				petsitterDTO.setTypSrv_expln("장기예약(14일 이상)");
-				System.out.println("설명 : " + petsitterDTO.getTypSrv_expln());
-			} else if ((petsitterDTO.getTypSrv_service()).equals("oldcare")) {
-				System.out.println(i);
-				petsitterDTO.setTypSrv_expln("노견케어(8년이상)");
-				System.out.println("설명 : " + petsitterDTO.getTypSrv_expln());
-			} else if ((petsitterDTO.getTypSrv_service()).equals("puppycare")) {
-				System.out.println(i);
-				petsitterDTO.setTypSrv_expln("퍼피케어(1년미만의 퍼피)");
-				System.out.println("설명 : " + petsitterDTO.getTypSrv_expln());
-			} else {
-				continue;
+		// DTO에 저장
+		dto.setSit_idx(sit_idx);
+		dto.setSit_title(sit_title);
+		dto.setSit_intro(sit_intro);
+		dto.setS_fee(s_fee);
+		dto.setM_fee(m_fee);
+		dto.setB_fee(b_fee);
+		
+		// DTO에 값이 차있으면 수정
+		if(dto != null) {
+			sqlSession.getMapper(PetSitterDAOImpl.class).u_sitter(dto);
+		// DTO에 값이 없으면 생성
+		} else {
+			dto.setMember_idx(Integer.parseInt(session.getAttribute("idx").toString()));
+			String member_addr = sqlSession.getMapper(MemberDAOImpl.class).addr(session.getAttribute("idx").toString());
+			String sit_addr = member_addr.split(" / ")[1];
+			dto.setSit_addr(sit_addr);
+			sqlSession.getMapper(PetSitterDAOImpl.class).i_sitter(dto);
+		}
+		
+		// 태그 전체 삭제
+		sqlSession.getMapper(PetSitterDAOImpl.class).d_tag(sit_idx);
+		// 재 입력
+		JSONParser parser = new JSONParser();
+		JSONArray TagArr = (JSONArray)parser.parse(req.getParameter("tags-outside"));
+		System.out.println(TagArr.toJSONString());
+		for(int i = 0; i < TagArr.size(); i++) {
+			JSONObject tmp = (JSONObject)TagArr.get(i);
+			String tag = tmp.get("value").toString();
+			System.out.println(tag);
+			if (tag.equals("반려동물 없음")) {
+				sqlSession.getMapper(PetSitterDAOImpl.class).u_tag(sit_idx, 1);			
+			} else if (tag.equals("픽업 가능")) {
+				sqlSession.getMapper(PetSitterDAOImpl.class).u_tag(sit_idx, 2);
+			} else if (tag.equals("대형견 가능")) {
+				sqlSession.getMapper(PetSitterDAOImpl.class).u_tag(sit_idx, 3);
+			} else if (tag.equals("마당 있음")) {
+				sqlSession.getMapper(PetSitterDAOImpl.class).u_tag(sit_idx, 4);
+			} else if (tag.equals("노견 케어")) {
+				sqlSession.getMapper(PetSitterDAOImpl.class).u_tag(sit_idx, 5);
 			}
 		}
-//		
+
+		
+		// 서비스 전체 삭제
+		sqlSession.getMapper(PetSitterDAOImpl.class).d_serve(sit_idx);
+		// 재 입력
+		for (int i = 1; i <= 10; i++) {
+			if(req.getParameter("option" + i) != null) {
+				sqlSession.getMapper(PetSitterDAOImpl.class).u_serve(sit_idx, i);
+			}
+		}
+		
+		List<MultipartFile> fileList = mr.getFiles("ofile");
+		System.out.println(fileList.get(0).getOriginalFilename());
+		if (fileList.get(0).getOriginalFilename() != "") {
+			String path = req.getSession().getServletContext().getRealPath("/resources/Uploads");
+			sqlSession.getMapper(PetSitterDAOImpl.class).d_photo(sit_idx);
+			
+			for (MultipartFile mf : fileList) {
+				String originalName = new String(mf.getOriginalFilename().getBytes(), "UTF-8");
+				String ext = originalName.substring(originalName.lastIndexOf('.'));
+				String saveFileName = FileUtil.getUuid() + ext;
+				mf.transferTo(new File(path + File.separator + saveFileName));
+				sqlSession.getMapper(PetSitterDAOImpl.class).i_photo(saveFileName, sit_idx);
+			}
+		}
+
+
 		return "default";
 	}
 	
@@ -156,14 +188,15 @@ public class PetSitterController {
 					.likeList1(member_idx);
 		}
 		int sit_idx = Integer.parseInt(req.getParameter("sit_idx"));
-//		System.out.println("sit_idx:"+sit_idx);
 		
 		//Sitter 테이블 정보 추출
-//		petSitterDTO.setMember_idx(member_idx);
-//		member_idx = Integer.parseInt(req.getParameter("member_idx"));
+
 		PetSitterDTO sitterView = sqlSession.getMapper(PetSitterDAOImpl.class).sitterView(sit_idx);
 		
-		
+		// Sitter 사진
+		ArrayList<PetSitterDTO> sit_photo = sqlSession.getMapper(PetSitterDAOImpl.class).sit_photo(sit_idx);
+		model.addAttribute("sit_photo", sit_photo);
+
 		//sitterReview 테이블 정보 추출
 		ArrayList<ReviewBoardDTO> stReview = sqlSession.getMapper(PetSitterDAOImpl.class).stReview(sit_idx);
 		
@@ -199,10 +232,11 @@ public class PetSitterController {
 			}
 			revState = "exe";
 		}
-		
+
 		int view_reviewRecordCount = sqlSession.getMapper(PetSitterDAOImpl.class).getTotalCount_sitter(sit_idx);
 		
 		model.addAttribute("view_reviewRecordCount", view_reviewRecordCount);
+
 		model.addAttribute("stReview", stReview);
 		model.addAttribute("sitterView",sitterView);
 		model.addAttribute("petSitterDTO", petSitterDTO);
@@ -364,7 +398,9 @@ public class PetSitterController {
         model.addAttribute("nowPage",nowPage);
         model.addAttribute("insUrl",insUrl);
 
+
         return "./Petsitters/sitterlist";
+
 	}
 	
 	//리스트 더보기(json)
