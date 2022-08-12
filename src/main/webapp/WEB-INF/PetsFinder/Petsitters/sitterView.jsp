@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<% int likeEx = 0; %>
+<% boolean like1 = false; %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,6 +20,81 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>    
 <link rel="stylesheet" href="../jquery/jquery-ui.css">
 <script src="../jquery/jquery-ui.js"></script>
+	<c:forEach items="${stReview }" var="sr">
+	<!-- ajax시작 -->
+    <script type="text/javascript">
+    var today = new Date();
+
+    var year = today.getFullYear();
+    var month = ('0' + (today.getMonth() + 1)).slice(-2);
+    var day = ('0' + today.getDate()).slice(-2);
+    var hours = ('0' + today.getHours()).slice(-2); 
+    var minutes = ('0' + today.getMinutes()).slice(-2);
+    var seconds = ('0' + today.getSeconds()).slice(-2); 
+
+    var timeString = hours + ':' + minutes  + ':' + seconds;
+
+    var dateString = year + '-' + month  + '-' + day;
+
+    console.log(dateString);
+    function commentInsert${sr.review_idx}(){
+    	var reviewcomm_content = $("#reviewcomm_content${sr.review_idx }").val();
+    	var member_idx = "${sessionScope.idx}";
+    	var review_idx = "${sr.review_idx}"
+    	var member_namec = "${sessionScope.name}";
+    	var member_photo = "${sessionScope.photo}";
+		var reviewcomm_regdate = dateString + " " + timeString;
+    	var formData = $("#comm${sr.review_idx}").serialize();
+		$.ajax({
+			url : "./commentInsert",
+			type : "GET",
+			data : {
+				"reviewcomm_content" : reviewcomm_content,
+				"member_idx" : member_idx,
+				"review_idx" : review_idx,
+				"reviewcomm_regdate" : reviewcomm_regdate,
+			},
+			dataType : 'text',
+			success : function () {
+				console.log("성공");
+				var content=""; 
+				content += "<div style='display: flex; flex-direction: row; justify-content: space-between; margin-top: 32px; '><img width='50' height='50'";
+				content += "src='<c:url value='/' />Uploads/"+member_photo+"' style='object-fit: cover; border-radius: 50%;'>";
+				content += "<div style='background-color: rgb(250, 250, 252); width: 515px; padding: 20px 24px;'>";
+				content	+= "<div style='display: flex; flex-direction: row; align-items: center;'>";
+				content += "<p style='font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);'>" +member_namec;
+				content += "</p><p style='font-size: 13px; line-height: 19px; color: rgb(157, 164, 180); margin-left: 9px;'>" +reviewcomm_regdate+"</p>";
+				content	+= "</div>";
+				content	+= "<p style='font-size: 15px; line-height: 25px; color: rgb(85, 85, 85); margin-top: 12px;'>"+reviewcomm_content+"</p>";
+            	content	+= "</div></div>";
+				$(content).appendTo("#com${sr.review_idx}");
+				
+				//내용 삭제..
+				document.getElementById("reviewcomm_content${sr.review_idx }").value='';
+				//이게 none으로 되고
+				var a = ${sr.review_idx};
+				var id = "Comment" + a;
+				var com = document.getElementById(id)
+				com.style.display = 'none'
+				//댓글보기 나오게 
+				a = ${sr.review_idx};
+				id = "com" + a;
+				com = document.getElementById(id)
+				com.style.display = 'flex'
+				//쓴 댓글로 이동
+				var location = document.querySelector("#scroll${sr.review_idx}").offsetTop;
+				window.scrollTo({top:location, behavior:'smooth'});
+			}, 
+			
+			error:function(request, status, error) {
+				console.log("실패");
+				
+	        },
+		});
+	};
+	</script>
+	</c:forEach>
+	
 </head>
 <body>
   	<jsp:include page="../common/Header.jsp" />
@@ -32,7 +110,7 @@
 						<div>
 							<div class="wrapper">
 								<div>
-								<input type="hid den" value="${member_idx }"/>
+								<input type="hidden" value="${member_idx }"/>
 									<div
 										style="z-index: 1; width: 100px; height: 36px; display: flex; align-items: center; justify-content: center; border: 1px solid rgb(223, 227, 234); border-radius: 3px; position: absolute; top: 109px; right: 24px; background-color: white; cursor: pointer; user-select: none;">
 										<img width="22" height="22"
@@ -87,8 +165,6 @@
 														style="object-fit: cover; display: inline-block;">
 												</div>
 												<div style="margin-left: 32px;">
-													<!-- 은아 수정중
-													${svMemberInfo.member_addr } ${svMemberInfo.member_name }-->
 													<!-- 연습 -->
 														<p style="margin-top: 5px; font-size: 25px; color: rgb(56, 60, 72); line-height: 37px; 
 														letter-spacing: -0.2px;"></p>
@@ -96,19 +172,13 @@
 													<!-- sitterDTO를 통해서 주소값을 넘김 하지만 같은 idx으로 member의 이름값을 넘길려면 회원가입시 sitter or normal 를 선택
 													해서  -->
 													<h1
-														style="font-size: 15px; color: rgb(76, 80, 86); line-height: 22px; letter-spacing: -0.2px; font-weight: bold;">${sitterViewList.sit_addr } 펫시터 / ${sitterViewList.member_name } 님</h1>
-													<p style="margin-top: 5px; font-size: 25px; color: rgb(56, 60, 72); line-height: 37px; letter-spacing: -0.2px;">${sitterViewList.sit_title }</p>
+														style="font-size: 15px; color: rgb(76, 80, 86); line-height: 22px; letter-spacing: -0.2px; font-weight: bold;">${sitterView.sit_addr } 펫시터 / ${sitterView.member_name } 님</h1>
+													<p style="margin-top: 5px; font-size: 25px; color: rgb(56, 60, 72); line-height: 37px; letter-spacing: -0.2px;">${sitterView.sit_title }</p>
 													<!-- 시터 신청시 체크박스로 선택한 것들 반복문으로 띄우기 -->
 													<!-- 시터태그 반복문 sitterTag.typtag_expln-->
 													<div style="display: flex; flex-flow: row wrap; margin-top: 12px; width: 458px;">
 														<c:forEach items="${sitterTag}" var="sitterTag">
 														<p style="font-size: 14px; line-height: 21px; letter-spacing: -0.2px; color: rgb(94, 99, 109); margin-right: 7px;">#${sitterTag.typTag_expln }</p>
-														<!-- <p style="font-size: 14px; line-height: 21px; letter-spacing: -0.2px; color: rgb(94, 99, 109); margin-right: 7px;">#단독주택</p>
-														<p style="font-size: 14px; line-height: 21px; letter-spacing: -0.2px; color: rgb(94, 99, 109); margin-right: 7px;">#마당보유</p>
-														<p style="font-size: 14px; line-height: 21px; letter-spacing: -0.2px; color: rgb(94, 99, 109); margin-right: 7px;">#테라스보유</p>
-														<p style="font-size: 14px; line-height: 21px; letter-spacing: -0.2px; color: rgb(94, 99, 109); margin-right: 7px;">#산책로있어요</p>
-														<p style="font-size: 14px; line-height: 21px; letter-spacing: -0.2px; color: rgb(94, 99, 109); margin-right: 7px;">#반려동물있어요</p>
-														<p style="font-size: 14px; line-height: 21px; letter-spacing: -0.2px; color: rgb(94, 99, 109); margin-right: 7px;">#영주시휴천동 펫시터</p> -->
 														</c:forEach>
 													</div>
 												</div>
@@ -128,10 +198,10 @@
 													신원 검증 및 돌봄 환경의 안전성 검증이 완료된 펫시터입니다</p>
 											</div>
 											<div style="margin-top: 53px;">
-												<h2 style="font-weight: 600; font-size: 17px; letter-spacing: -0.2px; line-height: 25px; color: rgb(57, 60, 71);">${sitterViewList.member_name }
+												<h2 style="font-weight: 600; font-size: 17px; letter-spacing: -0.2px; line-height: 25px; color: rgb(57, 60, 71);">${sitterView.member_name }
 													펫시터님을 소개합니다</h2>
 												<p style="font-size: 15px; line-height: 25px; color: rgb(85, 85, 85); margin-top: 32px;">
-													${sitterViewList.sit_intro }
+													${sitterView.sit_intro }
 												</p>
 											</div>
 											<div style="margin-top: 70px;">
@@ -147,11 +217,11 @@
 																style="object-fit: cover; border-radius: 50%;">
 															<div style="margin-left: 24px;">
 																<p
-																	style="font-size: 15px; line-height: 22px; color: rgb(57, 60, 71);">${sitterViewList.pet_name }</p>
+																	style="font-size: 15px; line-height: 22px; color: rgb(57, 60, 71);">${sitterView.pet_name }</p>
 																<p
 																	style="font-size: 13px; line-height: 18px; color: rgb(56, 60, 72); margin-top: 7px;">
-																	성별 : ${sitterViewList.pet_gender } /
-																	나이 : ${sitterViewList.pet_age }살
+																	성별 : ${sitterView.pet_gender } /
+																	나이 : ${sitterView.pet_age }살
 																</p>
 															</div>
 														</div>
@@ -244,137 +314,298 @@
 													</c:forEach>
 												</div>
 											</div>
-											<!-- 후기 -->
-											<div style="margin-top: 80px;">
-											<c:forEach items="" var="row">
-												<div style="display: flex; flex-direction: row; align-items: center; margin-bottom: 38px;">
-													<h2 style="font-weight: 600; font-size: 22px; letter-spacing: -0.2px; line-height: 33px; color: rgb(57, 60, 71); margin-right: 20px; margin-bottom: 0px;">펫시터 후기 N개</h2>
-													<!-- 후기 중 사진 불러오기 -->
-													<div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 113px;">
-														<img width="18" height="18"
-															src="<c:url value='/'/>sitterView/star_1.png"><img
-															width="18" height="18"
-															src="<c:url value='/'/>sitterView/star_1.png"><img
-															width="18" height="18"
-															src="<c:url value='/'/>sitterView/star_1.png"><img
-															width="18" height="18"
-															src="<c:url value='/'/>sitterView/star_1.png"><img
-															width="18" height="18"
-															src="<c:url value='/'/>sitterView/star_1.png">
-													</div>
-												</div>
-												</c:forEach>
-												<div style="display: flex; flex-direction: row;">
-													<div
-														style="display: flex; overflow: hidden; border-radius: 3px; margin-right: 9px; user-select: none; cursor: pointer; position: relative;">
-														<img width="139" height="139"
-															src="<c:url value='/'/>sitterView/46bbf847d6434a20a033a18a0061879b.jpg"
-															style="object-fit: cover;">
-													</div>
-													<div
-														style="display: flex; overflow: hidden; border-radius: 3px; margin-right: 9px; user-select: none; cursor: pointer; position: relative;">
-														<img width="139" height="139"
-															src="<c:url value='/'/>sitterView/8a2b86f4fc534f73a15a434baebd53fa.jpg"
-															style="object-fit: cover;">
-													</div>
-													<div
-														style="display: flex; overflow: hidden; border-radius: 3px; margin-right: 9px; user-select: none; cursor: pointer; position: relative;">
-														<img width="139" height="139"
-															src="<c:url value='/'/>sitterView/01b9927be704472a8e4f75dbdfcf55ce.jpg"
-															style="object-fit: cover;">
-													</div>
-													<div
-														style="display: flex; overflow: hidden; border-radius: 3px; margin-right: 9px; user-select: none; cursor: pointer; position: relative;">
-														<img width="139" height="139"
-															src="<c:url value='/'/>sitterView/6a7dffb15ac44f28a39289bf5357ad23.jpg"
-															style="object-fit: cover;">
+											
+									
+											<!-- 후기 시작 -->
+													<div style="margin-top: 80px;">
 														<div
-															style="display: flex; position: absolute; inset: 0px; width: 139px; height: 139px; align-items: center; justify-content: center; background-color: rgba(0, 0, 0, 0.59); border-radius: 3px;">
-															<p
-																style="font-size: 17px; letter-spacing: 0.5px; line-height: 25px; color: white;">+8</p>
-														</div>
-													</div>
-												</div>
-												<!-- 후기 내용 전체 불러오기 -->
-												<div style="margin-top: 38px;">
-												<c:forEach items="${ stReview }" var="sr" varStatus="loop">
-													<div
-														style="display: flex; flex-direction: column; border-top: 1px solid rgb(235, 235, 235); padding: 38px 0px;">
-														<div
-															style="display: flex; flex-direction: row; align-items: center;">
-															<c:if test="${ not empty sr.member_photo }" var="res">
-															<img width="50" height="50"
-																	src="<c:url value='/'/>Uploads/${ sr.member_photo }"
-																style="object-fit: cover; border-radius: 50%;">
-															</c:if>
-															<c:if test="${ not res }">
-															<img width="50" height="50"
-																src="<c:url value='/'/>sitterView/0f9b46e53cf74ae3916d25246eacec9c.jpg"
-																style="object-fit: cover; border-radius: 50%;">
-															</c:if>
-															<div style="margin-left: 18px;">
-																<p
-																	style="font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);">${sr.member_namer }</p>
-																<p
-																	style="font-size: 13px; line-height: 19px; color: rgb(76, 80, 86); margin-top: 6px;">${sr.review_regdate }
-																</p>
-															</div>
-															<!-- 후기 좋아요 -->
-															<div style="display: flex; flex-direction: row; margin-left:auto;  float: right;">
-																<div style="padding-right: 10px;">
-																	<img id="like_img${sr.review_idx}" src="../images/heart_o.png" alt="" width="20" height="20" />
-																</div>
-																<div style=" width: 20px; margin-right: 10px;">
-																	<p>
-																	<input type="text" id="like_num${sr.review_idx}" style="width: 40px; height: 20px; border: 0" value="${sr.countlike }"/>
-																	</p>
-																</div>
-															</div>
-															<!-- 후기 좋아요 -->
-														</div>
-														<p style="font-size: 15px; line-height: 25px; color: rgb(76, 80, 86); margin-top: 18px;">${ sr.review_content}</p>
-														<div
-															style="display: flex; flex-direction: row; margin-top: 33px;">
-															<img width="90" height="90"
-																src="<c:url value='/'/>sitterView/46bbf847d6434a20a033a18a0061879b.jpg"
-																style="border-radius: 2px; object-fit: cover; margin-right: 9px; user-select: none; cursor: pointer;"><img
-																width="90" height="90"
-																src="<c:url value='/'/>sitterView/8a2b86f4fc534f73a15a434baebd53fa.jpg"
-																style="border-radius: 2px; object-fit: cover; margin-right: 9px; user-select: none; cursor: pointer;"><img
-																width="90" height="90"
-																src="<c:url value='/'/>sitterView/01b9927be704472a8e4f75dbdfcf55ce.jpg"
-																style="border-radius: 2px; object-fit: cover; margin-right: 9px; user-select: none; cursor: pointer;">
-														</div>
-														<div
-															style="display: flex; flex-direction: row; justify-content: space-between; margin-top: 32px;">
-															<img width="50" height="50"
-																src="<c:url value='/'/>sitterView/08d8f81d5fd74638bcd1e4d6792e95d0.jpg"
-																style="object-fit: cover; border-radius: 50%;">
+															style="display: flex; flex-direction: row; align-items: center; margin-bottom: 38px;">
+															<h2
+																style="font-weight: 600; font-size: 22px; letter-spacing: -0.2px; line-height: 33px; color: rgb(57, 60, 71); margin-right: 20px; margin-bottom: 0px;">
+																펫시터 후기 ${ view_reviewRecordCount }개</h2>
+															<!-- 별점부분 -->
 															<div
-																style="background-color: rgb(250, 250, 252); width: 515px; padding: 20px 24px;">
-																<div
-																	style="display: flex; flex-direction: row; align-items: center;">
-																	<p
-																		style="font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);">후기 댓글 이름</p>
-																	<p
-																		style="font-size: 13px; line-height: 19px; color: rgb(157, 164, 180); margin-left: 9px;">후기 댓글 날짜
-																	</p>
-																</div>
-																<p
-																	style="font-size: 15px; line-height: 25px; color: rgb(85, 85, 85); margin-top: 12px;">후기 댓글 내용</p>
+																style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 113px;">
+																<img width="18" height="18"
+																	src="<c:url value='/'/>sitterView/star_1.png"><img
+																	width="18" height="18"
+																	src="<c:url value='/'/>sitterView/star_1.png"><img
+																	width="18" height="18"
+																	src="<c:url value='/'/>sitterView/star_1.png"><img
+																	width="18" height="18"
+																	src="<c:url value='/'/>sitterView/star_1.png"><img
+																	width="18" height="18"
+																	src="<c:url value='/'/>sitterView/star_1.png">
 															</div>
 														</div>
-													</div>
-												</c:forEach>
-													<div
-														style="display: flex; align-items: center; justify-content: center; height: 50px; border-radius: 25px; border: 1px solid rgb(129, 137, 155); margin-bottom: 100px; user-select: none; cursor: pointer; margin-top: 12px;">
-														<p
-															style="font-size: 14px; letter-spacing: -0.2px; line-height: 20px; color: rgb(56, 60, 72);">펫시터
-															후기 더보기</p>
-													</div>
-												</div>
+														<!-- 안건드릴 사진부분 -->
+														<div style="display: flex; flex-direction: row;">
+															<div
+																style="display: flex; overflow: hidden; border-radius: 3px; margin-right: 9px; user-select: none; cursor: pointer; position: relative;">
+																<img width="139" height="139"
+																	src="<c:url value='/'/>sitterView/46bbf847d6434a20a033a18a0061879b.jpg"
+																	style="object-fit: cover;">
+															</div>
+															<div
+																style="display: flex; overflow: hidden; border-radius: 3px; margin-right: 9px; user-select: none; cursor: pointer; position: relative;">
+																<img width="139" height="139"
+																	src="<c:url value='/'/>sitterView/8a2b86f4fc534f73a15a434baebd53fa.jpg"
+																	style="object-fit: cover;">
+															</div>
+															<div
+																style="display: flex; overflow: hidden; border-radius: 3px; margin-right: 9px; user-select: none; cursor: pointer; position: relative;">
+																<img width="139" height="139"
+																	src="<c:url value='/'/>sitterView/01b9927be704472a8e4f75dbdfcf55ce.jpg"
+																	style="object-fit: cover;">
+															</div>
+															<div
+																style="display: flex; overflow: hidden; border-radius: 3px; margin-right: 9px; user-select: none; cursor: pointer; position: relative;">
+																<img width="139" height="139"
+																	src="<c:url value='/'/>sitterView/6a7dffb15ac44f28a39289bf5357ad23.jpg"
+																	style="object-fit: cover;">
+																<div
+																	style="display: flex; position: absolute; inset: 0px; width: 139px; height: 139px; align-items: center; justify-content: center; background-color: rgba(0, 0, 0, 0.59); border-radius: 3px;">
+																	<p
+																		style="font-size: 17px; letter-spacing: 0.5px; line-height: 25px; color: white;">
+																		+8</p>
+																</div>
+															</div>
+														</div>
+
+											
+														<!-- 댓글창 열기 -->
+														<c:forEach items="${stReview }" var="sr">
+														<script type="text/javascript">
+														
+															function com_view${sr.review_idx} () {
+																var a = ${sr.review_idx};
+																var id = "com" + a;
+																var com = document.getElementById(id)
+																if( com.style.display == 'none' ) {
+																	com.style.display = 'flex'
+																} else {
+																	com.style.display = 'none'
+																}
+															}
+															
+															function commentView${sr.review_idx}() {
+																var a = ${sr.review_idx};
+																var id = "Comment" + a;
+																var com = document.getElementById(id);
+																if( com.style.display == 'none' ) {
+																	com.style.display = 'flex'
+																} else {
+																	com.style.display = 'none'
+																}
+															}
+														</script>
+														</c:forEach>	
+
+														<!-- 후기 찐 시작 -->
+														<c:if test="${revState eq 'exe' }">
+														<div style="margin-top: 38px;">
+															<c:forEach items="${ stReview }" var="sr" varStatus="loop">
+																<div style="display: flex; flex-direction: column; border-top: 1px solid rgb(235, 235, 235); padding: 38px 0px;">
+																	<div style="display: flex; flex-direction: row; align-items: center;">
+																		<c:if test="${ not empty sr.member_photo }" var="res">
+																			<img width="50" height="50" src="<c:url value='/'/>Uploads/${ sr.member_photo }" style="object-fit: cover; border-radius: 50%;">
+																		</c:if>
+																		<c:if test="${ not res }">
+																			<img width="50" height="50"
+																				src="<c:url value='/'/>sitterView/0f9b46e53cf74ae3916d25246eacec9c.jpg"
+																				style="object-fit: cover; border-radius: 50%;">
+																		</c:if>
+																		<div style="margin-left: 18px;">
+																			<p
+																				style="font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);">
+																				${sr.member_namer }</p>
+																			<p
+																				style="font-size: 13px; line-height: 19px; color: rgb(76, 80, 86); margin-top: 6px;">
+																				${sr.review_regdate }
+																			</p>
+																		</div>
+																		<!-- 후기 좋아요 처리부분 -->
+																		<script type="text/javascript">
+																			$(function () {
+																				var a = ${ sr.review_idx }
+																				$('p[id=like${sr.review_idx}]').click(function () {
+
+																					$.ajax({
+
+																						url: "./sitlike",
+
+																						type: "GET",
+
+																						data: {
+																							review_idx: a,
+																							member_idx: '${sessionScope.idx }',
+																							like_check: $('#like_check').val(),
+																							sit_idx: '${ petSitterDTO.sit_idx}',
+																						},
+
+																						success: function () {
+
+																							if ($('#like_check${sr.review_idx}').val() == 0) {
+																								console.log("plus");
+																								$('#like_check${sr.review_idx}').val('1');
+																								$('#like_img${sr.review_idx}').attr('src', "../images/heart_o.png");
+																								var val01 = $('#like_num${sr.review_idx}').val();
+																								var val02 = parseInt(val01) + 1;
+																								$('#like_num${sr.review_idx}').val(val02);
+
+																							}
+																							else {
+																								console.log("minus");
+																								$('#like_check${sr.review_idx}').val('0');
+																								$('#like_img${sr.review_idx}').attr('src', "../images/heart_x.png");
+																								var val01 = $('#like_num${sr.review_idx}').val();
+																								var val02 = parseInt(val01) - 1;
+																								$('#like_num${sr.review_idx}').val(val02);
+																							}
+																						},
+
+																						error: function () {
+																							console.log("실패");
+																						},
+																					});
+																				});
+																			});
+																		</script>
+																		<!-- 후기 좋아요 -->
+																		<div style="display: flex; flex-direction: row; margin-left:auto;  float: right;">
+																			
+																			<c:if test="${not empty sessionScope.idx }" var="sessionIdx">
+																				<div style="padding-right: 10px;">
+																					<% likeEx=0; %>
+																					<c:forEach items="${likeLists }" var="likerow">
+																						<c:if test="${likerow.review_idx eq sr.review_idx }">
+																							<% likeEx=1; %>
+																						</c:if>
+																					</c:forEach>
+																					<input type="hidden" id="like_check${sr.review_idx}" name="like_check${sr.review_idx}" value="<%=likeEx %>"/>
+																					<c:if test="<%=likeEx==1 %>">
+																						<p style="cursor: pointer;" id="like${sr.review_idx }">
+																						<img id="like_img${sr.review_idx}" src="../images/heart_o.png" alt="" width="20" height="20" />
+																						</p>
+																					</c:if>
+																					<c:if test="<%=likeEx==0 %>">
+																						<p style="cursor: pointer;" id="like${sr.review_idx }">
+																						<img id="like_img${sr.review_idx}" src="../images/heart_x.png" alt="" width="20" height="20" />
+																						</p>
+																					</c:if>
+																				</div>
+																				
+																				<div style=" width: 20px; margin-right: 10px;">
+																					<c:if test="<%=likeEx==1 %>">
+																						<p style="cursor: pointer;" id="like${sr.review_idx }">
+																							<input type="text"
+																								id="like_num${sr.review_idx}"
+																								style="width: 40px; height: 20px; border: 0"
+																								value="${sr.countlike }" />
+																						</p>
+																					</c:if>
+																					<c:if test="<%=likeEx==0 %>">
+																						<p style="cursor: pointer;" id="like${sr.review_idx }">
+																							<input type="text"
+																								id="like_num${sr.review_idx}"
+																								style="width: 40px; height: 20px; border: 0"
+																								value="${sr.countlike }" />
+																						</p>
+																					</c:if>
+																				</div>
+																			</c:if>
+																			 <c:if test="${not sessionIdx }">
+				                                                            <div style="padding-right: 10px;">
+				                                                               <div style="padding-right: 10px;">
+				                                                                  <img id="like_img" src="../images/heart_o.png" alt="" width="20" height="20" />
+				                                                               </div>
+				                                                            </div>
+				                                                            <div style=" width: 20px; margin-right: 10px;">
+				                                                               <p>
+				                                                                  <input type="text" id="like_num" style="width: 40px; height: 20px; border: 0" value="${sr.countlike }"/>
+				                                                               </p>
+				                                                            </div>
+				                                                         </c:if>
+																		</div>
+																		<!-- 후기 좋아요 끝 -->
+																		
+																	</div>	
+																</div>	
+																
+																
+															
+																
+																<p style="font-size: 15px; line-height: 25px; color: rgb(76, 80, 86); margin-top: 18px;">${ sr.review_content}</p>
+																<div style="display: flex; flex-direction: row; margin-top: 33px;">
+																	<img width="90" height="90" src="<c:url value='/' />Uploads/${ sr.review_photo }" style="border-radius: 2px; object-fit: cover; margin-right: 9px; user-select: none; cursor: pointer;">
+																	<img width="90" height="90" src="<c:url value='/' />Uploads/${ sr.review_photo }" style="border-radius: 2px; object-fit: cover; margin-right: 9px; user-select: none; cursor: pointer;">
+																	<img width="90" height="90" src="<c:url value='/'/>Uploads/${ sr.review_photo }" style="border-radius: 2px; object-fit: cover; margin-right: 9px; user-select: none; cursor: pointer;">
+																	<div style="display: flex; flex-direction: column-reverse; margin-left:auto;  float: right; vertical-align:bottom; padding-bottom: 10px;">
+																			<p onclick="com_view${sr.review_idx}()" style="cursor: pointer; color:#75c9ba;" >
+																				댓글보기
+																				<img src="../images/comment.png" alt="" width="15" height="15" style="color:#75c9ba;" />
+																			</p>
+																		<c:if test="${sessionScope.idx ne null }">
+																			<p onclick="commentView${sr.review_idx}()" style="cursor: pointer; color:#75c9ba; " >
+																				댓글쓰기
+																				<img src="../images/comment.png" alt="" width="15" height="15" style="color:#75c9ba;" />
+																			</p>
+																		</c:if>
+																	</div>
+																</div>
+																<!-- 좋아요 처리 및 후기 끝 -->
+																
+															
+																<!-- 댓글폼 -->
+																<div style="display: none; flex-direction: column; margin-top: 33px; align-items: center;" id="Comment${sr.review_idx }">
+																	<form name="comm${sr.review_idx }" id="comm${sr.review_idx }">
+																		<input type="hidden" id="review_idx${sr.review_idx }" name="review_idx" value="${sr.review_idx }">
+																		<input type="hidden" id="member_idx${sr.review_idx }" name="member_idx" value="${sessionScope.idx }">
+																		<input type="hidden" id="sit_idx${sr.review_idx }" name="sit_idx" value="${petSitterDTO.sit_idx }">
+																		<div>
+																			<textarea class="form-control" style="margin-top: 30px; width:500px; height:30px;" id="reviewcomm_content${sr.review_idx }" name="reviewcomm_content" style="width:1000px"></textarea>														
+																		</div>
+																		<div style="display: flex; flex-direction: column-reverse; margin-left:auto;  float: right; vertical-align:bottom; padding-bottom: 3px; padding-top: 10px; padding-right:25px; ">
+																			<button class="btn btn-outline-default"  type="button" onclick="commentInsert${sr.review_idx }();" style="color:#75c9ba;">등록하기</button>
+																		</div>
+																	</form>
+																</div>
+															
+															
+																<!-- 시터 != 댓글쓴이 -->
+																<div id="com${sr.review_idx }" name="com${sr.review_idx }" style="display: none; flex-direction: column; justify-content: right; margin-top: 32px;">
+																	<c:forEach items="${reviewCommLists }" var="rerow" varStatus="index">
+																		<c:if test="${rerow.review_idx eq sr.review_idx }" >
+																		<!-- 댓글 부분 -->
+																		<div style="display: flex; flex-direction: row; justify-content: space-between; margin-top: 32px;">
+																			<img width="50" height="50" src="<c:url value='/'/>Uploads/${rerow.member_photo }" style="object-fit: cover; border-radius: 50%;">
+																			<div style="background-color: rgb(250, 250, 252); width: 515px; padding: 20px 24px;">
+																				<div style="display: flex; flex-direction: row; align-items: center;">
+																					<p style="font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);">${rerow.member_namec }</p>
+																					<p style="font-size: 13px; line-height: 19px; color: rgb(157, 164, 180); margin-left: 9px;">${rerow.reviewcomm_regdate }</p>
+																				</div>
+																				<p style="font-size: 15px; line-height: 25px; color: rgb(85, 85, 85); margin-top: 12px;">${rerow.reviewcomm_content }</p>
+																			</div>
+																		</div>
+																		</c:if>
+																	</c:forEach>
+																	<c:if test="${index.last  }">
+																		<div id="scroll${row.review_idx }"></div>
+																	</c:if>
+																</div>
+															</c:forEach>
+														</div>
+														</c:if>	
+												</div>		
 											</div>
-										</div>
+															
+													<!-- 
+															<div style="display: flex; align-items: center; justify-content: center; height: 50px; border-radius: 25px; border: 1px solid rgb(129, 137, 155); margin-bottom: 100px; user-select: none; cursor: pointer; margin-top: 12px;">
+																<p style="font-size: 14px; letter-spacing: -0.2px; line-height: 20px; color: rgb(56, 60, 72);">펫시터
+																	후기 더보기</p>
+															</div>
+														 -->
+										
 										<!-- 왼쪽 끝 -->
 										<!-- 오른쪽 시작 -->
 										
@@ -432,7 +663,9 @@
 											    
 										        $('#startDate').datepicker({
 										        	minDate: 'D',
+										        	<c:if test="${ not empty re_list }">
 										        	beforeShowDay: noReserve,
+										        	</c:if>
 										        	onSelect : function(dateText){
 										        		
 										        		$('#startDate').removeClass('DateInput_input__focused DateInput_input__focused_2')
@@ -473,7 +706,9 @@
 										        
 										        $('#endDate').datepicker({
 										        	minDate: 'D',
+										        	<c:if test="${ not empty re_list }">
 										        	beforeShowDay: noReserve,
+										        	</c:if>
 										        	onShow : function() {
 										        		$('#endDate').addClass('DateInput_input__focused DateInput_input__focused_2');
 										        	},
@@ -500,9 +735,17 @@
 										    });
 										</script>
 										<div>
-								        <form action="./reserve">
+										<!-- 예약 form 시작 -->
+										<script>
+											function reserveSubmit() {
+												document.reserveFrm.submit();
+											}
+										</script>
+								        <form action="./bookEmailInfo.do" name="reserveFrm">
 									        <input type="hidden" id="sD" name="sD"/>
 									        <input type="hidden" id="eD" name="eD"/>
+									        <input name="member_name" type="hidden" value="${ sitterView.member_name }"/>
+							     			<input name="member_email" type="hidden" value="${ sitterView.member_email }"/>
 											
 											<div
 												style="width: 375px; border-radius: 8px; border: 1px solid rgb(223, 227, 234); box-shadow: rgba(0, 0, 0, 0.07) 1px 3px 7px; padding-left: 32px; padding-right: 32px; padding-bottom: 32px;">
@@ -595,8 +838,7 @@
 												<div
 													style="display: flex; align-items: center; justify-content: center; width: 311px; height: 59px; border-radius: 3px; background-color: rgb(113, 162, 255); margin-top: 50px; user-select: none; cursor: pointer;">
 													<p
-														style="font-family: &amp; quot; Noto Sans KR&amp;quot;; font-weight: 600; font-size: 15px; letter-spacing: 0.2px; line-height: 22px; color: white;">예약
-														요청</p>
+														style="font-family: &amp; quot; Noto Sans KR&amp;quot;; font-weight: 600; font-size: 15px; letter-spacing: 0.2px; line-height: 22px; color: white;" onclick="reserveSubmit();">예약 요청</p>
 												</div>
 											</div>
 											<!-- 반려동물 선택 창 & 금액 계산 -->
@@ -611,15 +853,15 @@
 											    	return range;
 											    }
 												/* 소형 요금, 세금, 합계 */
-												var s_fee = ${ sitterViewList.s_fee }
+												var s_fee = ${ sitterView.s_fee }
 												var s_tax = s_fee / 10
 												var s_sum = parseInt(s_fee + s_tax)
 												
-												var m_fee = ${ sitterViewList.m_fee }
+												var m_fee = ${ sitterView.m_fee }
 												var m_tax = m_fee / 10
 												var m_sum = parseInt(m_fee + m_tax)
 												
-												var b_fee = ${ sitterViewList.b_fee }
+												var b_fee = ${ sitterView.b_fee }
 												var b_tax = b_fee / 10
 												var b_sum = parseInt(b_fee + b_tax)
 												
@@ -1166,7 +1408,7 @@
 															style="display: flex; align-items: center; flex-direction: row;">
 															<!-- 소형견 1박케어 s_fee_day -->
 															<p
-																style="font-size: 14px; letter-spacing: 0.5px; line-height: 20px; color: rgb(78, 82, 91); margin-right: 12px;">${ sitterViewList.s_fee}원</p>
+																style="font-size: 14px; letter-spacing: 0.5px; line-height: 20px; color: rgb(78, 82, 91); margin-right: 12px;">${ sitterView.s_fee}원</p>
 														</div>
 													</div>
 												</div>
@@ -1186,7 +1428,7 @@
 														<div
 															style="display: flex; align-items: center; flex-direction: row;">
 															<p
-																style="font-size: 14px; letter-spacing: 0.5px; line-height: 20px; color: rgb(78, 82, 91); margin-right: 12px;">${ sitterViewList.m_fee}원</p>
+																style="font-size: 14px; letter-spacing: 0.5px; line-height: 20px; color: rgb(78, 82, 91); margin-right: 12px;">${ sitterView.m_fee}원</p>
 														</div>
 													</div>
 												</div>
@@ -1207,7 +1449,7 @@
 														<div
 															style="display: flex; align-items: center; flex-direction: row;">
 															<p
-																style="font-size: 14px; letter-spacing: 0.5px; line-height: 20px; color: rgb(78, 82, 91); margin-right: 12px;">${ sitterViewList.b_fee}원</p>
+																style="font-size: 14px; letter-spacing: 0.5px; line-height: 20px; color: rgb(78, 82, 91); margin-right: 12px;">${ sitterView.b_fee}원</p>
 														</div>
 													</div>
 												</div>

@@ -23,9 +23,9 @@ public class PetSitterDTO {
 	// 이용고객 수 
 	private int sit_CLIENT;
 	// 시터 총 별점
-	private int sit_startpoint;
+	private int sit_starpoint;
 	// 시터가 별점을 받은 횟수 
-	private int sit_startcount;
+	private int sit_starcount;
 
 	public int getSit_idx() {
 		return sit_idx;
@@ -82,16 +82,16 @@ public class PetSitterDTO {
 		this.sit_CLIENT = sit_CLIENT;
 	}
 	public int getSit_startpoint() {
-		return sit_startpoint;
+		return sit_starpoint;
 	}
 	public void setSit_startpoint(int sit_startpoint) {
-		this.sit_startpoint = sit_startpoint;
+		this.sit_starpoint = sit_startpoint;
 	}
 	public int getSit_startcount() {
-		return sit_startcount;
+		return sit_starcount;
 	}
 	public void setSit_startcount(int sit_startcount) {
-		this.sit_startcount = sit_startcount;
+		this.sit_starcount = sit_startcount;
 	}
 	
 	/* 시터 글 등록 시 사진 */
@@ -224,6 +224,8 @@ public class PetSitterDTO {
 	/*회원정보*/
 	// 이름
 	private String member_name;
+	//이메일
+	private String member_email;
 	
 	public String getMember_name() {
 		return member_name;
@@ -231,7 +233,12 @@ public class PetSitterDTO {
 	public void setMember_name(String member_name) {
 		this.member_name = member_name;
 	}
-	
+	public String getMember_email() {
+		return member_email;
+	}
+	public void setMember_email(String member_email) {
+		this.member_email = member_email;
+	}
 	/* 예약 */
 	// 펫시터 예약 일련번호
 	private int sbook_idx;

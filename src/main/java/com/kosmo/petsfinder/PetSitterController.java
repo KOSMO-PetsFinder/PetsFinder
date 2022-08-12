@@ -1,9 +1,26 @@
 package com.kosmo.petsfinder;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
+import javax.mail.Address;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
@@ -12,14 +29,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import petsfinder.petsitter.ParameterDTO;
 import petsfinder.petsitter.PetSitterDAOImpl;
 import petsfinder.petsitter.PetSitterDTO;
 import petsfinder.review.ReviewBoardDAOImpl;
 import petsfinder.review.ReviewBoardDTO;
+import petsfinder.review.ReviewCommentDTO;
+import petsfinder.review.ReviewLikeDTO;
 import petsfinder.utils.PagingUtil;
+import smtp.SMTPAuth;
 
 @Controller
 public class PetSitterController {
@@ -109,35 +130,85 @@ public class PetSitterController {
 				continue;
 			}
 		}
-//		System.out.println(sit_title);
-//		System.out.println(typTag);
-//		System.out.println(sit_intro);
-//		System.out.println(s_fee);
-//		System.out.println(m_fee);
-//		System.out.println(b_fee);
 //		
 		return "default";
 	}
 	
-	//시터 값 처리
+	//시터 상세보기
 	//인파라미터에 DTO를 넣으면 전체가 들어가는건데 일단 전부가 아닐수도 있기에 다 넣지는 말자. 
 	@RequestMapping("/Petsitters/sitterView.do") 
-	public String SitterViewmemberInfo(Model model, HttpServletRequest req, HttpSession session) {
+	public String SitterViewmemberInfo(PetSitterDTO petSitterDTO, Model model, HttpServletRequest req, HttpSession session) {
 		
-		int member_idx = Integer.parseInt(req.getParameter("member_idx"));
-//		System.out.println("member_idx:"+member_idx);
+		int member_idx =0;  
+		if(session.getAttribute("idx") != null){
+			member_idx = Integer.parseInt(session.getAttribute("idx").toString());
+		}
+		ArrayList<ReviewLikeDTO> likeLists = null;
+		//로그아웃 상태
+		if(member_idx==0) {
+			
+		}
+		//로그인 상태
+		else {
+			//사용자가 좋아요한 후기들을 받아옴
+			likeLists = 
+					sqlSession.getMapper(PetSitterDAOImpl.class)
+					.likeList1(member_idx);
+		}
 		int sit_idx = Integer.parseInt(req.getParameter("sit_idx"));
 //		System.out.println("sit_idx:"+sit_idx);
 		
 		//Sitter 테이블 정보 추출
-		PetSitterDTO petSitterDTO = new PetSitterDTO();
-		petSitterDTO.setMember_idx(member_idx);
-		PetSitterDTO sitterViewList = sqlSession.getMapper(PetSitterDAOImpl.class).sitterView(member_idx);
-		model.addAttribute("sitterViewList",sitterViewList);
+//		petSitterDTO.setMember_idx(member_idx);
+//		member_idx = Integer.parseInt(req.getParameter("member_idx"));
+		PetSitterDTO sitterView = sqlSession.getMapper(PetSitterDAOImpl.class).sitterView(sit_idx);
+		
 		
 		//sitterReview 테이블 정보 추출
 		ArrayList<ReviewBoardDTO> stReview = sqlSession.getMapper(PetSitterDAOImpl.class).stReview(sit_idx);
+		
+		//후기가 있는지 확인할 문자
+		String revState = "";
+		//후기의 댓글을 받을 리스트 선언
+		ArrayList<ReviewCommentDTO> reviewCommLists =null;
+		//후기가 없을 때 
+		if(stReview.isEmpty()) {
+			revState = "nex";
+		}
+		//후기가 있을때
+		else {
+			//후기 띄어스기
+			for(ReviewBoardDTO dto : stReview) {
+				String temp = dto.getReview_content().replace("\r\n","<br/>");
+				dto.setReview_content(temp);
+			}
+			//후기 댓글 가져오기
+			reviewCommLists = sqlSession.getMapper(PetSitterDAOImpl.class)
+					.reviewComment1(petSitterDTO.getSit_idx());
+			//후기 댓글 없을경우
+			if(reviewCommLists.isEmpty()) {
+				
+			}
+			//후기의 댓글이 있을 때 
+			else {
+				//후기의 댓글의 띄어쓰기 처리
+				for(ReviewCommentDTO dto : reviewCommLists){
+					String temp = dto.getReviewcomm_content().replace("\r\n","<br/>");
+					dto.setReviewcomm_content(temp);
+				}	
+			}
+			revState = "exe";
+		}
+		
+		int view_reviewRecordCount = sqlSession.getMapper(PetSitterDAOImpl.class).getTotalCount_sitter(sit_idx);
+		
+		model.addAttribute("view_reviewRecordCount", view_reviewRecordCount);
 		model.addAttribute("stReview", stReview);
+		model.addAttribute("sitterView",sitterView);
+		model.addAttribute("petSitterDTO", petSitterDTO);
+		model.addAttribute("reviewCommLists",reviewCommLists);
+		model.addAttribute("revState",revState);
+		model.addAttribute("likeLists",likeLists);
 		
 		//이용가능서비스 테이블 추출 (DTO가 아니라 1개 이상의 결과이기 때문에 ArrayList로 담아야함)
 		ArrayList<PetSitterDTO> avalService = sqlSession.getMapper(PetSitterDAOImpl.class).avalService(sit_idx);
@@ -152,15 +223,71 @@ public class PetSitterController {
 		ArrayList<PetSitterDTO> re_list = sqlSession.getMapper(PetSitterDAOImpl.class).reserved(sit_idx);
 		model.addAttribute("re_list", re_list);
 //		System.out.println(re_list);
-		
-//		System.out.println("sitterViewList:"+sitterViewList);
-//		System.out.println("stReview"+stReview);
-//		System.out.println("avalService"+avalService);
-//		System.out.println("sitterTag"+sitterTag);
-		
+				
 		return "./Petsitters/sitterView"; 
 	 
 	}
+	
+	//후기 댓글 입력
+	@RequestMapping(value = "/Petsitters/commentInsert",method = RequestMethod.GET)
+	@ResponseBody
+	public ReviewCommentDTO CommentInsert(ReviewCommentDTO reviewCommentDTO, HttpSession session) {
+		//글쓴 사람의 정보를 불러옴
+		String sIdx = (String) session.getAttribute("idx");
+		int idx =Integer.parseInt(sIdx);
+		String name = (String) session.getAttribute("name");
+		String photo = (String) session.getAttribute("photo");
+		
+		//등록한 날짜
+		Date today = new Date();
+		SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+		
+		//댓글 저장
+		int result = 
+				sqlSession.getMapper(PetSitterDAOImpl.class).commentInsert1(reviewCommentDTO);
+		if(result==1) {
+			System.out.println("저장성공!");
+		}
+		//반환할 dto에 필요한 정보 저장
+		reviewCommentDTO.setMember_idx(idx);
+		reviewCommentDTO.setMember_namec(name);
+		reviewCommentDTO.setMember_photo(photo);
+		reviewCommentDTO.setReviewcomm_regdate(date.format(today));
+		reviewCommentDTO.setReview_idx(1);
+		return reviewCommentDTO;
+	}
+	
+	//좋아요 처리 
+	@RequestMapping(value = "/Petsitters/sitlike")
+	public String abaniLike(ReviewLikeDTO reviewLikeDTO, HttpServletRequest req) {
+		//이전페이지로 돌아가기 위한 유기동물 일련번호
+		String idx = req.getParameter("sit_idx");
+		
+		//좋아요가 이미 있는지 여부 확인 
+		ReviewLikeDTO dto = 
+				sqlSession.getMapper(PetSitterDAOImpl.class).likeStatus1(reviewLikeDTO);
+		//좋아요가 없다면
+		if(dto==null) {
+			//좋아요 상태를 1로 새롭게 등록
+			sqlSession.getMapper(PetSitterDAOImpl.class).insertLike1(reviewLikeDTO);
+			
+		}
+		//좋아요가 있다면
+		else {
+			//좋아요 상태(1)  
+			if(dto.getReviewlike_stt()==1) {
+				//좋아요 상태를 0으로 바꾼다.
+				sqlSession.getMapper(PetSitterDAOImpl.class).likeOntToZero1(reviewLikeDTO);
+			}
+			//좋아요 상태X(0)
+			else {
+				//좋아요 상태를 1로 바꾼다.
+				sqlSession.getMapper(PetSitterDAOImpl.class).likeZeroToOne1(reviewLikeDTO);
+			}
+		}
+		return "redirect:/Petsitters/sitterView.do?sit_idx="+idx;
+	}
+		
 	
 	@RequestMapping("/petsitters/reserve")
 	public String reserve(Model model, HttpServletRequest req) {
@@ -172,14 +299,14 @@ public class PetSitterController {
 		return "./Petsitters/sitterView";
 	}
 	
-	
+	//시터 후기
 	@RequestMapping("/Petsitters/sitterreview")
 	public String PSreview(Model model, HttpServletRequest req) {
 		
 		int totalRecordCount = sqlSession.getMapper(ReviewBoardDAOImpl.class).getTotalCount();
 		
-		int pageSize = 3;
-		int blockPage = 4;
+		int pageSize = 2;
+		int blockPage = 3;
 		
 		int nowPage = req.getParameter("nowPage")==null ? 1:Integer.parseInt(req.getParameter("nowPage"));
 		
@@ -204,39 +331,94 @@ public class PetSitterController {
 	
 	//시터 전체보기 혹은 검색시 나타나는 전체 시터리스트
 	@RequestMapping("/Petsitters/sitterlist")
-	public String sitterList(Model model, HttpServletRequest req) {
+	public String sitterList(Model model, HttpServletRequest req, ParameterDTO parameterDTO) {
 
-		int totalRecordCount = sqlSession.getMapper(PetSitterDAOImpl.class).getTotalCount();
+	    String insUrl="";
+        int totalRecordCount = sqlSession.getMapper(PetSitterDAOImpl.class).getTotalCount();
+      
+        int pageSize = 4;
+      
+        int nowPage = (req.getParameter("nowPage")==null || req.getParameter("nowPage").equals("")) 
+               ? 1 : Integer.parseInt(req.getParameter("nowPage"))+1;
+      
+      
+        //가져올 시터 시작과 끝
+        int start = 1; 
+        int end = nowPage * pageSize; 
+        //parameterDTO에 start와 end값 저장
+        parameterDTO.setStart(start);
+        parameterDTO.setEnd(end);
+      
+        //모든 리스트 불러왔을 때 더보기 버튼을 삭제하기 위한 값
+        int moreStop = 0;
+        if(totalRecordCount <= end) {
+           moreStop =1;
+        }
+      
+      
+        ArrayList<PetSitterDTO> lists = sqlSession.getMapper(PetSitterDAOImpl.class).listPage(start, end);
+      
+        model.addAttribute("moreStop",moreStop);
+        model.addAttribute("lists", lists);
+        model.addAttribute("parameterDTO",parameterDTO);
+        model.addAttribute("nowPage",nowPage);
+        model.addAttribute("insUrl",insUrl);
 
-		int pageSize = 5;
-
-		int blockPage = 2;
-
-		int totalPage = (int) Math.ceil((double) totalRecordCount / pageSize);
-
-		int nowPage = (req.getParameter("nowPage") == null || req.getParameter("nowPage").equals("")) ? 1
-				: Integer.parseInt(req.getParameter("nowPage"));
-
-		int start = (nowPage - 1) * pageSize + 1;
-		int end = nowPage * pageSize;
-		
-		
-		ArrayList<PetSitterDTO> lists = sqlSession.getMapper(PetSitterDAOImpl.class).listPage(start, end);
-		String pagingImg = PagingUtil.pagingImg(totalRecordCount, pageSize, blockPage, nowPage,
-				req.getContextPath() + "/Petsitters/sitterlist?");
-		model.addAttribute("pagingImg", pagingImg);
-
-		model.addAttribute("lists", lists);
-		
-
-		return "./Petsitters/sitterlist";
+        return "./Petsitters/sitterlist";
 	}
+	
+	//리스트 더보기(json)
+    @RequestMapping(value = "/Petsitters/sitterlist",method = RequestMethod.POST)
+    @ResponseBody
+    public ArrayList<PetSitterDTO> sitterList(PetSitterDTO petSitterDTO , 
+        HttpServletRequest req, ParameterDTO parameterDTO) {
+
+        //전체 갯수 가지고 오기
+        int totalRecordCount =
+            sqlSession.getMapper(PetSitterDAOImpl.class).getTotalCount();
+
+        //한 블럭에서 보여줄 시터 수 
+        int pageSize = 6;
+        
+        //현제 페이지를 받아옴
+        int nowPage = (req.getParameter("nowPage")==null 
+              || req.getParameter("nowPage").equals("")) 
+                 ? 1 : Integer.parseInt(req.getParameter("nowPage"))+1;
+        
+        
+        //가져올 시터 시작과 끝
+        int start = ((nowPage-1) * pageSize) +1; //13
+        int end = nowPage * pageSize; // 24
+        //parameterDTO에 start와 end값 저장
+        parameterDTO.setStart(start);
+        parameterDTO.setEnd(end);
+        
+        //모든 시터 불러왔을 때 더보기 버튼을 삭제하기 위한 값
+        int moreStop = 0;
+        if(totalRecordCount <= end) {
+           moreStop =1;
+        }
+        
+        //시터 리스트 
+        ArrayList<PetSitterDTO> lists =
+              sqlSession.getMapper(PetSitterDAOImpl.class).petsitterPage(parameterDTO);
+        for(PetSitterDTO dto : lists) {
+           System.out.println(dto.getSit_idx());
+        }
+        return lists;
+    }
+	
+	
+
 	//시터 찾기 처음 들어갔을 때의 페이지 (페이징 처리 필요 없이 4개만 가져오면됨)
 	@RequestMapping("/Petsitters/petsitters")
 	public String sitter(Model model, HttpServletRequest req) {
 
 		int start = 1;
 		int end = 4;
+		
+		
+//		ArrayList<PetSitterDTO> typetag = sqlSession.getMapper(PetSitterDAOImpl.class).typetag(typetag_idx);
 		
 		ArrayList<PetSitterDTO> lists = sqlSession.getMapper(PetSitterDAOImpl.class).listPage(start, end);
 		ArrayList<PetSitterDTO> lists1 = sqlSession.getMapper(PetSitterDAOImpl.class).listPage1(start, end);
@@ -247,6 +429,12 @@ public class PetSitterController {
 		model.addAttribute("lists2",lists2);
 		return "./Petsitters/petsitters";
 	}
+	
+    
+
+	
+
+	
 	
 	
 }

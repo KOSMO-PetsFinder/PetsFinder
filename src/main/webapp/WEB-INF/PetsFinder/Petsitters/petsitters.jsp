@@ -118,7 +118,7 @@
       function option_check01() {
         var no_pet = document.getElementById('no_pet');
         if (no_pet.style.borderColor == 'rgb(223, 227, 234)') {
-        	location.href='./list?p=0&'
+        	location.href='./petsitters/sitterlist?p=0&'
 	        no_pet.style.borderColor = '#75c9ba';
 	        no_pet.style.color = '#75c9ba';
         } else {
@@ -276,23 +276,17 @@
             </a>
         </div>
        <!-- 첫번째 오래된 순 -->
+       <form action="<c:url value='/'/>Petsitters/sitterView.do" method="POST">
         <div style="width: 1024px; margin-top: 50px; display: flex; justify-content: space-between" >
        <c:forEach items="${lists }" var="row" >
-       	<input type="hidden" value="${row.member_idx }"  />
-            <a href="/petsitters/details/1" target="_blank" style="margin-right: 14px">
+	       <input type="hidden" value="${row.member_idx }" name="member_idx" />
+		   <input type="hidden" value="${row.sit_idx }" name="sit_idx" />
+            <a href="<c:url value='/'/>Petsitters/sitterView.do?member_idx=${row.member_idx }&sit_idx=${row.sit_idx }" target="_blank" style="margin-right: 14px">
             <div>
               <div style="width: 245px; height: 170px; border-radius: 3px">
 
                 <img src="<c:url value='/' />Uploads/${row.sitphoto_photo }" style="width: 245px; height: 170px; border-radius: 3px">
-              <!--/상위로가서 절대경로로 넘김  
-              <a href="/PetsFinder/Petsitters/sitterView.do">
-              </a>
-              href="/PetsFinder/Petsitters/sitterView.do"
               
-             사진을 누르면 넘어가는것이 아닌 버튼을 만들어서 넘겨보자. 
-              -->
-              <img src="https://d1cd60iwvu//zqnn.cloudfront.net/page/fd37e21adee1436c8b9341758eafe5d5.jpg" 
-              style="width: 245px; height: 170px; border-radius: 3px" >
               </div>
               <p style="font-size: 13px; letter-spacing: -0.2px; line-height: 20px; color: #383c48; margin-top: 20px">
                 주소 : ${row.sit_addr }
@@ -312,12 +306,12 @@
             </a>
             </c:forEach>
             </div>
-           
+        </form>   
       <br/><br/>
       <div style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-bottom: 120px">
         <div style="width: 1024px; display: flex; justify-content: space-between; align-items: center">
           <p style="font-size: 23px; color: #393c47; letter-spacing: -0.2px; font-weight: 600">프로 펫시터를 만나보세요</p>
-          <a href="<c:url value='/' />petsitters/sitterlist?" style="
+          <a href="<c:url value='/' />Petsitters/sitterlist" style="
               border: 1px solid #81899b;
               border-radius: 5px;
               width: 94px;
@@ -329,17 +323,18 @@
               전체 보기<img src="<c:url value='/' />images/arrow_right_gray.png" style="width: 7px; height: 11px; margin-left: 6px"></p></a>
         </div>
         <!--2번쨰 인기순(sit_client 순) -->
+        <form action="<c:url value='/'/>Petsitters/sitterView.do" method="POST">
         <div style="width: 1024px; margin-top: 50px; display: flex; justify-content: space-between">
         <c:forEach items="${lists2 }" var="row">
-          <a href="/petsitters/details/z399mb" target="_blank" style="margin-right: 14px"><div>
+          <a href="<c:url value='/'/>Petsitters/sitterView.do?member_idx=${row.member_idx }&sit_idx=${row.sit_idx }" target="_blank" style="margin-right: 14px"><div>
               <div style="width: 245px; height: 170px; border-radius: 3px">
                 <img src="<c:url value='/' />Uploads/${row.sitphoto_photo }" style="width: 245px; height: 170px; border-radius: 3px">
               </div>
               <p style="font-size: 13px; letter-spacing: -0.2px; line-height: 20px; color: #383c48; margin-top: 20px">
-                ${row.sit_title }
+                주소 : ${row.sit_addr }
               </p>
               <p style="font-size: 16px; letter-spacing: -0.2px; line-height: 20px; color: #383c48; margin-top: 5px">
-                ${row.sit_intro }
+                제목 : ${row.sit_title }
               </p>
               <div style="display: flex; margin-top: 10px; width: 80px; justify-content: space-between; align-items: center">
                 <div style="width: 60px; display: flex; justify-content: space-between">
@@ -353,12 +348,12 @@
             </c:forEach>
             </div>
            
-           
+        </form>      
       <br/><br/>
       <div style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-bottom: 180px">
         <div style="width: 1024px; display: flex; justify-content: space-between; align-items: center">
           <p style="font-size: 23px; color: #393c47; letter-spacing: -0.2px; font-weight: 600">신규 펫시터 10% 할인!</p>
-          <a href="<c:url value='/' />petsitters/sitterlist?" style="
+          <a href="<c:url value='/' />Petsitters/sitterlist" style="
               border: 1px solid #81899b;
               border-radius: 5px;
               width: 94px;
@@ -369,18 +364,19 @@
             "><p style="font-size: 15px; color: #81899b; display: flex; align-items: center">
               전체 보기<img src="<c:url value='/' />images/arrow_right_gray.png" style="width: 7px; height: 11px; margin-left: 6px"></p></a>
         </div>
-        <div style="width: 1024px; margin-top: 50px; display: flex">
         <!-- 3번째 최신순 -->
+        <form action="<c:url value='/'/>Petsitters/sitterView.do" method="POST">
+        <div style="width: 1024px; margin-top: 50px; display: flex">
        <c:forEach items="${lists1 }" var="row">
-          <a href="/petsitters/details/qlg5kj" target="_blank" style="margin-right: 14px"><div>
+          <a href="<c:url value='/'/>Petsitters/sitterView.do?member_idx=${row.member_idx }&sit_idx=${row.sit_idx }" target="_blank" style="margin-right: 14px"><div>
               <div style="width: 245px; height: 170px; border-radius: 3px">
                 <img src="<c:url value='/' />Uploads/${row.sitphoto_photo }" style="width: 245px; height: 170px; border-radius: 3px">
               </div>
               <p style="font-size: 13px; letter-spacing: -0.2px; line-height: 20px; color: #383c48; margin-top: 20px">
-                ${row.sit_title }
+                주소 : ${row.sit_addr }
               </p>
               <p style="font-size: 16px; letter-spacing: -0.2px; line-height: 20px; color: #383c48; margin-top: 5px">
-                ${row.sit_intro }
+                제목 : ${row.sit_title }
               </p>
               <div style="display: flex; margin-top: 10px; width: 80px; justify-content: space-between; align-items: center">
                 <div style="width: 60px; display: flex; justify-content: space-between">
@@ -391,8 +387,9 @@
                 <p style="font-size: 11px; color: #5e636d; letter-spacing: -0.2px; margin-left: 4px">(<!-- -->1<!-- -->)</p>
               </div>
             </div></a>
-            </c:forEach>
-            </div>
+        </c:forEach>
+	      </div>
+         </form>      
             
         </c:if>
       	<c:if test="${ param.sD ne '' and param.sD ne null and empty P_List }">

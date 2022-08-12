@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css" />
@@ -500,7 +501,7 @@
 					<a class="s_reserve" href="./Petsitter" >
 						<p style="font-size: 18px; margin-bottom: 0; font-weight: bold;"> 예약하기</p>
 					</a>
-					<a class="s_latter" href="" >
+					<a class="s_latter" href="<c:url value='/'/>Petsitters/sitterreview" >
 						<p style="font-size: 18px; margin-bottom: 0; font-weight: bold;"> + 후기 더보기</p>
 					</a>
 				</div>

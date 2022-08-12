@@ -176,7 +176,90 @@
       
 
     </script>
+    
+    <script>
+	function comma(str) {
+	    str = String(str);
+	    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+	}
+
+	function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+	
+    function moreList1(){
+		$.ajax({
+			url : "./sitterlist",
+			type : "POST",
+			data : {
+				"nowPage" : ${nowPage },
+				
+			},
+		    dataType : 'json',
+			success : function (lists) {
+				var content="";    
+				for(var i=0; i<lists.length; i++){ 
+					              
+					/* content += "<a href='./sitterView.do?sit_idx="+lists[i].sit_idx+"' target='_blank' style='margin-right: 14px'>";    */      
+							
+					content += "<form action='<c:url value='/'/>Petsitters/sitterView.do' method='POST'>"
+
+					content += "<input type='hidden' value="+lists[i].member_idx+" name='member_idx' />";
+					content += "<input type='hidden' value="+lists[i].sit_idx+" name='sit_idx' />";
+					content += "<div style='width: 1028px; height: 260px; border: 1px solid rgb(235, 235, 235); display: flex; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.07) 0px 0px 12px 0px; position: relative; align-items: center;'>";
+
+					content += "<div style='width: 390px; height: 250px; border-radius: 5px; margin-left: 5px; overflow: hidden; position: relative;'>";
+					content += "<div><input type='image' src='<c:url value='/' />Uploads/"+lists[i].sitphoto_photo+"' style='width: 390px; height: 250px; border-radius: 3px; object-fit: cover;' /></div>";
+
+					content += "</div>";
+					content += "<div style='padding: 30px 33px 0px 38px; height: 100%; display: flex; flex-grow: 1; flex-direction: column; justify-content: space-between; align-items: center;'>";
+					content += "<div style='width: 100%; border-bottom: 1px solid rgb(235, 235, 235); padding-bottom: 15px;'>";
+					content += "<p style='font-family: &amp; amp; amp; amp; quot; Noto Sans KR&amp;amp; amp; amp; quot;; font-size: 14px; letter-spacing: -0.1px; color: rgb(94, 99, 109);'>"+lists[i].sit_addr+"</p>";
+					content += "<p><a href='<c:url value='/'/>Petsitters/sitterView.do?member_idx="+lists[i].member_idx+"&sit_idx="+lists[i].sit_idx+"' style='font-size: 20px; font-family: &amp; amp; amp; amp; quot; Noto Sans KR&amp;amp; amp; amp; quot;; letter-spacing: -0.2px; color: rgb(56, 60, 72); margin-top: 9.5px;'> "+lists[i].sit_title+"</a></p>";
+					content += "</div>";
+					content += "<div style='display: flex; justify-content: space-between; width: 100%; height: 100%; padding-top: 18px;'>";
+					content += "<div style='display: flex; flex-direction: column; justify-content: space-between;'>";
+					content += "<p style='color: rgb(56, 60, 72); font-size: 13px; letter-spacing: -0.3px; max-width: 400px; max-height:55px; overflow:hidden;'>"+lists[i].sit_intro+"</p>";
+					content += "<div style='display: flex; align-items: center; flex-direction: row; margin-bottom: 30px;'>";
+					content += "<div style='width: 64.63px; display: flex; justify-content: space-between;'>";
+					content += "<div style='display: flex; flex: 1 1 0%; justify-content: space-between;'></div>";
+					content += "</div>";
+					content += "<p style='font-family: &amp; amp; amp; amp; quot; Noto Sans KR&amp;amp; amp; amp; quot;; font-size: 12px; line-height: 18px; color: rgb(94, 99, 109); letter-spacing: -0.2px; margin-left: 8px;'>이용 고객 수 : "+lists[i].sit_CLIENT+"</p>";
+					content += "</div>";
+					content += "</div>";
+					content += "<div style='display: flex; flex-direction: column; justify-content: flex-end; margin-bottom: 30px;'>";
+					content += "<div style='display: flex; align-items: center;'>";
+					content += "<p style='font-size: 17px; color: rgb(79, 82, 90); letter-spacing: 0.5px;' >"+lists[i].s_fee+"</p>";
+					content += "<div style='width: 32px; height: 21px; border: 1px solid rgb(197, 201, 208); border-radius: 3px; display: flex; align-items: center; justify-content: center; margin-left: 10px;'>";
+					content += "<p style='font-family: &amp; amp; amp; amp; quot; Noto Sans KR&amp;amp; amp; amp; quot;; font-size: 11px; letter-spacing: -0.2px; color: rgb(79, 82, 90);'>1 박</p>";
+					content += "</div>";
+					content += "</div></div></div>";
+					content += "<div style='display: flex; margin-top: 10px; align-items: center;'>";
+					content += "</div>";
+					content += "</form></div>";
+					content += "</div>";
+				}
+				if(lists.length<12){
+					moreBtn.style.display= 'none';
+				} 
+				
+				$(content).appendTo("#table_sitter");
+				//nowPage처리 
+				var val01 = $('#nowPage').val();
+				var val02 = parseInt(val01) + 1;
+				$('#nowPage').val(val02); 
+				
+			},
+			
+			error : function () {
+				console.log("실패");
+			},
+		});
+	};
+	</script>
+    
     <!-- main_menu -->
+    <input type="hidden" id="nowPage" value="1" />
     <div style="display: flex; justify-content: center; flex-direction: column; padding-top: 180px; padding-bottom:85px; align-items: center; box-shadow: rgba(0, 0, 0, 0.05) 0px 2px 20px;">
       <div style="display: flex; justify-content: space-between; width: 1024px">
         <div style="margin-right: 48px;">
@@ -288,8 +371,8 @@
 											<c:forEach items="${lists }" var="row">
 											<form action="<c:url value='/'/>Petsitters/sitterView.do" method="POST">
 											
-												<input type="hid den" value="${row.member_idx }" name="member_idx" />
-		                                        <input type="hid den" value="${row.sit_idx }" name="sit_idx" />
+												<input type="hidden" value="${row.member_idx }" name="member_idx" />
+		                                        <input type="hidden" value="${row.sit_idx }" name="sit_idx" />
 												<div
 													style="width: 1028px; height: 260px; border: 1px solid rgb(235, 235, 235); display: flex; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.07) 0px 0px 12px 0px; position: relative; align-items: center;">
 
@@ -317,7 +400,7 @@
 															<div
 																style="display: flex; flex-direction: column; justify-content: space-between;">
 																<p
-																	style="color: rgb(56, 60, 72); font-size: 13px; letter-spacing: -0.3px; max-width: 400px;">
+																	style="color: rgb(56, 60, 72); font-size: 13px; letter-spacing: -0.3px; max-width: 400px; max-height: 55px; overflow:hidden;">
 																	${row.sit_intro }</p>
 																<div
 																	style="display: flex; align-items: center; flex-direction: row; margin-bottom: 30px;">
@@ -350,6 +433,7 @@
 																	style="display: flex; margin-top: 10px; align-items: center;">
 
 																</div>
+																<br />
 															</div>
 														</div>
 													</div>
@@ -357,7 +441,16 @@
 											</form>
 											</c:forEach>
                                               
-                                       
+                                       		<div style="text-align: center;">
+												<div id="moreBtn" class="adoptPlus_btn" style="display: block;">
+													<c:if test="${ moreStop eq 0 }">
+														<a class="ad_plus" href="javascript:moreList1();">
+															<p style="font-size: 18px; color: #75c9ba; margin-bottom: 30px; margin-top: 30px; font-weight: bold;">
+																+ 더보기</p>
+														</a>
+													</c:if>
+												</div>
+											</div>
                          
                     </div>
                 </div>

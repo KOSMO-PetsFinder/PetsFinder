@@ -46,7 +46,7 @@
             </li>
             <li style="color:lightgray">&nbsp;|</li>
             <li class="last_menu" style="padding-right:15px;">
-              <a><i class="fa-solid fa-shield-dog"></i> 펫시터</a>
+              <a class="about_a" href="#"><i class="fa-solid fa-shield-dog"></i> 펫시터</a>
             </li>
             <li style="color:lightgray">&nbsp;|</li>
              <li class="no_2depth"><a href="#"><i class="fa-solid fa-cart-shopping"></i> Shop</a></li>
@@ -57,13 +57,13 @@
            			%>
            			<li class="admin_menu"><a href="<c:url value='/' />"><%= session.getAttribute("name") %>님</a></li>
                     <li class="no_2depth"><a href="<c:url value='/' />Logout">로그아웃</a></li>
+		            <%
+			    		} else {
+			    		%>
+	           			<li class="no_2depth"><a href="<c:url value='/' />myPage"><%= session.getAttribute("name") %>님</a></li>
+	                    <li class="no_2depth"><a href="<c:url value='/' />Logout">로그아웃</a></li>
 	            <%
-	    		} else {
-	    		%>
-           			<li class="no_2depth"><a href="<c:url value='/' />myPage"><%= session.getAttribute("name") %>님</a></li>
-                    <li class="no_2depth"><a href="<c:url value='/' />Logout">로그아웃</a></li>
-            <%
-            	}
+	            	}
             } else{
             %>
             <li class="no_2depth"><a href="<c:url value='/' />Login"><i class="fa-solid fa-right-to-bracket"></i> 로그인</a></li>
@@ -91,7 +91,7 @@
             </li>
             <li class="admin">
             <ul>
-            	<li class="admin_menu_2depth" style="margin-left:850px; position:absolute;"><a href="/">AdminPage</a></li>
+            	<li class="admin_menu_2depth" style="margin-left:150px; position:absolute;"><a href="./Admin/adminMain">AdminPage</a></li>
             </ul>
             </li>
             <li class="sitter" >
@@ -128,10 +128,10 @@
                       <a href="<c:url value='/' />AbandonedAnimal/abanAniList.do">- 유기동물</a>
                     </li>
                     <li>
-                      <a href="<c:url value='/' />">- 입양후기</a>
+                      <a href="<c:url value='/' />AbandonedAnimal/adoptlatter.do">- 입양후기</a>
                     </li>
                     <li>
-                      <a href="<c:url value='/' />"
+                      <a href="<c:url value='/' />AbandonedAnimal/AdoptApplicationForm.do"
                         >- 입양신청</a
                       >
                     </li>
@@ -144,7 +144,7 @@
                       <a href="<c:url value='/' />Petsitters/petsitters">- 시터찾기</a>
                     </li>
                     <li>
-                      <a href="<c:url value='/' />">- 시터이용후기</a>
+                      <a href="<c:url value='/' />Petsitters/sitterreview">- 시터이용후기</a>
                     </li>
                     <li>
                       <a href="<c:url value='/' />"
@@ -159,13 +159,13 @@
                 <br />
                 <%
                 if (session.getAttribute("id") != null) {
-               		if(!session.getAttribute("id").equals("어드민 아이디")) {
+               		if(!session.getAttribute("id").equals("petsfinder")) {
                 %>
                 <li>
                 <ul class="m_menu_2depth">
                 <p style="color:#85B4F2; font-size: 25px; font-weight:bold;"><%= session.getAttribute("name") %>님</p>
                 <li>
-                     <a href="<c:url value='/' />" style="color:#85B4F2;">- AdminPage</a>
+                     <a href="<c:url value='/' />Admin/adminMain" style="color:#85B4F2;">- AdminPage</a>
                 </li>
                 <li>
                		<a href="<c:url value='/' />Logout" style="color:#85B4F2;">- Logout</a>
