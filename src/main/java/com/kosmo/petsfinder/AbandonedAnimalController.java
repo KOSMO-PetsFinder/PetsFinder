@@ -268,16 +268,7 @@ public class AbandonedAnimalController {
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	//후기 댓글 입력
 	@RequestMapping(value = "AbandonedAnimal/commentInsert.do",method = RequestMethod.GET)
 	@ResponseBody

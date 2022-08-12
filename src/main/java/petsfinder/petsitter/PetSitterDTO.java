@@ -81,6 +81,7 @@ public class PetSitterDTO {
 	public void setSit_CLIENT(int sit_CLIENT) {
 		this.sit_CLIENT = sit_CLIENT;
 	}
+
 	public int getSit_starpoint() {
 		return sit_starpoint;
 	}
@@ -224,6 +225,8 @@ public class PetSitterDTO {
 	/*회원정보*/
 	// 이름
 	private String member_name;
+	//이메일
+	private String member_email;
 	
 	public String getMember_name() {
 		return member_name;
@@ -231,7 +234,12 @@ public class PetSitterDTO {
 	public void setMember_name(String member_name) {
 		this.member_name = member_name;
 	}
-	
+	public String getMember_email() {
+		return member_email;
+	}
+	public void setMember_email(String member_email) {
+		this.member_email = member_email;
+	}
 	/* 예약 */
 	// 펫시터 예약 일련번호
 	private int sbook_idx;

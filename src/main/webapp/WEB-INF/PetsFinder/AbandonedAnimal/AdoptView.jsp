@@ -11,14 +11,22 @@
 <!-- saved from url=(0046)https://petplanet.co/petsitters/details/rsbzj1 -->
 <html>
 <head>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>    
+	<link rel="stylesheet" href="../jquery/jquery-ui.css">
+	<script src="../jquery/jquery-ui.js"></script>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </head> 
+
 <body cz-shortcut-listen="true">
+	<jsp:include page="../common/Header.jsp" />
 	<c:forEach items="${reviewLists }" var="row">
 	<!-- ajax시작 -->
     <script type="text/javascript">
@@ -101,42 +109,47 @@
 							<div class="wrapper">
 								<div>
 									<div
-										style="z-index: 1; width: 83px; height: 36px; display: flex; align-items: center; justify-content: center; border: 1px solid rgb(223, 227, 234); border-radius: 3px; position: absolute; top: 605px; right: 24px; background-color: white; cursor: pointer; user-select: none;">
-										<p
-											style="font-size: 14px; letter-spacing: -0.2px; line-height: 20px; color: rgb(57, 60, 71);">사진
-											보기</p>
-									</div>
-									<div
 										style="z-index: 1; width: 100px; height: 36px; display: flex; align-items: center; justify-content: center; border: 1px solid rgb(223, 227, 234); border-radius: 3px; position: absolute; top: 109px; right: 24px; background-color: white; cursor: pointer; user-select: none;">
 										<img width="22" height="22"
-											src="./sitterView/icon_share.png"
+											src="<c:url value='/'/>sitterView/icon_share.png"
 											style="margin-right: 2px;">
 										<p style="font-size: 14px; letter-spacing: -0.2px; line-height: 20px; color: rgb(57, 60, 71);">공유하기</p>
 									</div>
-									<div class="mainGallery"
-										style="z-index: 0; display: flex; flex-direction: row; width: 100%; height: 580px; margin-top: 85px; position: relative;">
-										<div style="width: 62.5%; height: 580px; overflow: hidden;">
-											<img alt="경북 영주시 휴천동, 송*은 펫시터 환경" width="900" height="580"
-												class="normalImage"
-												src="../sitterView/e0b00068f0f84976a9442d8a89e18646.jpg"
-												style="object-fit: cover; width: 100%; user-select: none; cursor: pointer;">
+									<div style="z-index: 0; display: flex; flex-direction: row; width: 100%; height: 580px; margin-top: 85px; position: relative;">
+										<div class="carousel-indicators">
+											<button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
+											<button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
+											<button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
 										</div>
-										<div
-											style="display: flex; flex-grow: 1; width: 37.5%; height: 580px; flex-direction: column;">
-											<div style="width: 100%; height: 290px; overflow: hidden;">
-												<img alt="경북 영주시 휴천동, 송*은 펫시터 환경" height="290"
-													class="normalImage"
-													src="./sitterView/14592bff60324a22995567266f07115a.jpg"
-													style="object-fit: cover; user-select: none; cursor: pointer; width: 100%;">
+										<!-- 캐러셀 이미지 -->
+										<div style="width: 100%; height: 580px;" class="carousel-inner">
+											<div class="carousel-item active">
+												<img alt="경북 영주시 휴천동, 송*은 펫시터 환경" width="1500" height="580"
+													class="d-block"
+													src="<c:url value='/'/>sitterView/e0b00068f0f84976a9442d8a89e18646.jpg"
+													style="object-fit: cover; width: 100%; user-select: none; cursor: pointer;">
 											</div>
-											<div style="width: 100%; height: 290px; overflow: hidden;">
-												<img alt="경북 영주시 휴천동, 송*은 펫시터 환경" height="290"
-													class="normalImage"
-													src="./sitterView/654dd40110f54db8935e54eef538a441.jpg"
-													style="object-fit: cover; user-select: none; cursor: pointer; width: 100%;">
+											<div class="carousel-item">
+												<img alt="경북 영주시 휴천동, 송*은 펫시터 환경" width="1500" height="580"
+													class="d-block"
+													src="<c:url value='/'/>sitterView/e0b00068f0f84976a9442d8a89e18646.jpg"
+													style="object-fit: cover; width: 100%; user-select: none; cursor: pointer;">
+											</div>
+											<div class="carousel-item">
+												<img alt="경북 영주시 휴천동, 송*은 펫시터 환경" width="1500" height="580"
+													class="d-block"
+													src="<c:url value='/'/>sitterView/e0b00068f0f84976a9442d8a89e18646.jpg"
+													style="object-fit: cover; width: 100%; user-select: none; cursor: pointer;">
 											</div>
 										</div>
+										<button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+											<span class="carousel-control-prev-icon"></span>
+										</button>
+										<button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+											<span class="carousel-control-next-icon"></span>
+										</button>
 									</div>
+									<!-- 캐러셀 이미지 끝 -->
 									<div
 										style="margin-top: 73px; margin-left: auto; margin-right: auto; width: 1027px; display: flex; flex-direction: row; justify-content: space-between;">
 										<div>
@@ -505,5 +518,6 @@
 			</div>
 		</div>
 	</div>
+	 <jsp:include page="../common/foot.jsp" />
 </body>
 </html>

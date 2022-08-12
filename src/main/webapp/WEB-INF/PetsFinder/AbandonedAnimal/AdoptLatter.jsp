@@ -6,6 +6,7 @@
 <html lang="en">
   <head>
     <title>Adopt Latter</title>
+
     <meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -44,9 +45,9 @@
       <c:forEach items="${lists }" var="row" varStatus="vs">
       <c:if test="${vs.index%3 == 0  }">
       <!-- 후기 한 줄 시작 -->
-      <div style="display: flex; justify-content: flex-start; margin-left: 200px">
+      <div style="display: flex; justify-content: flex-start; margin-left:200px;">
       </c:if>
-      <div style="width: 480px; padding-top: 50px; padding-bottom: 50px; margin-right: 50px">
+      <div style="width: 480px; padding-top: 50px; padding-bottom: 50px; margin-right:50px;">
         
           <div
             style="

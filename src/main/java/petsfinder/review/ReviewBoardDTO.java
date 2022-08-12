@@ -16,8 +16,8 @@ public class ReviewBoardDTO {
 	private int countlike; //좋아요 수 
 	private String pet_name;
 	private int adopList_idx;
-	private String member_photo; 
-	
+	private String member_photo;
+
 	public String getMember_photo() {
 		return member_photo;
 	}

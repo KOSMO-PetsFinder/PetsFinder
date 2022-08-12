@@ -28,12 +28,12 @@
     </div>
     <section style="margin-top: 102px; box-shadow: rgba(0, 0, 0, 0.08) 0 0 10px 0;">
       <!-- 후기 한 줄 시작 -->
-      <div style="display: flex; justify-content: flex-start; margin-left: 200px">
+      <div style="display: flex; justify-content: flex-start; margin-left:200px;">
         <!-- 후기 시작 -->
-	    <c:forEach items="${reviewlist }" var="list">
+	    <c:forEach items="${reviewlist }" var="list" varStatus="vs">
 	    <input type="hidden" value="${list.member_idx }" />
 	    <input type="hidden" value="${list.sit_idx }" />
-        <div style="width: 480px; padding-top: 50px; padding-bottom: 50px; margin-right: 50px">
+        <div style="width: 480px; padding-top: 50px; padding-bottom: 50px; margin-right:50px;" >
           <div
             style="
               display: flex;
@@ -58,15 +58,15 @@
             <div style="display: flex; justify-content: space-between; width: 381px; margin-top: 35px">
               <p style="font-size: 23px; color: rgb(51, 51, 51); font-weight: 500; letter-spacing: -0.2px">${list.pet_name } 보호자님</p>
               <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 80px">
-                <img width="13" height="13" src="../images/star_1.png" /><img
+                <img width="13" height="13" src="../images/common/star_1.png" /><img
                   width="13"
                   height="13"
-                  src="../images/star_1.png"
-                /><img width="13" height="13" src="../images/star_1.png" /><img
+                  src="../images/common/star_1.png"
+                /><img width="13" height="13" src="../imagescommon//star_1.png" /><img
                   width="13"
                   height="13"
-                  src="../images/star_1.png"
-                /><img width="13" height="13" src="../images/star_1.png" />
+                  src="../images/common/star_1.png"
+                /><img width="13" height="13" src="../images/common/star_1.png" />
               </div>
             </div>
             <p
@@ -88,7 +88,7 @@
               ${list.review_content }
             </p>
             <a
-              href="/reviews/qavmeexvxqxcj5us"
+              href="<c:url value="/"/>/Petsitters/sitterView.do?sit_idx=${list.sit_idx }&member_idx=${list.member_idx}"
               style="
                 width: 381px;
                 height: 40px;
@@ -104,13 +104,13 @@
 
           </div>
         </div>
-        </c:forEach>
         <!-- 후기 끝 -->
      
-      
+	     </c:forEach>
       </div>
       <!-- 후기 한 줄 끝 -->
     </section>
+    
     <jsp:include page="../common/foot.jsp" />
   </body>
 </html>

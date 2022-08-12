@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <% int likeEx = 0; %>
 <% boolean like1 = false; %>
 <!DOCTYPE html>
@@ -321,7 +321,8 @@
 															style="display: flex; flex-direction: row; align-items: center; margin-bottom: 38px;">
 															<h2
 																style="font-weight: 600; font-size: 22px; letter-spacing: -0.2px; line-height: 33px; color: rgb(57, 60, 71); margin-right: 20px; margin-bottom: 0px;">
-																펫시터 후기 N개</h2>
+																펫시터 후기 ${ view_reviewRecordCount }개</h2>
+
 															<!-- 별점부분 -->
 															<div
 																style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 113px;">
@@ -494,39 +495,42 @@
 																				</div>
 																				
 																				<div style=" width: 20px; margin-right: 10px;">
-																					<c:if test="<%=likeEx==1 %>" var="down">
+																					<c:if test="<%=likeEx==1 %>">
 																						<p style="cursor: pointer;" id="like${sr.review_idx }">
-																							<input type="text" id="like_num${sr.review_idx}" style="width: 40px; height: 20px; border: 0" value="${sr.countlike }" />
+																							<input type="text"
+																								id="like_num${sr.review_idx}"
+																								style="width: 40px; height: 20px; border: 0"
+																								value="${sr.countlike }" />
 																						</p>
 																					</c:if>
-																					<c:if test="<%=likeEx==0 %>" var="up">
+																					<c:if test="<%=likeEx==0 %>">
 																						<p style="cursor: pointer;" id="like${sr.review_idx }">
-																							<input type="text" id="like_num${sr.review_idx}" style="width: 40px; height: 20px; border: 0" value="${sr.countlike }" />
+																							<input type="text"
+																								id="like_num${sr.review_idx}"
+																								style="width: 40px; height: 20px; border: 0"
+																								value="${sr.countlike }" />
 																						</p>
 																					</c:if>
 																				</div>
 																			</c:if>
-																			<c:if test="${not sessionIdx }">
-																				<div style="padding-right: 10px;">
-																					<div style="padding-right: 10px;">
-																						<img id="like_img" src="../images/heart_o.png" alt="" width="20" height="20" />
-																					</div>
-																				</div>
-																				<div style=" width: 20px; margin-right: 10px;">
-																					<p>
-																						<input type="text" id="like_num" style="width: 40px; height: 20px; border: 0" value="${sr.countlike }"/>
-																					</p>
-																				</div>
-																			</c:if>
+																			 <c:if test="${not sessionIdx }">
+				                                                            <div style="padding-right: 10px;">
+				                                                               <div style="padding-right: 10px;">
+				                                                                  <img id="like_img" src="../images/heart_o.png" alt="" width="20" height="20" />
+				                                                               </div>
+				                                                            </div>
+				                                                            <div style=" width: 20px; margin-right: 10px;">
+				                                                               <p>
+				                                                                  <input type="text" id="like_num" style="width: 40px; height: 20px; border: 0" value="${sr.countlike }"/>
+				                                                               </p>
+				                                                            </div>
+				                                                         </c:if>
 																		</div>
 																		<!-- 후기 좋아요 끝 -->
-																	
+																		
 																	</div>	
 																</div>	
-																
-																
 															
-																
 																<p style="font-size: 15px; line-height: 25px; color: rgb(76, 80, 86); margin-top: 18px;">${ sr.review_content}</p>
 																<div style="display: flex; flex-direction: row; margin-top: 33px;">
 																	<img width="90" height="90" src="<c:url value='/' />Uploads/${ sr.review_photo }" style="border-radius: 2px; object-fit: cover; margin-right: 9px; user-select: none; cursor: pointer;">
@@ -731,6 +735,8 @@
 								        	<input type="hidden" id="sit" value="${ sitterView.sit_idx }"/>
 									        <input type="hidden" id="sD" name="sD"/>
 									        <input type="hidden" id="eD" name="eD"/>
+									        <input name="member_name" type="hidden" value="${ sitterView.member_name }"/>
+							     			<input name="member_email" type="hidden" value="${ sitterView.member_email }"/>
 											
 											<div
 												style="width: 375px; border-radius: 8px; border: 1px solid rgb(223, 227, 234); box-shadow: rgba(0, 0, 0, 0.07) 1px 3px 7px; padding-left: 32px; padding-right: 32px; padding-bottom: 32px;">
@@ -823,8 +829,7 @@
 												<div
 													style="display: flex; align-items: center; justify-content: center; width: 311px; height: 59px; border-radius: 3px; background-color: rgb(113, 162, 255); margin-top: 50px; user-select: none; cursor: pointer;">
 													<p
-														style="font-family: &amp; quot; Noto Sans KR&amp;quot;; font-weight: 600; font-size: 15px; letter-spacing: 0.2px; line-height: 22px; color: white;">예약
-														요청</p>
+														style="font-family: &amp; quot; Noto Sans KR&amp;quot;; font-weight: 600; font-size: 15px; letter-spacing: 0.2px; line-height: 22px; color: white;" onclick="reserveSubmit();">예약 요청</p>
 												</div>
 											</div>
 											<!-- 반려동물 선택 창 & 금액 계산 -->
@@ -1393,8 +1398,8 @@
 														<div
 															style="display: flex; align-items: center; flex-direction: row;">
 															<!-- 소형견 1박케어 s_fee_day -->
-															<p
-																style="font-size: 14px; letter-spacing: 0.5px; line-height: 20px; color: rgb(78, 82, 91); margin-right: 12px;"><fmt:formatNumber value="${ sitterView.s_fee}" pattern="#,###" />원</p>
+															<p style="font-size: 14px; letter-spacing: 0.5px; line-height: 20px; color: rgb(78, 82, 91); margin-right: 12px;"><fmt:formatNumber value="${ sitterView.s_fee}" pattern="#,###" />원</p>
+
 														</div>
 													</div>
 												</div>
@@ -1435,6 +1440,7 @@
 														<div
 															style="display: flex; align-items: center; flex-direction: row;">
 															<p
+=======
 																style="font-size: 14px; letter-spacing: 0.5px; line-height: 20px; color: rgb(78, 82, 91); margin-right: 12px;"><fmt:formatNumber value="${ sitterView.b_fee}" pattern="#,###" />원</p>
 														</div>
 													</div>

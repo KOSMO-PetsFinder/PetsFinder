@@ -54,15 +54,15 @@
 			pet p on s.member_idx = p.member_idx 
 		inner join 
 			member m on s.member_idx = m.member_idx
-		where sit_idx=#{ sit_idx }
-
+		where sit_idx = #{ sit_idx }
 	</select>
 	
+
 	<!-- 사진 조회 -->
 	<select id="sit_photo" resultType="petsfinder.petsitter.PetSitterDTO">
 		select * from sitter_photo where sit_idx = #{ sit_idx }
 	</select>
-		
+
 	<!-- 후기, 좋아요 조회 -->
 	<select id="stReview" resultType="petsfinder.review.ReviewBoardDTO">
 	
@@ -109,9 +109,7 @@
 	
 	<!-- 시터 태그 조회 -->
 	<select id="sitterTag" resultType="petsfinder.petsitter.PetSitterDTO">
-	
 		select typTag_expln from type_tag where typTag_idx in (select typTag_idx from sitter_tag where sit_idx=#{ sit_idx })
-	
 	</select>
 
 	<!-- 후기의 댓글 저장 -->
@@ -183,6 +181,15 @@
 		select * from sitter where sit_idx not in (select sit_idx from sit_book where ( sbook_start <![CDATA[<=]]> #{ sbook_start } and sbook_end <![CDATA[>]]> #{ sbook_start } ) or (sbook_start <![CDATA[<]]> #{ sbook_end } and sbook_end <![CDATA[>=]]> #{ sbook_end } ))
 	</select>
 
+	<!-- 리스트 더보기 -->
+   <select id="petsitterPage" resultType="petsfinder.petsitter.PetSitterDTO" parameterType="petsfinder.petsitter.ParameterDTO">
+      SELECT * FROM sitter s
+      FULL OUTER JOIN sitter_photo sp
+      ON s.sit_idx = sp.sit_idx 
+      where s.sit_idx between #{start} and #{end}
+      order by s.sit_idx desc
+   </select>
+
 	<!-- 시터 등록 시 기존 정보 조회 -->
 	<select id="sit_view" resultType="petsfinder.petsitter.PetSitterDTO">
 		select * from sitter where member_idx = #{ member_idx }
@@ -200,6 +207,7 @@
 		select typsrv_idx from available_services where sit_idx = #{ sit_idx }
 	</select>
 	
+
 	<!-- 시터 정보 수정 -->
 	<!-- 태그 -->
 	<delete id="d_tag">
@@ -234,5 +242,5 @@
 	<delete id="d_photo">
 		DELETE FROM sitter_photo WHERE sit_idx = #{ sit_idx }
 	</delete>
-	
+
 </mapper>
