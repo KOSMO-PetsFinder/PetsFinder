@@ -10,6 +10,29 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
+        <script>
+                function checkAppForm(fm) {
+                        if(fm.dclrAbnd_title.value=="") {
+                                dclrAbnd_title_check.style.color = 'red'
+                                dclrAbnd_title_check.innerHTML = "제목을 입력하세요!"
+                                fm.dclrAbnd_title.focus();
+                                return false;
+                        }  
+                        if(fm.dclrAbnd_content.value=="") {
+                                dclrAbnd_content_check.style.color = 'red'
+                                dclrAbnd_content_check.innerHTML = "내용을 입력하세요!"
+                                fm.dclrAbnd_content.focus();
+                                return false;
+                        }  
+                        if(fm.dclrAbnd_loc.value=="") {
+                                dclrAbnd_loc_check.style.color = 'red'
+                                dclrAbnd_loc_check.innerHTML = "주소를 입력하세요!"
+                                fm.dclrAbnd_loc.focus();
+                                return false;
+                        }  
+                }
+
+        </script>
     <div style="display: flex; justify-content: right; color: #CCCCCC; padding-top: 55px; margin-top: 100px">
       <img src="./images/mypage.png" alt="" style="width:30px; padding-right: 5px"> 마이페이지 > 내가 쓴 글 보기 > 유기동물 신고
     </div>
@@ -17,7 +40,8 @@
 		<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PDQCPDS"
 			height="0" width="0" style="display: none; visibility: hidden;"></iframe>
 	</noscript>
-	<form action="./notifyForm.do" id="reportFrm" name="reportFrm" method="post" style="margin-top:100px">
+	<form action="./notifyForm.do" id="reportFrm" name="reportFrm" method="post" style="margin-top:100px"
+                onsubmit="return checkAppForm(this);">
 	<div id="__next">
 		<div>
 			<div class="wrapper">
@@ -49,6 +73,7 @@
 											</div>
 										</div>
 									</div>
+                                                                        <p><span id="dclrAbnd_title_check" style="color: skyblue"></span></p>
 									<div
 										style="display: flex; align-items: center; margin-top: 54px">
 										<div
@@ -61,6 +86,7 @@
 											</div>
 										</div>
 									</div>
+                                                                        <p><span id="dclrAbnd_content_check" style="color: skyblue"></span></p>
 									<div style="display: flex; flex-direction: column; flex-grow: 1; flex-basis: 0; margin-top: 54px">
 										<p style="font-size: 17px; font-weight: 600; color: #555555">
 											발견 주소 <span style="color: #71A2FF">*</span>
@@ -69,10 +95,11 @@
 											<input type="text" value="" name="dclrAbnd_loc" placeholder="예) 서울시 강남구 논현동"
 												style="width: 100%; height: 50px; border: 1px solid #EBEBEB; border-radius: 5px; padding-left: 20px; padding-right: 20px" />
 										</div>
+                                                                                <p><span id="dclrAbnd_loc_check" style="color: skyblue"></span></p>
 									</div>
 									<div style="display: flex; flex-direction: column; flex-grow: 1; flex-basis: 0; margin-top: 54px">
 										<p style="font-size: 17px; font-weight: 600; color: #555555">
-											사진 <span style="color: #71A2FF">*</span>
+											사진 
 										</p>
 										<input class="form-control" type="file" name="dclrAbnd_photo">
 									</div>
@@ -114,15 +141,10 @@
 								</div>
 								<div
 									style="margin-top: 80px; display: flex; align-items: center; justify-content: center">
-									<script type="text/javascript">
-										function reportSubmit() {
-											document.reportFrm.submit();
-										}
-									</script>
-									<div
-										style="width: 270px; height: 70px; background-color: #71A2FF; border-radius: 5px; display: flex; justify-content: center; align-items: center; cursor: pointer">
-										<p style="font-size: 20px; font-weight: 600; color: white" onclick="reportSubmit();">신고하기</p>
-									</div>
+                                                                        <div
+                                                                                style="width: 270px; height: 70px; background-color: #71A2FF; border-radius: 5px; display: flex; justify-content: center; align-items: center; cursor: pointer; vertical-align: middle;">
+                                                                                <p style="font-size: 20px; font-weight: 600; color: white; " ><input style="background-color: #71A2FF;font-size: 20px; font-weight: 600; color: white;border: none;" type="submit" value="신고하기"></p>
+                                                                        </div>
 								</div>
 							</div>
 						</section>
