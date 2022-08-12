@@ -504,9 +504,6 @@
 																							<input type="text" id="like_num${sr.review_idx}" style="width: 40px; height: 20px; border: 0" value="${sr.countlike }" />
 																						</p>
 																					</c:if>
-																					<c:if test="${ not sessionIdx }">
-																						
-																					</c:if>
 																				</div>
 																			</c:if>
 																			<c:if test="${not sessionIdx }">
