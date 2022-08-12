@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="petsfinder.member.MemberDAOImpl">
+
+	<select id="memberLogin" resultType="petsfinder.member.MemberDTO" parameterType="petsfinder.member.MemberDTO">
+		SELECT member_idx,
+				member_id,
+				member_pass,
+				member_type, 
+				member_email,
+				member_addr,
+				member_name,
+				member_phone,
+				member_reg,
+				to_char(member_birth, 'yyyy-mm-dd') member_birth,
+				member_gender,
+				member_photo FROM member WHERE member_id = #{ member_id } and member_pass = #{ member_pass }
+	</select>
+	
+	<insert id="memberInsert" parameterType="petsfinder.member.MemberDTO">
+		insert into member 
+			(
+				member_idx,
+				member_id,
+				member_pass,
+				member_type, 
+				member_email,
+				member_addr,
+				member_name,
+				member_phone,
+				member_reg,
+				member_birth,
+				member_gender
+			)
+		values 
+			(SEQ_member_idx.nextval, #{ member_id }, #{ member_pass }, 'nor', #{ member_email },
+				#{ member_addr }, #{ member_name }, #{ member_phone }, sysdate, #{ member_birth }, #{ member_gender })
+	</insert>
+	
+	<select id="idValidate" resultType="String">
+		SELECT member_id FROM member WHERE member_id = #{ param1 }
+	</select>
+
+	<select id="idSearch" resultType="String" parameterType="petsfinder.member.MemberDTO">
+		SELECT member_id FROM member WHERE member_name = #{ member_name } and member_email = #{ member_email }
+	</select>
+	
+	<select id="pwSearch" resultType="String" parameterType="petsfinder.member.MemberDTO">
+		SELECT member_pass FROM member WHERE member_name = #{ member_name } and member_id = #{ member_id } and member_email = #{ member_email }
+	</select>
+	
+	<update id="pwReset" parameterType="petsfinder.member.MemberDTO">
+		UPDATE member SET member_pass = #{ member_pass } WHERE member_id = #{ member_id } and member_name = #{ member_name }
+	</update>
+	
+	<update id="infoUpdate" parameterType="petsfinder.member.MemberDTO">
+		UPDATE member SET member_email = #{ member_email }, member_phone = #{ member_phone }, member_addr = #{ member_addr }
+		<if test="member_photo != null">
+			, member_photo = #{ member_photo } 
+		</if>
+		WHERE member_id = #{ member_id }
+	</update>
+	
+	<update id="memberType" parameterType="String">
+		UPDATE member SET member_type = 'sit' WHERE member_id = #{ member_id }
+	</update>
+	
+</mapper>
+

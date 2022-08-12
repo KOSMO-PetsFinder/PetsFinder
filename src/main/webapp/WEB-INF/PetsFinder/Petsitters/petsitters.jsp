@@ -256,7 +256,7 @@
     </div>
     <c:if test="${ param.sD eq '' or param.sD eq null }">
     <!-- middle(소스 가져옴) : DB에서 가져와서 출력하도록 변경해야 함. -->
-    <div style="width: 100%; display: flex; flex-direction: column; align-items: center; padding-top: 130px">
+    <div style="width: 100%; display: flex; flex-direction: column; align-items: center; padding-top: 130px"></div>
       <div style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-bottom: 120px">
         <div style="width: 1024px; display: flex; justify-content: space-between; align-items: center">
             <p style="font-size: 23px; color: #393c47; letter-spacing: -0.2px; font-weight: 600">모든 펫시터를 만나보세요</p>

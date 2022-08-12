@@ -17,9 +17,7 @@ public class ReviewBoardDTO {
 	private String pet_name;
 	private int adopList_idx;
 	private String member_photo;
-	
-	
-	
+
 	public String getMember_photo() {
 		return member_photo;
 	}
