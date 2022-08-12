@@ -45,9 +45,9 @@
       <c:forEach items="${lists }" var="row" varStatus="vs">
       <c:if test="${vs.index%3 == 0  }">
       <!-- 후기 한 줄 시작 -->
-      <div style="display: flex; justify-content: center;">
+      <div style="display: flex; justify-content: flex-start; margin-left:200px;">
       </c:if>
-      <div style="width: 480px; padding-top: 50px; padding-bottom: 50px">
+      <div style="width: 480px; padding-top: 50px; padding-bottom: 50px; margin-right:50px;">
         
           <div
             style="
@@ -71,7 +71,7 @@
               />
             </div>
             <div style="display: flex; justify-content: space-between; width: 381px; margin-top: 35px">
-              <p style="font-size: 22px; color: rgb(51, 51, 51); font-weight: 500; letter-spacing: -2px">${row.adopList_idx} 번째 손을 잡아주신 ${row.member_name}님</p>
+              <p style="font-size: 22px; color: rgb(51, 51, 51); font-weight: 500; letter-spacing: -2px">${row.adopList_idx} 번째 손을 잡아주신 ${row.member_namer}님</p>
               <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 80px">
                 <img width="13" height="13" src="/static/images/common/star_1.png" /><img
                   width="13"

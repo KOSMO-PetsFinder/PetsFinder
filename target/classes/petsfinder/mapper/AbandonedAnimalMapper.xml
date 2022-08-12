@@ -149,7 +149,7 @@
 	</select>
 	
 	<select id="listPage" resultType="petsfinder.review.ReviewBoardDTO">
-		select c.*, d.member_name member_name from 
+		select c.*, d.member_name member_namer from 
 		(select a.adoplist_idx, b.* from ADOPTION_list a, 
 		review_board b where a.abani_idx=b.abani_idx and review_flag ='adp' order by review_idx desc) c, 
 		member d where c.member_idx=d.member_idx

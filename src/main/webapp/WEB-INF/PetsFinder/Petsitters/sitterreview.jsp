@@ -28,12 +28,12 @@
     </div>
     <section style="margin-top: 102px; box-shadow: rgba(0, 0, 0, 0.08) 0 0 10px 0;">
       <!-- 후기 한 줄 시작 -->
-      <div style="display: flex; justify-content: center;">
+      <div style="display: flex; justify-content: flex-start; margin-left:200px;">
         <!-- 후기 시작 -->
 	    <c:forEach items="${reviewlist }" var="list" varStatus="vs">
 	    <input type="hidden" value="${list.member_idx }" />
 	    <input type="hidden" value="${list.sit_idx }" />
-        <div style="width: 480px; padding-top: 50px; padding-bottom: 50px">
+        <div style="width: 480px; padding-top: 50px; padding-bottom: 50px; margin-right:50px;" >
           <div
             style="
               display: flex;

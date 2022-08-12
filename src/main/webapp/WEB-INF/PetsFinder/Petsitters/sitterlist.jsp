@@ -229,7 +229,7 @@
 					content += "</div>";
 					content += "<div style='display: flex; flex-direction: column; justify-content: flex-end; margin-bottom: 30px;'>";
 					content += "<div style='display: flex; align-items: center;'>";
-					content += "<p style='font-size: 17px; color: rgb(79, 82, 90); letter-spacing: 0.5px;' >"+lists[i].s_fee+"</p>";
+					content += "<p style='font-size: 17px; color: rgb(79, 82, 90); letter-spacing: 0.5px;'onload='numberWithCommas(this);'>"+lists[i].s_fee+"</p>";
 					content += "<div style='width: 32px; height: 21px; border: 1px solid rgb(197, 201, 208); border-radius: 3px; display: flex; align-items: center; justify-content: center; margin-left: 10px;'>";
 					content += "<p style='font-family: &amp; amp; amp; amp; quot; Noto Sans KR&amp;amp; amp; amp; quot;; font-size: 11px; letter-spacing: -0.2px; color: rgb(79, 82, 90);'>1 박</p>";
 					content += "</div>";
@@ -362,11 +362,12 @@
                                                     <p
                                                         style="font-size: 14px; color: rgb(57, 60, 71); cursor: pointer;">
                                                         가격순</p><img
-                                                        src="./sitterList/filter.png"
+                                                        src="../image/filter.png"
                                                         style="width: 15px; height: 15px;">
                                                 </div>
                                             </div>
                                         </div>
+                                        	<div id="table_sitter">
 											<!-- List출력 부분 -->
 											<c:forEach items="${lists }" var="row">
 											<form action="<c:url value='/'/>Petsitters/sitterView.do" method="POST">
@@ -421,7 +422,7 @@
 																<div style="display: flex; align-items: center;">
 																	<p
 																		style="font-size: 17px; color: rgb(79, 82, 90); letter-spacing: 0.5px;">
-																		₩${row.s_fee }</p>
+																		<fmt:formatNumber value="${row.s_fee}" pattern="#,###" /></p>
 																	<div
 																		style="width: 32px; height: 21px; border: 1px solid rgb(197, 201, 208); border-radius: 3px; display: flex; align-items: center; justify-content: center; margin-left: 10px;">
 																		<p
@@ -434,16 +435,19 @@
 
 																</div>
 																<br />
+																
+																<!-- 문법 -->
+																
 															</div>
 														</div>
 													</div>
 												</div>
 											</form>
 											</c:forEach>
-                                              
+                                           </div>   
                                        		<div style="text-align: center;">
 												<div id="moreBtn" class="adoptPlus_btn" style="display: block;">
-													<c:if test="${ moreStop eq 0 }">
+													<c:if test="${moreStop eq 0 }">
 														<a class="ad_plus" href="javascript:moreList1();">
 															<p style="font-size: 18px; color: #75c9ba; margin-bottom: 30px; margin-top: 30px; font-weight: bold;">
 																+ 더보기</p>

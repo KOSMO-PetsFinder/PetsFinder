@@ -268,22 +268,6 @@ public class AbandonedAnimalController {
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	@RequestMapping(value = "AbandonedAnimal/adoptLatter.do")
-	public String adoptLatter() {
-		
-		return "AbandonedAnimal/AdoptLatter";
-	} 
-	
 	//후기 댓글 입력
 	@RequestMapping(value = "AbandonedAnimal/commentInsert.do",method = RequestMethod.GET)
 	@ResponseBody

@@ -54,24 +54,15 @@
 			pet p on s.member_idx = p.member_idx 
 		inner join 
 			member m on s.member_idx = m.member_idx
-<<<<<<< HEAD
 		where sit_idx = #{ sit_idx }
-=======
-		where sit_idx=#{ sit_idx }
->>>>>>> branch 'main' of https://github.com/KOSMO-PetsFinder/PetsFinder.git
-
 	</select>
 	
-<<<<<<< HEAD
-	
-	
-=======
+
 	<!-- 사진 조회 -->
 	<select id="sit_photo" resultType="petsfinder.petsitter.PetSitterDTO">
 		select * from sitter_photo where sit_idx = #{ sit_idx }
 	</select>
-		
->>>>>>> branch 'main' of https://github.com/KOSMO-PetsFinder/PetsFinder.git
+
 	<!-- 후기, 좋아요 조회 -->
 	<select id="stReview" resultType="petsfinder.review.ReviewBoardDTO">
 	
@@ -190,7 +181,6 @@
 		select * from sitter where sit_idx not in (select sit_idx from sit_book where ( sbook_start <![CDATA[<=]]> #{ sbook_start } and sbook_end <![CDATA[>]]> #{ sbook_start } ) or (sbook_start <![CDATA[<]]> #{ sbook_end } and sbook_end <![CDATA[>=]]> #{ sbook_end } ))
 	</select>
 
-<<<<<<< HEAD
 	<!-- 리스트 더보기 -->
    <select id="petsitterPage" resultType="petsfinder.petsitter.PetSitterDTO" parameterType="petsfinder.petsitter.ParameterDTO">
       SELECT * FROM sitter s
@@ -200,9 +190,6 @@
       order by s.sit_idx desc
    </select>
 
-
-=======
->>>>>>> branch 'main' of https://github.com/KOSMO-PetsFinder/PetsFinder.git
 	<!-- 시터 등록 시 기존 정보 조회 -->
 	<select id="sit_view" resultType="petsfinder.petsitter.PetSitterDTO">
 		select * from sitter where member_idx = #{ member_idx }
@@ -220,62 +207,7 @@
 		select typsrv_idx from available_services where sit_idx = #{ sit_idx }
 	</select>
 	
-<<<<<<< HEAD
-	
-  	<!-- 후기의 댓글 저장 -->
-  	<insert id="commentInsert1" parameterType="petsfinder.review.ReviewCommentDTO">
-		INSERT INTO review_Comment( reviewcomm_idx,	reviewcomm_content, reviewcomm_regdate, review_idx,member_idx)
-									VALUES(	SEQ_reviewcomm_idx.nextval, #{reviewcomm_content}, sysdate, #{review_idx}
-										, #{member_idx})
-	</insert>
-	<!-- 후기댓글뽑아오기 -->
-	<select id="reviewComment1" resultType="petsfinder.review.ReviewCommentDTO">
-  		select 
-		    a.*, b.member_name member_namec
-		from (select * 
-		    from review_Comment 
-		    where review_idx 
-		    in(select review_idx 
-		        from review_board 
-		        where sit_idx=#{param1})) a, member b 
-		where a.member_idx=b.member_idx
-  	</select>
-	
-	
-	<!-- 좋아요 유무확인 -->
-	<select id="likeStatus1" resultType="petsfinder.review.ReviewLikeDTO"
-	parameterType="petsfinder.review.ReviewLikeDTO">
-		select * from review_like where review_idx = #{review_idx} and member_idx = #{member_idx}
-	</select>
-	
-	<!-- 좋아요 저장 -->
-	<insert id="insertLike1" parameterType="petsfinder.review.ReviewLikeDTO">
-		INSERT INTO review_like(reviewlike_idx, reviewlike_stt, review_idx, member_idx)
-                           VALUES(SEQ_reviewlike_idx.nextval,1, #{review_idx}, #{member_idx})
-	</insert>
-	
-	<!-- 좋아요 0->1 -->
-	<update id="likeZeroToOne1" parameterType="petsfinder.review.ReviewLikeDTO">
-		update review_like set reviewlike_stt = 1 where review_idx = #{review_idx} and member_idx = #{member_idx}
-	</update>
-	
-	<!-- 좋아요 1->0 -->
-	<update id="likeOntToZero1" parameterType="petsfinder.review.ReviewLikeDTO">
-		update review_like set reviewlike_stt = 0 where review_idx = #{review_idx} and member_idx = #{member_idx}
-	</update>
-	
-	<!-- 사용자가 좋아요한 후기 목록 -->
-	<select id="likeList1" resultType="petsfinder.review.ReviewLikeDTO">
-		select l.*
-		from review_board b , review_like l 
-		where b.review_idx=l.review_idx and l.member_idx=#{param1} and l.reviewlike_stt=1
-	</select>
-	
-	<select id="getTotalCount_sitter" resultType="int">
-  		select count(*) from review_board where review_flag='sit' and sit_idx= #{param1}
-  	</select>
 
-=======
 	<!-- 시터 정보 수정 -->
 	<!-- 태그 -->
 	<delete id="d_tag">
@@ -310,6 +242,5 @@
 	<delete id="d_photo">
 		DELETE FROM sitter_photo WHERE sit_idx = #{ sit_idx }
 	</delete>
-	
->>>>>>> branch 'main' of https://github.com/KOSMO-PetsFinder/PetsFinder.git
+
 </mapper>
