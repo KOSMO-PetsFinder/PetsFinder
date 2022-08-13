@@ -274,10 +274,6 @@ public class AbandonedAnimalController {
 	@ResponseBody
 	public ReviewCommentDTO CommentInsert(ReviewCommentDTO reviewCommentDTO, HttpSession session) {
 		//글쓴 사람의 정보를 불러옴
-		String sIdx = (String) session.getAttribute("idx");
-		int idx =Integer.parseInt(sIdx);
-		String name = (String) session.getAttribute("name");
-		String photo = (String) session.getAttribute("photo");
 		
 		//등록한 날짜
 		Date today = new Date();
@@ -290,9 +286,6 @@ public class AbandonedAnimalController {
 			System.out.println("저장성공!");
 		}
 		//반환할 dto에 필요한 정보 저장
-		reviewCommentDTO.setMember_idx(idx);
-		reviewCommentDTO.setMember_namec(name);
-		reviewCommentDTO.setMember_photo(photo);
 		reviewCommentDTO.setReviewcomm_regdate(date.format(today));
 		reviewCommentDTO.setReview_idx(1);
 		return reviewCommentDTO;

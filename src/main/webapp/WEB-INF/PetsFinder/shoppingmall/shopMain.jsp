@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,6 +41,14 @@ p {
 a {
 	text-decoration: none;
 }
+ul, li {-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;padding:0;margin:0}
+   
+   .quickmenu {position:absolute;width:110px;top:10%;margin-top:-50px;right:10px;background:#fff;margin-right: 150px;}
+   .quickmenu ul {position:relative;float:left;width:100%;display:inline-block;*display:inline;border:1px solid #ddd;}
+   .quickmenu ul li {float:left;width:100%;border-bottom:1px solid #ddd;text-align:center;display:inline-block;*display:inline;}
+   .quickmenu ul li a {position:relative;float:left;width:100%;height:30px;line-height:30px;text-align:center;color:#999;font-size:9.5pt;}
+   .quickmenu ul li a:hover {color:#000;}
+   .quickmenu ul li:last-child {border-bottom:0;}
 </style>
 </head>
 <body>
@@ -56,26 +66,26 @@ a {
 
 
 
-	<div
+	<div id=""
 		style="border-bottom: 1px solid #81899b; border-top: 1px solid #81899b; height: 90px; display: flex; align-items: center; justify-content: center; padding-right: 700px;">
 		<div style="display: flex; flex-direction: row;">
 
-			<a href="#"
+			<a href="./shop?cate=0"
 				style="border: 0; border-radius: 5px; height: 34px; display: flex; align-items: center; justify-content: center;">
 				<p
 					style="font-size: 15px; color: black; display: flex; align-items: center; padding-bottom: 6px; padding-right: 30px;">
 					전체상품</p>
-			</a> <a href="#"
+			</a> <a href="./shop?cate=1"
 				style="border: 0; border-radius: 5px; height: 34px; display: flex; align-items: center; justify-content: center;">
 				<p
 					style="font-size: 15px; color: black; display: flex; align-items: center; padding-bottom: 6px; padding-right: 30px;">
 					사료</p>
-			</a> </a> <a href="#"
+			</a> </a> <a href="./shop?cate=2"
 				style="border: 0; border-radius: 5px; height: 34px; display: flex; align-items: center; justify-content: center;">
 				<p
 					style="font-size: 15px; color: black; display: flex; align-items: center; padding-bottom: 6px; padding-right: 30px;">
 					약</p>
-			</a> </a> <a href="#"
+			</a> </a> <a href="./shop?cate=3"
 				style="border: 0; border-radius: 5px; height: 34px; display: flex; align-items: center; justify-content: center;">
 				<p
 					style="font-size: 15px; color: black; display: flex; align-items: center; padding-bottom: 6px; padding-right: 30px;">
@@ -91,8 +101,8 @@ a {
 			<div
 				style="width: 1024px; display: flex; justify-content: space-between; align-items: center">
 				<p
-					style="font-size: 23px; color: #393c47; letter-spacing: -0.2px; font-weight: 600">전체상품/
-					사료/ 약/ 굿즈</p>
+					style="font-size: 23px; color: #393c47; letter-spacing: -0.2px; font-weight: 600">
+					${category }</p>
 				<div style="display: flex; flex-direction: row;">
 
 					<a href="#"
@@ -116,11 +126,15 @@ a {
 				</div>
 			</div>
 			<!-- 첫번째 오래된 순 -->
+			<div class="listDiv">
+			<c:forEach items="${lists }" var="row" varStatus="vs" >
+			<c:if test="${vs.index%4==0 }">
 			<div
-				style="width: 1024px; margin-top: 50px; display: flex; justify-content: space-between">
-
-
-				<div style="width: 1024px; margin-top: 50px; display: flex; justify-content: space-between" >
+				style="width: 1024px; margin-top: 50px; display: flex; justify-content: space-between;">
+			</c:if>
+			
+			
+			<div style="width: 1024px; margin-top: 50px; display: flex; justify-content: space-between;float: left;"  >
           <div>
             <a href="#"  style="margin-right: 14px">
               <div style="width: 245px; height: 170px; border-radius: 3px">
@@ -129,255 +143,35 @@ a {
             </a>
               <div style=" margin-top: -15px; width: 245px; 
               justify-content: space-between; align-items: center;padding-left: 5px;padding-right: 5px;"  >
-              <div style="display: flex; flex-direction: row;">
+              <div style="display: flex; flex-direction: row;justify-content: space-between;">
                 <div style="overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;  ">
-                바잇미 폭탄 라텍스 장난감 (삑삑)
+                ${row.product_name }
               </div>
-              <div>
+              <div style="display: flex;" align="right" >
               <a href="#">
                 <img src="./images/premium-icon-shopping-cart-4570068.png" style="width: 25px;height: 25px;">
               </a>
               </div>
             </div>
               <div>
-                5,000원
+              <fmt:formatNumber value="${row.product_price }" pattern="#,###" />원
               </div>
               <div>
                 <span style="font-size: 9px;">리뷰 </span>
-                <span style="color: #75c9ba;font-size: 9px;">4115</span>
+                <span style="color: #75c9ba;font-size: 9px;">${row.review_count }</span>
               </div>
               </div>
           </div>
         </div>
-				<div style="width: 1024px; margin-top: 50px; display: flex; justify-content: space-between" >
-          <div>
-            <a href="#"  style="margin-right: 14px">
-              <div style="width: 245px; height: 170px; border-radius: 3px">
-                <img src="https://d1cd60iwvuzqnn.cloudfront.net/page/fd37e21adee1436c8b9341758eafe5d5.jpg" style="width: 245px; height: 170px; border-radius: 3px">
-              </div>
-            </a>
-              <div style=" margin-top: -15px; width: 245px; 
-              justify-content: space-between; align-items: center;padding-left: 5px;padding-right: 5px;"  >
-              <div style="display: flex; flex-direction: row;">
-                <div style="overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;  ">
-                바잇미 폭탄 라텍스 장난감 (삑삑)
-              </div>
-              <div>
-              <a href="#">
-                <img src="./images/premium-icon-shopping-cart-4570068.png" style="width: 25px;height: 25px;">
-              </a>
-              </div>
-            </div>
-              <div>
-                5,000원
-              </div>
-              <div>
-                <span style="font-size: 9px;">리뷰 </span>
-                <span style="color: #75c9ba;font-size: 9px;">4115</span>
-              </div>
-              </div>
-          </div>
-        </div>
-				<div style="width: 1024px; margin-top: 50px; display: flex; justify-content: space-between" >
-          <div>
-            <a href="#"  style="margin-right: 14px">
-              <div style="width: 245px; height: 170px; border-radius: 3px">
-                <img src="https://d1cd60iwvuzqnn.cloudfront.net/page/fd37e21adee1436c8b9341758eafe5d5.jpg" style="width: 245px; height: 170px; border-radius: 3px">
-              </div>
-            </a>
-              <div style=" margin-top: -15px; width: 245px; 
-              justify-content: space-between; align-items: center;padding-left: 5px;padding-right: 5px;"  >
-              <div style="display: flex; flex-direction: row;">
-                <div style="overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;  ">
-                바잇미 폭탄 라텍스 장난감 (삑삑)
-              </div>
-              <div>
-              <a href="#">
-                <img src="./images/premium-icon-shopping-cart-4570068.png" style="width: 25px;height: 25px;">
-              </a>
-              </div>
-            </div>
-              <div>
-                5,000원
-              </div>
-              <div>
-                <span style="font-size: 9px;">리뷰 </span>
-                <span style="color: #75c9ba;font-size: 9px;">4115</span>
-              </div>
-              </div>
-          </div>
-        </div>
-				<div style="width: 1024px; margin-top: 50px; display: flex; justify-content: space-between" >
-          <div>
-            <a href="#"  style="margin-right: 14px">
-              <div style="width: 245px; height: 170px; border-radius: 3px">
-                <img src="https://d1cd60iwvuzqnn.cloudfront.net/page/fd37e21adee1436c8b9341758eafe5d5.jpg" style="width: 245px; height: 170px; border-radius: 3px">
-              </div>
-            </a>
-              <div style=" margin-top: -15px; width: 245px; 
-              justify-content: space-between; align-items: center;padding-left: 5px;padding-right: 5px;"  >
-              <div style="display: flex; flex-direction: row;">
-                <div style="overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;  ">
-                바잇미 폭탄 라텍스 장난감 (삑삑)
-              </div>
-              <div>
-              <a href="#">
-                <img src="./images/premium-icon-shopping-cart-4570068.png" style="width: 25px;height: 25px;">
-              </a>
-              </div>
-            </div>
-              <div>
-                5,000원
-              </div>
-              <div>
-                <span style="font-size: 9px;">리뷰 </span>
-                <span style="color: #75c9ba;font-size: 9px;">4115</span>
-              </div>
-              </div>
-          </div>
-        </div>
-
-
-
+			
+			
+			<c:if test="${vs.index%4==3 }">
 			</div>
-			<div
-				style="width: 1024px; margin-top: 50px; display: flex; justify-content: space-between">
-
-<div style="width: 1024px; margin-top: 50px; display: flex; justify-content: space-between" >
-          <div>
-            <a href="#"  style="margin-right: 14px">
-              <div style="width: 245px; height: 170px; border-radius: 3px">
-                <img src="https://d1cd60iwvuzqnn.cloudfront.net/page/fd37e21adee1436c8b9341758eafe5d5.jpg" style="width: 245px; height: 170px; border-radius: 3px">
-              </div>
-            </a>
-              <div style=" margin-top: -15px; width: 245px; 
-              justify-content: space-between; align-items: center;padding-left: 5px;padding-right: 5px;"  >
-              <div style="display: flex; flex-direction: row;">
-                <div style="overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;  ">
-                바잇미 폭탄 라텍스 장난감 (삑삑)
-              </div>
-              <div>
-              <a href="#">
-                <img src="./images/premium-icon-shopping-cart-4570068.png" style="width: 25px;height: 25px;">
-              </a>
-              </div>
-            </div>
-              <div>
-                5,000원
-              </div>
-              <div>
-                <span style="font-size: 9px;">리뷰 </span>
-                <span style="color: #75c9ba;font-size: 9px;">4115</span>
-              </div>
-              </div>
-          </div>
-        </div>
-        <div style="width: 1024px; margin-top: 50px; display: flex; justify-content: space-between" >
-          <div>
-            <a href="#"  style="margin-right: 14px">
-              <div style="width: 245px; height: 170px; border-radius: 3px">
-                <img src="https://d1cd60iwvuzqnn.cloudfront.net/page/fd37e21adee1436c8b9341758eafe5d5.jpg" style="width: 245px; height: 170px; border-radius: 3px">
-              </div>
-            </a>
-              <div style=" margin-top: -15px; width: 245px; 
-              justify-content: space-between; align-items: center;padding-left: 5px;padding-right: 5px;"  >
-              <div style="display: flex; flex-direction: row;">
-                <div style="overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;  ">
-                바잇미 폭탄 라텍스 장난감 (삑삑)
-              </div>
-              <div>
-              <a href="#">
-                <img src="./images/premium-icon-shopping-cart-4570068.png" style="width: 25px;height: 25px;">
-              </a>
-              </div>
-            </div>
-              <div>
-                5,000원
-              </div>
-              <div>
-                <span style="font-size: 9px;">리뷰 </span>
-                <span style="color: #75c9ba;font-size: 9px;">4115</span>
-              </div>
-              </div>
-          </div>
-        </div>
-        <div style="width: 1024px; margin-top: 50px; display: flex; justify-content: space-between" >
-          <div>
-            <a href="#"  style="margin-right: 14px">
-              <div style="width: 245px; height: 170px; border-radius: 3px">
-                <img src="https://d1cd60iwvuzqnn.cloudfront.net/page/fd37e21adee1436c8b9341758eafe5d5.jpg" style="width: 245px; height: 170px; border-radius: 3px">
-              </div>
-            </a>
-              <div style=" margin-top: -15px; width: 245px; 
-              justify-content: space-between; align-items: center;padding-left: 5px;padding-right: 5px;"  >
-              <div style="display: flex; flex-direction: row;">
-                <div style="overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;  ">
-                바잇미 폭탄 라텍스 장난감 (삑삑)
-              </div>
-              <div>
-              <a href="#">
-                <img src="./images/premium-icon-shopping-cart-4570068.png" style="width: 25px;height: 25px;">
-              </a>
-              </div>
-            </div>
-              <div>
-                5,000원
-              </div>
-              <div>
-                <span style="font-size: 9px;">리뷰 </span>
-                <span style="color: #75c9ba;font-size: 9px;">4115</span>
-              </div>
-              </div>
-          </div>
-        </div>
-        <div style="width: 1024px; margin-top: 50px; display: flex; justify-content: space-between" >
-          <div>
-            <a href="#"  style="margin-right: 14px">
-              <div style="width: 245px; height: 170px; border-radius: 3px">
-                <img src="https://d1cd60iwvuzqnn.cloudfront.net/page/fd37e21adee1436c8b9341758eafe5d5.jpg" style="width: 245px; height: 170px; border-radius: 3px">
-              </div>
-            </a>
-              <div style=" margin-top: -15px; width: 245px; 
-              justify-content: space-between; align-items: center;padding-left: 5px;padding-right: 5px;"  >
-              <div style="display: flex; flex-direction: row;">
-                <div style="overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;  ">
-                바잇미 폭탄 라텍스 장난감 (삑삑)
-              </div>
-              <div>
-              <a href="#">
-                <img src="./images/premium-icon-shopping-cart-4570068.png" style="width: 25px;height: 25px;">
-              </a>
-              </div>
-            </div>
-              <div>
-                5,000원
-              </div>
-              <div>
-                <span style="font-size: 9px;">리뷰 </span>
-                <span style="color: #75c9ba;font-size: 9px;">4115</span>
-              </div>
-              </div>
-          </div>
-        </div>
-
-
-
+			</c:if>
+			</c:forEach>
+			<!-- 리스트 마지막 -->
 			</div>
 			<br />
 			<br />
@@ -393,5 +187,50 @@ a {
 				<!-- <div style="width: 100%; height: 2488px;"></div> -->
 				<!-- app02 -->
 				<jsp:include page="../common/foot.jsp" />
+				<div class="quickmenu">
+			        <div style="text-align: center; margin-top: 10px;margin-bottom: 10px;">
+			            최근본상품
+			            <span style="width: 100%; color:red ;">
+			                3
+			            </span>
+			        </div>
+			        <div>
+			            <img style="width: 100%;" 
+			             src="https://view01.wemep.co.kr/wmp-deal/3/350/601123503/601123503_thumbnail.jpg?1638934741" alt="">
+			            <img style="width: 100%;" 
+			             src="https://view01.wemep.co.kr/wmp-deal/3/350/601123503/601123503_thumbnail.jpg?1638934741" alt="">
+			            <img style="width: 100%;" 
+			             src="https://view01.wemep.co.kr/wmp-deal/3/350/601123503/601123503_thumbnail.jpg?1638934741" alt="">
+			
+			        </div>
+			
+			        <div style="text-align: center; margin-top: 10px;margin-bottom: 10px;">
+			            
+			            1/1  <button><</button><button>></button>
+			        </div>
+			
+			        <div >
+			            <ul>
+			                <li><a href="#">장바구니></a></li>
+			                <li><a href="#">등급별혜택</a></li>
+			                <li><a href="#">1:1문의</a></li>
+			            </ul>
+			        </div>
+		      </div>
+				<script>
+				 $(document).ready(function(){
+				        var currentPosition = 150;
+				        var topscrollx = 1100;
+				        $(".quickmenu").stop().animate({"top":topscrollx+"px"});
+				        $(window).scroll(function() {
+				            var position = $(window).scrollTop();
+				            if(position <= topscrollx) {
+				                $(".quickmenu").stop().animate({"top":topscrollx+"px"});
+				            }else {
+				                $(".quickmenu").stop().animate({"top":position+currentPosition+"px"});
+				            }
+				        });
+				      });
+				</script>
 </body>
 </html>
