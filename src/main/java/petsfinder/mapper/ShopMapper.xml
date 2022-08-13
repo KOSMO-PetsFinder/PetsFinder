@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+  <mapper namespace="petsfinder.shop.ShopDAOImpl">
+  	<select id="productGetTotalCount" parameterType="petsfinder.shop.ParameterDTO" 
+  	resultType="int">
+  		select count(*) from product
+  		<choose>
+		    <when test="cate != null and cate == 1">
+		    	where product_category='fed'
+		    </when>
+		    <when test="cate != null and cate == 2">
+		    	where product_category='mdc'
+		    </when>
+		    <when test="cate != null and cate == 3">
+		    	where product_category='gds'
+		    </when>
+		    <otherwise>
+		        
+		    </otherwise>
+		</choose>
+  	</select>
+  	<select id="productList" parameterType="petsfinder.shop.ParameterDTO"
+  	resultType="petsfinder.shop.ProductDTO" >
+  		select 
+		    p.*,NVL(a.cnt,0) review_count 
+		from 
+		    product p
+		left OUTER JOIN 
+		    (select 
+		        product_idx, count(*) cnt 
+		    from 
+		        review_board 
+		    where 
+		        product_idx in(select
+		                            product_idx
+		                        from 
+		                            product) 
+		    group by 
+		        product_idx) a
+		on 
+		    p.product_idx=a.product_idx 
+  		<choose>
+		    <when test="cate != null and cate == 1">
+		    	where product_category='fed'
+		    </when>
+		    <when test="cate != null and cate == 2">
+		    	where product_category='mdc'
+		    </when>
+		    <when test="cate != null and cate == 3">
+		    	where product_category='gds'
+		    </when>
+		    <otherwise>
+		        
+		    </otherwise>
+		</choose>
+  		order by p.product_idx desc
+  	</select>
+  	
+  </mapper>
