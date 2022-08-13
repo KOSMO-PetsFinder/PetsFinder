@@ -15,28 +15,56 @@
 	
 	<!-- 미니리스트 1번째 -->
 	<select id="listPage" resultType="petsfinder.petsitter.PetSitterDTO">
-		SELECT * FROM sitter s 
-		FULL OUTER JOIN (select * from sitter_photo where sitphoto_idx in (select min(sitphoto_idx) from sitter_photo group by sit_idx)) sp 
-		ON s.sit_idx = sp.sit_idx 
-		where s.sit_idx between #{param1} and #{param2}
-		order by s.sit_idx desc
+	   select * from (
+		    select a.*, rownum rNum from (
+		        SELECT 
+		            s.*, sitphoto_idx, sitphoto_photo
+		        FROM 
+		            sitter s
+				FULL OUTER JOIN 
+		            (select * from sitter_photo where sitphoto_idx in (select min(sitphoto_idx) from sitter_photo group by sit_idx)) sp
+				ON 
+		            s.sit_idx = sp.sit_idx
+				order by s.sit_idx desc
+		    ) a
+		)
+		where rNum between #{ param1 } and #{ param2 }
+
 	</select>
 	<!-- 미니리스트 2번재 -->
 	<select id="listPage1" resultType="petsfinder.petsitter.PetSitterDTO">
-		SELECT * FROM sitter s
-		FULL OUTER JOIN (select * from sitter_photo where sitphoto_idx in (select min(sitphoto_idx) from sitter_photo group by sit_idx)) sp
-		ON s.sit_idx = sp.sit_idx 
-		where s.sit_idx between #{param1} and #{param2}
-		order by s.sit_idx asc
+	   select * from (
+		    select a.*, rownum rNum from (
+		        SELECT 
+		            s.*, sitphoto_idx, sitphoto_photo
+		        FROM 
+		            sitter s
+				FULL OUTER JOIN 
+		            (select * from sitter_photo where sitphoto_idx in (select min(sitphoto_idx) from sitter_photo group by sit_idx)) sp
+				ON 
+		            s.sit_idx = sp.sit_idx
+				order by s.sit_idx asc
+		    ) a
+		)
+		where rNum between #{ param1 } and #{ param2 }
 		
 	</select>
 	<!-- 미니리스트 3번째 -->
 	<select id="listPage2" resultType="petsfinder.petsitter.PetSitterDTO">
-		SELECT * FROM sitter s
-		FULL OUTER JOIN (select * from sitter_photo where sitphoto_idx in (select min(sitphoto_idx) from sitter_photo group by sit_idx)) sp
-		ON s.sit_idx = sp.sit_idx
-		where s.sit_idx between #{param1} and #{param2}
-		order by s.sit_client desc
+	   select * from (
+		    select a.*, rownum rNum from (
+		        SELECT 
+		            s.*, sitphoto_idx, sitphoto_photo
+		        FROM 
+		            sitter s
+				FULL OUTER JOIN 
+		            (select * from sitter_photo where sitphoto_idx in (select min(sitphoto_idx) from sitter_photo group by sit_idx)) sp
+				ON 
+		            s.sit_idx = sp.sit_idx
+				order by s.sit_client desc
+		    ) a
+		)
+		where rNum between #{ param1 } and #{ param2 }
 		
 	</select>
 	<!-- 상세보기 -->
@@ -164,7 +192,7 @@
 	<select id="getTotalCount_sitter" resultType="int">
   		select count(*) from review_board where review_flag='sit' and sit_idx= #{param1}
   	</select>
-
+	
 	<!-- 시터별 예약된 날짜 조회 -->
 	<select id="reserved" resultType="petsfinder.petsitter.PetSitterDTO">
 		select * from sit_book where sit_idx = #{ sit_idx }
@@ -176,19 +204,143 @@
 	</insert>
 
 	<!-- 리스트 -->
-	<!-- 예약 날짜 조회 -->
-	<select id="reserveSearchInfo" resultType="petsfinder.petsitter.PetSitterDTO">
-		select * from sitter where sit_idx not in (select sit_idx from sit_book where ( sbook_start <![CDATA[<=]]> #{ sbook_start } and sbook_end <![CDATA[>]]> #{ sbook_start } ) or (sbook_start <![CDATA[<]]> #{ sbook_end } and sbook_end <![CDATA[>=]]> #{ sbook_end } ))
+	
+	<!-- 리스트 더보기 & 예약 날짜 조회  & 태그 조회 -->
+	<select id="petsitterList" resultType="petsfinder.petsitter.PetSitterDTO" parameterType="petsfinder.petsitter.ParameterDTO">
+		SELECT * FROM (
+			SELECT 
+				a.*, rownum rNum
+			FROM (
+			    SELECT
+			        s.*, sitphoto_idx, sitphoto_photo
+			    FROM
+			        sitter s 
+			    FULL OUTER JOIN (
+			    	SELECT 
+			    		* 
+			    	FROM
+			    		sitter_photo 
+			    	WHERE
+			    		sitphoto_idx 
+			    	IN (
+			    		SELECT
+			    			min(sitphoto_idx) 
+			    		FROM
+			    			sitter_photo 
+			    		GROUP BY sit_idx
+			    	)
+			    ) sp 
+			    ON 
+			        s.sit_idx = sp.sit_idx
+	        <if test="(sbook_start1 != null and sbook_end1 != null) or (typtag != null and !typtag.isEmpty())">
+			    WHERE
+			        s.sit_idx NOT IN (
+			            SELECT
+			                sit_idx
+			            FROM
+			                sit_book 
+			            WHERE 
+			                (sbook_start <![CDATA[<=]]> #{ sbook_start1 } AND sbook_end <![CDATA[>]]> #{ sbook_start2 }) 
+				            OR 
+				            (sbook_start <![CDATA[<]]> #{ sbook_end1 } AND sbook_end <![CDATA[>=]]> #{ sbook_end2 })
+			        ) 
+				<if test="typtag != null and !typtag.isEmpty()">
+			        AND s.sit_idx IN (
+		                SELECT
+		                    sit_idx 
+		                FROM (
+		                    SELECT
+		                        sit_idx, count(sit_idx) 
+		                    FROM (
+		                        SELECT 
+		                            sit_idx 
+		                        FROM
+		                            sitter_tag 
+				                WHERE
+				                    typtag_idx 
+				                IN 
+	                            <foreach collection="typtag" item="item" index="index" open="(" close=")" separator=",">
+                                	#{ item }
+                            	</foreach>
+		                    ) 
+		                    GROUP BY
+		                        sit_idx 
+		                    HAVING
+		                        count(sit_idx) = #{ count }
+		                )
+		            )
+                </if>
+			</if>
+			    ORDER BY s.sit_idx DESC
+			    ) a
+			)
+		WHERE rNum BETWEEN #{ start } AND #{ end }
 	</select>
 
-	<!-- 리스트 더보기 -->
-   <select id="petsitterPage" resultType="petsfinder.petsitter.PetSitterDTO" parameterType="petsfinder.petsitter.ParameterDTO">
-      SELECT * FROM sitter s
-      FULL OUTER JOIN (select * from sitter_photo where sitphoto_idx in (select min(sitphoto_idx) from sitter_photo group by sit_idx)) sp
-      ON s.sit_idx = sp.sit_idx 
-      where s.sit_idx between #{start} and #{end}
-      order by s.sit_idx desc
-   </select>
+	<!-- 예약 날짜 조회 시 & 태그 조회 시 전체 개수 -->
+	<select id="searchCount" resultType="int" parameterType="petsfinder.petsitter.ParameterDTO">
+		SELECT
+	        count(*)
+	    FROM
+	        sitter s 
+	    FULL OUTER JOIN (
+	    	SELECT
+	    		* 
+	    	FROM
+	    		sitter_photo 
+	    	WHERE
+	    		sitphoto_idx 
+	    	IN (
+	    		SELECT
+	    			min(sitphoto_idx) 
+	    		FROM
+	    			sitter_photo 
+	    		GROUP BY sit_idx
+	    	)
+	    ) sp 
+	    ON 
+	        s.sit_idx = sp.sit_idx
+	<if test="(sbook_start1 != null and sbook_end1 != null) or (typtag != null and !typtag.isEmpty())">     
+	    WHERE
+	        s.sit_idx NOT IN (
+	            SELECT
+	                sit_idx
+	            FROM
+	                sit_book 
+	            WHERE
+	                (sbook_start <![CDATA[<=]]> #{ sbook_start1 } AND sbook_end <![CDATA[>]]> #{ sbook_start2 }) 
+		            OR 
+		            (sbook_start <![CDATA[<]]> #{ sbook_end1 } AND sbook_end <![CDATA[>=]]> #{ sbook_end2 })
+            )
+            <if test="typtag != null and !typtag.isEmpty()">
+		        AND s.sit_idx IN (
+	                SELECT
+	                    sit_idx 
+	                FROM (
+	                    SELECT
+	                        sit_idx, count(sit_idx) 
+	                    FROM (
+	                        SELECT 
+	                            sit_idx 
+	                        FROM
+	                            sitter_tag 
+			                WHERE
+			                    typtag_idx 
+			                IN 
+                            <foreach collection="typtag" item="item" index="index" open="(" close=")" separator=",">
+                            	#{ item }
+                            </foreach>
+	                    ) 
+	                    GROUP BY
+	                        sit_idx 
+	                    HAVING
+	                        count(sit_idx) = #{ count }
+	                )
+	            )
+			</if>
+		</if>
+	</select>
+
 
 	<!-- 시터 등록 시 기존 정보 조회 -->
 	<select id="sit_view" resultType="petsfinder.petsitter.PetSitterDTO">

@@ -80,7 +80,6 @@
 	    });
         $('#startDate').datepicker({
         	minDate: 'D',
-        	/* beforeShowDay: noReserve, */
         	onSelect : function(dateText){
         		$('#endDate').datepicker("option", "minDate", dateText);
         		$('#endDate').val('');
@@ -94,12 +93,11 @@
         $('#endDate').datepicker({
         	minDate: 'D',
         	numberOfMonths: [1,2],
-        	/* beforeShowDay: noReserve, */
         	onSelect : function(dateText) {
         		$('#startDate').datepicker("option", "maxDate", dateText);
         		$('#cal_img').datepicker("option", "maxDate", dateText);
         		$('#eD').val(dateText);
-        		location.href="<c:url value='/' />petsitters/list?sD=" + $('#sD').val() + "&eD=" + $('#eD').val();
+        		location.href="<c:url value='/' />Petsitters/sitterlist?sD=" + $('#sD').val() + "&eD=" + $('#eD').val();
         	},
         });
         
@@ -159,8 +157,8 @@
       function option_check05(){
         var old_care = document.getElementById('old_care');
         if (old_care.style.borderColor == 'rgb(223, 227, 234)') {
-          old_care.style.borderColor = '#75c9ba';
-          old_care.style.color = '#75c9ba';
+	        old_care.style.borderColor = '#75c9ba';
+	        old_care.style.color = '#75c9ba';
         } else {
           old_care.style.borderColor = 'rgb(223, 227, 234)';
           old_care.style.color = 'rgb(187, 193, 204)';

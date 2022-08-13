@@ -356,15 +356,87 @@ insert into review_like values (SEQ_REVIEWLIKE_idx.nextval, 1, 9, 5);
 select * from sitter;
 select * from member where member_idx = 13;
 
-insert into sit_book values (seq_sit_book_idx.currval, 4, '2022/08/10', '2022/08/12');
-insert into sit_book values (seq_sit_book_idx.nextval, 4, '2022/08/14', '2022/08/16');
-insert into sit_book values (seq_sit_book_idx.nextval, 4, '2022/08/18', '2022/08/20');
-insert into sit_book values (seq_sit_book_idx.nextval, 3, '2022/08/13', '2022/08/14');
-insert into sit_book values (seq_sit_book_idx.nextval, 3, '2022/08/16', '2022/08/17');
-insert into sit_book values (seq_sit_book_idx.nextval, 3, '2022/08/19', '2022/08/21');
+insert into sit_book values (seq_sbook_idx.nextval, 4, '2022/08/13', '2022/08/15');
+insert into sit_book values (seq_sbook_idx.nextval, 4, '2022/08/16', '2022/08/18');
+insert into sit_book values (seq_sbook_idx.nextval, 4, '2022/08/20', '2022/08/22');
+insert into sit_book values (seq_sbook_idx.nextval, 3, '2022/08/13', '2022/08/14');
+insert into sit_book values (seq_sbook_idx.nextval, 3, '2022/08/18', '2022/08/19');
+insert into sit_book values (seq_sbook_idx.nextval, 3, '2022/08/21', '2022/08/23');
 
 delete from sit_book;
 select * from sit_book where sit_idx = 3;
 
+-- 예약 가능 sit_idx 조회
 select sit_idx from sit_book where (sbook_start <= '2022/08/12' and sbook_end > '2022/08/12' ) or (sbook_start < '2022/08/14' and sbook_end >= '2022/08/14' );
-select * from sitter where sit_idx not in (select sit_idx from sit_book where (sbook_start <= '2022/08/12' and sbook_end > '2022/08/12' ) or (sbook_start < '2022/08/14' and sbook_end >= '2022/08/14' ));
+
+-- 예약 가능 sitter 정보 조회 
+select 
+    s.*, sitphoto_idx, sitphoto_photo, rownum rNum
+from 
+    sitter s 
+FULL OUTER JOIN 
+    (select * from sitter_photo where sitphoto_idx in (select min(sitphoto_idx) from sitter_photo group by sit_idx)) sp 
+ON 
+    s.sit_idx = sp.sit_idx         
+where 
+    s.sit_idx not in (
+        select 
+            sit_idx
+        from 
+            sit_book 
+        where 
+            (sbook_start <= '2022/08/12' and sbook_end > '2022/08/12') 
+            or 
+            (sbook_start < '2022/08/14' and sbook_end >= '2022/08/14')
+    )
+    
+ORDER BY s.sit_idx DESC;
+
+-- 위의 정보 조회 후 rNum을 기준으로 잘라서 출력
+select a.* from (
+    select 
+        s.*, sitphoto_idx, sitphoto_photo, rownum rNum
+    from 
+        sitter s 
+    FULL OUTER JOIN 
+        (select * from sitter_photo where sitphoto_idx in (select min(sitphoto_idx) from sitter_photo group by sit_idx)) sp 
+    ON 
+        s.sit_idx = sp.sit_idx         
+    where 
+        s.sit_idx not in (
+            select 
+                sit_idx
+            from 
+                sit_book 
+            where 
+                (sbook_start <= '2022/08/12' and sbook_end > '2022/08/12') 
+                or 
+                (sbook_start < '2022/08/14' and sbook_end >= '2022/08/14')
+        )
+        
+    ORDER BY s.sit_idx DESC
+    ) a
+WHERE a.rNum between 1 and 4;
+
+
+
+SELECT s.*, sitphoto_idx, sitphoto_photo, rownum rNum FROM sitter s
+		FULL OUTER JOIN (select * from sitter_photo where sitphoto_idx in (select min(sitphoto_idx) from sitter_photo group by sit_idx)) sp
+		ON s.sit_idx = sp.sit_idx
+		order by s.sit_idx desc;
+
+-- 전체 조회
+select * from (
+    select a.*, rownum rNum from (
+        SELECT 
+            s.*, sitphoto_idx, sitphoto_photo
+        FROM 
+            sitter s
+		FULL OUTER JOIN 
+            (select * from sitter_photo where sitphoto_idx in (select min(sitphoto_idx) from sitter_photo group by sit_idx)) sp
+		ON 
+            s.sit_idx = sp.sit_idx
+		order by s.sit_idx desc
+    ) a
+)
+where rNum between 1 and 4;

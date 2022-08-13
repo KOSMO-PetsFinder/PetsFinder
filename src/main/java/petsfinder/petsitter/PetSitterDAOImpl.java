@@ -1,5 +1,6 @@
 package petsfinder.petsitter;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import org.springframework.stereotype.Service;
@@ -35,13 +36,10 @@ public interface PetSitterDAOImpl {
 	public ArrayList<PetSitterDTO> listPage2(int s, int e);
 	
 
-	//시터리스트 더보기
-	public ArrayList<PetSitterDTO> petsitterPage(ParameterDTO parameterDTO);
-
-	
 	/* 리스트 */
-	// 예약 조회
-	public ArrayList<PetSitterDTO> reserveSearchInfo(String sD, String eD);
+	// 리스트 & 예약 및 태그 조회
+	public ArrayList<PetSitterDTO> petsitterList(ParameterDTO parameterDTO);
+	public int searchCount(ParameterDTO parameterDTO);
 	
 	/* 시터 등록 */
 	public PetSitterDTO sit_view(int sit_idx);

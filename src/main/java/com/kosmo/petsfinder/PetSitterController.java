@@ -323,16 +323,6 @@ public class PetSitterController {
 	}
 		
 	
-	@RequestMapping("/petsitters/reserve")
-	public String reserve(Model model, HttpServletRequest req) {
-		
-		PetSitterDTO petSitterDTO = new PetSitterDTO();
-		
-		String sbook_start = req.getParameter("sD");
-		
-		return "./Petsitters/sitterView";
-	}
-	
 	//시터 후기
 	@RequestMapping("/Petsitters/sitterreview")
 	public String PSreview(Model model, HttpServletRequest req) {
@@ -366,82 +356,195 @@ public class PetSitterController {
 	//시터 전체보기 혹은 검색시 나타나는 전체 시터리스트
 	@RequestMapping("/Petsitters/sitterlist")
 	public String sitterList(Model model, HttpServletRequest req, ParameterDTO parameterDTO) {
-
-	    String insUrl="";
-        int totalRecordCount = sqlSession.getMapper(PetSitterDAOImpl.class).getTotalCount();
-      
-        int pageSize = 4;
-      
-        int nowPage = (req.getParameter("nowPage")==null || req.getParameter("nowPage").equals("")) 
-               ? 1 : Integer.parseInt(req.getParameter("nowPage"))+1;
-      
-      
-        //가져올 시터 시작과 끝
-        int start = 1; 
-        int end = nowPage * pageSize; 
-        //parameterDTO에 start와 end값 저장
-        parameterDTO.setStart(start);
-        parameterDTO.setEnd(end);
-      
-        //모든 리스트 불러왔을 때 더보기 버튼을 삭제하기 위한 값
-        int moreStop = 0;
-        if(totalRecordCount <= end) {
-           moreStop =1;
-        }
-      
-      
-        ArrayList<PetSitterDTO> lists = sqlSession.getMapper(PetSitterDAOImpl.class).listPage(start, end);
-      
-        model.addAttribute("moreStop",moreStop);
-        model.addAttribute("lists", lists);
-        model.addAttribute("parameterDTO",parameterDTO);
-        model.addAttribute("nowPage",nowPage);
-        model.addAttribute("insUrl",insUrl);
-
-
-        return "./Petsitters/sitterlist";
-
+		
+		int pageSize = 4;
+		
+		int nowPage = (req.getParameter("nowPage") == null || req.getParameter("nowPage").equals("")) 
+				? 1 : Integer.parseInt(req.getParameter("nowPage")) + 1;
+		System.out.println(nowPage);
+		
+		//가져올 시터 시작과 끝
+		int start = 1; 
+		int end = nowPage * pageSize; 
+		//parameterDTO에 start와 end값 저장
+		parameterDTO.setStart(start);
+		parameterDTO.setEnd(end);
+        
+        //시터 리스트
+		String s_start = req.getParameter("sD");
+		String s_end = req.getParameter("eD");
+		System.out.println("예약 시작일 : " + s_start);
+		System.out.println("예약 종료일 : " + s_end);
+		if (s_start != null) {
+			parameterDTO.setSbook_start1(s_start);
+			parameterDTO.setSbook_start2(s_start);
+			parameterDTO.setSbook_end1(s_end);
+			parameterDTO.setSbook_end2(s_end);
+		} else {
+			parameterDTO.setSbook_start1("");
+			parameterDTO.setSbook_start2("");
+			parameterDTO.setSbook_end1("");
+			parameterDTO.setSbook_end2("");
+		}
+		
+		String np = req.getParameter("np");
+		System.out.println("np : " + np);
+		String pu = req.getParameter("pu");
+		System.out.println("pu : " + pu);
+		String b = req.getParameter("b");
+		System.out.println("b : " + b);
+		String pg = req.getParameter("pg");
+		System.out.println("pg : " + pg);
+		String oc = req.getParameter("oc");
+		System.out.println("oc : " + oc);
+		ArrayList<Integer> typtag = new ArrayList<Integer>();
+		int count = 0;
+		if (np != null) {
+			if(np.equals("1")) {
+				typtag.add(1) ;
+				count ++;
+			} 
+		}
+		if (pu != null) {
+			if (pu.equals("1")) {
+				typtag.add(2) ;
+				count ++;
+			}
+		}
+		if (b != null) {
+			if (b.equals("1")) {
+				typtag.add(3) ;
+				count ++;
+			}
+		}
+		if (pg != null) {
+			if (pg.equals("1")) {
+				typtag.add(4) ;
+				count ++;
+			}
+		}
+		if (oc != null) {
+			if (oc.equals("1")) {
+				typtag.add(5) ;
+				count ++;
+			}
+		}
+		System.out.println("타입 : " + typtag);
+		System.out.println("타입 개수 : " + count);
+		parameterDTO.setTyptag(typtag);
+		parameterDTO.setCount(count);
+		
+		int totalCount = sqlSession.getMapper(PetSitterDAOImpl.class).searchCount(parameterDTO);
+		model.addAttribute("total", totalCount);
+		System.out.println("전체 개수 : " + totalCount);
+		ArrayList<PetSitterDTO> lists = sqlSession.getMapper(PetSitterDAOImpl.class).petsitterList(parameterDTO);
+		model.addAttribute("lists", lists);
+		for(PetSitterDTO dto : lists) {
+	           System.out.println("출력 : " + dto.getSit_idx());
+	        }
+		model.addAttribute("search", parameterDTO);
+		model.addAttribute("nowPage",nowPage);
+		
+		return "./Petsitters/sitterlist";
 	}
 	
 	//리스트 더보기(json)
-    @RequestMapping(value = "/Petsitters/sitterlist",method = RequestMethod.POST)
+	@RequestMapping(value = "/Petsitters/sitterlist", method = RequestMethod.POST)
     @ResponseBody
-    public ArrayList<PetSitterDTO> sitterList(PetSitterDTO petSitterDTO , 
-        HttpServletRequest req, ParameterDTO parameterDTO) {
-
-        //전체 갯수 가지고 오기
-        int totalRecordCount =
-            sqlSession.getMapper(PetSitterDAOImpl.class).getTotalCount();
+    public ArrayList<PetSitterDTO> sitterList(Model model, HttpServletRequest req, ParameterDTO parameterDTO, HttpServletResponse resp) {
 
         //한 블럭에서 보여줄 시터 수 
-        int pageSize = 6;
+        int pageSize = 4;
         
         //현제 페이지를 받아옴
-        int nowPage = (req.getParameter("nowPage")==null 
-              || req.getParameter("nowPage").equals("")) 
-                 ? 1 : Integer.parseInt(req.getParameter("nowPage"))+1;
-        
+        int nowPage = (req.getParameter("nowPage") == null || req.getParameter("nowPage").equals("")) 
+                 ? 1 : Integer.parseInt(req.getParameter("nowPage")) + 1;
+        System.out.println("현재 페이지 : " + nowPage);
         
         //가져올 시터 시작과 끝
-        int start = ((nowPage-1) * pageSize) +1; //13
-        int end = nowPage * pageSize; // 24
+        int start = ((nowPage - 1) * pageSize) + 1;
+        System.out.println("시작 : " + start);
+        int end = nowPage * pageSize;
+        System.out.println("끝 : " + end);
         //parameterDTO에 start와 end값 저장
         parameterDTO.setStart(start);
         parameterDTO.setEnd(end);
         
-        //모든 시터 불러왔을 때 더보기 버튼을 삭제하기 위한 값
-        int moreStop = 0;
-        if(totalRecordCount <= end) {
-           moreStop =1;
-        }
+        //시터 리스트
+        String s_start = req.getParameter("sD");
+		String s_end = req.getParameter("eD");
+		System.out.println("예약 시작일 : " + s_start);
+		System.out.println("예약 종료일 : " + s_end);
+		if (s_start != null) {
+			parameterDTO.setSbook_start1(s_start);
+			parameterDTO.setSbook_start2(s_start);
+			parameterDTO.setSbook_end1(s_end);
+			parameterDTO.setSbook_end2(s_end);
+		} else {
+			parameterDTO.setSbook_start1("");
+			parameterDTO.setSbook_start2("");
+			parameterDTO.setSbook_end1("");
+			parameterDTO.setSbook_end2("");
+		}
+		
+		String np = req.getParameter("np");
+		System.out.println("np : " + np);
+		String pu = req.getParameter("pu");
+		System.out.println("pu : " + pu);
+		String b = req.getParameter("b");
+		System.out.println("b : " + b);
+		String pg = req.getParameter("pg");
+		System.out.println("pg : " + pg);
+		String oc = req.getParameter("oc");
+		System.out.println("oc : " + oc);
+		ArrayList<Integer> typtag = new ArrayList<Integer>();
+		int count = 0;
+		if (np != null) {
+			if(np.equals("1")) {
+				typtag.add(1) ;
+				count ++;
+			} 
+		}
+		if (pu != null) {
+			if (pu.equals("1")) {
+				typtag.add(2) ;
+				count ++;
+			}
+		}
+		if (b != null) {
+			if (b.equals("1")) {
+				typtag.add(3) ;
+				count ++;
+			}
+		}
+		if (pg != null) {
+			if (pg.equals("1")) {
+				typtag.add(4) ;
+				count ++;
+			}
+		}
+		if (oc != null) {
+			if (oc.equals("1")) {
+				typtag.add(5) ;
+				count ++;
+			}
+		}
+		System.out.println("타입 : " + typtag);
+		System.out.println("타입 개수 : " + count);
+		parameterDTO.setTyptag(typtag);
+		parameterDTO.setCount(count);
+		
+		int totalCount = sqlSession.getMapper(PetSitterDAOImpl.class).searchCount(parameterDTO);
+		System.out.println("전체 개수 : " + totalCount);
+		model.addAttribute("total", totalCount);
+		ArrayList<PetSitterDTO> lists = sqlSession.getMapper(PetSitterDAOImpl.class).petsitterList(parameterDTO);
+		model.addAttribute("lists", lists);
+		for(PetSitterDTO dto : lists) {
+	           System.out.println("출력 : " + dto.getSit_idx());
+	        }
+		
+		return lists;
         
-        //시터 리스트 
-        ArrayList<PetSitterDTO> lists =
-              sqlSession.getMapper(PetSitterDAOImpl.class).petsitterPage(parameterDTO);
-        for(PetSitterDTO dto : lists) {
-           System.out.println(dto.getSit_idx());
-        }
-        return lists;
     }
 	
 	
