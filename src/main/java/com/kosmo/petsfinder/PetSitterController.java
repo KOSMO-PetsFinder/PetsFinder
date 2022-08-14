@@ -265,9 +265,9 @@ public class PetSitterController {
 	//후기 댓글 입력
 	@RequestMapping(value = "/Petsitters/commentInsert",method = RequestMethod.GET)
 	@ResponseBody
-	public ReviewCommentDTO CommentInsert(ReviewCommentDTO reviewCommentDTO, HttpSession session) {
+	public ReviewCommentDTO CommentInsert(HttpServletRequest req, ReviewCommentDTO reviewCommentDTO, HttpSession session) {
 		//글쓴 사람의 정보를 불러옴
-		String sIdx = (String) session.getAttribute("idx");
+		String sIdx = req.getParameter("member_idx");
 		int idx =Integer.parseInt(sIdx);
 		String name = (String) session.getAttribute("name");
 		String photo = (String) session.getAttribute("photo");

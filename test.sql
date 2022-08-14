@@ -520,7 +520,6 @@ ORDER BY s.sit_idx DESC;
 
 
 	 특정 시터 태그를 가지고 있는 시터 조회 
-	<select id="tagSearch" resultType="petsfinder.petsitter.PetSitterDTO">
 		SELECT 
 			* 
 		FROM (
@@ -580,9 +579,8 @@ ORDER BY s.sit_idx DESC;
 		    ORDER BY rNum ASC
 		)
 		WHERE rNum BETWEEN #{ param3 } AND #{ param4 };
-	</select>
 
-	<select id="tagSearchCount" resultType="int">
+
 		SELECT
 	        count(*)
 	    FROM (
@@ -635,5 +633,27 @@ ORDER BY s.sit_idx DESC;
 	            HAVING
 	                count(sit_idx) = #{ param2 }
 	        ) 
-	    )
-	</select>
+	    );
+
+
+  		select 
+		    p.*, NVL(a.cnt,0) review_count 
+		from 
+		    product p
+		left OUTER JOIN 
+		    (select 
+		        product_idx, count(*) cnt 
+		    from 
+		        review_board 
+		    where 
+		        product_idx in(
+		        select
+                    product_idx
+                from 
+                    product) 
+		    group by 
+		        product_idx) a
+		on 
+		    p.product_idx=a.product_idx
+        where product_category='ess'
+        order by p.product_idx desc;

@@ -67,489 +67,540 @@ DROP SEQUENCE SEQ_TYPE_Tag_typTag_idx;
 
 /* Create Sequences */
 
--- ìœ ê¸°ë™ë¬¼ ì‹œí€€ìŠ¤
+-- À¯±âµ¿¹° ½ÃÄö½º
 CREATE SEQUENCE SEQ_abani_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
--- ìž…ì–‘ ì‹ ì²­ ì‹œí€€ìŠ¤
+-- ÀÔ¾ç ½ÅÃ» ½ÃÄö½º
 CREATE SEQUENCE SEQ_ADPAPL_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
--- ìž…ì–‘ ëª©ë¡ ì‹œí€€ìŠ¤
+-- ÀÔ¾ç ¸ñ·Ï ½ÃÄö½º
 CREATE SEQUENCE SEQ_ADOPlist_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
--- ìŠ¹ì¸ ì‹œí€€ìŠ¤
+-- ½ÂÀÎ ½ÃÄö½º
 CREATE SEQUENCE SEQ_APR_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
--- FAQ ì‹œí€€ìŠ¤
+-- FAQ ½ÃÄö½º
 CREATE SEQUENCE SEQ_faq_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
--- íšŒì› ì‹œí€€ìŠ¤
+-- È¸¿ø ½ÃÄö½º
 CREATE SEQUENCE SEQ_member_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
--- ê³µì§€ì‚¬í•­ ì‹œí€€ìŠ¤
+-- °øÁö»çÇ× ½ÃÄö½º
 CREATE SEQUENCE SEQ_notboard_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
--- ë°˜ë ¤ë™ë¬¼ ì‹œí€€ìŠ¤
+-- ¹Ý·Áµ¿¹° ½ÃÄö½º
 CREATE SEQUENCE SEQ_pet_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
--- Q&A ê²Œì‹œíŒ ì‹œí€€ìŠ¤
+-- Q&A °Ô½ÃÆÇ ½ÃÄö½º
 CREATE SEQUENCE SEQ_qna_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
--- ìœ ê¸°ë™ë¬¼ ì‹ ê³  ì‹œí€€ìŠ¤
+-- À¯±âµ¿¹° ½Å°í ½ÃÄö½º
 CREATE SEQUENCE SEQ_REPORT_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
--- í›„ê¸° ê²Œì‹œíŒ ì‹œí€€ìŠ¤
+-- ÈÄ±â °Ô½ÃÆÇ ½ÃÄö½º
 CREATE SEQUENCE SEQ_review_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
--- í›„ê¸° ëŒ“ê¸€ ì‹œí€€ìŠ¤
+-- ÈÄ±â ´ñ±Û ½ÃÄö½º
 CREATE SEQUENCE SEQ_reviewcomm_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
--- í›„ê¸° ì¢‹ì•„ìš” ì‹œí€€ìŠ¤
+-- ÈÄ±â ÁÁ¾Æ¿ä ½ÃÄö½º
 CREATE SEQUENCE SEQ_reviewlike_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
--- ì‹œí„° ì‹ ì²­ ì‹œí€€ìŠ¤
+-- ½ÃÅÍ ½ÅÃ» ½ÃÄö½º
 CREATE SEQUENCE SEQ_SITAPL_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
--- ì‹œí„° ì‚¬ì§„(ëª©ë¡, ìƒì„¸ë³´ê¸°) ì‹œí€€ìŠ¤
+-- ½ÃÅÍ »çÁø(¸ñ·Ï, »ó¼¼º¸±â) ½ÃÄö½º
 CREATE SEQUENCE SEQ_sitphoto_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
--- ì‹œí„° (ìƒì„¸ë³´ê¸° ë‚´ìš©) ì‹œí€€ìŠ¤
+-- ½ÃÅÍ (»ó¼¼º¸±â ³»¿ë) ½ÃÄö½º
 CREATE SEQUENCE SEQ_sitter_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
--- ì‹œí„° ì˜ˆì•½ ì‹œí€€ìŠ¤
+-- ½ÃÅÍ ¿¹¾à ½ÃÄö½º
 CREATE SEQUENCE SEQ_sbook_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
--- ì‹œí„° ì´ìš©ê°€ëŠ¥ ì„œë¹„ìŠ¤ ì‹œí€€ìŠ¤
+-- ½ÃÅÍ ÀÌ¿ë°¡´É ¼­ºñ½º ½ÃÄö½º
 CREATE SEQUENCE SEQ_typSrv_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
--- ì‹œí„° íƒœê·¸ ì‹œí€€ìŠ¤
+-- ½ÃÅÍ ÅÂ±× ½ÃÄö½º
 CREATE SEQUENCE SEQ_typTag_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
-
-
+-- »óÇ° ÀÌ¹ÌÁö ½ÃÄö½º
+CREATE SEQUENCE SEQ_pdt_image_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
+-- »óÇ° ½ÃÄö½º
+CREATE SEQUENCE SEQ_product_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
+-- Àå¹Ù±¸´Ï ½ÃÄö½º
+CREATE SEQUENCE SEQ_cart_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
 
 /* Create Tables */
 
--- ìœ ê¸°ë™ë¬¼ í…Œì´ë¸”
+-- À¯±âµ¿¹° Å×ÀÌºí
 CREATE TABLE abandonedAnimal
 (
-	-- ìœ ê¸°ë™ë¬¼ ì¼ë ¨ë²ˆí˜¸
+	-- À¯±âµ¿¹° ÀÏ·Ã¹øÈ£
 	abani_idx number NOT NULL,
-	-- ìœ ê¸°ë™ë¬¼ í’ˆì¢…
+	-- À¯±âµ¿¹° Ç°Á¾
 	abani_kind varchar2(30) NOT NULL,
-	-- ìœ ê¸°ë™ë¬¼ ì„±ë³„(F,M)
+	-- À¯±âµ¿¹° ¼ºº°(F,M)
 	abani_gender char(1) NOT NULL,
-	-- ìœ ê¸°ë™ë¬¼ ë°œìƒìž¥ì†Œ
+	-- À¯±âµ¿¹° ¹ß»ýÀå¼Ò
 	abani_loc varchar2(100) NOT NULL,
-	-- ìœ ê¸°ë™ë¬¼ ì ‘ìˆ˜ì¼
+	-- À¯±âµ¿¹° Á¢¼öÀÏ
 	abani_regdate date NOT NULL,
-	-- ìœ ê¸°ë™ë¬¼ ì¤‘ì„±í™”ì—¬ë¶€(1,0)
+	-- À¯±âµ¿¹° Áß¼ºÈ­¿©ºÎ(1,0)
 	abani_neut number NOT NULL,
-	-- ìœ ê¸°ë™ë¬¼ ìƒíƒœ ìž…ì–‘/ë³´í˜¸(adopt,prtct)
+	-- À¯±âµ¿¹° »óÅÂ ÀÔ¾ç/º¸È£(adopt,prtct)
 	abani_stat char(5) NOT NULL,
-	-- ìœ ê¸°ë™ë¬¼ ì‚¬ì§„
+	-- À¯±âµ¿¹° »çÁø
 	abani_photo varchar2(100) NOT NULL,
-	-- ë™ë¬¼ ë‚˜ì´ 
+	-- µ¿¹° ³ªÀÌ 
 	abani_age varchar2(30) NOT NULL,
-	-- ì˜ˆë°©ì ‘ì¢… ìœ ë¬´(0,1)
+	-- ¿¹¹æÁ¢Á¾ À¯¹«(0,1)
 	abani_vaccin number NOT NULL,
-	-- ìœ ê¸°ë™ë¬¼ ì¢…(cat,dog)
+	-- À¯±âµ¿¹° Á¾(cat,dog)
 	abani_species char(3) NOT NULL,
-	-- ìœ ê¸°ë™ë¬¼ íŠ¹ì§•
+	-- À¯±âµ¿¹° Æ¯Â¡
 	abani_char varchar2(1000) NOT NULL,
 	PRIMARY KEY (abani_idx)
 );
 
 
--- ìž…ì–‘ì‹ ì²­ í…Œì´ë¸”
+-- ÀÔ¾ç½ÅÃ» Å×ÀÌºí
 CREATE TABLE ADOPTION_APPLICATION
 (
-	-- ìž…ì–‘ì‹ ì²­ ì¼ë ¨ë²ˆí˜¸
+	-- ÀÔ¾ç½ÅÃ» ÀÏ·Ã¹øÈ£
 	ADPAPL_idx number NOT NULL,
-	-- ì‹ ì²­ìž ì´ë¦„
+	-- ½ÅÃ»ÀÚ ÀÌ¸§
 	ADPAPL_name varchar2(30) NOT NULL,
-	-- ì‹ ì²­ìž ì„±ë³„(F,M)
+	-- ½ÅÃ»ÀÚ ¼ºº°(F,M)
 	ADPAPL_gender char(1) NOT NULL,
-	-- ì‹ ì²­ìž ìƒë…„ì›”ì¼
+	-- ½ÅÃ»ÀÚ »ý³â¿ùÀÏ
 	ADPAPL_birth date NOT NULL,
-	-- ì‹ ì²­ìž ì „í™”ë²ˆí˜¸
+	-- ½ÅÃ»ÀÚ ÀüÈ­¹øÈ£
 	ADPAPL_tel varchar2(30) NOT NULL,
-	-- ì‹ ì²­ìž ì£¼ì†Œ
+	-- ½ÅÃ»ÀÚ ÁÖ¼Ò
 	ADPAPL_addr varchar2(100) NOT NULL,
-	-- ì‹ ì²­ìž ê°€ì¡± ì§ì—…ì—¬ë¶€ (0,1)
+	-- ½ÅÃ»ÀÚ °¡Á· Á÷¾÷¿©ºÎ (0,1)
 	ADPAPL_job number NOT NULL,
-	-- ì‹ ì²­ìž ë°˜ë ¤ë™ë¬¼ í‚¤ìš´ ê²½í—˜(0,1)
+	-- ½ÅÃ»ÀÚ ¹Ý·Áµ¿¹° Å°¿î °æÇè(0,1)
 	ADPAPL_exp number NOT NULL,
-	-- ì‹ ì²­ìžê°€ ë°˜ë ¤ë™ë¬¼ í‚¤ìš´ ê¸°ê°„
+	-- ½ÅÃ»ÀÚ°¡ ¹Ý·Áµ¿¹° Å°¿î ±â°£
 	ADPAPL_havepet varchar2(50),
-	-- ì‹ ì²­ìž ê°€ì¡± ìˆ˜ 
+	-- ½ÅÃ»ÀÚ °¡Á· ¼ö 
 	adpapl_fNum number NOT NULL,
-	-- ìœ ê¸°ë™ë¬¼ ì¼ë ¨ë²ˆí˜¸
+	-- À¯±âµ¿¹° ÀÏ·Ã¹øÈ£
 	abani_idx number NOT NULL,
-	-- íšŒì›ë²ˆí˜¸
+	-- È¸¿ø¹øÈ£
 	member_idx number NOT NULL,
 	PRIMARY KEY (ADPAPL_idx)
 );
 
 
--- ìž…ì–‘ ëª©ë¡
+-- ÀÔ¾ç ¸ñ·Ï
 CREATE TABLE ADOPTION_list
 (
-	-- ìž…ì–‘ ëª©ë¡ ì¼ë ¨ë²ˆí˜¸
+	-- ÀÔ¾ç ¸ñ·Ï ÀÏ·Ã¹øÈ£
 	ADOPlist_idx number NOT NULL,
-	-- ìž…ì–‘ë‚ ì§œ 
+	-- ÀÔ¾ç³¯Â¥ 
 	ADOPlist_date date NOT NULL,
-	-- ìœ ê¸°ë™ë¬¼ ì¼ë ¨ë²ˆí˜¸
+	-- À¯±âµ¿¹° ÀÏ·Ã¹øÈ£
 	abani_idx number NOT NULL,
-	-- íšŒì›ë²ˆí˜¸
+	-- È¸¿ø¹øÈ£
 	member_idx number NOT NULL,
 	PRIMARY KEY (ADOPlist_idx)
 );
 
 
--- ìŠ¹ì¸ í…Œì´ë¸”
+-- ½ÂÀÎ Å×ÀÌºí
 CREATE TABLE APPROVAL
 (
-	-- ìŠ¹ì¸ ì¼ë ¨ë²ˆí˜¸
+	-- ½ÂÀÎ ÀÏ·Ã¹øÈ£
 	APR_idx number NOT NULL,
-	-- ìŠ¹ì¸ í—ˆê°€ì—¬ë¶€(Y,N)
+	-- ½ÂÀÎ Çã°¡¿©ºÎ(Y,N)
 	APR_stts char(1) NOT NULL,
-	-- ì‚¬ìœ 
+	-- »çÀ¯
 	APR_rsn varchar2(2000) NOT NULL,
-	-- íƒ€ìž…(adt ,sit)ìž…ì–‘/ì‹œí„°
+	-- Å¸ÀÔ(adt ,sit)ÀÔ¾ç/½ÃÅÍ
 	APR_type char(3) NOT NULL,
-	-- íšŒì›ë²ˆí˜¸
+	-- È¸¿ø¹øÈ£
 	member_idx number NOT NULL,
 	PRIMARY KEY (APR_idx)
 );
 
 
--- ì´ìš©ê°€ëŠ¥ì„œë¹„ìŠ¤
+-- ÀÌ¿ë°¡´É¼­ºñ½º
 CREATE TABLE AVAILABLE_SERVICES
 (
-	-- ì‹œí„° ì¼ë ¨ë²ˆí˜¸
+	-- ½ÃÅÍ ÀÏ·Ã¹øÈ£
 	sit_idx number NOT NULL,
-	-- ì„œë¹„ìŠ¤ ì¼ë ¨ë²ˆí˜¸
+	-- ¼­ºñ½º ÀÏ·Ã¹øÈ£
 	typSrv_idx number NOT NULL
 );
 
 
--- faqê²Œì‹œíŒ í…Œì´ë¸”
+-- faq°Ô½ÃÆÇ Å×ÀÌºí
 CREATE TABLE faq_board
 (
-	-- faqê²Œì‹œíŒ ì¼ë ¨ë²ˆí˜¸
+	-- faq°Ô½ÃÆÇ ÀÏ·Ã¹øÈ£
 	faq_idx number NOT NULL,
-	-- ì§ˆë¬¸
+	-- Áú¹®
 	faq_QUESTION varchar2(100) NOT NULL,
-	-- ë‹µë³€
+	-- ´äº¯
 	faq_ANSWER varchar2(2000) NOT NULL,
-	-- ì‚¬ì§„
+	-- »çÁø
 	faq_photo varchar2(100),
 	PRIMARY KEY (faq_idx)
 );
 
 
--- íšŒì›í…Œì´ë¸”
+-- È¸¿øÅ×ÀÌºí
 CREATE TABLE member
 (
-	-- íšŒì›ë²ˆí˜¸
+	-- È¸¿ø¹øÈ£
 	member_idx number NOT NULL,
-	-- ì•„ì´ë””
+	-- ¾ÆÀÌµð
 	member_id varchar2(30) NOT NULL UNIQUE,
-	-- ë¹„ë°€ë²ˆí˜¸
+	-- ºñ¹Ð¹øÈ£
 	member_pass varchar2(30) NOT NULL,
-	-- ì¼ë°˜/ì‹œí„°/ê´€ë¦¬ìž(nor,sit,mag)
+	-- ÀÏ¹Ý/½ÃÅÍ/°ü¸®ÀÚ(nor,sit,mag)
 	member_type char(3) NOT NULL,
-	-- ì´ë©”ì¼
+	-- ÀÌ¸ÞÀÏ
 	member_email varchar2(30) NOT NULL UNIQUE,
-	-- ì£¼ì†Œ
+	-- ÁÖ¼Ò
 	member_addr varchar2(100) NOT NULL,
-	-- ì´ë¦„
+	-- ÀÌ¸§
 	member_name varchar2(30) NOT NULL,
-	-- ì „í™”ë²ˆí˜¸
+	-- ÀüÈ­¹øÈ£
 	member_phone varchar2(30) NOT NULL,
-	-- íšŒì›ê°€ìž…ì¼
+	-- È¸¿ø°¡ÀÔÀÏ
 	member_reg date NOT NULL,
-	-- íšŒì› ë‚˜ì´(ìƒì¼)
+	-- È¸¿ø ³ªÀÌ(»ýÀÏ)
 	member_birth date NOT NULL,
-	-- íšŒì› ì„±ë³„(F,M)
+	-- È¸¿ø ¼ºº°(F,M)
 	member_gender char(1) NOT NULL,
-	-- íšŒì› í”„ë¡œí•„ ì‚¬ì§„
+	-- È¸¿ø ÇÁ·ÎÇÊ »çÁø
 	member_photo varchar2(100),
 	PRIMARY KEY (member_idx)
 );
 
 
--- ìƒˆ í…Œì´ë¸”
+-- »õ Å×ÀÌºí
 CREATE TABLE NEW_TABLE
 (
 
 );
 
 
--- ìƒˆ í…Œì´ë¸”
+-- »õ Å×ÀÌºí
 CREATE TABLE NEW_TABLE
 (
 
 );
 
 
--- ê³µì§€ê²Œì‹œíŒ í…Œì´ë¸”
+-- °øÁö°Ô½ÃÆÇ Å×ÀÌºí
 CREATE TABLE NOTICE_BOARD
 (
-	-- ê³µì§€ê²Œì‹œíŒ ì¼ë ¨ë²ˆí˜¸
+	-- °øÁö°Ô½ÃÆÇ ÀÏ·Ã¹øÈ£
 	notboard_idx number NOT NULL,
-	-- ì œëª©
+	-- Á¦¸ñ
 	notboard_title varchar2(200) NOT NULL,
-	-- ë‚´ìš©
+	-- ³»¿ë
 	notboard_content varchar2(2000) NOT NULL,
-	-- ìž‘ì„±ì¼
+	-- ÀÛ¼ºÀÏ
 	notboard_regdate date NOT NULL,
-	-- ì¡°íšŒìˆ˜
+	-- Á¶È¸¼ö
 	notboard_hit number NOT NULL,
-	-- ì‚¬ì§„
+	-- »çÁø
 	notboard_photo varchar2(100),
 	PRIMARY KEY (notboard_idx)
 );
 
 
--- íŽ« í…Œì´ë¸”
+-- Æê Å×ÀÌºí
 CREATE TABLE pet
 (
-	-- íŽ«ë²ˆí˜¸
+	-- Æê¹øÈ£
 	pet_idx number NOT NULL,
-	-- íšŒì›ë²ˆí˜¸
+	-- È¸¿ø¹øÈ£
 	member_idx number NOT NULL,
-	-- íŽ« ì´ë¦„
+	-- Æê ÀÌ¸§
 	pet_name varchar2(30) NOT NULL,
-	-- íŽ« ë‚˜ì´
+	-- Æê ³ªÀÌ
 	pet_age number(10,0) NOT NULL,
-	-- ì¤‘ì„±í™”ì—¬ë¶€(Y,N)
+	-- Áß¼ºÈ­¿©ºÎ(Y,N)
 	pet_neut char(1) NOT NULL,
-	-- íŽ« ì„±ë³„(F,M)
+	-- Æê ¼ºº°(F,M)
 	pet_gender char(1) NOT NULL,
-	-- íŽ« í’ˆì¢…
+	-- Æê Ç°Á¾
 	pet_kind varchar2(30) NOT NULL,
-	-- íŽ« íŠ¹ì§•
+	-- Æê Æ¯Â¡
 	pet_char varchar2(200) NOT NULL,
-	-- íŽ« ì‚¬ì§„
+	-- Æê »çÁø
 	pet_photo varchar2(100),
-	-- íŽ« ì¢…(dog,cat)
+	-- Æê Á¾(dog,cat)
 	pet_species char(3) NOT NULL,
 	PRIMARY KEY (pet_idx)
 );
 
 
--- qnaê²Œì‹œíŒ
+-- qna°Ô½ÃÆÇ
 CREATE TABLE qna_board
 (
-	-- qnaê²Œì‹œíŒ ì¼ë ¨ë²ˆí˜¸
+	-- qna°Ô½ÃÆÇ ÀÏ·Ã¹øÈ£
 	qna_idx number NOT NULL,
-	-- ì§ˆë¬¸ ì œëª©
+	-- Áú¹® Á¦¸ñ
 	qna_title varchar2(200) NOT NULL,
-	-- ì§ˆë¬¸ ë‚´ìš©
+	-- Áú¹® ³»¿ë
 	qna_content varchar2(2000) NOT NULL,
-	-- ì‚¬ì§„
+	-- »çÁø
 	qna_photo varchar2(200),
-	-- ë“±ë¡ì¼
+	-- µî·ÏÀÏ
 	qna_regdate date NOT NULL,
-	-- ì²˜ë¦¬ìƒíƒœ(ë‹µë³€ì™„ë£Œ,ë¯¸ì™„ë£Œ)(com,Inc)
+	-- Ã³¸®»óÅÂ(´äº¯¿Ï·á,¹Ì¿Ï·á)(com,Inc)
 	qna_stt char(3) NOT NULL,
-	-- ê³µê°œì—¬ë¶€(ë¹„ê³µê°œ,ê³µê°œ)(pri,pub)
+	-- °ø°³¿©ºÎ(ºñ°ø°³,°ø°³)(pri,pub)
 	qna_OPENSTATUS char(3) NOT NULL,
-	-- íšŒì›ë²ˆí˜¸
+	-- È¸¿ø¹øÈ£
 	member_idx number NOT NULL,
 	PRIMARY KEY (qna_idx)
 );
 
 
--- ìœ ê¸°ë™ë¬¼ì‹ ê³  í…Œì´ë¸”
+-- À¯±âµ¿¹°½Å°í Å×ÀÌºí
 CREATE TABLE REPORT_ABANDONED_ANIMALS
 (
-	-- ìœ ê¸°ë™ë¬¼ì‹ ê³  ì¼ë ¨ë²ˆí˜¸
+	-- À¯±âµ¿¹°½Å°í ÀÏ·Ã¹øÈ£
 	dclrAbnd_idx number NOT NULL,
-	-- ì£¼ì†Œ
+	-- ÁÖ¼Ò
 	dclrAbnd_loc varchar2(100) NOT NULL,
-	-- ì œëª©
+	-- Á¦¸ñ
 	dclrAbnd_title varchar2(100) NOT NULL,
-	-- ë‚´ìš©
+	-- ³»¿ë
 	dclrAbnd_content varchar2(2000) NOT NULL,
-	-- ì‚¬ì§„
+	-- »çÁø
 	dclrAbnd_photo varchar2(100),
-	-- ë“±ë¡ì¼
+	-- µî·ÏÀÏ
 	dclrAbnd_regdate date NOT NULL,
-	-- ì²˜ë¦¬ìƒíƒœ(ì ‘ìˆ˜,ì²˜ë¦¬ì¤‘,ì™„ë£Œ)(reg,PRG,CMP)
+	-- Ã³¸®»óÅÂ(Á¢¼ö,Ã³¸®Áß,¿Ï·á)(reg,PRG,CMP)
 	dclrAbnd_stts char(3) NOT NULL,
-	-- íšŒì›ë²ˆí˜¸
+	-- È¸¿ø¹øÈ£
 	member_idx number NOT NULL,
 	PRIMARY KEY (dclrAbnd_idx)
 );
 
 
--- ê±°ì£¼ì§€ ìœ í˜• í…Œì´ë¸”
+-- °ÅÁÖÁö À¯Çü Å×ÀÌºí
 CREATE TABLE RESIDENCE_TYPE
 (
-	-- ì‹œí„°ì‹ ì²­ ì¼ë ¨ë²ˆí˜¸
+	-- ½ÃÅÍ½ÅÃ» ÀÏ·Ã¹øÈ£
 	SITAPL_idx number NOT NULL,
-	-- ê±°ì£¼ì§€ ìœ í˜•
+	-- °ÅÁÖÁö À¯Çü
 	RSD_TYP varchar2(30) NOT NULL
 );
 
 
--- í›„ê¸° í…Œì´ë¸”
+-- ÈÄ±â Å×ÀÌºí
 CREATE TABLE review_board
 (
-	-- í›„ê¸° ì¼ë ¨ë²ˆí˜¸
+	-- ÈÄ±â ÀÏ·Ã¹øÈ£
 	review_idx number NOT NULL,
-	-- ë‚´ìš©
+	-- ³»¿ë
 	review_content  varchar2(1000) NOT NULL,
-	-- ë“±ë¡ì¼
+	-- µî·ÏÀÏ
 	review_regdate date NOT NULL,
-	-- ì‚¬ì§„
+	-- »çÁø
 	review_photo varchar2(200),
-	-- ìž…ì–‘/ì‹œí„° í›„ê¸° í”Œëž˜ê·¸(adp,sit) 
+	-- ÀÔ¾ç/½ÃÅÍ ÈÄ±â ÇÃ·¡±×(adp,sit, shp) 
 	review_flag char(3) NOT NULL,
-	-- ì‹œí„° ì¼ë ¨ë²ˆí˜¸
+	-- ½ÃÅÍ ÀÏ·Ã¹øÈ£
 	sit_idx number,
-	-- íšŒì›ë²ˆí˜¸
+	-- È¸¿ø¹øÈ£
 	member_idx number NOT NULL,
-	-- ìœ ê¸°ë™ë¬¼ ì¼ë ¨ë²ˆí˜¸
+	-- À¯±âµ¿¹° ÀÏ·Ã¹øÈ£
 	abani_idx number,
+    -- »óÇ° ÀÏ·Ã¹øÈ£
+	product_idx number,
 	PRIMARY KEY (review_idx)
 );
 
 
--- í›„ê¸° ëŒ“ê¸€ í…Œì´ë¸”
+-- ÈÄ±â ´ñ±Û Å×ÀÌºí
 CREATE TABLE review_Comment
 (
-	-- í›„ê¸° ëŒ“ê¸€ ì¼ë ¨ë²ˆí˜¸
+	-- ÈÄ±â ´ñ±Û ÀÏ·Ã¹øÈ£
 	reviewcomm_idx number NOT NULL,
-	-- ëŒ“ê¸€ ë‚´ìš©
+	-- ´ñ±Û ³»¿ë
 	reviewcomm_content varchar2(1000) NOT NULL,
-	-- ëŒ“ê¸€ ë“±ë¡ì¼
+	-- ´ñ±Û µî·ÏÀÏ
 	reviewcomm_regdate date NOT NULL,
-	-- í›„ê¸° ì¼ë ¨ë²ˆí˜¸
+	-- ÈÄ±â ÀÏ·Ã¹øÈ£
 	review_idx number NOT NULL,
-	-- íšŒì›ë²ˆí˜¸
+	-- È¸¿ø¹øÈ£
 	member_idx number NOT NULL,
 	PRIMARY KEY (reviewcomm_idx)
 );
 
 
--- í›„ê¸° ì¢‹ì•„ìš” í…Œì´ë¸”
+-- ÈÄ±â ÁÁ¾Æ¿ä Å×ÀÌºí
 CREATE TABLE review_like
 (
-	-- í›„ê¸° ì¢‹ì•„ìš” ì¼ë ¨ë²ˆí˜¸
+	-- ÈÄ±â ÁÁ¾Æ¿ä ÀÏ·Ã¹øÈ£
 	reviewlike_idx number NOT NULL,
-	-- ì¢‹ì•„ìš” ìƒíƒœ (0,1)
+	-- ÁÁ¾Æ¿ä »óÅÂ (0,1)
 	reviewlike_stt number NOT NULL,
-	-- í›„ê¸° ì¼ë ¨ë²ˆí˜¸
+	-- ÈÄ±â ÀÏ·Ã¹øÈ£
 	review_idx number NOT NULL,
-	-- íšŒì›ë²ˆí˜¸
+	-- È¸¿ø¹øÈ£
 	member_idx number NOT NULL,
 	PRIMARY KEY (reviewlike_idx)
 );
 
 
--- ì‹œí„° í…Œì´ë¸”
+-- ½ÃÅÍ Å×ÀÌºí
 CREATE TABLE sitter
 (
-	-- ì‹œí„° ì¼ë ¨ë²ˆí˜¸
+	-- ½ÃÅÍ ÀÏ·Ã¹øÈ£
 	sit_idx number NOT NULL,
-	-- ì‹œí„° ì œëª©
+	-- ½ÃÅÍ Á¦¸ñ
 	sit_title varchar2(100) NOT NULL,
-	-- ì‹œí„° ì†Œê°œê¸€
+	-- ½ÃÅÍ ¼Ò°³±Û
 	sit_intro varchar2(2000) NOT NULL,
-	-- ì‹œí„° ì£¼ì†Œ
+	-- ½ÃÅÍ ÁÖ¼Ò
 	sit_addr varchar2(100) NOT NULL,
-	-- íšŒì›ë²ˆí˜¸
+	-- È¸¿ø¹øÈ£
 	member_idx number NOT NULL,
-	-- ì†Œí˜• ìš”ê¸ˆ
+	-- ¼ÒÇü ¿ä±Ý
 	s_fee number,
-	-- ì¤‘í˜• ìš”ê¸ˆ
+	-- ÁßÇü ¿ä±Ý
 	m_fee number,
-	-- ëŒ€í˜• ìš”ê¸ˆ
+	-- ´ëÇü ¿ä±Ý
 	b_fee number,
-	-- ì´ìš©ê³ ê° ìˆ˜ 
+	-- ÀÌ¿ë°í°´ ¼ö 
 	sit_CLIENT number NOT NULL,
-	-- ì‹œí„° ì´ ë³„ì 
+	-- ½ÃÅÍ ÃÑ º°Á¡
 	sit_starpoint number NOT NULL,
-	-- ì‹œí„°ê°€ ë³„ì ì„ ë°›ì€ íšŸìˆ˜ 
+	-- ½ÃÅÍ°¡ º°Á¡À» ¹ÞÀº È½¼ö 
 	sit_starcount number NOT NULL,
 	PRIMARY KEY (sit_idx)
 );
 
 
--- ì‹œí„°ì‹ ì²­ í¼ í…Œì´ë¸”
+-- ½ÃÅÍ½ÅÃ» Æû Å×ÀÌºí
 CREATE TABLE SITTER_APPLICATION
 (
-	-- ì‹œí„°ì‹ ì²­ ì¼ë ¨ë²ˆí˜¸
+	-- ½ÃÅÍ½ÅÃ» ÀÏ·Ã¹øÈ£
 	SITAPL_idx number NOT NULL,
-	-- ì‹ ì²­ìž ì´ë¦„
+	-- ½ÅÃ»ÀÚ ÀÌ¸§
 	SITAPL_name varchar2(30) NOT NULL,
-	-- ì‹ ì²­ìž ì„±ë³„(F,M)
+	-- ½ÅÃ»ÀÚ ¼ºº°(F,M)
 	SITAPL_gender char(1) NOT NULL,
-	-- ì§€ì›ìž ìƒë…„ì›”ì¼
+	-- Áö¿øÀÚ »ý³â¿ùÀÏ
 	SITAPL_birth date NOT NULL,
-	-- ì§€ì›ìž ì „í™”ë²ˆí˜¸
+	-- Áö¿øÀÚ ÀüÈ­¹øÈ£
 	SITAPL_tel varchar2(30) NOT NULL,
-	-- ì§€ì›ìž ì£¼ì†Œ
+	-- Áö¿øÀÚ ÁÖ¼Ò
 	SITAPL_addr varchar2(100) NOT NULL,
-	-- ì‹ ì²­ìž ê°€ì¡± í¡ì—° ì—¬ë¶€(0,1)
+	-- ½ÅÃ»ÀÚ °¡Á· Èí¿¬ ¿©ºÎ(0,1)
 	SITAPL_smkStt number NOT NULL,
-	-- ì‹ ì²­ìž ë°˜ë ¤ë™ë¬¼ í‚¤ìš´ ê¸°ê°„
+	-- ½ÅÃ»ÀÚ ¹Ý·Áµ¿¹° Å°¿î ±â°£
 	SITAPL_havepet varchar2(30) NOT NULL,
-	-- ë°˜ë ¤ë™ë¬¼ í‚¤ìš´ ê²½í—˜ 
+	-- ¹Ý·Áµ¿¹° Å°¿î °æÇè 
 	stiapl_exp varchar2(2000) NOT NULL,
-	-- íšŒì›ë²ˆí˜¸
+	-- È¸¿ø¹øÈ£
 	member_idx number NOT NULL,
 	PRIMARY KEY (SITAPL_idx)
 );
 
 
--- ì‹œí„° ì‚¬ì§„ í…Œì´ë¸”
+-- ½ÃÅÍ »çÁø Å×ÀÌºí
 CREATE TABLE sitter_photo
 (
-	-- ì‚¬ì§„ ì¼ë ¨ë²ˆí˜¸
+	-- »çÁø ÀÏ·Ã¹øÈ£
 	sitphoto_idx number NOT NULL,
-	-- ì‚¬ì§„ ê²½ë¡œ
+	-- »çÁø °æ·Î
 	sitphoto_photo varchar2(100),
-	-- ì‹œí„° ì¼ë ¨ë²ˆí˜¸
+	-- ½ÃÅÍ ÀÏ·Ã¹øÈ£
 	sit_idx number NOT NULL,
 	PRIMARY KEY (sitphoto_idx)
 );
 
 
--- ì‹œí„° íƒœê·¸
+-- ½ÃÅÍ ÅÂ±×
 CREATE TABLE sitter_tag
 (
-	-- ì‹œí„° ì¼ë ¨ë²ˆí˜¸
+	-- ½ÃÅÍ ÀÏ·Ã¹øÈ£
 	sit_idx number NOT NULL,
-	-- íƒœê·¸ì¢…ë¥˜ í…Œì´ë¸” ì¼ë ¨ë²ˆí˜¸
+	-- ÅÂ±×Á¾·ù Å×ÀÌºí ÀÏ·Ã¹øÈ£
 	typTag_idx number NOT NULL
 );
 
 
--- íŽ«ì‹œí„° ì˜ˆì•½ í…Œì´ë¸”
+-- Æê½ÃÅÍ ¿¹¾à Å×ÀÌºí
 CREATE TABLE sit_book
 (
-	-- íŽ«ì‹œí„° ì˜ˆì•½ ì¼ë ¨ë²ˆí˜¸
+	-- Æê½ÃÅÍ ¿¹¾à ÀÏ·Ã¹øÈ£
 	sbook_idx number NOT NULL,
-	-- ì‹œí„° ì¼ë ¨ë²ˆí˜¸
+	-- ½ÃÅÍ ÀÏ·Ã¹øÈ£
 	sit_idx number NOT NULL,
-	-- ì˜ˆì•½ ì‹œìž‘ì¼
+	-- ¿¹¾à ½ÃÀÛÀÏ
 	sbook_start date NOT NULL,
-	-- ì˜ˆì•½ ë§ˆì§€ë§‰ì¼
+	-- ¿¹¾à ¸¶Áö¸·ÀÏ
 	sbook_end date NOT NULL,
 	PRIMARY KEY (sbook_idx)
 );
 
 
--- ì„œë¹„ìŠ¤ í…Œì´ë¸”
+-- ¼­ºñ½º Å×ÀÌºí
 CREATE TABLE TYPE_SERVICE
 (
-	-- ì„œë¹„ìŠ¤ ì¼ë ¨ë²ˆí˜¸
+	-- ¼­ºñ½º ÀÏ·Ã¹øÈ£
 	typSrv_idx number NOT NULL,
-	-- ì„œë¹„ìŠ¤ íƒ€ìž…
+	-- ¼­ºñ½º Å¸ÀÔ
 	typSrv_service varchar2(30) NOT NULL,
-	-- ì„œë¹„ìŠ¤ ì„¤ëª…
+	-- ¼­ºñ½º ¼³¸í
 	typSrv_expln varchar2(200) NOT NULL,
 	PRIMARY KEY (typSrv_idx)
 );
 
 
--- íƒœê·¸ ì¢…ë¥˜ í…Œì´ë¸”
+-- ÅÂ±× Á¾·ù Å×ÀÌºí
 CREATE TABLE TYPE_Tag
 (
-	-- íƒœê·¸ì¢…ë¥˜ í…Œì´ë¸” ì¼ë ¨ë²ˆí˜¸
+	-- ÅÂ±×Á¾·ù Å×ÀÌºí ÀÏ·Ã¹øÈ£
 	typTag_idx number NOT NULL,
-	-- íƒœê·¸ ì¢…ë¥˜(ì•„íŒŒíŠ¸, ë°˜ë ¤ë™ë¬¼ ì—†ìŒ ë“±)
+	-- ÅÂ±× Á¾·ù(¾ÆÆÄÆ®, ¹Ý·Áµ¿¹° ¾øÀ½ µî)
 	typTag_type varchar2(30) NOT NULL,
-	-- íƒœê·¸ ì„¤ëª…
+	-- ÅÂ±× ¼³¸í
 	typTag_expln varchar2(200) NOT NULL,
 	PRIMARY KEY (typTag_idx)
 );
 
+
+-- »óÇ° Å×ÀÌºí
+CREATE TABLE product
+(
+	-- »óÇ° ÀÏ·Ã¹øÈ£
+	product_idx number NOT NULL,
+	-- »óÇ° ÀÌ¸§
+	product_name varchar2(100) NOT NULL,
+	-- »óÇ° °¡°Ý
+	product_price number NOT NULL,
+	-- »óÇ° ¼³¸í
+	product_description varchar2(2000) NOT NULL,
+	-- »óÇ° µî·ÏÀÏ
+	product_regdate date NOT NULL,
+	-- »óÇ° Ä«Å×°í¸® (¾à,»ç·á,±ÂÁî) (gds, fed , mdc)Ä«Å×°í¸® (¾à,»ç·á,±ÂÁî) (gds, fed , mdc)
+	product_category char(3) NOT NULL,
+	-- »óÇ° Àç°í
+	product_stock number NOT NULL,
+	PRIMARY KEY (product_idx)
+);
+
+
+-- »óÇ°ÀÌ¹ÌÁö Å×ÀÌºí
+CREATE TABLE product_image
+(
+	-- »óÇ° ÀÌ¹ÌÁö ÀÏ·Ã¹øÈ£
+	pdt_image_idx number NOT NULL,
+	-- »óÇ° ÀÌ¹ÌÁö ÆÄÀÏÀÌ¸§
+	pdt_image_file varchar2(200) NOT NULL,
+	-- »óÇ° ÀÏ·Ã¹øÈ£
+	product_idx number NOT NULL,
+	PRIMARY KEY (pdt_image_idx)
+);
+
+-- Àå¹Ù±¸´Ï Å×ÀÌºí
+CREATE TABLE cart
+(
+	-- Àå¹Ù±¸´Ï ÀÏ·Ã¹øÈ£
+	cart_idx number NOT NULL,
+	-- »óÇ° ÀÏ·Ã¹øÈ£
+	product_idx number NOT NULL,
+	-- È¸¿ø¹øÈ£
+	member_idx number NOT NULL,
+	PRIMARY KEY (cart_idx)
+);
 
 /* Create Foreign Keys */
 
@@ -696,172 +747,185 @@ ALTER TABLE sitter_tag
 	REFERENCES TYPE_Tag (typTag_idx)
 ;
 
+ALTER TABLE cart
+	ADD FOREIGN KEY (member_idx)
+	REFERENCES member (member_idx)
+;
 
+ALTER TABLE cart
+	ADD FOREIGN KEY (product_idx)
+	REFERENCES product (product_idx)
+;
+
+ALTER TABLE product_image
+	ADD FOREIGN KEY (product_idx)
+	REFERENCES product (product_idx)
+;
 
 /* Comments */
 
-COMMENT ON TABLE abandonedAnimal IS 'ìœ ê¸°ë™ë¬¼ í…Œì´ë¸”';
-COMMENT ON COLUMN abandonedAnimal.abani_idx IS 'ìœ ê¸°ë™ë¬¼ ì¼ë ¨ë²ˆí˜¸';
-COMMENT ON COLUMN abandonedAnimal.abani_kind IS 'ìœ ê¸°ë™ë¬¼ í’ˆì¢…';
-COMMENT ON COLUMN abandonedAnimal.abani_gender IS 'ìœ ê¸°ë™ë¬¼ ì„±ë³„(F,M)';
-COMMENT ON COLUMN abandonedAnimal.abani_loc IS 'ìœ ê¸°ë™ë¬¼ ë°œìƒìž¥ì†Œ';
-COMMENT ON COLUMN abandonedAnimal.abani_regdate IS 'ìœ ê¸°ë™ë¬¼ ì ‘ìˆ˜ì¼';
-COMMENT ON COLUMN abandonedAnimal.abani_neut IS 'ìœ ê¸°ë™ë¬¼ ì¤‘ì„±í™”ì—¬ë¶€(1,0)';
-COMMENT ON COLUMN abandonedAnimal.abani_stat IS 'ìœ ê¸°ë™ë¬¼ ìƒíƒœ ìž…ì–‘/ë³´í˜¸(adopt,prtct)';
-COMMENT ON COLUMN abandonedAnimal.abani_photo IS 'ìœ ê¸°ë™ë¬¼ ì‚¬ì§„';
-COMMENT ON COLUMN abandonedAnimal.abani_age IS 'ë™ë¬¼ ë‚˜ì´ ';
-COMMENT ON COLUMN abandonedAnimal.abani_vaccin IS 'ì˜ˆë°©ì ‘ì¢… ìœ ë¬´(0,1)';
-COMMENT ON COLUMN abandonedAnimal.abani_species IS 'ìœ ê¸°ë™ë¬¼ ì¢…(cat,dog)';
-COMMENT ON COLUMN abandonedAnimal.abani_char IS 'ìœ ê¸°ë™ë¬¼ íŠ¹ì§•';
-COMMENT ON TABLE ADOPTION_APPLICATION IS 'ìž…ì–‘ì‹ ì²­ í…Œì´ë¸”';
-COMMENT ON COLUMN ADOPTION_APPLICATION.ADPAPL_idx IS 'ìž…ì–‘ì‹ ì²­ ì¼ë ¨ë²ˆí˜¸';
-COMMENT ON COLUMN ADOPTION_APPLICATION.ADPAPL_name IS 'ì‹ ì²­ìž ì´ë¦„';
-COMMENT ON COLUMN ADOPTION_APPLICATION.ADPAPL_gender IS 'ì‹ ì²­ìž ì„±ë³„(F,M)';
-COMMENT ON COLUMN ADOPTION_APPLICATION.ADPAPL_birth IS 'ì‹ ì²­ìž ìƒë…„ì›”ì¼';
-COMMENT ON COLUMN ADOPTION_APPLICATION.ADPAPL_tel IS 'ì‹ ì²­ìž ì „í™”ë²ˆí˜¸';
-COMMENT ON COLUMN ADOPTION_APPLICATION.ADPAPL_addr IS 'ì‹ ì²­ìž ì£¼ì†Œ';
-COMMENT ON COLUMN ADOPTION_APPLICATION.ADPAPL_job IS 'ì‹ ì²­ìž ê°€ì¡± ì§ì—…ì—¬ë¶€ (0,1)';
-COMMENT ON COLUMN ADOPTION_APPLICATION.ADPAPL_exp IS 'ì‹ ì²­ìž ë°˜ë ¤ë™ë¬¼ í‚¤ìš´ ê²½í—˜(0,1)';
-COMMENT ON COLUMN ADOPTION_APPLICATION.ADPAPL_havepet IS 'ì‹ ì²­ìžê°€ ë°˜ë ¤ë™ë¬¼ í‚¤ìš´ ê¸°ê°„';
-COMMENT ON COLUMN ADOPTION_APPLICATION.adpapl_fNum IS 'ì‹ ì²­ìž ê°€ì¡± ìˆ˜ ';
-COMMENT ON COLUMN ADOPTION_APPLICATION.abani_idx IS 'ìœ ê¸°ë™ë¬¼ ì¼ë ¨ë²ˆí˜¸';
-COMMENT ON COLUMN ADOPTION_APPLICATION.member_idx IS 'íšŒì›ë²ˆí˜¸';
-COMMENT ON TABLE ADOPTION_list IS 'ìž…ì–‘ ëª©ë¡';
-COMMENT ON COLUMN ADOPTION_list.ADOPlist_idx IS 'ìž…ì–‘ ëª©ë¡ ì¼ë ¨ë²ˆí˜¸';
-COMMENT ON COLUMN ADOPTION_list.ADOPlist_date IS 'ìž…ì–‘ë‚ ì§œ ';
-COMMENT ON COLUMN ADOPTION_list.abani_idx IS 'ìœ ê¸°ë™ë¬¼ ì¼ë ¨ë²ˆí˜¸';
-COMMENT ON COLUMN ADOPTION_list.member_idx IS 'íšŒì›ë²ˆí˜¸';
-COMMENT ON TABLE APPROVAL IS 'ìŠ¹ì¸ í…Œì´ë¸”';
-COMMENT ON COLUMN APPROVAL.APR_idx IS 'ìŠ¹ì¸ ì¼ë ¨ë²ˆí˜¸';
-COMMENT ON COLUMN APPROVAL.APR_stts IS 'ìŠ¹ì¸ í—ˆê°€ì—¬ë¶€(Y,N)';
-COMMENT ON COLUMN APPROVAL.APR_rsn IS 'ì‚¬ìœ ';
-COMMENT ON COLUMN APPROVAL.APR_type IS 'íƒ€ìž…(adt ,sit)ìž…ì–‘/ì‹œí„°';
-COMMENT ON COLUMN APPROVAL.member_idx IS 'íšŒì›ë²ˆí˜¸';
-COMMENT ON TABLE AVAILABLE_SERVICES IS 'ì´ìš©ê°€ëŠ¥ì„œë¹„ìŠ¤';
-COMMENT ON COLUMN AVAILABLE_SERVICES.sit_idx IS 'ì‹œí„° ì¼ë ¨ë²ˆí˜¸';
-COMMENT ON COLUMN AVAILABLE_SERVICES.typSrv_idx IS 'ì„œë¹„ìŠ¤ ì¼ë ¨ë²ˆí˜¸';
-COMMENT ON TABLE faq_board IS 'faqê²Œì‹œíŒ í…Œì´ë¸”';
-COMMENT ON COLUMN faq_board.faq_idx IS 'faqê²Œì‹œíŒ ì¼ë ¨ë²ˆí˜¸';
-COMMENT ON COLUMN faq_board.faq_QUESTION IS 'ì§ˆë¬¸';
-COMMENT ON COLUMN faq_board.faq_ANSWER IS 'ë‹µë³€';
-COMMENT ON COLUMN faq_board.faq_photo IS 'ì‚¬ì§„';
-COMMENT ON TABLE member IS 'íšŒì›í…Œì´ë¸”';
-COMMENT ON COLUMN member.member_idx IS 'íšŒì›ë²ˆí˜¸';
-COMMENT ON COLUMN member.member_id IS 'ì•„ì´ë””';
-COMMENT ON COLUMN member.member_pass IS 'ë¹„ë°€ë²ˆí˜¸';
-COMMENT ON COLUMN member.member_type IS 'ì¼ë°˜/ì‹œí„°/ê´€ë¦¬ìž(nor,sit,mag)';
-COMMENT ON COLUMN member.member_email IS 'ì´ë©”ì¼';
-COMMENT ON COLUMN member.member_addr IS 'ì£¼ì†Œ';
-COMMENT ON COLUMN member.member_name IS 'ì´ë¦„';
-COMMENT ON COLUMN member.member_phone IS 'ì „í™”ë²ˆí˜¸';
-COMMENT ON COLUMN member.member_reg IS 'íšŒì›ê°€ìž…ì¼';
-COMMENT ON COLUMN member.member_birth IS 'íšŒì› ë‚˜ì´(ìƒì¼)';
-COMMENT ON COLUMN member.member_gender IS 'íšŒì› ì„±ë³„(F,M)';
-COMMENT ON COLUMN member.member_photo IS 'íšŒì› í”„ë¡œí•„ ì‚¬ì§„';
-COMMENT ON TABLE NEW_TABLE IS 'ìƒˆ í…Œì´ë¸”';
-COMMENT ON TABLE NEW_TABLE IS 'ìƒˆ í…Œì´ë¸”';
-COMMENT ON TABLE NOTICE_BOARD IS 'ê³µì§€ê²Œì‹œíŒ í…Œì´ë¸”';
-COMMENT ON COLUMN NOTICE_BOARD.notboard_idx IS 'ê³µì§€ê²Œì‹œíŒ ì¼ë ¨ë²ˆí˜¸';
-COMMENT ON COLUMN NOTICE_BOARD.notboard_title IS 'ì œëª©';
-COMMENT ON COLUMN NOTICE_BOARD.notboard_content IS 'ë‚´ìš©';
-COMMENT ON COLUMN NOTICE_BOARD.notboard_regdate IS 'ìž‘ì„±ì¼';
-COMMENT ON COLUMN NOTICE_BOARD.notboard_hit IS 'ì¡°íšŒìˆ˜';
-COMMENT ON COLUMN NOTICE_BOARD.notboard_photo IS 'ì‚¬ì§„';
-COMMENT ON TABLE pet IS 'íŽ« í…Œì´ë¸”';
-COMMENT ON COLUMN pet.pet_idx IS 'íŽ«ë²ˆí˜¸';
-COMMENT ON COLUMN pet.member_idx IS 'íšŒì›ë²ˆí˜¸';
-COMMENT ON COLUMN pet.pet_name IS 'íŽ« ì´ë¦„';
-COMMENT ON COLUMN pet.pet_age IS 'íŽ« ë‚˜ì´';
-COMMENT ON COLUMN pet.pet_neut IS 'ì¤‘ì„±í™”ì—¬ë¶€(Y,N)';
-COMMENT ON COLUMN pet.pet_gender IS 'íŽ« ì„±ë³„(F,M)';
-COMMENT ON COLUMN pet.pet_kind IS 'íŽ« í’ˆì¢…';
-COMMENT ON COLUMN pet.pet_char IS 'íŽ« íŠ¹ì§•';
-COMMENT ON COLUMN pet.pet_photo IS 'íŽ« ì‚¬ì§„';
-COMMENT ON COLUMN pet.pet_species IS 'íŽ« ì¢…(dog,cat)';
-COMMENT ON TABLE qna_board IS 'qnaê²Œì‹œíŒ';
-COMMENT ON COLUMN qna_board.qna_idx IS 'qnaê²Œì‹œíŒ ì¼ë ¨ë²ˆí˜¸';
-COMMENT ON COLUMN qna_board.qna_title IS 'ì§ˆë¬¸ ì œëª©';
-COMMENT ON COLUMN qna_board.qna_content IS 'ì§ˆë¬¸ ë‚´ìš©';
-COMMENT ON COLUMN qna_board.qna_photo IS 'ì‚¬ì§„';
-COMMENT ON COLUMN qna_board.qna_regdate IS 'ë“±ë¡ì¼';
-COMMENT ON COLUMN qna_board.qna_stt IS 'ì²˜ë¦¬ìƒíƒœ(ë‹µë³€ì™„ë£Œ,ë¯¸ì™„ë£Œ)(com,Inc)';
-COMMENT ON COLUMN qna_board.qna_OPENSTATUS IS 'ê³µê°œì—¬ë¶€(ë¹„ê³µê°œ,ê³µê°œ)(pri,pub)';
-COMMENT ON COLUMN qna_board.member_idx IS 'íšŒì›ë²ˆí˜¸';
-COMMENT ON TABLE REPORT_ABANDONED_ANIMALS IS 'ìœ ê¸°ë™ë¬¼ì‹ ê³  í…Œì´ë¸”';
-COMMENT ON COLUMN REPORT_ABANDONED_ANIMALS.dclrAbnd_idx IS 'ìœ ê¸°ë™ë¬¼ì‹ ê³  ì¼ë ¨ë²ˆí˜¸';
-COMMENT ON COLUMN REPORT_ABANDONED_ANIMALS.dclrAbnd_loc IS 'ì£¼ì†Œ';
-COMMENT ON COLUMN REPORT_ABANDONED_ANIMALS.dclrAbnd_title IS 'ì œëª©';
-COMMENT ON COLUMN REPORT_ABANDONED_ANIMALS.dclrAbnd_content IS 'ë‚´ìš©';
-COMMENT ON COLUMN REPORT_ABANDONED_ANIMALS.dclrAbnd_photo IS 'ì‚¬ì§„';
-COMMENT ON COLUMN REPORT_ABANDONED_ANIMALS.dclrAbnd_regdate IS 'ë“±ë¡ì¼';
-COMMENT ON COLUMN REPORT_ABANDONED_ANIMALS.dclrAbnd_stts IS 'ì²˜ë¦¬ìƒíƒœ(ì ‘ìˆ˜,ì²˜ë¦¬ì¤‘,ì™„ë£Œ)(reg,PRG,CMP)';
-COMMENT ON COLUMN REPORT_ABANDONED_ANIMALS.member_idx IS 'íšŒì›ë²ˆí˜¸';
-COMMENT ON TABLE RESIDENCE_TYPE IS 'ê±°ì£¼ì§€ ìœ í˜• í…Œì´ë¸”';
-COMMENT ON COLUMN RESIDENCE_TYPE.SITAPL_idx IS 'ì‹œí„°ì‹ ì²­ ì¼ë ¨ë²ˆí˜¸';
-COMMENT ON COLUMN RESIDENCE_TYPE.RSD_TYP IS 'ê±°ì£¼ì§€ ìœ í˜•';
-COMMENT ON TABLE review_board IS 'ì‹œí„°í›„ê¸° í…Œì´ë¸”';
-COMMENT ON COLUMN review_board.review_idx IS 'í›„ê¸° ì¼ë ¨ë²ˆí˜¸';
-COMMENT ON COLUMN review_board.review_title IS 'ì œëª©';
-COMMENT ON COLUMN review_board.review_content IS 'ë‚´ìš©';
-COMMENT ON COLUMN review_board.review_regdate IS 'ë“±ë¡ì¼';
-COMMENT ON COLUMN review_board.review_photo IS 'ì‚¬ì§„';
-COMMENT ON COLUMN review_board.review_flag IS 'ìž…ì–‘/ì‹œí„° í›„ê¸° í”Œëž˜ê·¸(adp,sit) ';
-COMMENT ON COLUMN review_board.sit_idx IS 'ì‹œí„° ì¼ë ¨ë²ˆí˜¸';
-COMMENT ON COLUMN review_board.member_idx IS 'íšŒì›ë²ˆí˜¸';
-COMMENT ON COLUMN review_board.abani_idx IS 'ìœ ê¸°ë™ë¬¼ ì¼ë ¨ë²ˆí˜¸';
-COMMENT ON TABLE review_Comment IS 'ì‹œí„°í›„ê¸° ëŒ“ê¸€ í…Œì´ë¸”';
-COMMENT ON COLUMN review_Comment.reviewcomm_idx IS 'ìž…ì–‘í›„ê¸° ëŒ“ê¸€ ì¼ë ¨ë²ˆí˜¸';
-COMMENT ON COLUMN review_Comment.reviewcomm_content IS 'ëŒ“ê¸€ ë‚´ìš©';
-COMMENT ON COLUMN review_Comment.reviewcomm_regdate IS 'ëŒ“ê¸€ ë“±ë¡ì¼';
-COMMENT ON COLUMN review_Comment.review_idx IS 'í›„ê¸° ì¼ë ¨ë²ˆí˜¸';
-COMMENT ON COLUMN review_Comment.member_idx IS 'íšŒì›ë²ˆí˜¸';
-COMMENT ON TABLE review_like IS 'ì‹œí„°í›„ê¸° ì¢‹ì•„ìš” í…Œì´ë¸”';
-COMMENT ON COLUMN review_like.reviewlike_idx IS 'ìž…ì–‘í›„ê¸° ì¢‹ì•„ìš” ì¼ë ¨ë²ˆí˜¸';
-COMMENT ON COLUMN review_like.reviewlike_stt IS 'ì¢‹ì•„ìš” ìƒíƒœ (0,1)';
-COMMENT ON COLUMN review_like.review_idx IS 'í›„ê¸° ì¼ë ¨ë²ˆí˜¸';
-COMMENT ON COLUMN review_like.member_idx IS 'íšŒì›ë²ˆí˜¸';
-COMMENT ON TABLE sitter IS 'ì‹œí„° í…Œì´ë¸”';
-COMMENT ON COLUMN sitter.sit_idx IS 'ì‹œí„° ì¼ë ¨ë²ˆí˜¸';
-COMMENT ON COLUMN sitter.sit_title IS 'ì‹œí„° ì œëª©';
-COMMENT ON COLUMN sitter.sit_intro IS 'ì‹œí„° ì†Œê°œê¸€';
-COMMENT ON COLUMN sitter.sit_addr IS 'ì‹œí„° ì£¼ì†Œ';
-COMMENT ON COLUMN sitter.member_idx IS 'íšŒì›ë²ˆí˜¸';
-COMMENT ON COLUMN sitter.s_fee IS 'ì†Œí˜• ìš”ê¸ˆ';
-COMMENT ON COLUMN sitter.m_fee IS 'ì¤‘í˜• ìš”ê¸ˆ';
-COMMENT ON COLUMN sitter.b_fee IS 'ëŒ€í˜• ìš”ê¸ˆ';
-COMMENT ON COLUMN sitter.sit_CLIENT IS 'ì´ìš©ê³ ê° ìˆ˜ ';
-COMMENT ON COLUMN sitter.sit_startpoint IS 'ì‹œí„° ì´ ë³„ì ';
-COMMENT ON COLUMN sitter.sit_startcount IS 'ì‹œí„°ê°€ ë³„ì ì„ ë°›ì€ íšŸìˆ˜ ';
-COMMENT ON TABLE SITTER_APPLICATION IS 'ì‹œí„°ì‹ ì²­ í¼ í…Œì´ë¸”';
-COMMENT ON COLUMN SITTER_APPLICATION.SITAPL_idx IS 'ì‹œí„°ì‹ ì²­ ì¼ë ¨ë²ˆí˜¸';
-COMMENT ON COLUMN SITTER_APPLICATION.SITAPL_name IS 'ì‹ ì²­ìž ì´ë¦„';
-COMMENT ON COLUMN SITTER_APPLICATION.SITAPL_gender IS 'ì‹ ì²­ìž ì„±ë³„(F,M)';
-COMMENT ON COLUMN SITTER_APPLICATION.SITAPL_birth IS 'ì§€ì›ìž ìƒë…„ì›”ì¼';
-COMMENT ON COLUMN SITTER_APPLICATION.SITAPL_tel IS 'ì§€ì›ìž ì „í™”ë²ˆí˜¸';
-COMMENT ON COLUMN SITTER_APPLICATION.SITAPL_addr IS 'ì§€ì›ìž ì£¼ì†Œ';
-COMMENT ON COLUMN SITTER_APPLICATION.SITAPL_smkStt IS 'ì‹ ì²­ìž ê°€ì¡± í¡ì—° ì—¬ë¶€(0,1)';
-COMMENT ON COLUMN SITTER_APPLICATION.SITAPL_havepet IS 'ì‹ ì²­ìž ë°˜ë ¤ë™ë¬¼ í‚¤ìš´ ê¸°ê°„';
-COMMENT ON COLUMN SITTER_APPLICATION.stiapl_exp IS 'ë°˜ë ¤ë™ë¬¼ í‚¤ìš´ ê²½í—˜ ';
-COMMENT ON COLUMN SITTER_APPLICATION.member_idx IS 'íšŒì›ë²ˆí˜¸';
-COMMENT ON TABLE sitter_photo IS 'ì‹œí„° ì‚¬ì§„ í…Œì´ë¸”';
-COMMENT ON COLUMN sitter_photo.sitphoto_idx IS 'ì‚¬ì§„ ì¼ë ¨ë²ˆí˜¸';
-COMMENT ON COLUMN sitter_photo.sitphoto_photo IS 'ì‚¬ì§„ ê²½ë¡œ';
-COMMENT ON COLUMN sitter_photo.sit_idx IS 'ì‹œí„° ì¼ë ¨ë²ˆí˜¸';
-COMMENT ON TABLE sitter_tag IS 'ì‹œí„° íƒœê·¸';
-COMMENT ON COLUMN sitter_tag.sit_idx IS 'ì‹œí„° ì¼ë ¨ë²ˆí˜¸';
-COMMENT ON COLUMN sitter_tag.typTag_idx IS 'íƒœê·¸ì¢…ë¥˜ í…Œì´ë¸” ì¼ë ¨ë²ˆí˜¸';
-COMMENT ON TABLE sit_book IS 'íŽ«ì‹œí„° ì˜ˆì•½ í…Œì´ë¸”';
-COMMENT ON COLUMN sit_book.sbook_idx IS 'íŽ«ì‹œí„° ì˜ˆì•½ ì¼ë ¨ë²ˆí˜¸';
-COMMENT ON COLUMN sit_book.sit_idx IS 'ì‹œí„° ì¼ë ¨ë²ˆí˜¸';
-COMMENT ON COLUMN sit_book.sbook_start IS 'ì˜ˆì•½ ì‹œìž‘ì¼';
-COMMENT ON COLUMN sit_book.sbook_end IS 'ì˜ˆì•½ ë§ˆì§€ë§‰ì¼';
-COMMENT ON TABLE TYPE_SERVICE IS 'ìƒˆ í…Œì´ë¸”';
-COMMENT ON COLUMN TYPE_SERVICE.typSrv_idx IS 'ì„œë¹„ìŠ¤ ì¼ë ¨ë²ˆí˜¸';
-COMMENT ON COLUMN TYPE_SERVICE.typSrv_service IS 'ì„œë¹„ìŠ¤ íƒ€ìž…';
-COMMENT ON COLUMN TYPE_SERVICE.typSrv_expln IS 'ì„œë¹„ìŠ¤ ì„¤ëª…';
-COMMENT ON TABLE TYPE_Tag IS 'íƒœê·¸ ì¢…ë¥˜ í…Œì´ë¸”';
-COMMENT ON COLUMN TYPE_Tag.typTag_idx IS 'íƒœê·¸ì¢…ë¥˜ í…Œì´ë¸” ì¼ë ¨ë²ˆí˜¸';
-COMMENT ON COLUMN TYPE_Tag.typTag_type IS 'íƒœê·¸ ì¢…ë¥˜(ì•„íŒŒíŠ¸, ë°˜ë ¤ë™ë¬¼ ì—†ìŒ ë“±)';
-COMMENT ON COLUMN TYPE_Tag.typTag_expln IS 'íƒœê·¸ ì„¤ëª…';
+COMMENT ON TABLE abandonedAnimal IS 'À¯±âµ¿¹° Å×ÀÌºí';
+COMMENT ON COLUMN abandonedAnimal.abani_idx IS 'À¯±âµ¿¹° ÀÏ·Ã¹øÈ£';
+COMMENT ON COLUMN abandonedAnimal.abani_kind IS 'À¯±âµ¿¹° Ç°Á¾';
+COMMENT ON COLUMN abandonedAnimal.abani_gender IS 'À¯±âµ¿¹° ¼ºº°(F,M)';
+COMMENT ON COLUMN abandonedAnimal.abani_loc IS 'À¯±âµ¿¹° ¹ß»ýÀå¼Ò';
+COMMENT ON COLUMN abandonedAnimal.abani_regdate IS 'À¯±âµ¿¹° Á¢¼öÀÏ';
+COMMENT ON COLUMN abandonedAnimal.abani_neut IS 'À¯±âµ¿¹° Áß¼ºÈ­¿©ºÎ(1,0)';
+COMMENT ON COLUMN abandonedAnimal.abani_stat IS 'À¯±âµ¿¹° »óÅÂ ÀÔ¾ç/º¸È£(adopt,prtct)';
+COMMENT ON COLUMN abandonedAnimal.abani_photo IS 'À¯±âµ¿¹° »çÁø';
+COMMENT ON COLUMN abandonedAnimal.abani_age IS 'µ¿¹° ³ªÀÌ ';
+COMMENT ON COLUMN abandonedAnimal.abani_vaccin IS '¿¹¹æÁ¢Á¾ À¯¹«(0,1)';
+COMMENT ON COLUMN abandonedAnimal.abani_species IS 'À¯±âµ¿¹° Á¾(cat,dog)';
+COMMENT ON COLUMN abandonedAnimal.abani_char IS 'À¯±âµ¿¹° Æ¯Â¡';
+COMMENT ON TABLE ADOPTION_APPLICATION IS 'ÀÔ¾ç½ÅÃ» Å×ÀÌºí';
+COMMENT ON COLUMN ADOPTION_APPLICATION.ADPAPL_idx IS 'ÀÔ¾ç½ÅÃ» ÀÏ·Ã¹øÈ£';
+COMMENT ON COLUMN ADOPTION_APPLICATION.ADPAPL_name IS '½ÅÃ»ÀÚ ÀÌ¸§';
+COMMENT ON COLUMN ADOPTION_APPLICATION.ADPAPL_gender IS '½ÅÃ»ÀÚ ¼ºº°(F,M)';
+COMMENT ON COLUMN ADOPTION_APPLICATION.ADPAPL_birth IS '½ÅÃ»ÀÚ »ý³â¿ùÀÏ';
+COMMENT ON COLUMN ADOPTION_APPLICATION.ADPAPL_tel IS '½ÅÃ»ÀÚ ÀüÈ­¹øÈ£';
+COMMENT ON COLUMN ADOPTION_APPLICATION.ADPAPL_addr IS '½ÅÃ»ÀÚ ÁÖ¼Ò';
+COMMENT ON COLUMN ADOPTION_APPLICATION.ADPAPL_job IS '½ÅÃ»ÀÚ °¡Á· Á÷¾÷¿©ºÎ (0,1)';
+COMMENT ON COLUMN ADOPTION_APPLICATION.ADPAPL_exp IS '½ÅÃ»ÀÚ ¹Ý·Áµ¿¹° Å°¿î °æÇè(0,1)';
+COMMENT ON COLUMN ADOPTION_APPLICATION.ADPAPL_havepet IS '½ÅÃ»ÀÚ°¡ ¹Ý·Áµ¿¹° Å°¿î ±â°£';
+COMMENT ON COLUMN ADOPTION_APPLICATION.adpapl_fNum IS '½ÅÃ»ÀÚ °¡Á· ¼ö ';
+COMMENT ON COLUMN ADOPTION_APPLICATION.abani_idx IS 'À¯±âµ¿¹° ÀÏ·Ã¹øÈ£';
+COMMENT ON COLUMN ADOPTION_APPLICATION.member_idx IS 'È¸¿ø¹øÈ£';
+COMMENT ON TABLE ADOPTION_list IS 'ÀÔ¾ç ¸ñ·Ï';
+COMMENT ON COLUMN ADOPTION_list.ADOPlist_idx IS 'ÀÔ¾ç ¸ñ·Ï ÀÏ·Ã¹øÈ£';
+COMMENT ON COLUMN ADOPTION_list.ADOPlist_date IS 'ÀÔ¾ç³¯Â¥ ';
+COMMENT ON COLUMN ADOPTION_list.abani_idx IS 'À¯±âµ¿¹° ÀÏ·Ã¹øÈ£';
+COMMENT ON COLUMN ADOPTION_list.member_idx IS 'È¸¿ø¹øÈ£';
+COMMENT ON TABLE APPROVAL IS '½ÂÀÎ Å×ÀÌºí';
+COMMENT ON COLUMN APPROVAL.APR_idx IS '½ÂÀÎ ÀÏ·Ã¹øÈ£';
+COMMENT ON COLUMN APPROVAL.APR_stts IS '½ÂÀÎ Çã°¡¿©ºÎ(Y,N)';
+COMMENT ON COLUMN APPROVAL.APR_rsn IS '»çÀ¯';
+COMMENT ON COLUMN APPROVAL.APR_type IS 'Å¸ÀÔ(adt ,sit)ÀÔ¾ç/½ÃÅÍ';
+COMMENT ON COLUMN APPROVAL.member_idx IS 'È¸¿ø¹øÈ£';
+COMMENT ON TABLE AVAILABLE_SERVICES IS 'ÀÌ¿ë°¡´É¼­ºñ½º';
+COMMENT ON COLUMN AVAILABLE_SERVICES.sit_idx IS '½ÃÅÍ ÀÏ·Ã¹øÈ£';
+COMMENT ON COLUMN AVAILABLE_SERVICES.typSrv_idx IS '¼­ºñ½º ÀÏ·Ã¹øÈ£';
+COMMENT ON TABLE faq_board IS 'faq°Ô½ÃÆÇ Å×ÀÌºí';
+COMMENT ON COLUMN faq_board.faq_idx IS 'faq°Ô½ÃÆÇ ÀÏ·Ã¹øÈ£';
+COMMENT ON COLUMN faq_board.faq_QUESTION IS 'Áú¹®';
+COMMENT ON COLUMN faq_board.faq_ANSWER IS '´äº¯';
+COMMENT ON COLUMN faq_board.faq_photo IS '»çÁø';
+COMMENT ON TABLE member IS 'È¸¿øÅ×ÀÌºí';
+COMMENT ON COLUMN member.member_idx IS 'È¸¿ø¹øÈ£';
+COMMENT ON COLUMN member.member_id IS '¾ÆÀÌµð';
+COMMENT ON COLUMN member.member_pass IS 'ºñ¹Ð¹øÈ£';
+COMMENT ON COLUMN member.member_type IS 'ÀÏ¹Ý/½ÃÅÍ/°ü¸®ÀÚ(nor,sit,mag)';
+COMMENT ON COLUMN member.member_email IS 'ÀÌ¸ÞÀÏ';
+COMMENT ON COLUMN member.member_addr IS 'ÁÖ¼Ò';
+COMMENT ON COLUMN member.member_name IS 'ÀÌ¸§';
+COMMENT ON COLUMN member.member_phone IS 'ÀüÈ­¹øÈ£';
+COMMENT ON COLUMN member.member_reg IS 'È¸¿ø°¡ÀÔÀÏ';
+COMMENT ON COLUMN member.member_birth IS 'È¸¿ø ³ªÀÌ(»ýÀÏ)';
+COMMENT ON COLUMN member.member_gender IS 'È¸¿ø ¼ºº°(F,M)';
+COMMENT ON COLUMN member.member_photo IS 'È¸¿ø ÇÁ·ÎÇÊ »çÁø';
+COMMENT ON TABLE NEW_TABLE IS '»õ Å×ÀÌºí';
+COMMENT ON TABLE NEW_TABLE IS '»õ Å×ÀÌºí';
+COMMENT ON TABLE NOTICE_BOARD IS '°øÁö°Ô½ÃÆÇ Å×ÀÌºí';
+COMMENT ON COLUMN NOTICE_BOARD.notboard_idx IS '°øÁö°Ô½ÃÆÇ ÀÏ·Ã¹øÈ£';
+COMMENT ON COLUMN NOTICE_BOARD.notboard_title IS 'Á¦¸ñ';
+COMMENT ON COLUMN NOTICE_BOARD.notboard_content IS '³»¿ë';
+COMMENT ON COLUMN NOTICE_BOARD.notboard_regdate IS 'ÀÛ¼ºÀÏ';
+COMMENT ON COLUMN NOTICE_BOARD.notboard_hit IS 'Á¶È¸¼ö';
+COMMENT ON COLUMN NOTICE_BOARD.notboard_photo IS '»çÁø';
+COMMENT ON TABLE pet IS 'Æê Å×ÀÌºí';
+COMMENT ON COLUMN pet.pet_idx IS 'Æê¹øÈ£';
+COMMENT ON COLUMN pet.member_idx IS 'È¸¿ø¹øÈ£';
+COMMENT ON COLUMN pet.pet_name IS 'Æê ÀÌ¸§';
+COMMENT ON COLUMN pet.pet_age IS 'Æê ³ªÀÌ';
+COMMENT ON COLUMN pet.pet_neut IS 'Áß¼ºÈ­¿©ºÎ(Y,N)';
+COMMENT ON COLUMN pet.pet_gender IS 'Æê ¼ºº°(F,M)';
+COMMENT ON COLUMN pet.pet_kind IS 'Æê Ç°Á¾';
+COMMENT ON COLUMN pet.pet_char IS 'Æê Æ¯Â¡';
+COMMENT ON COLUMN pet.pet_photo IS 'Æê »çÁø';
+COMMENT ON COLUMN pet.pet_species IS 'Æê Á¾(dog,cat)';
+COMMENT ON TABLE qna_board IS 'qna°Ô½ÃÆÇ';
+COMMENT ON COLUMN qna_board.qna_idx IS 'qna°Ô½ÃÆÇ ÀÏ·Ã¹øÈ£';
+COMMENT ON COLUMN qna_board.qna_title IS 'Áú¹® Á¦¸ñ';
+COMMENT ON COLUMN qna_board.qna_content IS 'Áú¹® ³»¿ë';
+COMMENT ON COLUMN qna_board.qna_photo IS '»çÁø';
+COMMENT ON COLUMN qna_board.qna_regdate IS 'µî·ÏÀÏ';
+COMMENT ON COLUMN qna_board.qna_stt IS 'Ã³¸®»óÅÂ(´äº¯¿Ï·á,¹Ì¿Ï·á)(com,Inc)';
+COMMENT ON COLUMN qna_board.qna_OPENSTATUS IS '°ø°³¿©ºÎ(ºñ°ø°³,°ø°³)(pri,pub)';
+COMMENT ON COLUMN qna_board.member_idx IS 'È¸¿ø¹øÈ£';
+COMMENT ON TABLE REPORT_ABANDONED_ANIMALS IS 'À¯±âµ¿¹°½Å°í Å×ÀÌºí';
+COMMENT ON COLUMN REPORT_ABANDONED_ANIMALS.dclrAbnd_idx IS 'À¯±âµ¿¹°½Å°í ÀÏ·Ã¹øÈ£';
+COMMENT ON COLUMN REPORT_ABANDONED_ANIMALS.dclrAbnd_loc IS 'ÁÖ¼Ò';
+COMMENT ON COLUMN REPORT_ABANDONED_ANIMALS.dclrAbnd_title IS 'Á¦¸ñ';
+COMMENT ON COLUMN REPORT_ABANDONED_ANIMALS.dclrAbnd_content IS '³»¿ë';
+COMMENT ON COLUMN REPORT_ABANDONED_ANIMALS.dclrAbnd_photo IS '»çÁø';
+COMMENT ON COLUMN REPORT_ABANDONED_ANIMALS.dclrAbnd_regdate IS 'µî·ÏÀÏ';
+COMMENT ON COLUMN REPORT_ABANDONED_ANIMALS.dclrAbnd_stts IS 'Ã³¸®»óÅÂ(Á¢¼ö,Ã³¸®Áß,¿Ï·á)(reg,PRG,CMP)';
+COMMENT ON COLUMN REPORT_ABANDONED_ANIMALS.member_idx IS 'È¸¿ø¹øÈ£';
+COMMENT ON TABLE RESIDENCE_TYPE IS '°ÅÁÖÁö À¯Çü Å×ÀÌºí';
+COMMENT ON COLUMN RESIDENCE_TYPE.SITAPL_idx IS '½ÃÅÍ½ÅÃ» ÀÏ·Ã¹øÈ£';
+COMMENT ON COLUMN RESIDENCE_TYPE.RSD_TYP IS '°ÅÁÖÁö À¯Çü';
+COMMENT ON TABLE review_board IS '½ÃÅÍÈÄ±â Å×ÀÌºí';
+COMMENT ON COLUMN review_board.review_idx IS 'ÈÄ±â ÀÏ·Ã¹øÈ£';
+COMMENT ON COLUMN review_board.review_title IS 'Á¦¸ñ';
+COMMENT ON COLUMN review_board.review_content IS '³»¿ë';
+COMMENT ON COLUMN review_board.review_regdate IS 'µî·ÏÀÏ';
+COMMENT ON COLUMN review_board.review_photo IS '»çÁø';
+COMMENT ON COLUMN review_board.review_flag IS 'ÀÔ¾ç/½ÃÅÍ ÈÄ±â ÇÃ·¡±×(adp,sit) ';
+COMMENT ON COLUMN review_board.sit_idx IS '½ÃÅÍ ÀÏ·Ã¹øÈ£';
+COMMENT ON COLUMN review_board.member_idx IS 'È¸¿ø¹øÈ£';
+COMMENT ON COLUMN review_board.abani_idx IS 'À¯±âµ¿¹° ÀÏ·Ã¹øÈ£';
+COMMENT ON TABLE review_Comment IS '½ÃÅÍÈÄ±â ´ñ±Û Å×ÀÌºí';
+COMMENT ON COLUMN review_Comment.reviewcomm_idx IS 'ÀÔ¾çÈÄ±â ´ñ±Û ÀÏ·Ã¹øÈ£';
+COMMENT ON COLUMN review_Comment.reviewcomm_content IS '´ñ±Û ³»¿ë';
+COMMENT ON COLUMN review_Comment.reviewcomm_regdate IS '´ñ±Û µî·ÏÀÏ';
+COMMENT ON COLUMN review_Comment.review_idx IS 'ÈÄ±â ÀÏ·Ã¹øÈ£';
+COMMENT ON COLUMN review_Comment.member_idx IS 'È¸¿ø¹øÈ£';
+COMMENT ON TABLE review_like IS '½ÃÅÍÈÄ±â ÁÁ¾Æ¿ä Å×ÀÌºí';
+COMMENT ON COLUMN review_like.reviewlike_idx IS 'ÀÔ¾çÈÄ±â ÁÁ¾Æ¿ä ÀÏ·Ã¹øÈ£';
+COMMENT ON COLUMN review_like.reviewlike_stt IS 'ÁÁ¾Æ¿ä »óÅÂ (0,1)';
+COMMENT ON COLUMN review_like.review_idx IS 'ÈÄ±â ÀÏ·Ã¹øÈ£';
+COMMENT ON COLUMN review_like.member_idx IS 'È¸¿ø¹øÈ£';
+COMMENT ON TABLE sitter IS '½ÃÅÍ Å×ÀÌºí';
+COMMENT ON COLUMN sitter.sit_idx IS '½ÃÅÍ ÀÏ·Ã¹øÈ£';
+COMMENT ON COLUMN sitter.sit_title IS '½ÃÅÍ Á¦¸ñ';
+COMMENT ON COLUMN sitter.sit_intro IS '½ÃÅÍ ¼Ò°³±Û';
+COMMENT ON COLUMN sitter.sit_addr IS '½ÃÅÍ ÁÖ¼Ò';
+COMMENT ON COLUMN sitter.member_idx IS 'È¸¿ø¹øÈ£';
+COMMENT ON COLUMN sitter.s_fee IS '¼ÒÇü ¿ä±Ý';
+COMMENT ON COLUMN sitter.m_fee IS 'ÁßÇü ¿ä±Ý';
+COMMENT ON COLUMN sitter.b_fee IS '´ëÇü ¿ä±Ý';
+COMMENT ON COLUMN sitter.sit_CLIENT IS 'ÀÌ¿ë°í°´ ¼ö ';
+COMMENT ON COLUMN sitter.sit_startpoint IS '½ÃÅÍ ÃÑ º°Á¡';
+COMMENT ON COLUMN sitter.sit_startcount IS '½ÃÅÍ°¡ º°Á¡À» ¹ÞÀº È½¼ö ';
+COMMENT ON TABLE SITTER_APPLICATION IS '½ÃÅÍ½ÅÃ» Æû Å×ÀÌºí';
+COMMENT ON COLUMN SITTER_APPLICATION.SITAPL_idx IS '½ÃÅÍ½ÅÃ» ÀÏ·Ã¹øÈ£';
+COMMENT ON COLUMN SITTER_APPLICATION.SITAPL_name IS '½ÅÃ»ÀÚ ÀÌ¸§';
+COMMENT ON COLUMN SITTER_APPLICATION.SITAPL_gender IS '½ÅÃ»ÀÚ ¼ºº°(F,M)';
+COMMENT ON COLUMN SITTER_APPLICATION.SITAPL_birth IS 'Áö¿øÀÚ »ý³â¿ùÀÏ';
+COMMENT ON COLUMN SITTER_APPLICATION.SITAPL_tel IS 'Áö¿øÀÚ ÀüÈ­¹øÈ£';
+COMMENT ON COLUMN SITTER_APPLICATION.SITAPL_addr IS 'Áö¿øÀÚ ÁÖ¼Ò';
+COMMENT ON COLUMN SITTER_APPLICATION.SITAPL_smkStt IS '½ÅÃ»ÀÚ °¡Á· Èí¿¬ ¿©ºÎ(0,1)';
+COMMENT ON COLUMN SITTER_APPLICATION.SITAPL_havepet IS '½ÅÃ»ÀÚ ¹Ý·Áµ¿¹° Å°¿î ±â°£';
+COMMENT ON COLUMN SITTER_APPLICATION.stiapl_exp IS '¹Ý·Áµ¿¹° Å°¿î °æÇè ';
+COMMENT ON COLUMN SITTER_APPLICATION.member_idx IS 'È¸¿ø¹øÈ£';
+COMMENT ON TABLE sitter_photo IS '½ÃÅÍ »çÁø Å×ÀÌºí';
+COMMENT ON COLUMN sitter_photo.sitphoto_idx IS '»çÁø ÀÏ·Ã¹øÈ£';
+COMMENT ON COLUMN sitter_photo.sitphoto_photo IS '»çÁø °æ·Î';
+COMMENT ON COLUMN sitter_photo.sit_idx IS '½ÃÅÍ ÀÏ·Ã¹øÈ£';
+COMMENT ON TABLE sitter_tag IS '½ÃÅÍ ÅÂ±×';
+COMMENT ON COLUMN sitter_tag.sit_idx IS '½ÃÅÍ ÀÏ·Ã¹øÈ£';
+COMMENT ON COLUMN sitter_tag.typTag_idx IS 'ÅÂ±×Á¾·ù Å×ÀÌºí ÀÏ·Ã¹øÈ£';
+COMMENT ON TABLE sit_book IS 'Æê½ÃÅÍ ¿¹¾à Å×ÀÌºí';
+COMMENT ON COLUMN sit_book.sbook_idx IS 'Æê½ÃÅÍ ¿¹¾à ÀÏ·Ã¹øÈ£';
+COMMENT ON COLUMN sit_book.sit_idx IS '½ÃÅÍ ÀÏ·Ã¹øÈ£';
+COMMENT ON COLUMN sit_book.sbook_start IS '¿¹¾à ½ÃÀÛÀÏ';
+COMMENT ON COLUMN sit_book.sbook_end IS '¿¹¾à ¸¶Áö¸·ÀÏ';
+COMMENT ON TABLE TYPE_SERVICE IS '»õ Å×ÀÌºí';
+COMMENT ON COLUMN TYPE_SERVICE.typSrv_idx IS '¼­ºñ½º ÀÏ·Ã¹øÈ£';
+COMMENT ON COLUMN TYPE_SERVICE.typSrv_service IS '¼­ºñ½º Å¸ÀÔ';
+COMMENT ON COLUMN TYPE_SERVICE.typSrv_expln IS '¼­ºñ½º ¼³¸í';
+COMMENT ON TABLE TYPE_Tag IS 'ÅÂ±× Á¾·ù Å×ÀÌºí';
+COMMENT ON COLUMN TYPE_Tag.typTag_idx IS 'ÅÂ±×Á¾·ù Å×ÀÌºí ÀÏ·Ã¹øÈ£';
+COMMENT ON COLUMN TYPE_Tag.typTag_type IS 'ÅÂ±× Á¾·ù(¾ÆÆÄÆ®, ¹Ý·Áµ¿¹° ¾øÀ½ µî)';
+COMMENT ON COLUMN TYPE_Tag.typTag_expln IS 'ÅÂ±× ¼³¸í';
 
 
