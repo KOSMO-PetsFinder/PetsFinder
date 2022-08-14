@@ -11,7 +11,22 @@ public class ProductDTO {
 	private String product_category; 
 	private int product_stock;
 	private int review_count;
+	private String pdt_image_file;
+	private String photos;
 	
+	
+	public String getPhotos() {
+		return photos;
+	}
+	public void setPhotos(String photos) {
+		this.photos = photos;
+	}
+	public String getPdt_image_file() {
+		return pdt_image_file;
+	}
+	public void setPdt_image_file(String pdt_image_file) {
+		this.pdt_image_file = pdt_image_file;
+	}
 	public int getReview_count() {
 		return review_count;
 	}

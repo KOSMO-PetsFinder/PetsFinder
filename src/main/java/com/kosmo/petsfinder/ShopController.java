@@ -21,16 +21,30 @@ public class ShopController {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	@RequestMapping(value = "/shop")
-	public String shopMain(Model model,HttpServletRequest req,ParameterDTO parameterDTO) {
+	
+	//쇼핑몰 메인
+	@RequestMapping("/Shop")
+	public String shopMain() {
+		return "./shoppingmall/shopMain";
+	}
+	
+	
+	
+	@RequestMapping(value = "/ShopList")
+	public String shopList(Model model,HttpServletRequest req,ParameterDTO parameterDTO) {
 		
 		
 		//카테고리 종류 받아옴
 		int cate = (req.getParameter("cate")==null 
 				|| req.getParameter("cate").equals("")) 
 				? 0 : Integer.parseInt(req.getParameter("cate"));
+		//정렬 종류 받아옴
+		int sort = (req.getParameter("sort")==null 
+				|| req.getParameter("sort").equals("")) 
+				? 0 : Integer.parseInt(req.getParameter("sort"));
 		//파라미터에 저장 
 		parameterDTO.setCate(cate);
+		parameterDTO.setSort(sort);
 		
 		//전체 갯수 가지고 오기
 		//int totalRecordCount =
@@ -51,7 +65,7 @@ public class ShopController {
 			category ="전체상품";
 			break;
 		case 1:
-			category ="사료";
+			category ="필수용품";
 			break;
 		case 2:
 			category ="약";
@@ -66,12 +80,11 @@ public class ShopController {
 		//모델에 저장
 		model.addAttribute("lists", lists);
 		model.addAttribute("category", category);
-		model.addAttribute("cate", cate);
 		
 		
 		
 		
-		return "shoppingmall/shopMain";
+		return "./shoppingmall/shopList";
 	}
 	
 	
@@ -99,13 +112,39 @@ public class ShopController {
 		
 		
 		
-		//유기동물 리스트 
+		//상품 리스트 
 		ArrayList<ProductDTO> lists =
 				sqlSession.getMapper(ShopDAOImpl.class).productList(parameterDTO);
 		
 		
 		return lists;
 	}
+	
+	
+	@RequestMapping(value = "shop/paymentForm.do")
+	public String paymentForm() {
+		
+		
+		return "shoppingmall/paymentForm";
+	}
+	
+	
+	
+	//쇼핑 상세보기
+		@RequestMapping("/ShopView")
+		public String shopView(Model model, HttpServletRequest req ) {
+			
+			int product_idx = Integer.parseInt(req.getParameter("product_idx"));
+			
+			ArrayList<ProductDTO> pdlist = sqlSession.getMapper(ShopDAOImpl.class).shopview(product_idx);
+			for(ProductDTO dto : pdlist) {
+				String temp = dto.getProduct_description().replace("\r\n", "</br>");
+				dto.setProduct_description(temp);
+			}
+			
+			model.addAttribute("pdlist", pdlist);
+			return "./shoppingmall/shopView";
+		}
 	
 	
 	

@@ -9,7 +9,7 @@
   		select count(*) from product
   		<choose>
 		    <when test="cate != null and cate == 1">
-		    	where product_category='fed'
+		    	where product_category='ess'
 		    </when>
 		    <when test="cate != null and cate == 2">
 		    	where product_category='mdc'
@@ -25,26 +25,27 @@
   	<select id="productList" parameterType="petsfinder.shop.ParameterDTO"
   	resultType="petsfinder.shop.ProductDTO" >
   		select 
-		    p.*,NVL(a.cnt,0) review_count 
-		from 
-		    product p
-		left OUTER JOIN 
-		    (select 
-		        product_idx, count(*) cnt 
-		    from 
-		        review_board 
-		    where 
-		        product_idx in(select
-		                            product_idx
-		                        from 
-		                            product) 
-		    group by 
-		        product_idx) a
-		on 
-		    p.product_idx=a.product_idx 
+	          p.*, photos, NVL(b.cnt,0) review_count 
+	      from 
+	          product p
+	      left OUTER JOIN 
+	          (select 
+	              product_idx, LISTAGG(PDT_IMAGE_FILE, ', ')
+	              WITHIN GROUP (ORDER BY PDT_IMAGE_IDX desc) as photos
+	          from 
+	              product_image 
+	          GROUP BY product_idx
+	         ) a ON p.product_idx = a.product_idx 
+	         LEFT OUTER JOIN (
+	             SELECT
+	                 product_idx, count(*) cnt
+	             FROM review_board
+	             GROUP BY product_idx
+	         ) b ON p.product_idx = b.product_idx
+
   		<choose>
 		    <when test="cate != null and cate == 1">
-		    	where product_category='fed'
+		    	where product_category='ess'
 		    </when>
 		    <when test="cate != null and cate == 2">
 		    	where product_category='mdc'
@@ -96,5 +97,14 @@
 		</choose>
 		
   	</select>
+  	
+  	<select id="shopview" resultType="petsfinder.shop.ProductDTO" parameterType="int">
+  		select * from product p 
+  		inner join product_image pi  
+  		on p.product_idx=pi.product_idx 
+  		where p.product_idx = #{param1}
+  	</select>
+  	
+  	
   	
   </mapper>

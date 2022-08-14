@@ -11,6 +11,7 @@ public interface ShopDAOImpl {
 	public int productGetTotalCount(ParameterDTO parameterDTO);
 	//상품 전체 리스트 가져오기
 	public ArrayList<ProductDTO> productList(ParameterDTO parameterDTO);
-	
+	//상세보기 게시물가져오기
+	public ArrayList<ProductDTO> shopview(int product_idx);
 	
 }
