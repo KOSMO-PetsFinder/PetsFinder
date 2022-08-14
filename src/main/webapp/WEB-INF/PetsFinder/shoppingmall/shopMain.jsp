@@ -63,12 +63,12 @@ ul, li {-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: b
 	</div>
 
 
-
+	<input type="hidden" id="cate" value="${cate }">
 
 
 	<div id=""
 		style="border-bottom: 1px solid #81899b; border-top: 1px solid #81899b; height: 90px; display: flex; align-items: center; justify-content: center; padding-right: 700px;">
-		<div style="display: flex; flex-direction: row;">
+		<div id="scrollB" style="display: flex; flex-direction: row;">
 
 			<a href="./shop?cate=0"
 				style="border: 0; border-radius: 5px; height: 34px; display: flex; align-items: center; justify-content: center;">
@@ -105,20 +105,26 @@ ul, li {-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: b
 					${category }</p>
 				<div style="display: flex; flex-direction: row;">
 
-					<a href="#"
+					<a href="#" onclick="sortsell();"
 						style="border: 0; border-radius: 5px; height: 34px; display: flex; align-items: center; justify-content: center;">
-						<p
+						<input type="hidden" id="sortS" value="1">
+						<input type="hidden" id="sortmS" value="0">
+						<p 
 							style="font-size: 15px; color: #81899b; display: flex; align-items: center; padding-bottom: 6px;">
 							누적판매순</p>
 					</a> &nbsp;<span style="font-size: 15px; color: #81899b;">|</span>&nbsp;
-					<a href="#"
+					<a href="#" onclick="sortPrice();"
 						style="border: 0; border-radius: 5px; height: 34px; display: flex; align-items: center; justify-content: center;">
-						<p
+						<input type="hidden" id="sortP" value="2">
+						<input type="hidden" id="sortmP" value="0">
+						<p id="sortmPK"
 							style="font-size: 15px; color: #81899b; display: flex; align-items: center; padding-bottom: 6px;">
-							낮은가격순</p>
+							가격순</p>
 					</a> &nbsp;<span style="font-size: 15px; color: #81899b;">|</span>&nbsp;
-					<a href="#"
+					<a href="#" onclick="sortRegDate();"
 						style="border: 0; border-radius: 5px; height: 34px; display: flex; align-items: center; justify-content: center;">
+						<input type="hidden" id="sortR" value="3">
+						<input type="hidden" id="sortmR" value="0">
 						<p
 							style="font-size: 15px; color: #81899b; display: flex; align-items: center; padding-bottom: 6px;">
 							최신등록순</p>
@@ -126,13 +132,12 @@ ul, li {-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: b
 				</div>
 			</div>
 			<!-- 첫번째 오래된 순 -->
-			<div class="listDiv">
+			<div class="listDivP" id="listDivP">
 			<c:forEach items="${lists }" var="row" varStatus="vs" >
 			<c:if test="${vs.index%4==0 }">
-			<div
+			<div class="listDivC" id="listDivC"
 				style="width: 1024px; margin-top: 50px; display: flex; justify-content: space-between;">
 			</c:if>
-			
 			
 			<div style="width: 1024px; margin-top: 50px; display: flex; justify-content: space-between;float: left;"  >
           <div>
@@ -173,12 +178,13 @@ ul, li {-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: b
 			</c:forEach>
 			<!-- 리스트 마지막 -->
 			</div>
+			</div>
 			<br />
 			<br />
 			<div
 				style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-bottom: 120px">
 
-
+			</div>
 				<div
 					style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-bottom: 180px">
 
@@ -217,6 +223,7 @@ ul, li {-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: b
 			            </ul>
 			        </div>
 		      </div>
+		      
 				<script>
 				 $(document).ready(function(){
 				        var currentPosition = 150;
@@ -232,5 +239,83 @@ ul, li {-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: b
 				        });
 				      });
 				</script>
+				 <script type="text/javascript">
+				    function sortPrice(){
+						$.ajax({
+							url : "./shopSortList",
+							type : "POST",
+							data : {
+								"sort" : $('#sortP').val(),
+								"sortm" : $('#sortmP').val(),
+								"cate" : $('#cate').val(),
+							},
+						    dataType : 'json',
+							success : function (lists) {
+								console.log(lists.length);
+								var content="";    
+								var vs=0;  
+								for(var i=0; i<lists.length; i++){ 
+									if(vs%4 ==0) {
+										content += "<div style='width: 1024px; margin-top: 50px; display: flex; justify-content: space-between;'>";
+									}
+								           
+									content += "<div style='width: 1024px; margin-top: 50px; display: flex; justify-content: space-between;float: left;'  ><div>";               
+									content += "<a href='#'  style='margin-right: 14px'><div style='width: 245px; height: 170px; border-radius: 3px'>";               
+									content += "<img src='https://d1cd60iwvuzqnn.cloudfront.net/page/fd37e21adee1436c8b9341758eafe5d5.jpg' style='width: 245px; height: 170px; border-radius: 3px'></div>";               
+									content += "</a><div style=' margin-top: -15px; width: 245px; justify-content: space-between; align-items: center;padding-left: 5px;padding-right: 5px;'  >";
+									content += "<div style='display: flex; flex-direction: row;justify-content: space-between;'>";
+									content += "<div style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap;  '>" +lists[i].product_name;              
+									content += "</div><div style='display: flex;' align='right' ><a href='#'>";               
+									content += "<img src='./images/premium-icon-shopping-cart-4570068.png' style='width: 25px;height: 25px;'></a></div></div><div>";
+									content += numberWithCommas(lists[i].product_price)+"원</div><div>";
+									content += "<span style='font-size: 9px;'>리뷰 </span>";
+									content += "<span style='color: #75c9ba;font-size: 9px;'>" + lists[i].review_count  +"</span></div></div></div></div>";
+								
+									
+									if(vs%4==3) {
+										content += "</div>";
+									}
+									vs++;           
+								}
+								//내용 삭제
+								$('#listDivP').empty();
+								//내용 추가
+								$(content).appendTo("#listDivP");
+								//정렬모드 value 변경 
+								var val01 = $('#sortmP').val();
+								var val02 = parseInt(val01) + 1;
+								if(val02 ==3 ) {
+									val02=0;
+								}
+								$('#sortmP').val(val02);
+								//스크롤 이동
+								var location = document.querySelector("#scrollB").offsetTop;
+								window.scrollTo({top:location, behavior:'smooth'});
+								//정렬순 이름 변경
+								console.log(val01);
+								if(val01 ==0) {
+									var element = document.getElementById("sortmPK");
+									element.innerText = "낮은가격순";
+								}else if (val01 ==1) {
+									var element = document.getElementById("sortmPK");
+									element.innerText = "높은가격순";
+								}else if (val01 ==2) {
+									var element = document.getElementById("sortmPK");
+									element.innerText = "가격순";
+								}
+							}, 
+							
+							error : function () {
+								console.log("실패");
+							},
+						});
+					};
+					function numberWithCommas(x) {
+					    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+					}
+
+				</script>
+				
+				
 </body>
 </html>

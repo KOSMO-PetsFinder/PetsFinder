@@ -56,7 +56,45 @@
 		        
 		    </otherwise>
 		</choose>
-  		order by p.product_idx desc
+		
+  		<choose>
+		    <when test="sort != null and sort == 2">
+		    	<choose>
+				    <when test="sortm != null and sortm == 0">
+				    	order by p.product_idx desc
+				    </when>
+				    <when test="sortm != null and sortm == 1">
+				    	order by p.product_price asc 
+				    </when>
+				    <when test="sortm != null and sortm == 2">
+				    	order by p.product_price desc 
+				    </when>
+				    <otherwise>
+				  		order by p.product_idx desc
+				    </otherwise>
+				</choose>
+		    </when>
+		    <when test="sort != null and sort == 3">
+		    	<choose>
+				    <when test="sortm != null and sortm == 0">
+				    	order by p.product_idx desc
+				    </when>
+				    <when test="sortm != null and sortm == 1">
+				    	order by p.product_regdate asc 
+				    </when>
+				    <when test="sortm != null and sortm == 2">
+				    	order by p.product_regdate desc 
+				    </when>
+				    <otherwise>
+				  		order by p.product_idx desc
+				    </otherwise>
+				</choose>
+		    </when>
+		    <otherwise>
+		  		order by p.product_idx desc
+		    </otherwise>
+		</choose>
+		
   	</select>
   	
   </mapper>

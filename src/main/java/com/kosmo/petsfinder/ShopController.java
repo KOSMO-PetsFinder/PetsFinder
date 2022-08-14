@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import petsfinder.shop.ParameterDTO;
 import petsfinder.shop.ProductDTO;
@@ -27,13 +29,8 @@ public class ShopController {
 		int cate = (req.getParameter("cate")==null 
 				|| req.getParameter("cate").equals("")) 
 				? 0 : Integer.parseInt(req.getParameter("cate"));
-		//정렬 종류 받아옴
-		int sort = (req.getParameter("sort")==null 
-				|| req.getParameter("sort").equals("")) 
-				? 0 : Integer.parseInt(req.getParameter("sort"));
 		//파라미터에 저장 
 		parameterDTO.setCate(cate);
-		parameterDTO.setSort(sort);
 		
 		//전체 갯수 가지고 오기
 		//int totalRecordCount =
@@ -65,18 +62,52 @@ public class ShopController {
 
 		}		
 		
-		for(ProductDTO dto : lists) {
-			System.out.println(dto.getReview_count());
-		}
 		
 		//모델에 저장
 		model.addAttribute("lists", lists);
 		model.addAttribute("category", category);
+		model.addAttribute("cate", cate);
 		
 		
 		
 		
 		return "shoppingmall/shopMain";
 	}
+	
+	
+	@RequestMapping(value = "/shopSortList",method = RequestMethod.POST )
+	@ResponseBody
+	public ArrayList<ProductDTO> sortList(ParameterDTO parameterDTO) {
+		
+		
+		
+		//정렬
+		//1 : 판매순, 2 : 가격순, 3 : 등록순
+		parameterDTO.getSort();
+		//정렬 모드
+		//0 : 일반, 1 : 오름차순(asc)↑ ,2: 내림차순(desc)↓
+		int m = parameterDTO.getSortm();
+		if(m==2) {
+			m=0;
+		}else {
+			m+=1;
+		}
+		parameterDTO.setSortm(m);
+		
+		System.out.println("정렬"+parameterDTO.getSort());
+		System.out.println("정렬모드"+parameterDTO.getSortm());
+		
+		
+		
+		//유기동물 리스트 
+		ArrayList<ProductDTO> lists =
+				sqlSession.getMapper(ShopDAOImpl.class).productList(parameterDTO);
+		
+		
+		return lists;
+	}
+	
+	
+	
 	
 }
