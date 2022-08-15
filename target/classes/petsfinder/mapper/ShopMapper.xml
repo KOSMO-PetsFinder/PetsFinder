@@ -4,6 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
   <mapper namespace="petsfinder.shop.ShopDAOImpl">
+  <!-- 상품리스트 페이징에 쓰일 카운트 -->
   	<select id="productGetTotalCount" parameterType="petsfinder.shop.ParameterDTO" 
   	resultType="int">
   		select count(*) from product
@@ -22,6 +23,7 @@
 		    </otherwise>
 		</choose>
   	</select>
+  	<!-- 상품의 리스트 -->
   	<select id="productList" parameterType="petsfinder.shop.ParameterDTO"
   	resultType="petsfinder.shop.ProductDTO" >
   		select 
@@ -98,6 +100,7 @@
 		
   	</select>
   	
+  	<!-- 상품 상세보기 -->
   	<select id="shopview" resultType="petsfinder.shop.ProductDTO" parameterType="int">
   		select * from product p 
   		inner join product_image pi  
@@ -105,6 +108,27 @@
   		where p.product_idx = #{param1}
   	</select>
   	
+  	<!-- 상품 1개 정보 가져오기 -->
+  	<select id="productInfo" resultType="petsfinder.shop.ProductDTO" parameterType="int">
+  		select
+		    p.*,Tb.photos 
+		from 
+		    product p, (select
+		                    product_idx, LISTAGG(pdt_image_file,'|') WITHIN GROUP(ORDER BY pdt_image_file) photos 
+		                from 
+		                    product_image 
+		                group by 
+		                    product_idx) Tb 
+		where 
+		    p.product_idx=Tb.product_idx 
+		and 
+		    p.product_idx = #{param1}
+  	</select>
   	
+  	<!-- 장바구니 담기 -->
+  	<insert id="insertCart" parameterType="petsfinder.shop.CartDTO">
+		INSERT INTO cart( cart_idx,	product_idx, member_idx, product_quanity )
+							VALUES(	SEQ_cart_idx.nextval, #{product_idx}, #{member_idx}, #{product_quanity})
+	</insert>
   	
   </mapper>

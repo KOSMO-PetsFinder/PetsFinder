@@ -3,6 +3,7 @@ package com.kosmo.petsfinder;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import petsfinder.shop.BuyOrCartDTO;
+import petsfinder.shop.CartDTO;
 import petsfinder.shop.ParameterDTO;
 import petsfinder.shop.ProductDTO;
 import petsfinder.shop.ShopDAOImpl;
@@ -121,30 +124,89 @@ public class ShopController {
 	}
 	
 	
-	@RequestMapping(value = "shop/paymentForm.do")
-	public String paymentForm() {
+	@RequestMapping(value = "Shop/buyOrCart.do")
+	public String paymentForm(Model model,HttpSession session,BuyOrCartDTO buyOrCartDTO  ) {
+		/*
+		//submit 종류
+		//상품idx
+		//상품 수량
+		//상품 총 가격
+		buyOrCartDTO 이거로 받음
+		 */
+		String url = "";
+		int member_idx = Integer.parseInt(String.valueOf(session.getAttribute("idx")));
+		
+
+
+		
+		//바로 결제
+		if(buyOrCartDTO.getSubmit().equals("buy")) {
+			//결제창으로 정보 넘기고 
+			System.out.println("결제");
+			//1개 가져오기
+			ProductDTO productDTO = 
+						sqlSession.getMapper(ShopDAOImpl.class).productInfo(buyOrCartDTO.getProduct_idx());
+			productDTO.setPhoto(productDTO.getPhotos().split("\\|"));
+			model.addAttribute("productDTO", productDTO);
+			model.addAttribute("buyOrCartDTO", buyOrCartDTO);
+			url = "shoppingmall/paymentForm";
+		}
+		
+		//장바구니
+		else if(buyOrCartDTO.getSubmit().equals("addtocart")) {
+			//장바구니에 담기 
+			System.out.println("장바구니");
+			//장바구니 일련번호, 멤버 idx, 상품idx, 수량
+			CartDTO cartDTO = new CartDTO();
+			cartDTO.setMember_idx(member_idx);
+			cartDTO.setProduct_idx(buyOrCartDTO.getProduct_idx());
+			cartDTO.setProduct_quanity(buyOrCartDTO.getProduct_quanity());
+			
+			int result = 
+					sqlSession.getMapper(ShopDAOImpl.class).insertCart(cartDTO);
+			if(result==1) {
+				System.out.println("장바구니 담기 성공!");
+			}
+			url = "redirect:../ShopView?product_idx=" +buyOrCartDTO.getProduct_idx();
+		}
 		
 		
-		return "shoppingmall/paymentForm";
+		
+		
+		
+		
+		return url;
 	}
 	
 	
 	
 	//쇼핑 상세보기
-		@RequestMapping("/ShopView")
-		public String shopView(Model model, HttpServletRequest req ) {
-			
-			int product_idx = Integer.parseInt(req.getParameter("product_idx"));
-			
-			ArrayList<ProductDTO> pdlist = sqlSession.getMapper(ShopDAOImpl.class).shopview(product_idx);
-			for(ProductDTO dto : pdlist) {
-				String temp = dto.getProduct_description().replace("\r\n", "</br>");
-				dto.setProduct_description(temp);
-			}
-			
-			model.addAttribute("pdlist", pdlist);
-			return "./shoppingmall/shopView";
-		}
+	@RequestMapping("/ShopView")
+	public String shopView(Model model, HttpServletRequest req ) {
+		
+		int product_idx = Integer.parseInt(req.getParameter("product_idx"));
+		
+		ProductDTO productDTO = 
+				sqlSession.getMapper(ShopDAOImpl.class).productInfo(product_idx);
+		productDTO.setPhoto(productDTO.getPhotos().split("\\|"));
+		model.addAttribute("productDTO", productDTO);
+		return "./shoppingmall/shopView";
+	}
+//	//쇼핑 상세보기
+//	@RequestMapping("/ShopView")
+//	public String shopView(Model model, HttpServletRequest req ) {
+//		
+//		int product_idx = Integer.parseInt(req.getParameter("product_idx"));
+//		
+//		ArrayList<ProductDTO> pdlist = sqlSession.getMapper(ShopDAOImpl.class).shopview(product_idx);
+//		for(ProductDTO dto : pdlist) {
+//			String temp = dto.getProduct_description().replace("\r\n", "</br>");
+//			dto.setProduct_description(temp);
+//		}
+//		
+//		model.addAttribute("pdlist", pdlist);
+//		return "./shoppingmall/shopView";
+//	}
 	
 	
 	

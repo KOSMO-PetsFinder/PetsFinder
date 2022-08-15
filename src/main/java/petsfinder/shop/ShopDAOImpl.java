@@ -13,5 +13,9 @@ public interface ShopDAOImpl {
 	public ArrayList<ProductDTO> productList(ParameterDTO parameterDTO);
 	//상세보기 게시물가져오기
 	public ArrayList<ProductDTO> shopview(int product_idx);
+	//상품 1개 가져오기 (바로결제 사용시)
+	public ProductDTO productInfo(int product_idx);
+	//장바구니 담기
+	public int insertCart(CartDTO cartDTO);
 	
 }

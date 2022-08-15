@@ -60,11 +60,11 @@
                     <td>
                         <div style="display: flex;flex-direction: row;justify-content: center; margin-top: 30px;margin-bottom: 30px;">
                             <a href="#">
-                               <img style="border-radius: 100%;" width="100px;" height="100px;" src="https://order.pay.naver.com/proxy/phinf/shop1/20220802_29/1659421729191XHyCx_JPEG/60557627852863968_77237224.jpg?type=m120" alt="">    
+                               <img style="border-radius: 100%;" width="100px;" height="100px;" src="../images/${productDTO.photo[0] }" alt="">    
                             </a>
                             <div style="display: flex;flex-direction:column;justify-content: center; padding-left: 40px;">
-                                <div style="color: gray;font-size: 16px;">[펫스파인더]약</div>
-                                <div style="font-size: 20px;">강아지 예방접종 약</div>
+                                <div style="color: gray;font-size: 16px;">[펫스파인더]${productDTO.product_category }</div>
+                                <div style="font-size: 20px;">${productDTO.product_name }</div>
                             </div>
                         </div>
                     </td>
@@ -82,7 +82,7 @@
                     </td>
                     <td>
                         <div style="display: flex;justify-content: center;">
-                                1
+                                ${buyOrCartDTO.product_quanity }
                         </div>
                     </td>
                     <td>
@@ -93,7 +93,7 @@
                     <td>
                         <div style="display: flex;flex-direction: column;align-items: center;">
                                 <div style="">
-                                    <del>10,000원</del>
+                                    <del>${buyOrCartDTO.amount }</del>
                                 </div>
                                 <div>9,000원</div>
                         </div>
