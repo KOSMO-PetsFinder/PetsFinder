@@ -130,5 +130,59 @@
 		INSERT INTO cart( cart_idx,	product_idx, member_idx, product_quanity )
 							VALUES(	SEQ_cart_idx.nextval, #{product_idx}, #{member_idx}, #{product_quanity})
 	</insert>
+	
+	<!-- 결제에 필요한 사용자 정보 -->
+	<select id="payUserInfo" resultType="petsfinder.shop.MemberSDTO">
+		select  
+		    (select 
+		        max(discount_rate) 
+		    from 
+		        sale 
+		    where 
+		        member_grade in (select 
+		                            decode(count(*),1,'sit',0,'nor') 
+		                        from 
+		                            member
+		                        where 
+		                            member_type='sit' and member_idx=#{param1}) 
+		        or member_grade in (select
+		                                decode(count(*),1,'adp',0,'nor') 
+		                            from
+		                                member m, ADOPTION_list a 
+		                            where 
+		                                m.member_idx=a.member_idx
+		                            and 
+		                                m.member_idx=#{param1})) as sale , m.member_name, m.member_addr, m.member_email,m.member_phone 
+		from 
+		    member m 
+		where 
+		    member_idx=#{param1}
+	
+	</select>
+	
+	<select id="cartList" resultType="petsfinder.shop.BuyOrCartDTO">
+		select 
+		    c.cart_idx, c.product_quanity, p.product_idx, p.product_name,
+		    p.product_price,decode(p.product_category,'ess','필수 용품','mdc','의약품','gds','굿즈') product_cate,
+		    p.product_stock, p.photos from cart c,(select
+		    p.*,Tb.photos 
+		from 
+		    product p, (select
+		                    product_idx, LISTAGG(pdt_image_file,'|') WITHIN GROUP(ORDER BY pdt_image_file) photos 
+		                from 
+		                    product_image 
+		                group by 
+		                    product_idx) Tb 
+		where 
+		    p.product_idx=Tb.product_idx) p where c.product_idx=p.product_idx and c.member_idx=#{param1}
+	</select>
+	
+	<delete id="cartDelete" parameterType="java.util.ArrayList">
+		delete from cart where cart_idx in
+		<foreach collection="array" item="item" index="index"
+  			open="(" close=")" separator=",">
+  			#{item}
+  		</foreach>
+	</delete>
   	
   </mapper>

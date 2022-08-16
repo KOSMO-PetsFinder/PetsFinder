@@ -148,10 +148,10 @@ a {
                                 </div>
                                 <div class="row pb-3" style="text-align: center; justify-content: center;">
                                     <div class="col ms-3">
-                                        <button type="submit" class="btn" style=" width:200px; border-bottom:#75c9ba solid 2px; color:#75c9ba;" name="submit" value="buy">바로구매</button>
+                                        <button type="submit" class="btn" style=" width:200px; border-bottom:#75c9ba solid 2px; color:#75c9ba;" name="subM" value="buy">바로구매</button>
                                     </div>
                                     <div class="col me-3" >
-                                        <button type="submit" class="btn" style=" border-bottom:#75c9ba solid 2px; color:#75c9ba; width:200px;" name="submit" value="addtocart">장바구니에 추가하기</button>
+                                        <button type="submit" class="btn" style=" border-bottom:#75c9ba solid 2px; color:#75c9ba; width:200px;" name="subM" value="addtocart">장바구니에 추가하기</button>
                                     </div>
                                 </div>
                             </form>

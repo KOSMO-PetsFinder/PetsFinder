@@ -61,7 +61,7 @@ a {
 				<input type="hidden" id="sortmP" value="0">
 				<p style="border: 0; border-radius: 5px; height: 34px; display: flex; align-items: center; justify-content: center;">
 					<a id="sortmPK" href="#" onclick="sortPrice();" style="font-size: 15px; color: #81899b; display: flex; align-items: center; padding-bottom: 6px;">
-						낮은가격순</a>
+						가격순</a>
 				</p> &nbsp;<span style="font-size: 15px; color: #81899b;">|</span>&nbsp;
 				<input type="hidden" id="sortR" value="3">
 				<input type="hidden" id="sortmR" value="0">

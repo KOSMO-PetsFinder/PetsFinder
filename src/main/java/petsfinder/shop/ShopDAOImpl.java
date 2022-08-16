@@ -17,5 +17,11 @@ public interface ShopDAOImpl {
 	public ProductDTO productInfo(int product_idx);
 	//장바구니 담기
 	public int insertCart(CartDTO cartDTO);
+	//결제 사용자 정보 불러오기
+	public MemberSDTO payUserInfo(int member_idx);
+	//장바구니 리스트 불러오기
+	public ArrayList<BuyOrCartDTO> cartList(int member_idx);
+	//장바구니 선택 삭제
+	public int cartDelete(String[] num);
 	
 }

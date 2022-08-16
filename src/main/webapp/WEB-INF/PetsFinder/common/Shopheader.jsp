@@ -49,7 +49,7 @@
                         <i class="fa fa-fw fa-search text-dark me-5"></i>
                     </a>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a class="nav-icon position-relative text-decoration-none" href="#">
+                    <a class="nav-icon position-relative text-decoration-none" href="<c:url value='/'/>shopCart">
                         <i class="fa fa-fw fa-cart-arrow-down text-dark me-1"></i>
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-info text-dark">7</span>
                     </a>
