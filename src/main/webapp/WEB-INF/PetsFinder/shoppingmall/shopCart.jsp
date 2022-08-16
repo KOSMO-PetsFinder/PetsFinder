@@ -150,8 +150,8 @@ a {
 						</tbody>
 					</table>
 					<div style="text-align: center;	justify-content: center;" >
-						<a class="btn" style="background-color: #75c9ba; color: white;" href="#" onclick="return chk_form()">쇼핑 계속하기</a>&nbsp;&nbsp;&nbsp;
-						<a class="btn checkout_btn" style="background-color: #C97584; color: white;" href="#">결제하기</a>
+						<a class="btn" style="background-color: #75c9ba; color: white;" href="#" >쇼핑 계속하기</a>&nbsp;&nbsp;&nbsp;
+						<a class="btn checkout_btn" style="background-color: #C97584; color: white;" href="#" onclick="return chk_form()">결제하기</a>
 					</div>
 					<form id="frm" action="./Shop/buyOrCart.do">
 					<input type="hidden" name="subM" value="cartBuy">

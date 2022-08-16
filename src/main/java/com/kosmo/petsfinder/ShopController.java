@@ -260,7 +260,7 @@ public class ShopController {
 					dto.setDiscount(0);
 					String[] pho = dto.getPhotos().split("\\|");
 					dto.setProduct_photo(pho[0]);
-					
+					dto.setAmount(dto.getProduct_price()*dto.getProduct_quanity());
 					price += dto.getProduct_price()*dto.getProduct_quanity();
 					amount += dto.getAmount();
 				}
