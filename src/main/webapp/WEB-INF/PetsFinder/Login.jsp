@@ -91,18 +91,19 @@ if(!loginId.equals("")) {
 <!-- 네이버 스크립트 -->
 <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
 <!-- Login Form -->
-<form action="./Login" method="post" onsubmit="return checkLogForm(this);">
+<form action="<c:url value="/" />Login" method="post" onsubmit="return checkLogForm(this);">
+	<input type="hidden" name="backUrl" value="${ param.backUrl }"/>
     <div class="Login_Form" id="Login_Form" style="display: flex; flex-direction: column; align-items: center; padding-top: 100px; padding-bottom: 100px">
         <div style="background-color: white; width: 960px; height: 850px; border-radius: 30px; display: flex; justify-content: center; flex-direction: column; align-items: center; box-shadow: rgba(0, 0, 0, 0.65) 0px 2px 20px;">
 	        <div>
-	            <img src="./images/main_logo.png" alt="" style="width: 250px;">
+	            <img src="<c:url value="/" />images/main_logo.png" alt="" style="width: 250px;">
 	        </div>
 	        <!-- Id -->
 	        <div>
 	            <p style="margin-left: 10px; font-size: 20px; font-weight: 600;">아이디</p>
 	            <div style="width: 475px; height: 59px; display: flex; align-items: center; border: 1px solid #cccccc; margin-top: 10px; padding: 0 0 0 17px">
        	            <div>
-		                <img src="./images/id_icon01.png" alt="" style="width: 35px; height: 30px;">
+		                <img src="<c:url value="/" />images/id_icon01.png" alt="" style="width: 35px; height: 30px;">
 		            </div>
 		            <div>
 			            <input
@@ -125,7 +126,7 @@ if(!loginId.equals("")) {
 	            <p style="margin-left: 10px; font-size: 20px; font-weight: 600;">비밀번호</p>
 	            <div  style="width: 475px; height: 59px; display: flex; align-items: center; border: 1px solid #cccccc; padding: 0 24px 0 17px; margin-top: 10px;">
        	            <div>
-		                <img src="./images/id_icon01.png" alt="" style="width: 35px; height: 30px;">
+		                <img src="<c:url value="/" />images/id_icon01.png" alt="" style="width: 35px; height: 30px;">
 		            </div>
 		            <div>
 		              	<input
@@ -181,9 +182,9 @@ if(!loginId.equals("")) {
 	        </div>
           	<!-- search -->
 	        <div style="display: flex; justify-content: space-between; width: 450px; margin-top: 50px">
-	          <a href="./Regist" style="color: black;">회원가입</a>
-	          <a href="./id_Search" style="color: red;">아이디 찾기</a>
-	          <a href="./pw_Search" style="color: red;">비밀번호 찾기</a>
+	          <a href="<c:url value="/" />Regist" style="color: black;">회원가입</a>
+	          <a href="<c:url value="/" />id_Search" style="color: red;">아이디 찾기</a>
+	          <a href="<c:url value="/" />pw_Search" style="color: red;">비밀번호 찾기</a>
 	        </div>
         </div>
     </div>

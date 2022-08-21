@@ -46,9 +46,10 @@
       })
     </script>
     <div style="display: flex; justify-content: right; color: #CCCCCC; padding-top: 55px; margin-top: 100px">
-      <img src="./images/mypage.png" alt="" style="width:30px; padding-right: 5px"> 마이페이지 > 개인정보관리 > 회원정보 수정
-    </div>
-      <div class="uk-container">
+		<img src="./images/mypage_color.png" alt="" style="width:30px; height:25px; padding-right: 5px">
+		<p style="margin-top:9px;"> 마이페이지 > 개인정보관리 > 회원정보 수정</p>
+	</div>
+    <div class="uk-container">
     <form action="./info_update" method="POST" enctype="multipart/form-data" style="margin-top: 50px" class="uk-grid-medium" uk-grid>
         <fieldset class="uk-fieldset" >
           <legend class="uk-legend" style="color: #75c9ba; font-size: 40px;">

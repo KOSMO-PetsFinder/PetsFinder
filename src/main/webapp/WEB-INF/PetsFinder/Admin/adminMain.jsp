@@ -13,7 +13,61 @@
 	<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
 	<link href="<c:url value='/'/>cssAdmin/styles.css" rel="stylesheet" />
 	<script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+	<!-- ** Wonjae ** -->
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['년도', '전체유기동물', '유기견', '유기묘', '기타'],
+          ['2012',  99237, 59168, 39136, 933],
+          ['2013',  97197, 62119, 34103, 975],
+          ['2014',  81147,  59180, 20966, 1001],
+          ['2015',  82082, 59633, 21299, 1150],
+          ['2016',  89732, 63602, 24912, 1218],
+          ['2017',  102593, 74337, 27083, 1173],
+          ['2018',  121077, 91797, 28090, 1190],
+          ['2019',  135791, 102363, 31946, 1482],
+          ['2020',  130401, 95261, 33572, 1568],
+          ['2021',  116984, 84136, 31421, 1427]
+        ]);
+
+        var options = {
+          title: '유기동물 통계',
+          curveType: 'function',
+          legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+        chart.draw(data, options);
+    }
+    </script>
+    <style>
+		div.curve_chart rect {
+			x: 0;
+			y: 0;
+			max-width: 100%;
+			width: auto !important;
+			height : auto !important;
+			stroke: none;
+    		stroke-width: 0;
+    		fill: rgb(255, 255, 255);
+		}
+		div.curve_chart rect svg {
+			max-width: 100%;
+			width: auto !important;
+			height : auto !important
+		}
+	</style>
 </head>
+<style>
+	* {
+		font-family: 'BM JUA_TTF'
+	}
+</style>
 <body class="sb-nav-fixed">
 <jsp:include page="./common/topHeader.jsp"></jsp:include>
 	<div id="layoutSidenav">
@@ -65,14 +119,15 @@
 													</div>
 											</div>
 									</div>
+									<!-- ** Wonjae ** 데이터 그래프 부분 -->
 									<div class="row">
 											<div class="col-xl-6">
-													<div class="card mb-4">
+													<div class=" mb-4" style="border: 1px solid #cccccc; border-radius: 5px">
 															<div class="card-header">
 																	<i class="fas fa-chart-area me-1"></i>
-																	Area Chart Example
+																	전국 유기동물 발생 현황
 															</div>
-															<div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+															<div id="curve_chart" style="width: 100%; height: 340px"></div>
 													</div>
 											</div>
 											<div class="col-xl-6">
@@ -81,6 +136,7 @@
 																	<i class="fas fa-chart-bar me-1"></i>
 																	Bar Chart Example
 															</div>
+															
 															<div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
 													</div>
 											</div>

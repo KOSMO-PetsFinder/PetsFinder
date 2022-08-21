@@ -73,7 +73,9 @@ public interface PetSitterDAOImpl {
 	//리스트 내 typetag부분 가져오기
 //	public ArrayList<PetSitterDTO> typetag(int typetag_idx);
 
-
+	// 처음 시터 페이지 생성시 idx 가져오기
+	public int u_sitIdx(String sit_title);
+	
 	// 태그 수정 ( 수정 시 전체 삭제 후 재 입력 )
 	public int d_tag(int sit_idx);
 	public int u_tag(int sit_idx, int typTag_idx);

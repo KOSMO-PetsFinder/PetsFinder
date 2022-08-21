@@ -124,7 +124,7 @@
 					if(vs%4 ==0) {
 						content += "<div style='width: 1024px; margin-top: 50px; display: flex; justify-content: space-between'>";
 					}               
-					content += "<a href='./adoptView.do?abani_idx="+lists[i].abani_idx+"' target='_blank' style='margin-right: 14px'>"               
+					content += "<a href='./adoptView.do?abani_idx="+lists[i].abani_idx+"' target='_blank' style='margin-right: 14px; width: 245px;'>"               
 							
 					+ "<div><div style='width: 245px; height: 170px; border-radius: 3px'><img src='../images/4.png' alt='아이 사진' style='width: 245px; height: 170px; border-radius: 3px'></div><p style='font-size: 16px; letter-spacing: -0.2px; line-height: 20px; color: #383c48; margin-top: 20px'>";
 					if(lists[i].abani_species=='cat') {
@@ -256,7 +256,7 @@
 	          <c:if test="${i%j == 0 }">
 			<div style="width: 1024px; margin-top: 50px; display: flex; justify-content: space-between">
 			</c:if>	
-			<a href="./adoptView.do?abani_idx=${row.abani_idx }" target="_blank" style="margin-right: 14px">
+			<a href="./adoptView.do?abani_idx=${row.abani_idx }" target="_blank" style="margin-right: 14px; width: 245px;">
             <div>
               <div style="width: 245px; height: 170px; border-radius: 3px">
                 <img src="../images/4.png" alt="아이 사진" style="width: 245px; height: 170px; border-radius: 3px">

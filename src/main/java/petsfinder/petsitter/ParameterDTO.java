@@ -65,4 +65,14 @@ public class ParameterDTO {
 		this.sbook_end2 = sbook_end2;
 	}
 	
+	// 정렬
+	private String price; // 가격순
+
+	public String getPrice() {
+		return price;
+	}
+	public void setPrice(String price) {
+		this.price = price;
+	}
+	
 }

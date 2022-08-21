@@ -116,7 +116,7 @@
       function option_check01() {
         var no_pet = document.getElementById('no_pet');
         if (no_pet.style.borderColor == 'rgb(223, 227, 234)') {
-        	location.href='./petsitters/sitterlist?p=0&'
+        	location.href='./sitterlist?np=1&'
 	        no_pet.style.borderColor = '#75c9ba';
 	        no_pet.style.color = '#75c9ba';
         } else {
@@ -127,6 +127,7 @@
       function option_check02() {
         var pick_up = document.getElementById('pick_up');
         if (pick_up.style.borderColor == 'rgb(223, 227, 234)') {
+        	location.href='./sitterlist?pu=1&'
           pick_up.style.borderColor = '#75c9ba';
           pick_up.style.color = '#75c9ba';
         } else {
@@ -137,6 +138,7 @@
       function option_check03(){
         var big = document.getElementById('big');
         if (big.style.borderColor == 'rgb(223, 227, 234)') {
+        	location.href='./sitterlist?b=1&'
           big.style.borderColor = '#75c9ba';
           big.style.color = '#75c9ba';
         } else {
@@ -145,8 +147,9 @@
         }
       }
       function option_check04(){
-        var space = document.getElementById('space');
+        var playground = document.getElementById('playground');
         if (space.style.borderColor == 'rgb(223, 227, 234)') {
+        	location.href='./sitterlist?pg=1&'
           space.style.borderColor = '#75c9ba';
           space.style.color = '#75c9ba';
         } else {
@@ -157,6 +160,7 @@
       function option_check05(){
         var old_care = document.getElementById('old_care');
         if (old_care.style.borderColor == 'rgb(223, 227, 234)') {
+        	location.href='./sitterlist?oc=1&'
 	        old_care.style.borderColor = '#75c9ba';
 	        old_care.style.color = '#75c9ba';
         } else {
@@ -186,7 +190,6 @@
             </div>
           </div>
         </div>
-        <form action="./ListSearch">
         <input type="hidden" id="sD" name="sD"/>
         <input type="hidden" id="eD" name="eD"/>
         
@@ -225,7 +228,6 @@
             </div>
           </div>
         </div>
-        </form>
       </div>
       <div style="display: flex; flex-direction: column; width:1024px; margin-top: 70px;">
         <p style="margin-bottom: 27px;">
@@ -242,7 +244,7 @@
             <a href="javascript:option_check03();" id="big" style="width: 136px; height: 55px; display: flex; align-items: center; justify-content: center; border: 1.5px solid rgb(223, 227, 234); border-radius: 28px; box-shadow: rgba(0, 0, 0, 0.03) 0px 2px 3px 0px; color: rgb(187, 193, 204);">
               <p style="font-size: 15px; font-weight: 600; ">대형견 가능</p>
             </a>
-            <a href="javascript:option_check04();" id="space" style="width: 122px; height: 55px; display: flex; align-items: center; justify-content: center; border: 1.5px solid rgb(223, 227, 234); border-radius: 28px; box-shadow: rgba(0, 0, 0, 0.03) 0px 2px 3px 0px; color: rgb(187, 193, 204);">
+            <a href="javascript:option_check04();" id="playground" style="width: 122px; height: 55px; display: flex; align-items: center; justify-content: center; border: 1.5px solid rgb(223, 227, 234); border-radius: 28px; box-shadow: rgba(0, 0, 0, 0.03) 0px 2px 3px 0px; color: rgb(187, 193, 204);">
               <p style="font-size: 15px; font-weight: 600; ">마당 있음</p>
             </a>
             <a href="javascript:option_check05();" id="old_care" style="width: 122px; height: 55px; display: flex; align-items: center; justify-content: center; border: 1.5px solid rgb(223, 227, 234); border-radius: 28px; box-shadow: rgba(0, 0, 0, 0.03) 0px 2px 3px 0px; color: rgb(187, 193, 204);">

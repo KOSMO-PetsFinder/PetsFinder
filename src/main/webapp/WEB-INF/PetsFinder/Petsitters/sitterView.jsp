@@ -203,6 +203,7 @@
 													${sitterView.sit_intro }
 												</p>
 											</div>
+											<c:if test="${sitterView.pet_name ne null }" var="is_Pet">
 											<div style="margin-top: 70px;">
 												<p style="font-weight: 600; font-size: 17px; letter-spacing: -0.2px; line-height: 25px; color: rgb(57, 60, 71); margin-bottom: 20px;">함께사는 반려동물</p>
 												<!-- DB에서 회원 Pet 정보 가져오기 -->
@@ -227,6 +228,7 @@
 													</div>
 												</div>
 											</div>
+											</c:if>
 											<!-- 기본 사항 -->
 											<div style="margin-top: 58px;">
 												<h2
@@ -689,13 +691,18 @@
 										        		$('#endDate').datepicker("option", "minDate", dateText);
 														/* 시작 날짜 선택 시 종료 날짜 값 비우기 */
 										        		$('#endDate').val('');
-														
+										        		var location = document.getElementById("startDate");
+										        		var s_height = window.screen.height
+										        		console.log(s_height / 2)
+														window.scrollTo({top : s_height / 2, behavior:'smooth'});
 										        		$('#endDate').datepicker('toggle');
+										        		
 										        		
 										        	},
 										        	onClose : function(dateText) {
 										        		$('#sD').val(dateText);
 										        		$('#startDate').removeClass('DateInput_input__focused DateInput_input__focused_2');
+										        		
 										        		
 										        	}
 										        });
@@ -706,6 +713,9 @@
 										        	beforeShowDay: noReserve,
 										        	</c:if>
 										        	onShow : function() {
+										        		var location = document.getElementById("startDate").getBoundingClientRect().top;
+										        		console.log(location)
+														window.scrollTo({top : 500, behavior:'smooth'});
 										        		$('#endDate').addClass('DateInput_input__focused DateInput_input__focused_2');
 										        	},
 										        	onSelect : function(dateText) {
@@ -731,10 +741,27 @@
 										    });
 										</script>
 										<div>
-								        <form action="./reserve">
-								        	<input type="hidden" id="sit" value="${ sitterView.sit_idx }"/>
+										<!-- 예약 form 시작 -->
+										<script>
+										function reserveSubmit() {
+											var p_cell = document.getElementById('p_cell');
+											document.getElementById("p_cellData").value = p_cell.innerText
+											console.log(document.getElementById("p_cellData").value)
+											var sum = document.getElementById('sum');
+											document.getElementById("totalPrice").value = sum.innerText;
+											document.reserveFrm.submit();
+										}
+										</script>
+								        <form action="./bookEmailInfo.do" name="reserveFrm">
+								        	<input type="hidden" id="sit" name="sit_idx" value="${ sitterView.sit_idx }"/>
+								        	<!-- 예약 날짜 정보 -->
 									        <input type="hidden" id="sD" name="sD"/>
 									        <input type="hidden" id="eD" name="eD"/>
+							        		<!-- 맡기는 반려동물 정보 -->
+			                                <input type="hidden" id="p_cellData" name="p_cellData" />
+			                                <!-- 이용요금 합계 -->
+			                                <input type="hidden" id="totalPrice" name="totalPrice"/>
+			                                <!-- 시터의 이름과 이메일 -->
 									        <input name="member_name" type="hidden" value="${ sitterView.member_name }"/>
 							     			<input name="member_email" type="hidden" value="${ sitterView.member_email }"/>
 											
@@ -1440,7 +1467,6 @@
 														<div
 															style="display: flex; align-items: center; flex-direction: row;">
 															<p
-=======
 																style="font-size: 14px; letter-spacing: 0.5px; line-height: 20px; color: rgb(78, 82, 91); margin-right: 12px;"><fmt:formatNumber value="${ sitterView.b_fee}" pattern="#,###" />원</p>
 														</div>
 													</div>
@@ -1483,359 +1509,7 @@
 													</p>
 												</div>
 											</div>
-											<div
-												style="width: 375px; border-radius: 8px; border: 1px solid rgb(223, 227, 234); box-shadow: rgba(0, 0, 0, 0.07) 1px 3px 7px; padding: 38px; margin-top: 38px;">
-												<h2
-													style="font-weight: 600; font-size: 17px; letter-spacing: -0.2px; line-height: 25px; color: rgb(57, 60, 71); margin-bottom: 24px;">예약
-													가능 날짜</h2>
-												<div>
-													<div
-														style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; margin-bottom: 21px;">
-														<div
-															style="display: flex; align-items: center; justify-content: center; border: 1px solid rgb(157, 164, 180); opacity: 0.5; width: 32px; height: 32px; border-radius: 50%; pointer-events: none; user-select: none; cursor: pointer;">
-															<img width="5" height="10"
-																src="../sitterView/schedule_left_arrow.png">
-														</div>
-														<p
-															style="font-size: 18px; line-height: 27px; letter-spacing: -0.2px; color: rgb(56, 60, 72);">2022년
-															8월</p>
-														<div
-															style="display: flex; align-items: center; justify-content: center; border: 1px solid rgb(157, 164, 180); width: 32px; height: 32px; border-radius: 50%; user-select: none; cursor: pointer;">
-															<img width="5" height="10"
-																src="../sitterView/schedule_right_arrow.png">
-														</div>
-													</div>
-													<div
-														style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; margin-bottom: 12px;">
-														<div style="width: 42px;">
-															<p
-																style="font-size: 12px; letter-spacing: -0.2px; line-height: 18px; color: rgb(94, 99, 109); text-align: center;">일</p>
-														</div>
-														<div style="width: 42px;">
-															<p
-																style="font-size: 12px; letter-spacing: -0.2px; line-height: 18px; color: rgb(94, 99, 109); text-align: center;">월</p>
-														</div>
-														<div style="width: 42px;">
-															<p
-																style="font-size: 12px; letter-spacing: -0.2px; line-height: 18px; color: rgb(94, 99, 109); text-align: center;">화</p>
-														</div>
-														<div style="width: 42px;">
-															<p
-																style="font-size: 12px; letter-spacing: -0.2px; line-height: 18px; color: rgb(94, 99, 109); text-align: center;">수</p>
-														</div>
-														<div style="width: 42px;">
-															<p
-																style="font-size: 12px; letter-spacing: -0.2px; line-height: 18px; color: rgb(94, 99, 109); text-align: center;">목</p>
-														</div>
-														<div style="width: 42px;">
-															<p
-																style="font-size: 12px; letter-spacing: -0.2px; line-height: 18px; color: rgb(94, 99, 109); text-align: center;">금</p>
-														</div>
-														<div style="width: 42px;">
-															<p
-																style="font-size: 12px; letter-spacing: -0.2px; line-height: 18px; color: rgb(94, 99, 109); text-align: center;">토</p>
-														</div>
-													</div>
-													<div
-														style="display: flex; flex-direction: row; justify-content: space-between;">
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div style="flex-grow: 1;"></div>
-														</div>
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div
-																style="display: flex; align-items: center; justify-content: center; flex-grow: 1; background-color: rgb(113, 162, 255);">
-																<p
-																	style="font-weight: 600; font-size: 12px; letter-spacing: -0.2px; line-height: 14px; text-align: center; color: white;">1</p>
-															</div>
-														</div>
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div
-																style="display: flex; align-items: center; justify-content: center; flex-grow: 1; background-color: rgb(113, 162, 255);">
-																<p
-																	style="font-weight: 600; font-size: 12px; letter-spacing: -0.2px; line-height: 14px; text-align: center; color: white;">2</p>
-															</div>
-														</div>
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div
-																style="display: flex; align-items: center; justify-content: center; flex-grow: 1; background-color: rgb(113, 162, 255);">
-																<p
-																	style="font-weight: 600; font-size: 12px; letter-spacing: -0.2px; line-height: 14px; text-align: center; color: white;">3</p>
-															</div>
-														</div>
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div
-																style="display: flex; align-items: center; justify-content: center; flex-grow: 1; background-color: rgb(113, 162, 255);">
-																<p
-																	style="font-weight: 600; font-size: 12px; letter-spacing: -0.2px; line-height: 14px; text-align: center; color: white;">4</p>
-															</div>
-														</div>
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div
-																style="display: flex; align-items: center; justify-content: center; flex-grow: 1; background-color: rgb(242, 243, 247);">
-																<p
-																	style="font-weight: 400; font-size: 12px; letter-spacing: -0.2px; line-height: 14px; text-align: center; color: rgb(157, 164, 180);">5</p>
-															</div>
-														</div>
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div
-																style="display: flex; align-items: center; justify-content: center; flex-grow: 1; background-color: rgb(242, 243, 247);">
-																<p
-																	style="font-weight: 400; font-size: 12px; letter-spacing: -0.2px; line-height: 14px; text-align: center; color: rgb(157, 164, 180);">6</p>
-															</div>
-														</div>
-													</div>
-													<div
-														style="display: flex; flex-direction: row; justify-content: space-between;">
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div
-																style="display: flex; align-items: center; justify-content: center; flex-grow: 1; background-color: rgb(242, 243, 247);">
-																<p
-																	style="font-weight: 400; font-size: 12px; letter-spacing: -0.2px; line-height: 14px; text-align: center; color: rgb(157, 164, 180);">7</p>
-															</div>
-														</div>
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div
-																style="display: flex; align-items: center; justify-content: center; flex-grow: 1; background-color: rgb(113, 162, 255);">
-																<p
-																	style="font-weight: 600; font-size: 12px; letter-spacing: -0.2px; line-height: 14px; text-align: center; color: white;">8</p>
-															</div>
-														</div>
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div
-																style="display: flex; align-items: center; justify-content: center; flex-grow: 1; background-color: rgb(113, 162, 255);">
-																<p
-																	style="font-weight: 600; font-size: 12px; letter-spacing: -0.2px; line-height: 14px; text-align: center; color: white;">9</p>
-															</div>
-														</div>
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div
-																style="display: flex; align-items: center; justify-content: center; flex-grow: 1; background-color: rgb(113, 162, 255);">
-																<p
-																	style="font-weight: 600; font-size: 12px; letter-spacing: -0.2px; line-height: 14px; text-align: center; color: white;">10</p>
-															</div>
-														</div>
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div
-																style="display: flex; align-items: center; justify-content: center; flex-grow: 1; background-color: rgb(113, 162, 255);">
-																<p
-																	style="font-weight: 600; font-size: 12px; letter-spacing: -0.2px; line-height: 14px; text-align: center; color: white;">11</p>
-															</div>
-														</div>
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div
-																style="display: flex; align-items: center; justify-content: center; flex-grow: 1; background-color: rgb(113, 162, 255);">
-																<p
-																	style="font-weight: 600; font-size: 12px; letter-spacing: -0.2px; line-height: 14px; text-align: center; color: white;">12</p>
-															</div>
-														</div>
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div
-																style="display: flex; align-items: center; justify-content: center; flex-grow: 1; background-color: rgb(113, 162, 255);">
-																<p
-																	style="font-weight: 600; font-size: 12px; letter-spacing: -0.2px; line-height: 14px; text-align: center; color: white;">13</p>
-															</div>
-														</div>
-													</div>
-													<div
-														style="display: flex; flex-direction: row; justify-content: space-between;">
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div
-																style="display: flex; align-items: center; justify-content: center; flex-grow: 1; background-color: rgb(113, 162, 255);">
-																<p
-																	style="font-weight: 600; font-size: 12px; letter-spacing: -0.2px; line-height: 14px; text-align: center; color: white;">14</p>
-															</div>
-														</div>
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div
-																style="display: flex; align-items: center; justify-content: center; flex-grow: 1; background-color: rgb(113, 162, 255);">
-																<p
-																	style="font-weight: 600; font-size: 12px; letter-spacing: -0.2px; line-height: 14px; text-align: center; color: white;">15</p>
-															</div>
-														</div>
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div
-																style="display: flex; align-items: center; justify-content: center; flex-grow: 1; background-color: rgb(113, 162, 255);">
-																<p
-																	style="font-weight: 600; font-size: 12px; letter-spacing: -0.2px; line-height: 14px; text-align: center; color: white;">16</p>
-															</div>
-														</div>
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div
-																style="display: flex; align-items: center; justify-content: center; flex-grow: 1; background-color: rgb(113, 162, 255);">
-																<p
-																	style="font-weight: 600; font-size: 12px; letter-spacing: -0.2px; line-height: 14px; text-align: center; color: white;">17</p>
-															</div>
-														</div>
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div
-																style="display: flex; align-items: center; justify-content: center; flex-grow: 1; background-color: rgb(113, 162, 255);">
-																<p
-																	style="font-weight: 600; font-size: 12px; letter-spacing: -0.2px; line-height: 14px; text-align: center; color: white;">18</p>
-															</div>
-														</div>
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div
-																style="display: flex; align-items: center; justify-content: center; flex-grow: 1; background-color: rgb(113, 162, 255);">
-																<p
-																	style="font-weight: 600; font-size: 12px; letter-spacing: -0.2px; line-height: 14px; text-align: center; color: white;">19</p>
-															</div>
-														</div>
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div
-																style="display: flex; align-items: center; justify-content: center; flex-grow: 1; background-color: rgb(113, 162, 255);">
-																<p
-																	style="font-weight: 600; font-size: 12px; letter-spacing: -0.2px; line-height: 14px; text-align: center; color: white;">20</p>
-															</div>
-														</div>
-													</div>
-													<div
-														style="display: flex; flex-direction: row; justify-content: space-between;">
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div
-																style="display: flex; align-items: center; justify-content: center; flex-grow: 1; background-color: rgb(113, 162, 255);">
-																<p
-																	style="font-weight: 600; font-size: 12px; letter-spacing: -0.2px; line-height: 14px; text-align: center; color: white;">21</p>
-															</div>
-														</div>
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div
-																style="display: flex; align-items: center; justify-content: center; flex-grow: 1; background-color: rgb(113, 162, 255);">
-																<p
-																	style="font-weight: 600; font-size: 12px; letter-spacing: -0.2px; line-height: 14px; text-align: center; color: white;">22</p>
-															</div>
-														</div>
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div
-																style="display: flex; align-items: center; justify-content: center; flex-grow: 1; background-color: rgb(113, 162, 255);">
-																<p
-																	style="font-weight: 600; font-size: 12px; letter-spacing: -0.2px; line-height: 14px; text-align: center; color: white;">23</p>
-															</div>
-														</div>
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div
-																style="display: flex; align-items: center; justify-content: center; flex-grow: 1; background-color: rgb(113, 162, 255);">
-																<p
-																	style="font-weight: 600; font-size: 12px; letter-spacing: -0.2px; line-height: 14px; text-align: center; color: white;">24</p>
-															</div>
-														</div>
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div
-																style="display: flex; align-items: center; justify-content: center; flex-grow: 1; background-color: rgb(113, 162, 255);">
-																<p
-																	style="font-weight: 600; font-size: 12px; letter-spacing: -0.2px; line-height: 14px; text-align: center; color: white;">25</p>
-															</div>
-														</div>
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div
-																style="display: flex; align-items: center; justify-content: center; flex-grow: 1; background-color: rgb(113, 162, 255);">
-																<p
-																	style="font-weight: 600; font-size: 12px; letter-spacing: -0.2px; line-height: 14px; text-align: center; color: white;">26</p>
-															</div>
-														</div>
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div
-																style="display: flex; align-items: center; justify-content: center; flex-grow: 1; background-color: rgb(113, 162, 255);">
-																<p
-																	style="font-weight: 600; font-size: 12px; letter-spacing: -0.2px; line-height: 14px; text-align: center; color: white;">27</p>
-															</div>
-														</div>
-													</div>
-													<div
-														style="display: flex; flex-direction: row; justify-content: space-between;">
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div
-																style="display: flex; align-items: center; justify-content: center; flex-grow: 1; background-color: rgb(113, 162, 255);">
-																<p
-																	style="font-weight: 600; font-size: 12px; letter-spacing: -0.2px; line-height: 14px; text-align: center; color: white;">28</p>
-															</div>
-														</div>
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div
-																style="display: flex; align-items: center; justify-content: center; flex-grow: 1; background-color: rgb(113, 162, 255);">
-																<p
-																	style="font-weight: 600; font-size: 12px; letter-spacing: -0.2px; line-height: 14px; text-align: center; color: white;">29</p>
-															</div>
-														</div>
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div
-																style="display: flex; align-items: center; justify-content: center; flex-grow: 1; background-color: rgb(113, 162, 255);">
-																<p
-																	style="font-weight: 600; font-size: 12px; letter-spacing: -0.2px; line-height: 14px; text-align: center; color: white;">30</p>
-															</div>
-														</div>
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div
-																style="display: flex; align-items: center; justify-content: center; flex-grow: 1; background-color: rgb(113, 162, 255);">
-																<p
-																	style="font-weight: 600; font-size: 12px; letter-spacing: -0.2px; line-height: 14px; text-align: center; color: white;">31</p>
-															</div>
-														</div>
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div style="flex-grow: 1;"></div>
-														</div>
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div style="flex-grow: 1;"></div>
-														</div>
-														<div
-															style="display: flex; margin: 0.5px; background-color: white; width: 42px; height: 42px;">
-															<div style="flex-grow: 1;"></div>
-														</div>
-													</div>
-													<div
-														style="display: flex; flex-direction: row; justify-content: space-between; margin-top: 24px; margin-left: 36px; margin-right: 36px;">
-														<div
-															style="display: flex; flex-direction: row; align-items: center;">
-															<div
-																style="background-color: rgb(113, 162, 255); width: 15px; height: 15px; margin-right: 8px;"></div>
-															<p
-																style="font-size: 13px; letter-spacing: -0.2px; line-height: 19px; color: rgb(78, 82, 90);">이용
-																가능 날짜</p>
-														</div>
-														<div
-															style="display: flex; flex-direction: row; align-items: center;">
-															<div
-																style="background-color: rgb(242, 243, 247); width: 15px; height: 15px; margin-right: 8px;"></div>
-															<p
-																style="font-size: 13px; letter-spacing: -0.2px; line-height: 19px; color: rgb(78, 82, 90);">예약
-																불가 날짜</p>
-														</div>
-													</div>
-												</div>
-											</div>
+											
 											<div
 												style="display: flex; flex-direction: column; width: 375px; border-radius: 8px; border: 1px solid rgb(223, 227, 234); box-shadow: rgba(0, 0, 0, 0.07) 1px 3px 7px; margin-top: 38px; overflow: hidden;">
 												<div

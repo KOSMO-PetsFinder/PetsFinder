@@ -55,8 +55,9 @@
     Intro
     */
 	.Intro {
-		background-color: #5BB4E3;
+		background-color: #fff;
 		/* 
+		#5BB4E3
 		#598987
 		#F2E6DF
 		#FFEEB8
@@ -65,19 +66,23 @@
 	}
 	
 	.section2 {
-  		background-color: #A2D7ED;
+  		background-color: #fff;
+  		/*
+  		#A2D7ED
+  		*/
 	}
 	/*  
 	sitter
 	*/
 	.sitter_main {
+  		background-color: #75c9ba;
 		/* 
+		#DCF2FF
   		#BACDD9
   		#90B494
   		#728EA6
   		#2F4673
   		*/
-  		background-color: #DCF2FF;
 	}
 	.sitter_main .sitter_menu {
 		display: flex;
@@ -108,8 +113,8 @@
 		display: flex; 
 		justify-content: center;
 		align-items: center; 
-		background-color: #75c9ba; 
-		color: white; 
+		background-color: white; 
+		color: #75c9ba; 
 		margin: 10px 20px 80px 0; 
 		border-radius: 26px; 
 		width: 300px; 
@@ -119,8 +124,8 @@
 		display: flex; 
 		justify-content: center;
 		align-items: center; 
-		background-color: #75c9ba; 
-		color: white; 
+		background-color: white; 
+		color: #75c9ba; 
 		margin: 10px 0 80px 20px; 
 		border-radius: 26px; 
 		width: 300px; 
@@ -130,12 +135,35 @@
 	Information(shopping_mall, hospital, )
 	*/
 	.Information {
-  		background-color: #D8BBA0;
+  		background-color: #75c9ba;
+  		/*
+  		#D8BBA0
+  		*/
   		text-align: center;
   		padding-top: 100px; 
 		padding-bottom: 148px;
 	}
 	.Information .shopping {
+		display: flex; 
+		justify-content: center;
+		align-items: center; 
+		background-color: white; 
+		color: #75c9ba; 
+		margin: 40px 0 40px 20px; 
+		border-radius: 26px; 
+		width: 300px; 
+		height: 60px; 
+	}
+	.hospital {
+  		background-color: #fff;
+  		/*
+  		#D8BBA0
+  		*/
+  		text-align: center;
+  		padding-top: 100px; 
+		padding-bottom: 148px;
+	}
+	.hospital .btn {
 		display: flex; 
 		justify-content: center;
 		align-items: center; 
@@ -146,12 +174,9 @@
 		width: 300px; 
 		height: 60px; 
 	}
-	.section5 {
-  		background-color: #F2D5BB;
-	}
 	
 	.section6 {
-  		background-color: #364C59;
+  		background-color: #fff;
 	}
 	
 /* 	section div {
@@ -173,9 +198,11 @@
 	<body>
  	<jsp:include page="./common/Header.jsp" />
  	<!-- Line -->
-	<div style="border-bottom:1px solid white; background: none; position:fixed; z-index: 99999; top: 70px; width: 100%"></div>
-	<div style="border-bottom:1px solid white; background: none; position:fixed; z-index: 99999; bottom: 64px; width: 100%"></div>
-	<div style="border-right:1px solid white; background: none; position:fixed; z-index: 99999; right: 100px; height: 100%"></div>
+ 	<!-- 
+	<div style="border-bottom:1px solid gray; background: none; position:fixed; z-index: 99999; top: 70px; width: 100%"></div>
+	<div style="border-bottom:1px solid gray; background: none; position:fixed; z-index: 99999; bottom: 64px; width: 100%"></div>
+	<div style="border-right:1px solid gray; background: none; position:fixed; z-index: 99999; right: 100px; height: 100%"></div>
+	 -->
 	<div id="main" class="scroll-container">
 	    <section class="Intro">
 	     	<!-- 메인1페이지 하단 -->
@@ -189,12 +216,10 @@
 				width: 100%;
 				height: 64px;
 				bottom: 0;
-				background-color: white;
-				opacity: 80%;
-				
+				background-color: #cccccc;
 			}
 			.main_foot .foot_menu{
-				color: black;
+				color: white;
 				background: none;
 				font-size: 1.5em;
 				
@@ -402,12 +427,12 @@
 		<section class="sitter_main">
 			<!-- latter_menu -->
 			<div class="container-fluid sitter_menu">
-			    <p style="display: flex; text-align: center; font-size: 55px; font-weight: bold;">
+			    <p style="display: flex; text-align: center; font-size: 55px; font-weight: bold; color: white">
 			    	Pet's Finder
 				    <br>
 				    펫시터
 			    </p>
-			    <div style="border-top: 2px solid black; width:500px; align-self: center; margin: 10px 0 30px 0"></div>
+			    <div style="border-top: 2px solid white; width:500px; align-self: center; margin: 10px 0 30px 0"></div>
 			    <div style="display: flex; justify-content: space-between; width: 994px; margin: 30px auto 30px; ">
 				    <!-- No.1 -->
 				    <div class="main_latter" >
@@ -498,7 +523,7 @@
 				    </div>
 			    </div>
 				<div class="sitter_btn">
-					<a class="s_reserve" href="./Petsitter" >
+					<a class="s_reserve" href="<c:url value='/'/>Petsitters/petsitters" >
 						<p style="font-size: 18px; margin-bottom: 0; font-weight: bold;"> 예약하기</p>
 					</a>
 					<a class="s_latter" href="<c:url value='/'/>Petsitters/sitterreview" >
@@ -507,8 +532,161 @@
 				</div>
 			</div>
 		</section>
-		<section class="Information">
+		<section class="hospital">
 			<div class="container-fluid" >
+				<div style="display: flex; flex-direction: column; ">
+                 	<p style="color: #75c9ba; font-size: 55px; font-weight: 600; ">
+                   		우리 동네 동물 병원 및 약국을<br />
+                   		한눈에 볼 수 있어요.
+                 	</p>
+                 	<div style="border-top: 2px solid white; width:500px; align-self: center; margin: 10px 0 80px 0"></div>
+             	</div>
+	             <!-- ** Wonjae ** 메인페이지 지도 -->
+              	<div style="display: flex; justify-content: center;">
+                 	<div style="display: flex; flex-direction: column;">
+                     	<p style="color: black; font-size: 40px; text-align: center; ">
+	                        입양한 반려동물이 아프다면?<br />
+	                        유기견, 유기묘만을 위한<br />
+	                        <strong style="color: #75c9ba">PetsFinder</strong>의<br />
+	                        <strong style="color: #75c9ba">제휴 동물병원과 약국</strong>을<br>
+	                        이용해보세요!
+                     	</p>
+                     	<div style="display: flex; justify-content: center">
+	                     	<a class="btn" href="<c:url value='/'/>" >
+								<p style="font-size: 18px; margin-bottom: 0; font-weight: bold;">병원 및 약국</p>
+							</a>
+                     	</div>
+                 	</div>
+	                <div id="map" style="width: 500px; height: 500px; margin-left: 40px"></div>
+	                <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=35e77046a3cf263c67aba7432d1af2f2&libraries=services,clusterer,drawing"></script>
+	                <script>
+                	$(function () {
+                    
+	                    var latitude = "";
+	                    var longitude = "";
+	                    var loc = "";
+	                    function search (lat, lon) {
+	                      		// 장소 검색 객체를 생성합니다
+	                    		var ps = new kakao.maps.services.Places(); 
+	                     
+	                    		// 주소-좌표 변환 객체를 생성합니다
+	                    		var geocoder = new kakao.maps.services.Geocoder();
+	                       
+	                    		// 키워드로 장소를 검색합니다
+	                    		ps.keywordSearch('${reportView.dclrAbnd_loc }', placesSearchCB, {
+	                        	location : new kakao.maps.LatLng(lat, lon)
+	                    		});
+	                    }
+	                    /* 현재 위치 경로 받아오기(위도, 경도) */
+	                    
+	                    // HTML5의 geolocation으로 사용할 수 있는지 확인합니다 
+	               	 	if (navigator.geolocation) {
+	                      
+	                      	// GeoLocation을 이용해서 접속 위치를 얻어옵니다
+	                      	navigator.geolocation.getCurrentPosition(function(position) {
+	                          
+	                        		var lat = position.coords.latitude; // 위도
+	                       		var lon = position.coords.longitude; // 경도
+	                          
+	                         		var locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+	                         		// 마커와 인포윈도우를 표시합니다
+	                        		console.log("위도", lat, "경도", lon, "마커", locPosition)
+	                         	latitude = lat;
+		                        longitude = lon;
+		                        loc = locPosition;
+		                        search(latitude, longitude);
+	                        
+	                        	// 지도에 표시할 원을 생성합니다
+		                        var circle = new kakao.maps.Circle({
+		                            center : new kakao.maps.LatLng(lat, lon, locPosition),  // 원의 중심좌표 입니다 
+		                            radius: 500, // 미터 단위의 원의 반지름입니다 
+		                            strokeWeight: 3, // 선의 두께입니다 
+		                            strokeColor: '#6c2119', // 선의 색깔입니다
+		                            strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+		                            strokeStyle: 'dashed', // 선의 스타일 입니다
+		                            fillColor: '#75c9ba', // 채우기 색깔입니다
+		                            fillOpacity: 0.5  // 채우기 불투명도 입니다   
+		                        }); 
+		
+		                        // 지도에 원을 표시합니다 
+		                        circle.setMap(map); 
+	                        });
+		                } else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+		                    
+		                    var locPosition = new kakao.maps.LatLng(33.450701, 126.570667),    
+		                        message = 'geolocation을 사용할수 없어요..'
+		                        
+		                    displayMarker1(locPosition, message);
+		                }
+	                    
+		                // 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
+		                var infowindow = new kakao.maps.InfoWindow({zIndex:1});   
+	                    
+	                  	/* 지도 생성 */
+	                    var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+	                        mapOption = { 
+	                            center: new kakao.maps.LatLng(37.4730836, 126.8788276), // 지도의 중심좌표
+	                            level: 4 // 지도의 확대 레벨
+	                        };
+	                    // 지도를 표시할 div와 지도 옵션으로  지도를 생성합니다
+	                    var map = new kakao.maps.Map(mapContainer, mapOption); 
+	   
+	                    /* 장소 검색 */
+	                    
+	                   	// 지도에 마커를 표시하는 함수입니다
+		                function displayMarker(place) {
+		                    
+		                    // 마커를 생성하고 지도에 표시합니다
+		                    var marker = new kakao.maps.Marker({
+		                        map: map,
+		                        position: new kakao.maps.LatLng(place.y, place.x) 
+		                    });
+		                
+		                    // 마커에 클릭이벤트를 등록합니다
+		                    kakao.maps.event.addListener(marker, 'click', function() {
+		                        // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
+		                        infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
+		                        infowindow.open(map, marker);
+		                    });
+		                    
+		                }
+	                   
+	                  
+		                // 키워드 검색 완료 시 호출되는 콜백함수 입니다
+		                function placesSearchCB (data, status, pagination) {
+		                    if (status === kakao.maps.services.Status.OK) {
+		                
+		                        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+		                        // LatLngBounds 객체에 좌표를 추가합니다
+		                        var bounds = new kakao.maps.LatLngBounds();
+		                
+		                        for (var i=0; i<data.length; i++) {
+		                            displayMarker(data[i]);    
+		                            bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+		                        }       
+		                        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+		                        map.setBounds(bounds);
+		                    } 
+		                }
+	                  
+              			/* 지도 컨트롤러 */
+		                // 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
+		                var mapTypeControl = new kakao.maps.MapTypeControl();
+		
+		                // 지도에 컨트롤을 추가해야 지도위에 표시됩니다
+		                // kakao.maps.ControlPosition은 컨트롤이 표시될 위치를 정의하는데 TOPRIGHT는 오른쪽 위를 의미합니다
+		                map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+		
+		                // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+		                var zoomControl = new kakao.maps.ZoomControl();
+		                map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+                	})
+              	</script>
+	        	</div>
+ 		    </div>
+		</section>
+	    <section class="Information">
+		    <div class="container-fluid" >
 				<div style="display: flex; flex-direction: column; ">
 			        <p style="color: white; font-size: 55px; font-weight: 600; ">
 			          우리 동네 동물 병원 및 약국을<br />
@@ -516,39 +694,23 @@
 			        </p>
 			        <div style="border-top: 2px solid white; width:500px; align-self: center; margin: 10px 0 80px 0"></div>
 		    	</div>
-		        <div style="display: flex; justify-content: center;">
-			        <div style="display: flex; flex-direction: column; margin-right: 40px">
-			            <p style="color: white; font-size: 40px; text-align: center; ">
+		        <div style="display: flex; justify-content: center; flex-direction: column;">
+			        <div style="display: flex; flex-direction: column;">
+			            <p style="color: black; font-size: 40px; text-align: center; ">
 				            입양의 첫 시작,<br />
 				            무엇부터 챙겨야 할 지<br />
-				            잘 모르겠다면<br />
-				            <strong style="color: #75c9ba">Pet's Finder</strong
-				            >에서<br />
-				            <strong style="color: #75c9ba">웰컴 첫 입양키트</strong>를<br>
-				            받아보세요!
+				            잘 모르겠다면!!<br />
+				            <strong style="color: white">Pet's Finder</strong>에서<br />
+				            <strong style="color: white">웰컴 첫 입양키트</strong>를 받아보세요!
 			            </p>
-			            <a class="shopping" href="" >
-							<p style="font-size: 18px; margin-bottom: 0; font-weight: bold;">쇼핑몰 바로가기</p>
-						</a>
+			            <div style="display: flex; justify-content: center;">
+				            <a class="shopping" href="<c:url value='/'/>Shop" >
+								<p style="font-size: 18px; margin-bottom: 0; font-weight: bold;">쇼핑몰 바로가기</p>
+							</a>
+			            </div>
 			        </div>
-			        <div id="map" style="width: 500px; height: 500px; margin-left: 40px"></div>
-			        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=73bfc61f8df069c547a881b7f813d8b4"></script>
-			        <script>
-			            var container = document.getElementById('map');
-			            var options = {
-			              center: new kakao.maps.LatLng(33.450701, 126.570667),
-			              level: 3
-			            };
-			        
-			            var map = new kakao.maps.Map(container, options);
-			        </script>
 		        </div>
 			</div>
-		</section>
-	    <section class="section5">
-		    <div>
-		      <span class="pageName">Page #5</span>
-		    </div>
 	    </section>
 	    <section class="section6">
 		    <div>

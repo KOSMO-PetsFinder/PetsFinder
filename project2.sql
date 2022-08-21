@@ -391,7 +391,7 @@ CREATE TABLE review_board
 	review_regdate date NOT NULL,
 	-- 사진
 	review_photo varchar2(200),
-	-- 입양/시터 후기 플래그(adp,sit, shp) 
+	-- 입양/시터 후기 플래그(adp, sit, shp) 
 	review_flag char(3) NOT NULL,
 	-- 시터 일련번호
 	sit_idx number,
@@ -523,13 +523,23 @@ CREATE TABLE sit_book
 	sbook_idx number NOT NULL,
 	-- 시터 일련번호
 	sit_idx number NOT NULL,
+    -- 예약 멤버 일련번호
+    member_idx number NOT NULL,
+    -- 예약 한 날짜
+    sbook_date date default sysdate NOT NULL,
 	-- 예약 시작일
 	sbook_start date NOT NULL,
 	-- 예약 마지막일
 	sbook_end date NOT NULL,
+    -- 예약 상태 ( 대기 : stand by -> stb // 확정 : fix // 취소 : cancel -> can )
+    sbook_status char(3) DEFAULT 'stb' NOT NULL,
+    -- 예약한 반려동물 크기 및 종류
+    p_cellData varchar2(100), 
+    -- 예약한 합계 금액
+    totalPrice varchar2(100), 
+
 	PRIMARY KEY (sbook_idx)
 );
-
 
 -- 서비스 테이블
 CREATE TABLE TYPE_SERVICE
@@ -597,10 +607,19 @@ CREATE TABLE cart
 	cart_idx number NOT NULL,
 	-- 상품 일련번호
 	product_idx number NOT NULL,
+    --판매수량
+    product_quanity number NOT NULL,
 	-- 회원번호
 	member_idx number NOT NULL,
+    
 	PRIMARY KEY (cart_idx)
 );
+
+-- 할인 테이블
+create table sale(
+    member_grade varchar2(30),
+    discount_rate number
+); 
 
 /* Create Foreign Keys */
 

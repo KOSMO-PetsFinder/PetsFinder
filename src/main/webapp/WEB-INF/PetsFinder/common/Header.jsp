@@ -49,7 +49,7 @@
               <a class="about_a" href="#"><i class="fa-solid fa-shield-dog"></i> 펫시터</a>
             </li>
             <li style="color:lightgray">&nbsp;|</li>
-             <li class="no_2depth"><a href="<c:url value='/shop' />"><i class="fa-solid fa-cart-shopping"></i> Shop</a></li>
+             <li class="no_2depth"><a href="<c:url value='/Shop' />"><i class="fa-solid fa-cart-shopping"></i> Shop</a></li>
              <li style="color:lightgray">&nbsp;|</li>
             <%
             if (session.getAttribute("id") != null) {

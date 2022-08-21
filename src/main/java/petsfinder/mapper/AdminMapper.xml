@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="petsfinder.admin.AdminDAOImpl">
+  
+  <!--//// 은아언니 ////////////////////////////////////-->
+  
+  <select id="qnaList" resultType="petsfinder.admin.AdminDTO">
+  	select qna_idx, qna_title, qna_content, qna_photo, to_char(qna_regdate, 'yyyy-mm-dd')qna_regdate, qna_stt, qna_openstatus, member_idx from qna_board
+  </select>
+  
+  <select id="qnaView" resultType="petsfinder.admin.AdminDTO">
+	  select * from qna_board q
+		inner join 
+	    member m on q.member_idx = m.member_idx 
+		where q.member_idx=#{qna_idx}
+  </select>
+  
+  <select id="qnaDelete">
+  	delete from qna_board where qna_idx=#{param1}
+  </select>
+  
+  <select id="sitBList" resultType="petsfinder.petsitter.PetSitterDTO">
+  select m.member_name s_name, tb.member_name b_name, sbook_start, sbook_end, sbook_status, sit_idx, sbook_idx, p_cellData, totalPrice 
+		from (select member_name, s.member_idx, sb.sit_idx, to_char(sbook_start,'yyyy-mm-dd')sbook_start, to_char(sbook_end,'yyyy-mm-dd')sbook_end, sbook_status, sbook_idx, p_cellData, totalPrice  from sit_book sb
+		    left outer join sitter s on sb.sit_idx = s.sit_idx
+		    left outer join member m on sb.member_idx = m.member_idx
+		    order by sbook_idx desc) tb
+		left outer join member m on tb.member_idx = m.member_idx
+  </select>
+  
+  <select id="sitBView" resultType="petsfinder.petsitter.PetSitterDTO">
+  
+  select m.member_name s_name, tb.member_name b_name, sbook_start, sbook_end, sbook_status, sit_idx, sbook_idx, p_cellData, totalPrice
+	from (select member_name, s.member_idx, sb.sit_idx, to_char(sbook_start,'yyyy-mm-dd')sbook_start, to_char(sbook_end,'yyyy-mm-dd')sbook_end, sbook_status, sbook_idx, p_cellData, totalPrice from sit_book sb
+	    left outer join sitter s on sb.sit_idx = s.sit_idx
+	    left outer join member m on sb.member_idx = m.member_idx
+	    order by sbook_idx desc) tb
+	left outer join member m on tb.member_idx = m.member_idx
+	where sbook_idx=#{sbook_idx}
+  </select>
+  
+  <select id="sitBDelete">
+  	delete from sit_book where sbook_idx=#{param1}
+  </select>
+	
+  <update id="sitBEditAction" parameterType="petsfinder.petsitter.PetSitterDTO" >
+  	update sit_book set
+  		sbook_start=#{sbook_start}, sbook_end=#{sbook_end}
+  		where sbook_idx=#{sbook_idx}
+  </update>
+  
+  
+  
+  <!-- 리액트 활용 공지사항 게시판 mapper이름이 안겹치도록 앞에 n 붙이자!-->
+  <select id="nGetTotalCount" resultType="int" parameterType="petsfinder.admin.AdminParameterDTO">
+      select count(*) from notice_board
+   </select>
+   
+   <select id="nListPage" resultType="petsfinder.admin.AdminDTO" parameterType="petsfinder.admin.AdminParameterDTO">
+     select * from (select tb.*, rowNum rNum from (select notboard_idx, notboard_title, notboard_content, to_char(notboard_regdate,'yyyy-mm-dd')notboard_regdate, notboard_hit, notboard_photo from notice_board
+     order by notboard_idx desc
+     ) tb
+   	) where rNum between #{ start } and #{ end }
+   </select>
+   
+	<select id="nView" resultType="petsfinder.admin.AdminDTO" parameterType="petsfinder.admin.AdminParameterDTO">
+   	SELECT notboard_idx, notboard_title, notboard_content, to_char(notboard_regdate,'yyyy-mm-dd')notboard_regdate, notboard_hit, notboard_photo FROM notice_board WHERE notboard_idx=#{num}
+   </select>
+  
+  <update id="nWrite" parameterType="petsfinder.admin.AdminDTO">
+		INSERT INTO notice_board (notboard_idx, notboard_title, notboard_content, notboard_regdate, notboard_hit, notboard_photo) 
+		VALUES (SEQ_notboard_idx.nextval, #{notboard_title}, #{notboard_content}, sysdate, 0, #{notboard_photo})
+  </update>
+  
+  <delete id="nDelete" >
+  	delete from notice_board where notboard_idx=#{param1}
+  </delete>
+  
+  <update id="nEdit" parameterType="petsfinder.admin.AdminDTO">
+  	update notice_board set 
+		notboard_title=#{notboard_title}, notboard_content=#{notboard_content} where notboard_idx=#{notboard_idx}
+  </update>
+  
+  
+  
+  
+  
+  
+  <!-- //////////승헌옵 //////////////////////////////////////////////////////////////////////////////////////////////  -->
+  
+  
+  
+  
+  
+  <!-- 시터 후기 리스트 -->
+	<select id="PSlist" resultType="petsfinder.review.ReviewBoardDTO" >
+		SELECT * FROM review_board WHERE review_flag = 'sit'
+	</select>
+	
+	<!-- 시터 후기 삭제 -->
+	<delete id="deleterv" parameterType="int">
+		DELETE FROM review_board WHERE review_idx=#{review_idx}
+	</delete>
+	
+	<!-- 멤버 삭제 -->
+	<delete id="deletemem" parameterType="int">
+		DELETE FROM member WHERE member_idx=#{member_idx }
+	</delete>
+	<!-- 멤버 타입 수정 -->
+	<update id="modifymem">
+		UPDATE member SET member_type=#{ param1 } WHERE member_idx=#{ param2 }
+	</update>
+	
+	<!-- 멤버 리스트 -->
+	<select id="memberlist" resultType="petsfinder.member.MemberDTO">
+		SELECT * FROM member ORDER BY member_idx ASC
+	</select>
+	<!-- 전체 멤버 리스트 가져오기 -->
+	<select id="memgetTotalCount" resultType="int" >
+		SELECT COUNT(*) from member
+	</select>
+	
+	<!-- 시터 신청 현황 가져오기 -->
+	<select id="SitgetTotalCount" resultType="int" >
+		SELECT COUNT(*) from sitter_application
+	</select>
+	
+	<!-- 시터 신청 리스트 -->
+	<select id="sitapllist" resultType="petsfinder.admin.AdminSitAplDTO" >
+		SELECT sitapl_idx, sitapl_name, sitapl_gender, to_char(sitapl_birth, 'yyyy-mm-dd') as sitapl_birth,
+			sitapl_tel, sitapl_addr, sitapl_smkStt, sitapl_havepet, sitapl_exp, member_idx
+		FROM sitter_application ORDER BY sitapl_idx DESC
+	</select>
+	
+	<!-- 시터신청 수락 -->
+	<update id="accept" parameterType="int">
+		UPDATE member SET member_type='sit' WHERE member_idx=#{member_idx }
+	</update>
+	<!-- 시터신청 수락 후 시터 테이블 삭제 -->
+	<delete id="deleteap" parameterType="int">
+		delete from (
+		select sp.*, m.member_type 
+		from member m inner join sitter_application sp 
+		on m.member_idx=sp.member_idx 
+		where m.member_idx =#{member_idx}
+		) 
+		where member_type = 'sit'
+	</delete>
+	<!-- 시터신청 거절 -->
+	<delete id="denied" parameterType="int">
+		DELETE FROM sitter_application WHERE member_idx=#{member_idx}
+	</delete>
+	<!-- 상품 삭제 -->
+	<delete id="deletepdt" parameterType="int">
+		DELETE FROM product WHERE product_idx=#{product_idx}
+	</delete>
+	<!-- 상품 상세보기 -->
+	<select id="pdtview" resultType="petsfinder.shop.ProductDTO">
+		select * from product where product_idx=#{ product_idx }
+	</select>
+	<!-- 상품 등록 -->
+	<insert id="productregi" parameterType="petsfinder.shop.ProductDTO">
+		INSERT INTO product (
+		product_idx, product_name, product_price, product_description, 
+		product_regdate, product_category, product_stock)
+		VALUES
+		(seq_product_idx.nextval, #{product_name}, #{product_price},
+		#{product_description}, SYSDATE, #{product_category}, #{product_stock})
+	</insert>
+	<!-- 상품 수정 -->
+	<update id="pdtmodify" parameterType="petsfinder.shop.ProductDTO">
+		update product set 
+			product_name=#{product_name},product_price=#{product_price},
+			product_description=#{product_description},product_category=#{product_category},
+			product_stock=#{product_stock} 
+		where product_idx=#{product_idx}
+	</update>
+	
+	<!-- 상품 사진 -->
+	<insert id="i_photo">
+		INSERT INTO product_image VALUES (SEQ_pdt_image_idx.nextval, #{ param1 }, seq_product_idx.nextval)
+	</insert>
+	
+	<delete id="d_photo">
+		DELETE FROM product_image WHERE pdt_image_idx = #{ pdt_image_idx }
+	</delete>
+	
+  
+  
+  
+  
+  <!--////////원재옵/////////////////////////////////////////////////////////////////////////////////////////////////////////  -->
+  
+  
+  <!-- 입양신청 내역 가져오기 -->
+	<select id="adoptAppList" resultType="petsfinder.abandonedanimal.AdoptionAppDTO">
+			SELECT ADPAPL_idx, ADPAPL_name, ADPAPL_gender, ADPAPL_birth
+					, ADPAPL_tel, ADPAPL_addr
+					, decode (ADPAPL_job,'0','X','1','O') ADPAPL_job1
+					, decode (ADPAPL_exp,'0','X','1','O') ADPAPL_exp1
+					, ADPAPL_havepet, adpapl_fNum, abani_idx
+			from ADOPTION_APPLICATION ORDER BY ADPAPL_idx ASC
+	</select>
+  
+  
+  
+	<!-- 유기동물 리스트 가져오기 -->
+	<select id="animalList" resultType="petsfinder.abandonedanimal.AbandonedAnimalDTO">
+			SELECT abani_idx, abani_kind
+					, decode (abani_gender,'F','암컷','M','수컷') abani_gender
+					, abani_loc, abani_regdate, abani_neut
+					, decode (abani_stat,'prtct','prtct','adopt','adopt') abani_stat
+					, abani_age, abani_vaccin
+					, decode (abani_species, 'dog', '강아지', 'cat', '고양이') abani_species
+					, abani_char
+			from abandonedAnimal ORDER BY abani_idx ASC
+	</select>
+  
+	<!-- 입양상태 수정 -->
+	<update id="modifyAnimalList">
+	  		UPDATE abandonedAnimal SET abani_stat=#{ param1 }, abani_neut=#{ param2 }, abani_vaccin=#{ param3 } WHERE abani_idx=#{ param4 }
+	</update>
+	 
+	 <!-- 유기동물 전체 리스트 가져오기 -->
+	<select id="getTotalCount" resultType="int">
+			SELECT count(*) from abandonedAnimal
+	</select>
+  
+  
+  
+  
+	<!-- 유기동물 신고 내역 가져오기 -->
+	<select id="reportList" resultType="petsfinder.abandonedanimal.ReportDTO">
+			SELECT dclrAbnd_idx, dclrAbnd_loc, dclrAbnd_title, dclrAbnd_content, dclrAbnd_photo, dclrAbnd_regdate
+					, dclrAbnd_stts, member_idx 
+					from REPORT_ABANDONED_ANIMALS ORDER BY dclrAbnd_idx ASC
+	</select>
+	<!-- 유기동물 위치 가져오기 -->
+	<select id="reportLoc" resultType="petsfinder.abandonedanimal.ReportDTO">
+			SELECT dclrAbnd_loc	from REPORT_ABANDONED_ANIMALS where dclrAbnd_idx =#{param1}
+	</select>
+  
+    <!-- 구조 상태 수정(접수 or 구조진행중 or 구조완료) -->
+	<update id="modifyReportStat">
+	  		UPDATE REPORT_ABANDONED_ANIMALS SET dclrAbnd_stts=#{ param1 } WHERE dclrAbnd_idx=#{ param2 }
+	</update>
+  	
+  	<!-- 유기동물 상세보기 -->
+	<select id="reportView" resultType="petsfinder.abandonedanimal.ReportDTO">
+			SELECT member_idx, dclrAbnd_idx, dclrAbnd_regdate, dclrAbnd_stts, dclrAbnd_title, dclrAbnd_loc
+						, dclrAbnd_content, dclrAbnd_photo 
+						from REPORT_ABANDONED_ANIMALS where dclrAbnd_idx =#{param1}
+	</select>
+	
+	<!-- 유기동물 등록 -->
+	<insert id="animalRegistration" parameterType="petsfinder.abandonedanimal.AbandonedAnimalDTO">
+		INSERT INTO abandonedAnimal( abani_idx, abani_kind, abani_gender
+									, abani_loc, abani_regdate,	abani_neut, abani_stat
+									, abani_photo, abani_age, abani_vaccin, abani_species,abani_char )
+                VALUES(	SEQ_abani_idx.nextval, #{abani_kind}, #{abani_gender}, #{abani_loc}
+                        , #{abani_regdate}, #{abani_neut}, 'prtct', '사진경로'
+                        , #{abani_age}, #{abani_vaccin}, #{abani_species}, #{abani_char} )
+	</insert>
+  
+  
+  
+  
+  <!--////////////////////택수옵////////////////////////////////////////////////////////  -->
+  
+  
+  
+  
+  <!-- FAQ 리스트 -->
+  <select id="FaqList" resultType="petsfinder.admin.AdminDTO">
+     select * from faq_board
+  </select>
+  
+  <!-- FAQ 상세보기 -->
+  <select id="FaqView" resultType="petsfinder.admin.AdminDTO">
+     select * from faq_board where faq_idx =#{faq_idx}
+  </select>
+
+  <!-- FAQ 삭제 -->
+  <delete id="FaqDelete" parameterType="int">
+  	delete from faq_board where faq_idx=#{param1}
+  </delete>
+  
+  <!-- FAQ 수정 -->
+  <update id="FaqEditAction" parameterType="petsfinder.admin.AdminDTO">
+     update faq_board set
+        faq_idx=#{faq_idx}, faq_question=#{faq_question}, faq_answer=#{faq_answer}
+        where faq_idx=#{faq_idx}
+  </update>
+  
+  <!-- 입양 후기 게시판 리스트 -->
+  <select id="AdpReview" resultType="petsfinder.review.ReviewBoardDTO">
+     select * from review_board where review_flag = 'adp'
+  </select>
+  
+  <!-- 입양 후기 게시판 삭제 -->
+  <delete id="AdpDelete" parameterType="int">
+  	delete from review_board where review_idx=#{param1}
+  </delete>
+  
+  </mapper>

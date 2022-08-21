@@ -82,40 +82,50 @@
               <li class="uk-parent">
                 <a href="#" class="side">개인정보관리</a>
                 <ul class="uk-nav-sub">
-                  <li>
-                    <a href="./passCheck?mode=p" target="rightwin">비밀번호 수정</a>
-                  </li>
-                  <li>
-                    <a href="./passCheck?mode=i" target="rightwin">회원정보 수정</a>
-                  </li>
+	                <li>
+	                    <a href="./passCheck?mode=p" target="rightwin">비밀번호 수정</a>
+	                </li>
+	                <li>
+	                    <a href="./passCheck?mode=i" target="rightwin">회원정보 수정</a>
+	                </li>
+				<c:if test="${ sessionScope.type ne 'sit' }">
+	                <li>
+	                	<a href="" target="rightwin">시터신청</a>
+	                </li>
+	            </c:if>
                 </ul>
               </li>
               <li class="uk-parent">
                 <a href="#" class="side">내가 쓴 글 보기</a>
                 <ul class="uk-nav-sub">
-                  <li>
-                    <a href="./notifyForm.do" target="rightwin">유기동물 신고</a>
-                  </li>
+	                <!-- <li>
+	                  <a href="./notifyForm.do" target="rightwin">유기동물 신고</a>
+	                </li> -->
                 <c:if test="${ sessionScope.type eq 'sit' }">
                   <li>
                     <a href="./petsitterForm" target="rightwin">시터 페이지 생성 및 수정</a>
                   </li>
                 </c:if> 
                   <li>
-                    <a href="" >입양 후기</a>
+                    <a href="./myReview?mode=adp" target="rightwin">입양 후기</a>
                   </li>
                   <li>
-                    <a href="" >시터 예약 후기</a>
+                    <a href="./myReview?mode=sit" target="rightwin" >시터 후기</a>
                   </li>
                 </ul>
               </li>
               <li class="uk-parent">
-                <a href="#" class="side">신청 내역</a>
+                <a href="#" class="side">신청/이용 내역</a>
                 <ul class="uk-nav-sub">
-                  <li>
-                    <a href="" target="rightwin">입양신청 확인</a>
-                  </li>
-                  <li><a href="SitterApplicationForm.html" target="rightwin">시터신청</a></li>
+	                <li>
+	                    <a href="" target="rightwin">입양신청 확인</a>
+	                </li>
+	                <li>
+	                    <a href="./myReserve" target="rightwin">시터 이용 내역</a>
+	                </li>
+	                <li>
+	                    <a href="" target="rightwin">구매 내역</a>
+	                </li>
                 </ul>
               </li>
             </ul>

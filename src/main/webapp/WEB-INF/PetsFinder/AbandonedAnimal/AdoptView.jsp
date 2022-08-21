@@ -166,7 +166,7 @@
 													<!-- 시터 신청시 체크박스로 선택한 것들 반복문으로 띄우기 -->
 													<div style="display: flex; flex-flow: row wrap; margin-top: 12px; width: 458px;">
 														<p style="font-size: 14px; line-height: 21px; letter-spacing: -0.2px; color: rgb(94, 99, 109); margin-right: 7px;">#${abandonedAnimalDTO.abani_age }</p>
-														<p style="font-size: 14px; line-height: 21px; letter-spacing: -0.2px; color: rgb(94, 99, 109); margin-right: 7px;">#${abandonedAnimalDTO.abani_gender1 }</p>
+														<p style="font-size: 14px; line-height: 21px; letter-spacing: -0.2px; color: rgb(94, 99, 109); margin-right: 7px;">#${abandonedAnimalDTO.abani_gender }</p>
 													</div>
 												</div>
 												<div style="display: inline-block; margin-left:auto;  float: right;">

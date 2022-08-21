@@ -108,9 +108,9 @@
         });
         
     });
-        /* option */
+    	/* option */
         
-      function option_check01() {
+    function option_check01() {
      	var path = window.location.href;
      	console.log(path)
         var no_pet = document.getElementById('no_pet');
@@ -130,8 +130,8 @@
             console.log(back)
             location.href = front + back
         }
-      }
-      function option_check02() {
+    }
+    function option_check02() {
    	  	var path = window.location.href;
         var pick_up = document.getElementById('pick_up');
         if (pick_up.style.borderColor == 'rgb(223, 227, 234)') {
@@ -150,8 +150,8 @@
             console.log(back)
             location.href = front + back
         }
-      }
-      function option_check03(){
+    }
+    function option_check03(){
    	  	var path = window.location.href;
         var big = document.getElementById('big');
         if (big.style.borderColor == 'rgb(223, 227, 234)') {
@@ -170,8 +170,8 @@
             console.log(back)
             location.href = front + back
         }
-      }
-      function option_check04(){
+    }
+    function option_check04(){
    	  	var path = window.location.href;
    	  	var playground = document.getElementById('playground');
         if (playground.style.borderColor == 'rgb(223, 227, 234)') {
@@ -190,8 +190,8 @@
             console.log(back)
             location.href = front + back
         }
-      }
-      function option_check05(){
+    }
+    function option_check05(){
    	  	var path = window.location.href;
         var old_care = document.getElementById('old_care');
         if (old_care.style.borderColor == 'rgb(223, 227, 234)') {
@@ -210,25 +210,49 @@
             console.log(back)
             location.href = front + back
         }
-      }
-      window.onload = function() {
+    }
+    
+    function priceArray() {
+    	var path = window.location.href;
+        var price = document.getElementById('price');
+        if (price.style.color == 'rgb(170, 170, 170)') {
+        	if(path == 'http://localhost:8088/PetsFinder/Petsitters/sitterlist?') {
+		        location.href += 'pr=1&'
+        	} else if (path == 'http://localhost:8088/PetsFinder/Petsitters/sitterlist') {
+        		location.href += '?pr=1&'
+        	} else {
+        		location.href += '&pr=1&'
+        	}
+        } else {
+        	console.log(path.indexOf('pr=1&'))
+            var front = path.substr(0, path.indexOf('pr=1&'))
+            console.log(front)
+            var back = path.substring(path.indexOf('pr=1&') + 5, path.length)
+            console.log(back)
+            location.href = front + back
+        }
+    }
+    window.onload = function() {
         	
-		    if ('${ param.np }' == 1) {
-		    	$('#no_pet').css({borderColor : '#75c9ba', color : '#75c9ba'})
-		    }
-		    if ('${ param.pu }' == 1) {
-		    	$('#pick_up').css({borderColor : '#75c9ba', color : '#75c9ba'})
-		    }
-		    if ('${ param.b }' == 1) {
-		    	$('#big').css({borderColor : '#75c9ba', color : '#75c9ba'})
-		    }
-		    if ('${ param.pg }' == 1) {
-		    	$('#playground').css({borderColor : '#75c9ba', color : '#75c9ba'})
-		    }
-		    if ('${ param.oc }' == 1) {
-		    	$('#old_care').css({borderColor : '#75c9ba', color : '#75c9ba'})
-		    }
-		}
+	    if ('${ param.np }' == 1) {
+	    	$('#no_pet').css({borderColor : '#75c9ba', color : '#75c9ba'})
+	    }
+	    if ('${ param.pu }' == 1) {
+	    	$('#pick_up').css({borderColor : '#75c9ba', color : '#75c9ba'})
+	    }
+	    if ('${ param.b }' == 1) {
+	    	$('#big').css({borderColor : '#75c9ba', color : '#75c9ba'})
+	    }
+	    if ('${ param.pg }' == 1) {
+	    	$('#playground').css({borderColor : '#75c9ba', color : '#75c9ba'})
+	    }
+	    if ('${ param.oc }' == 1) {
+	    	$('#old_care').css({borderColor : '#75c9ba', color : '#75c9ba'})
+	    }
+	    if ('${ param.pr }' == 1) {
+	    	$('#price').css({color : '#75c9ba'})
+	    }
+	}
 
     </script>
     
@@ -236,75 +260,76 @@
 	
    
     function moreList1(){
-      $.ajax({
-         url : "./sitterlist",
-         type : "POST",
-         data : {
-            "nowPage" : $('#nowPage').val(),
-            "sD" : '${ param.sD }',
-            "eD" : '${ param.eD }',
-            "np" : '${ param.np }',
-            "pu" : '${ param.pu }',
-            "b" : '${ param.b }',
-            "pg" : '${ param.pg }',
-            "oc" : '${ param.oc }',
-            "count" : $('#typtagCount').val(),
-         },
-         dataType : 'json',
-         success : function (lists) {
-            var content="";    
-            for(var i=0; i<lists.length; i++){ 
-                             
-               /* content += "<a href='./sitterView.do?sit_idx="+lists[i].sit_idx+"' target='_blank' style='margin-right: 14px'>";    */      
-                     
-               content += "<form action='<c:url value='/'/>Petsitters/sitterView.do' method='POST'>"
-
-               content += "<input type='hid den' value="+lists[i].member_idx+" name='member_idx' />";
-               content += "<input type='hid den' value="+lists[i].sit_idx+" name='sit_idx' />";
-               content += "<div style='width: 1028px; height: 260px; border: 1px solid rgb(235, 235, 235); display: flex; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.07) 0px 0px 12px 0px; position: relative; align-items: center;'>";
-
-               content += "<div style='width: 390px; height: 250px; border-radius: 5px; margin-left: 5px; overflow: hidden; position: relative;'>";
-               content += "<div><input type='image' src='<c:url value='/' />Uploads/"+lists[i].sitphoto_photo+"' style='width: 390px; height: 250px; border-radius: 3px; object-fit: cover;' /></div>";
-
-               content += "</div>";
-               content += "<div style='padding: 30px 33px 0px 38px; height: 100%; display: flex; flex-grow: 1; flex-direction: column; justify-content: space-between; align-items: center;'>";
-               content += "<div style='width: 100%; border-bottom: 1px solid rgb(235, 235, 235); padding-bottom: 15px;'>";
-               content += "<p style='font-family: &amp; amp; amp; amp; quot; Noto Sans KR&amp;amp; amp; amp; quot;; font-size: 14px; letter-spacing: -0.1px; color: rgb(94, 99, 109);'>"+lists[i].sit_addr+"</p>";
-               content += "<p><a href='<c:url value='/'/>Petsitters/sitterView.do?member_idx="+lists[i].member_idx+"&sit_idx="+lists[i].sit_idx+"' style='font-size: 20px; font-family: &amp; amp; amp; amp; quot; Noto Sans KR&amp;amp; amp; amp; quot;; letter-spacing: -0.2px; color: rgb(56, 60, 72); margin-top: 9.5px;'> "+lists[i].sit_title+"</a></p>";
-               content += "</div>";
-               content += "<div style='display: flex; justify-content: space-between; width: 100%; height: 100%; padding-top: 18px;'>";
-               content += "<div style='display: flex; flex-direction: column; justify-content: space-between;'>";
-               content += "<p style='color: rgb(56, 60, 72); font-size: 13px; letter-spacing: -0.3px; max-width: 400px; max-height:55px; overflow:hidden;'>"+lists[i].sit_intro+"</p>";
-               content += "<div style='display: flex; align-items: center; flex-direction: row; margin-bottom: 30px;'>";
-               content += "<div style='width: 64.63px; display: flex; justify-content: space-between;'>";
-               content += "<div style='display: flex; flex: 1 1 0%; justify-content: space-between;'></div>";
-               content += "</div>";
-               content += "<p style='font-family: &amp; amp; amp; amp; quot; Noto Sans KR&amp;amp; amp; amp; quot;; font-size: 12px; line-height: 18px; color: rgb(94, 99, 109); letter-spacing: -0.2px; margin-left: 8px;'>이용 고객 수 : "+lists[i].sit_CLIENT+"</p>";
-               content += "</div>";
-               content += "</div>";
-               content += "<div style='display: flex; flex-direction: column; justify-content: flex-end; margin-bottom: 30px;'>";
-               content += "<div style='display: flex; align-items: center;'>";
-               content += "<p style='font-size: 17px; color: rgb(79, 82, 90); letter-spacing: 0.5px;'>" + lists[i].s_fee + "</p>";
-               content += "<div style='width: 32px; height: 21px; border: 1px solid rgb(197, 201, 208); border-radius: 3px; display: flex; align-items: center; justify-content: center; margin-left: 10px;'>";
-               content += "<p style='font-family: &amp; amp; amp; amp; quot; Noto Sans KR&amp;amp; amp; amp; quot;; font-size: 11px; letter-spacing: -0.2px; color: rgb(79, 82, 90);'>1 박</p>";
-               content += "</div>";
-               content += "</div></div></div>";
-               content += "<div style='display: flex; margin-top: 10px; align-items: center;'>";
-               content += "</div>";
-               content += "</form></div>";
-               content += "</div>";
-            }
-            $(content).appendTo("#table_sitter");
-            //nowPage처리 
-            var val01 = $('#nowPage').val();
-            var val02 = parseInt(val01) + 1;
-            $('#nowPage').val(val02);
-            
-            console.log($('#total').val())
-            if ($('#nowPage').val() * 4 >= $('#total').val()) {
-            	moreBtn.style.display = 'none'
-            }
-         },
+        $.ajax({
+        	url : "./sitterlist",
+        	type : "POST",
+        	data : {
+	            "nowPage" : $('#nowPage').val(),
+	            "sD" : '${ param.sD }',
+	            "eD" : '${ param.eD }',
+	            "np" : '${ param.np }',
+	            "pu" : '${ param.pu }',
+	            "b" : '${ param.b }',
+	            "pg" : '${ param.pg }',
+	            "oc" : '${ param.oc }',
+	            "pr" : '${ param.pr }',
+	            "count" : $('#typtagCount').val(),
+         	},
+       		dataType : 'json',
+         	success : function (lists) {
+	           var content="";    
+	           for(var i=0; i<lists.length; i++){ 
+	                            
+	              /* content += "<a href='./sitterView.do?sit_idx="+lists[i].sit_idx+"' target='_blank' style='margin-right: 14px'>";    */      
+	                    
+	              content += "<form action='<c:url value='/'/>Petsitters/sitterView.do' method='POST'>"
+	
+	              content += "<input type='hid den' value="+lists[i].member_idx+" name='member_idx' />";
+	              content += "<input type='hid den' value="+lists[i].sit_idx+" name='sit_idx' />";
+	              content += "<div style='width: 1028px; height: 260px; border: 1px solid rgb(235, 235, 235); display: flex; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.07) 0px 0px 12px 0px; position: relative; align-items: center;'>";
+	
+	              content += "<div style='width: 390px; height: 250px; border-radius: 5px; margin-left: 5px; overflow: hidden; position: relative;'>";
+	              content += "<div><input type='image' src='<c:url value='/' />Uploads/"+lists[i].sitphoto_photo+"' style='width: 390px; height: 250px; border-radius: 3px; object-fit: cover;' /></div>";
+	
+	              content += "</div>";
+	              content += "<div style='padding: 30px 33px 0px 38px; height: 100%; display: flex; flex-grow: 1; flex-direction: column; justify-content: space-between; align-items: center;'>";
+	              content += "<div style='width: 100%; border-bottom: 1px solid rgb(235, 235, 235); padding-bottom: 15px;'>";
+	              content += "<p style='font-family: &amp; amp; amp; amp; quot; Noto Sans KR&amp;amp; amp; amp; quot;; font-size: 14px; letter-spacing: -0.1px; color: rgb(94, 99, 109);'>"+lists[i].sit_addr+"</p>";
+	              content += "<p><a href='<c:url value='/'/>Petsitters/sitterView.do?member_idx="+lists[i].member_idx+"&sit_idx="+lists[i].sit_idx+"' style='font-size: 20px; font-family: &amp; amp; amp; amp; quot; Noto Sans KR&amp;amp; amp; amp; quot;; letter-spacing: -0.2px; color: rgb(56, 60, 72); margin-top: 9.5px;'> "+lists[i].sit_title+"</a></p>";
+	              content += "</div>";
+	              content += "<div style='display: flex; justify-content: space-between; width: 100%; height: 100%; padding-top: 18px;'>";
+	              content += "<div style='display: flex; flex-direction: column; justify-content: space-between;'>";
+	              content += "<p style='color: rgb(56, 60, 72); font-size: 13px; letter-spacing: -0.3px; max-width: 400px; max-height:55px; overflow:hidden;'>"+lists[i].sit_intro+"</p>";
+	              content += "<div style='display: flex; align-items: center; flex-direction: row; margin-bottom: 30px;'>";
+	              content += "<div style='width: 64.63px; display: flex; justify-content: space-between;'>";
+	              content += "<div style='display: flex; flex: 1 1 0%; justify-content: space-between;'></div>";
+	              content += "</div>";
+	              content += "<p style='font-family: &amp; amp; amp; amp; quot; Noto Sans KR&amp;amp; amp; amp; quot;; font-size: 12px; line-height: 18px; color: rgb(94, 99, 109); letter-spacing: -0.2px; margin-left: 8px;'>이용 고객 수 : "+lists[i].sit_CLIENT+"</p>";
+	              content += "</div>";
+	              content += "</div>";
+	              content += "<div style='display: flex; flex-direction: column; justify-content: flex-end; margin-bottom: 30px;'>";
+	              content += "<div style='display: flex; align-items: center;'>";
+	              content += "<p style='font-size: 17px; color: rgb(79, 82, 90); letter-spacing: 0.5px;'>" + lists[i].s_fee + "</p>";
+	              content += "<div style='width: 32px; height: 21px; border: 1px solid rgb(197, 201, 208); border-radius: 3px; display: flex; align-items: center; justify-content: center; margin-left: 10px;'>";
+	              content += "<p style='font-family: &amp; amp; amp; amp; quot; Noto Sans KR&amp;amp; amp; amp; quot;; font-size: 11px; letter-spacing: -0.2px; color: rgb(79, 82, 90);'>1 박</p>";
+	              content += "</div>";
+	              content += "</div></div></div>";
+	              content += "<div style='display: flex; margin-top: 10px; align-items: center;'>";
+	              content += "</div>";
+	              content += "</form></div>";
+	              content += "</div>";
+	           	}
+		        $(content).appendTo("#table_sitter");
+		        //nowPage처리 
+		        var val01 = $('#nowPage').val();
+		        var val02 = parseInt(val01) + 1;
+		        $('#nowPage').val(val02);
+		        
+		        console.log($('#total').val())
+		        if ($('#nowPage').val() * 4 >= $('#total').val()) {
+		        	moreBtn.style.display = 'none'
+		        }
+	        },
          
          error : function () {
             console.log("실패");
@@ -314,10 +339,10 @@
    </script>
     
     <!-- main_menu -->
-    <input type="hid den" id="nowPage" value="${ nowPage }" name="nowPage" />
-    <input type="hid den" id="total" value="${ total }" name="total" />
-    <input type="hid den" id="typtag" value="${ search.typtag }" name="typtag"/>
-    <input type="hid den" id="typtagCount" value="${ search.count }" name="typtagCount"/>    
+    <input type="hidden" id="nowPage" value="${ nowPage }" name="nowPage" />
+    <input type="hidden" id="total" value="${ total }" name="total" />
+    <input type="hidden" id="typtag" value="${ search.typtag }" name="typtag"/>
+    <input type="hidden" id="typtagCount" value="${ search.count }" name="typtagCount"/>    
     <div style="display: flex; justify-content: center; flex-direction: column; padding-top: 180px; padding-bottom:85px; align-items: center; box-shadow: rgba(0, 0, 0, 0.05) 0px 2px 20px;">
       <div style="display: flex; justify-content: space-between; width: 1024px">
         <div style="margin-right: 48px;">
@@ -336,7 +361,6 @@
             </div>
           </div>
         </div>
-        <form action="./sitterlist">
         <input type="hidden" id="sD" name="sD"/>
         <input type="hidden" id="eD" name="eD"/>
         
@@ -375,7 +399,6 @@
             </div>
           </div>
         </div>
-        </form>
       </div>
       <div style="display: flex; flex-direction: column; width:1024px; margin-top: 70px;">
         <p style="margin-bottom: 27px;">
@@ -412,15 +435,15 @@
                                       <div
                                           style="display: flex; justify-content: space-between; width: 203px; align-items: center;">
                                           <p
-                                              style="font-size: 14px; color: rgb(170, 170, 170); cursor: pointer;">
+                                              style="font-size: 14px; color: rgb(170, 170, 170); cursor: pointer; " id="">
                                               가까운순</p>
                                           <p
-                                              style="font-size: 14px; color: rgb(170, 170, 170); cursor: pointer;">
+                                              style="font-size: 14px; color: rgb(170, 170, 170); cursor: pointer;" id="famous">
                                               인기순</p>
                                           <p
-                                              style="font-size: 14px; color: rgb(57, 60, 71); cursor: pointer;">
+                                              style="font-size: 14px; color: rgb(170, 170, 170); cursor: pointer;" id="price" onclick="priceArray();">
                                               가격순</p><img
-                                              src="../image/filter.png"
+                                              src="../images/filter.png"
                                               style="width: 15px; height: 15px;">
                                       </div>
                                   </div>

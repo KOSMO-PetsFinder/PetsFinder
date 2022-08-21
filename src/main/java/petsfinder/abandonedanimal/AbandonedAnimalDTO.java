@@ -5,7 +5,7 @@ import java.sql.Date;
 public class AbandonedAnimalDTO {
 	private int abani_idx;
 	private String abani_kind;
-	private String abani_gender1; 
+	private String abani_gender; 
 	private String abani_loc; 
 	private Date  abani_regdate;
 	private int abani_neut; 
@@ -24,11 +24,11 @@ public class AbandonedAnimalDTO {
 	public void setAbani_stat(String abani_stat) {
 		this.abani_stat = abani_stat;
 	}
-	public String getAbani_gender1() {
-		return abani_gender1;
+	public String getAbani_gender() {
+		return abani_gender;
 	}
-	public void setAbani_gender1(String abani_gender1) {
-		this.abani_gender1 = abani_gender1;
+	public void setAbani_gender(String abani_gender) {
+		this.abani_gender = abani_gender;
 	}
 	public int getAdoptmember_idx() {
 		return adoptmember_idx;

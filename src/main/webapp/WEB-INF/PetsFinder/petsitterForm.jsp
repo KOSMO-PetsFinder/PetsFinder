@@ -42,7 +42,7 @@
                             </section>
                             <section style="background-color: #FAFAFB; margin-top: 102px">
                                 <form name="petsitterFrm" action="./petsitterRegist" method="POST" enctype="multipart/form-data">
-                                	<input type="hidden" name="sit_idx" value="${ s_info.sit_idx }"/>
+                                	<input type="hid den" name="sit_idx" value="${ s_info.sit_idx }"/>
                                     <div style="width: 1000px; margin: 0px auto; padding-top: 95px">
                                         <h1 style=" color: #264a8f;">시터 마이페이지</h1>
                                         <div
@@ -137,6 +137,7 @@
                                                	<input name='tags-outside' class='tagify--outside' id="tag" placeholder='태그를 입력하세요'>
                                             </div>
 											<script>
+											
 									      	var input = document.querySelector('.tagify--outside');
 											var tagify = new Tagify(input, {
 										    	whitelist : [

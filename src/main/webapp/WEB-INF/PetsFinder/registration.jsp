@@ -98,37 +98,37 @@
 
     // 비밀번호 입력 시 유효성 검사
     function passCheck(form) {
-      if(form.pass1.value != null) {
-        var u_pass = form.pass1.value;
-        var check = document.getElementById("pw_check01");
-        
-        if(u_pass.length >= 8 && u_pass.length <= 16) {
-          var num = 0;
-          var upp_Alpha = 0;
-          var low_Alpha = 0;
-          var symbol = 0;
-          for(var i = 0; i < u_pass.length; i++) {
-            var ascii = u_pass.charCodeAt(i);
-            if(ascii >= 48 && ascii <= 57) num++;
-            if(ascii >= 65 && ascii <= 90) upp_Alpha++;
-            if(ascii >= 97 && ascii <= 122) low_Alpha++;
-            if((ascii >= 33 && ascii <= 47) || (ascii >= 58 && ascii <= 64)
-                || (ascii >= 91 && ascii <= 96)
-                || (ascii >= 123 && ascii <= 126)) symbol++;
-          }
-          if( num > 0 && upp_Alpha > 0 && low_Alpha > 0 && symbol > 0 ) {
-              check.innerHTML = "사용 가능합니다";
-              check.style.color = "skyblue";
-              form.pass2.focus();
-          } else {
-            check.innerHTML = "영문(대소문자)/숫자/특수문자가 모두 포함되어야 합니다.";
-            check.style.color = "red";
-          }
-        } else {
-          check.innerHTML = "8~16 자리로 입력하세요.";
-        	check.style.color = "red";
-        }
-      }
+      	if(form.pass1.value != null) {
+	        var u_pass = form.pass1.value;
+	        var check = document.getElementById("pw_check01");
+	        
+	        if(u_pass.length >= 8 && u_pass.length <= 16) {
+		        var num = 0;
+		        var upp_Alpha = 0;
+		        var low_Alpha = 0;
+		        var symbol = 0;
+		        for(var i = 0; i < u_pass.length; i++) {
+			        var ascii = u_pass.charCodeAt(i);
+			        if(ascii >= 48 && ascii <= 57) num++;
+			        if(ascii >= 65 && ascii <= 90) upp_Alpha++;
+			        if(ascii >= 97 && ascii <= 122) low_Alpha++;
+			        if((ascii >= 33 && ascii <= 47) || (ascii >= 58 && ascii <= 64)
+			            || (ascii >= 91 && ascii <= 96)
+			            || (ascii >= 123 && ascii <= 126)) symbol++;
+		        }
+		        if( num > 0 && upp_Alpha > 0 && low_Alpha > 0 && symbol > 0 ) {
+		            check.innerHTML = "사용 가능합니다";
+		            check.style.color = "skyblue";
+		            form.pass2.focus();
+		        } else {
+			        check.innerHTML = "영문(대소문자)/숫자/특수문자가 모두 포함되어야 합니다.";
+			        check.style.color = "red";
+		        }
+	        } else {
+		        check.innerHTML = "8~16 자리로 입력하세요.";
+		      	check.style.color = "red";
+	        }
+      	}
     }
     
     function emailCheck(form) {

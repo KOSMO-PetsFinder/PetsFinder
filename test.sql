@@ -325,10 +325,11 @@ SELECT * FROM (
                     sit_idx
                 FROM
                     sit_book 
-                WHERE 
+                WHERE (
                     (sbook_start <= '2022-08-14' and sbook_end > '2022-08-14') 
                     or 
                     (sbook_start < '2022-08-15' and sbook_end > '2022-08-15')
+                    ) and sbook_status not in ('can')
             ) 
             
             and s.sit_idx in (
@@ -355,9 +356,9 @@ SELECT * FROM (
                 )
             )
             
-        ORDER BY s.sit_idx DESC
-        ) a
-    )
+        ORDER BY s_fee asc
+    ) a
+)
 ;
 
 select sit_idx from sitter_tag where typtag_idx in (4, 3, 1) group by sit_idx having count(sit_idx) = 3;
@@ -657,3 +658,130 @@ ORDER BY s.sit_idx DESC;
 		    p.product_idx=a.product_idx
         where product_category='ess'
         order by p.product_idx desc;
+
+select sb.sit_idx, s.member_idx, member_name, sbook_start, sbook_end, sbook_status
+                from sit_book sb 
+                left outer join sitter s on s.sit_idx = sb.sit_idx 
+                left outer join member m on m.member_idx = sb.member_idx;
+
+select m.member_name s_name, a.member_name r_name, sbook_start, sbook_end, sbook_status from member m
+right outer join (select sb.sit_idx, s.member_idx, member_name, sbook_start, sbook_end, sbook_status
+                from sit_book sb 
+                left outer join sitter s on s.sit_idx = sb.sit_idx 
+                left outer join member m on m.member_idx = sb.member_idx
+                order by sbook_idx desc
+                ) a
+on m.member_idx = a.member_idx;
+
+select * from sit_book;
+
+
+
+select 
+  p.*, photos, NVL(b.cnt,0) review_count 
+from 
+  product p
+left OUTER JOIN 
+  (select 
+      product_idx, LISTAGG(PDT_IMAGE_FILE, ', ')
+      WITHIN GROUP (ORDER BY PDT_IMAGE_IDX desc) as photos
+  from 
+      product_image 
+  GROUP BY product_idx
+ ) a ON p.product_idx = a.product_idx 
+ LEFT OUTER JOIN (
+     SELECT
+         product_idx, count(*) cnt
+     FROM review_board
+     GROUP BY product_idx
+ ) b ON p.product_idx = b.product_idx;
+ 
+ 
+ 
+select * from review_board where review_flag = 'adp' and member_idx = 15;
+
+select rb.*, member_name member_namer, member_photo from review_board rb left outer join member m on rb.member_idx = m.member_idx where review_flag = 'sit' and m.member_idx = 1;
+select rb.*, member_name member_namer, member_photo from review_board rb left outer join member m on rb.member_idx = m.member_idx where review_idx = 11;
+
+select 
+    a.abani_idx, abani_kind, abani_loc, abani_regdate, abani_neut, abani_stat,
+    abani_photo, abani_age, abani_vaccin, abani_species, abani_char, 
+    NVL(b.member_idx, 0) adoptmember_idx, 
+    decode(a.abani_gender,'F','¾ÏÄÆ','M','¼öÄÆ','ºÒ¸í') abani_gender
+from 
+    abandonedAnimal a 
+left OUTER JOIN 
+    ADOPTION_list b 
+on 
+    a.abani_idx = b.abani_idx 
+where a.abani_idx = 1;
+
+select 
+    c.cart_idx, c.product_quanity, p.product_idx, p.product_name,
+    p.product_price,decode(p.product_category,'ess','ÇÊ¼ö ¿ëÇ°','mdc','ÀÇ¾àÇ°','gds','±ÂÁî') product_cate,
+    p.product_stock, p.photos from cart c,(select
+    p.*,Tb.photos 
+from 
+    product p, (select
+                    product_idx, LISTAGG(pdt_image_file,'|') WITHIN GROUP(ORDER BY pdt_image_file) photos 
+                from 
+                    product_image 
+                group by 
+                    product_idx) Tb 
+where 
+    p.product_idx=Tb.product_idx) p where c.product_idx=p.product_idx and c.member_idx=31;
+
+select count(*) from cart where member_idx = 31;
+
+SELECT sitapl_idx, sitapl_name, sitapl_gender, to_char(sitapl_birth, 'yyyy-mm-dd') as sitapl_birth,
+			sitapl_tel, sitapl_addr, sitapl_smkStt, sitapl_havepet, sitapl_exp, member_idx
+		FROM sitter_application ORDER BY sitapl_idx DESC;
+        
+select * from (
+    select a.*, rownum rNum from (
+        SELECT 
+            s.*, sitphoto_idx, sitphoto_photo
+        FROM 
+            sitter s
+        FULL OUTER JOIN 
+            (select * from sitter_photo where sitphoto_idx in (select min(sitphoto_idx) from sitter_photo group by sit_idx)) sp
+        ON 
+            s.sit_idx = sp.sit_idx
+        order by s.sit_idx desc
+    ) a
+)
+where rNum between 1 and 4;
+alter sequence seq_sitter_idx increment by 1;
+select seq_sitter_idx.nextval from dual;
+
+select 
+    s.member_idx,
+    s.sit_idx, sit_title, sit_intro, sit_addr, s_fee, m_fee, b_fee, sit_client, sit_starpoint, sit_starcount,
+    member_name, member_email,
+    pet_idx, pet_age, pet_name, pet_gender
+from 
+    sitter s
+left outer join 
+    pet p on s.member_idx = p.member_idx 
+inner join 
+    member m on s.member_idx = m.member_idx
+where sit_idx = 11;
+
+
+SELECT 
+    sbook_idx, sb.sit_idx, sbook_date, to_char(sbook_start, 'yyyy-mm-dd') sbook_start, to_char(sbook_end, 'yyyy-mm-dd') sbook_end,
+    sbook_status, p_celldata, totalprice, sb.member_idx member_idx, member_name, sit_addr
+FROM 
+    sit_book sb
+INNER JOIN
+    sitter s
+ON
+    sb.sit_idx = s.sit_idx
+INNER JOIN
+    member m
+ON
+    s.member_idx = m.member_idx
+WHERE 
+    sb.member_idx = 30
+ORDER BY sbook_start asc;
+    

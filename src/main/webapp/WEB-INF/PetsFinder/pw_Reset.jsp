@@ -72,28 +72,66 @@ if(!loginId.equals("")) {
       return false;
     }
   }
-  
-	function pw1Message(fm) {
-	    var pw1_check = document.getElementById('pw1_check');
-	  	if(fm.pw1.value != '') {
-			pw1_check.innerHTML = '';
-		}
-	}
-	
-	function pw2Message(fm) {
-	    var pw2_check = document.getElementById('pw2_check');
-	  	if(fm.pw2.value != '') {
-	  		pw2_check.innerHTML = '';
-	  	}
-	}
+	//비밀번호 입력 시 유효성 검사
+  	function passCheck(form) {
+    	if(form.pass1.value != null) {
+	        var u_pass = form.pass1.value;
+	        var check = document.getElementById("pw_check01");
+	        
+	        if(u_pass.length >= 8 && u_pass.length <= 16) {
+		        var num = 0;
+		        var upp_Alpha = 0;
+		        var low_Alpha = 0;
+		        var symbol = 0;
+		        for(var i = 0; i < u_pass.length; i++) {
+			        var ascii = u_pass.charCodeAt(i);
+			        if(ascii >= 48 && ascii <= 57) num++;
+			        if(ascii >= 65 && ascii <= 90) upp_Alpha++;
+			        if(ascii >= 97 && ascii <= 122) low_Alpha++;
+			        if((ascii >= 33 && ascii <= 47) || (ascii >= 58 && ascii <= 64)
+			            || (ascii >= 91 && ascii <= 96)
+			            || (ascii >= 123 && ascii <= 126)) symbol++;
+		        }
+		        if( num > 0 && upp_Alpha > 0 && low_Alpha > 0 && symbol > 0 ) {
+		            check.innerHTML = "사용 가능합니다";
+		            check.style.color = "skyblue";
+		            form.pass2.focus();
+		        } else {
+			        check.innerHTML = "영문(대소문자)/숫자/특수문자가 모두 포함되어야 합니다.";
+			        check.style.color = "red";
+		        }
+	        } else {
+		        check.innerHTML = "8~16 자리로 입력하세요.";
+		      	check.style.color = "red";
+	        }
+    	}
+  	}
+ 	// 비밀번호, 휴대폰 번호, 전화번호 입력시 잘못된 사항
+    $(function () {
+        $('#pass1').keyup(function () {
+	        $('#pass2').val('');
+	        $('#pw_check02').val('');
+        });
+
+        $('#pass2').keyup(function () {
+	        if ($('#pass1').val() == $('#pass2').val()) {
+        		$('#pw_check02').html('비밀번호 일치').attr('style', 'color: skyblue');
+        		$('#name').focus();
+	        } else {
+		        $('#pw_check02').html('비밀번호 불일치').attr('style', 'color: red');
+		        $('#pass2').focus();
+	        }
+        });
+    });
 </script>
 <jsp:include page="./common/Header.jsp" />
 <!-- 네이버 스크립트 -->
 <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
 <!-- Login Form -->
 <form action="./pw_Reset" method="post" onsubmit="return checkLogForm(this);">
-	<input type="hid den" name="id" value="${ id }"/>
-	<input type="hid den" name="name" value="${ name }"/>
+	<input type="hidden" name="id" value="${ id }"/>
+	<input type="hidden" name="name" value="${ name }"/>
+	<input type="hidden" name="backUrl" value="${param.backUrl }"/>
     <div class="pwReset_Form" id="pwReset_Form" style="display: flex; flex-direction: column; align-items: center; padding-top: 100px; padding-bottom: 100px">
         <div style="background-color: white; width: 960px; height: 850px; border-radius: 30px; display: flex; justify-content: center; flex-direction: column; align-items: center; box-shadow: rgba(0, 0, 0, 0.65) 0px 2px 20px;">
 	        <div>
@@ -113,12 +151,12 @@ if(!loginId.equals("")) {
 			                type="password"
 			                placeholder="비밀번호를 입력하세요!"
 			                style="width: 350px; height: 52px; border: 0; margin: 0px 12px; padding: 1px 2px; outline: none;"
-			                onblur="pw1Message(this.form);"
+			                onblur="passCheck(this.form);"
 			                />
 		            </div>
 	            </div>
 	            <div style="margin-top: 5px;">
-	            	<p><span id="pw1_check" style="color: skyblue"></span></p>
+	            	<p><span id="pw_check01" style="color: skyblue"></span></p>
 	            </div>
             </div>
             <!-- PwReset2 -->
@@ -135,12 +173,11 @@ if(!loginId.equals("")) {
 			                type="password"
 			                placeholder="비밀번호를 입력하세요!"
 			                style="width: 350px; height: 52px; border: 0; margin: 0px 12px; padding: 1px 2px; outline: none;"
-			                onblur="pw2Message(this.form);"
 			                />
 		            </div>
 	            </div>
 	            <div style="margin-top: 5px;">
-	            	<p><span id="pw2_check" style="color: skyblue"></span></p>
+	            	<p><span id="pw_check02" style="color: skyblue"></span></p>
 	            </div>
             </div>
             <!-- Login -->

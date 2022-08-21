@@ -58,6 +58,7 @@ public class HomeController {
 	public String passCheck() {
 		return "passCheck";
 	}
+	
 	//Admin page
 	@RequestMapping("/Admin/adminMain")
 	public String adminMainPage() {

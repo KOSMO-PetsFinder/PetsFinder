@@ -69,12 +69,17 @@ public class PetSitterController {
 			sit_tags = sqlSession.getMapper(PetSitterDAOImpl.class).sit_tag(petsitterDTO.getSit_idx());	
 			List<String> tags = new ArrayList<String>();
 			tags = sqlSession.getMapper(PetSitterDAOImpl.class).tags();
-			System.out.println(sit_tags);
+			System.out.println("현재 태그 : " + sit_tags);
+			System.out.println("전체 태그 : " + tags);
 			ArrayList<Integer> services = sqlSession.getMapper(PetSitterDAOImpl.class).sit_service(petsitterDTO.getSit_idx());
 			model.addAttribute("sit_tags", sit_tags);
 			model.addAttribute("tags", tags);
 			model.addAttribute("services", services);
 			model.addAttribute("s_info", petsitterDTO);
+		} else {
+			List<String> tags = new ArrayList<String>();
+			tags = sqlSession.getMapper(PetSitterDAOImpl.class).tags();
+			model.addAttribute("tags", tags);
 		}
 		
 		return "petsitterForm";
@@ -87,7 +92,11 @@ public class PetSitterController {
 		PetSitterDTO dto = new PetSitterDTO();
 		
 		// sitter 테이블 쪽 받아오기
-		int sit_idx = Integer.parseInt(req.getParameter("sit_idx"));
+		int sit_idx = 0;
+		if (req.getParameter("sit_idx") != null && !req.getParameter("sit_idx").equals("")) {
+			sit_idx = Integer.parseInt(req.getParameter("sit_idx"));
+		} 
+		System.out.println("sit_idx : " + sit_idx);
 		String sit_title = req.getParameter("sit_title");
 		String sit_intro = req.getParameter("sit_intro");
 		int s_fee = Integer.parseInt(req.getParameter("s_fee"));
@@ -95,27 +104,32 @@ public class PetSitterController {
 		int b_fee = Integer.parseInt(req.getParameter("b_fee"));
 		
 		// DTO에 저장
-		dto.setSit_idx(sit_idx);
 		dto.setSit_title(sit_title);
 		dto.setSit_intro(sit_intro);
 		dto.setS_fee(s_fee);
 		dto.setM_fee(m_fee);
 		dto.setB_fee(b_fee);
 		
-		// DTO에 값이 차있으면 수정
-		if(dto != null) {
+		// sit_idx 값이 있으면 수정
+		if(req.getParameter("sit_idx") != null && !req.getParameter("sit_idx").equals("")) {
+			dto.setSit_idx(sit_idx);
 			sqlSession.getMapper(PetSitterDAOImpl.class).u_sitter(dto);
-		// DTO에 값이 없으면 생성
+			// 태그 전체 삭제
+			sqlSession.getMapper(PetSitterDAOImpl.class).d_tag(sit_idx);
+		// sit_idx 값이 없으면 생성
 		} else {
 			dto.setMember_idx(Integer.parseInt(session.getAttribute("idx").toString()));
 			String member_addr = sqlSession.getMapper(MemberDAOImpl.class).addr(session.getAttribute("idx").toString());
 			String sit_addr = member_addr.split(" / ")[1];
+			System.out.println(sit_addr);
 			dto.setSit_addr(sit_addr);
 			sqlSession.getMapper(PetSitterDAOImpl.class).i_sitter(dto);
 		}
 		
-		// 태그 전체 삭제
-		sqlSession.getMapper(PetSitterDAOImpl.class).d_tag(sit_idx);
+		if (sit_idx == 0) {
+			sit_idx = sqlSession.getMapper(PetSitterDAOImpl.class).u_sitIdx(sit_title);
+		}
+		
 		// 재 입력
 		JSONParser parser = new JSONParser();
 		JSONArray TagArr = (JSONArray)parser.parse(req.getParameter("tags-outside"));
@@ -147,6 +161,7 @@ public class PetSitterController {
 			}
 		}
 		
+		// 사진 업로드
 		List<MultipartFile> fileList = mr.getFiles("ofile");
 		System.out.println(fileList.get(0).getOriginalFilename());
 		if (fileList.get(0).getOriginalFilename() != "") {
@@ -321,7 +336,241 @@ public class PetSitterController {
 		}
 		return "redirect:/Petsitters/sitterView.do?sit_idx="+idx;
 	}
+	
+	//펫시터 예약 요청시 이메일 전송
+	@RequestMapping("/Petsitters/bookEmailInfo.do")
+	public void reservEmail(Model model, HttpServletRequest req, HttpSession session, HttpServletResponse resp) throws IOException {
+		//10개의 데이터 중 시터 이메일 정보와, 회원의 이메일 정보는 이메일 전송용. 
+		//시터의 이름과 이메일 정보 
+		//1
+		String sitter_name = req.getParameter("member_name");
+		System.out.println("시터의 이름: "+sitter_name);
+		//2
+		String sitter_email = req.getParameter("member_email");
+		System.out.println("시터의 이메일: "+sitter_email);
+		//3
+		//int idx =Integer.parseInt(sIdx);
+		int sit_idx  = Integer.parseInt(req.getParameter("sit_idx"));
+		System.out.println("시터의 idx: "+ sit_idx);
 		
+		//고객의 예약 날짜
+		//4
+		String sbook_start = req.getParameter("sD");
+		System.out.println("startDate: "+sbook_start);
+		//5
+		String sbook_end = req.getParameter("eD");
+		System.out.println("endDate: "+sbook_end);
+		//고객의 예약 합계
+		//6
+		String p_cellData = req.getParameter("p_cellData");
+		System.out.println("반려동물정보:"+p_cellData);
+		//고객의 예약 반려동물 정보 
+		//7
+		String totalPrice = req.getParameter("totalPrice");
+		System.out.println("합계: "+totalPrice);
+		
+		//현재 로그인한 고객의 이메일 & member_idx 정보 
+		//8
+		String login_email = session.getAttribute("email").toString();
+		System.out.println("고객의 이메일: "+login_email);
+		//9
+		//int sit_idx  = Integer.parseInt(req.getParameter("sit_idx"));
+		int member_idx = (int) session.getAttribute("idx");
+		System.out.println("고객의 idx: "+member_idx);
+		//고객의 이름
+		String member_name = (String) session.getAttribute("name");
+		//10
+		//sbook_status 를 어디서 결정하지? 일단은 넘길때는 default로 넘겨놔야되겠다. 
+		//String sbook_status = req.getParameter("sbook_status");
+		//System.out.println("예약상태 default:"+ sbook_status);
+		//데이터 DB에 저장 (8개의 데이터 중 sbook_idx 빼고 7개 저장)
+		/*
+		sit_idx (시터의 이름과 이메일을 빼내기 위한 정보)
+		member_idx (세션에서 로그인 정보로 빼오기)
+		sbook_start
+		sbook_end
+		sbook_status 
+		p_cellData
+		totalPrice
+		*/
+		PetSitterDTO petSitterDTO = new PetSitterDTO();
+		petSitterDTO.setSit_idx(sit_idx);
+		petSitterDTO.setMember_idx(member_idx);
+		petSitterDTO.setSbook_start(sbook_start);
+		petSitterDTO.setSbook_end(sbook_end);
+		//petSitterDTO.setSbook_status(sbook_status);
+		petSitterDTO.setP_cellData(p_cellData);
+		petSitterDTO.setTotalPrice(totalPrice);
+		
+		//고객의 이름
+		petSitterDTO.setMember_name(member_name);
+		System.out.println("고객의 이름:"+ member_name);
+		
+		int success = sqlSession.getMapper(PetSitterDAOImpl.class).reserve(petSitterDTO);
+		if(success ==1) {
+			System.out.println("예약 내역 DB저장 성공");
+			
+			if(session.getAttribute("id") != null) {
+				resp.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = resp.getWriter();
+				//추가로 sbook_start, sbook_end, p_cellData, totalPrice 값 넘김.
+				out.println(String.format("<script>window.open('./bookEmailSend?sitter_email=%s&login_email=%s&sitter_name=%s&sbook_start=%s&sbook_end=%s&p_cellData=%s&totalPrice=%s&member_name=%s', "
+						+ " 'reserve', 'width=1, height=1'); location.replace('../')</script>", 
+						 sitter_email, login_email, sitter_name, sbook_start, sbook_end, p_cellData, totalPrice, member_name));
+			}
+			else {
+				//로그인 되어있는 상태가 아니라면 로그인 페이지로 
+				resp.setContentType("text/html; charset=UTF8");
+				PrintWriter out = resp.getWriter();
+				out.println("<script>alert('로그인을 해 주세요'); location.href='../Login';</script>");
+				
+			}
+		}
+		else {
+			System.out.println("예약 내역 DB저장 실패");
+		}
+	
+		
+	}
+	
+	//이 컨트롤러가 사라지고 위에서 처리하게 만들어야함. 
+	@RequestMapping("/Petsitters/bookEmailSend")
+	public String bookEmailSend(Model model, HttpServletRequest req, HttpSession session) {
+		
+		//info에서 여기로 값을 넘겨서 param값으로 받아오고 있음. 
+		//즉, 여기서 bookEmailSend를 팝업창으로 열어서 넘기면됨.
+		
+		return "./Petsitters/bookEmailSend";
+	}
+	
+	
+	public boolean emailSending2(Map<String, String> map) {
+		
+		boolean sendOk = false;
+		
+		// 네이버 SMTP 서버를 사용하기 위한 속성으로 이미 정해져 있는 값으로 설정
+		Properties p = new Properties();
+        p.put("mail.smtp.host", "smtp.naver.com");
+        p.put("mail.smtp.port", "465");
+        p.put("mail.smtp.starttls.enable", "true");
+        p.put("mail.smtp.auth", "true");
+        p.put("mail.smtp.debug", "true");
+        p.put("mail.smtp.socketFactory.port", "465");
+        p.put("mail.smtp.socketFactory.class",
+                "javax.net.ssl.SSLSocketFactory");
+        p.put("mail.smtp.socketFactory.fallback", "false");
+        
+        try {
+        	// 네이버에 로그인 하여 인증 정보를 얻어온다.
+        	Authenticator auth = new SMTPAuth();
+        	
+        	Session session = Session.getInstance(p, auth);
+        	session.setDebug(true);
+        	
+        	// 제목 설정
+        	MimeMessage msg = new MimeMessage(session);
+        	msg.setSubject(map.get("subject"));
+        	
+        	// 보내는 사람 Email 설정
+        	Address fromAddr = new InternetAddress(map.get("from"));
+        	msg.setFrom(fromAddr);
+        	
+        	// 받는 사람 Email 설정
+        	Address toAddr = new InternetAddress(map.get("to1"));
+        	Address toAddr2 = new InternetAddress(map.get("to2"));
+        	msg.addRecipient(Message.RecipientType.TO, toAddr);
+        	msg.addRecipient(Message.RecipientType.TO, toAddr2);
+        	
+        	// 내용 줄바꿈 처리
+        	msg.setContent(map.get("content"), "text/html;charset=UTF-8");
+        	
+        	// 실제 Email 발송 처리 부분
+        	Transport.send(msg);
+        	sendOk = true;
+        	
+        	
+        } catch (Exception e) {
+        	sendOk = false;
+        	e.printStackTrace();
+        }
+        
+        return sendOk;
+        
+	}
+	//bookemailSendAction.do
+	// 사용자가 작성한 내용을 form값으로 받아 정리한 후 메일 발송
+	@RequestMapping(value="/Petsitters/bookEmailSendAction.do", method = RequestMethod.POST)
+	public void emailSendAction(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		
+		String sendResult = "이메일 전송 준비";
+		// form값 정리를 위한 Map 컬렉션
+		Map<String,	String> emailContent = new HashMap<String, String>();
+		// 보내는 사람
+		emailContent.put("from", req.getParameter("from"));
+		// 받는 사람
+		emailContent.put("to1", req.getParameter("to1"));
+		emailContent.put("to2", req.getParameter("to2"));
+		// 제목
+		emailContent.put("subject", req.getParameter("subject"));
+		
+		// 메일 발송 형식
+		String format = req.getParameter("format");
+		// 내용 (여기서 content를 두개 만들어서 보내보자)
+		String content = req.getParameter("content").replace("\r\n", "<br/>");
+		
+		if(format.equals("text")) {
+			// 전송 형식이 text라면 순수한 텍스트만 내용에 추가
+			emailContent.put("content", content);
+		} else if (format.equals("html")) {
+			// html 형식이라면 우리가 디자인 한 메일form에 내용을 추가한 후 메일 발송
+			String oneLine="", mailContents="";
+			try {
+				// 메일 form이 있는 디렉토리의 물리적 경로 얻어오기
+				String dirPath = req.getSession().getServletContext().getRealPath("/resources/mailForm/MailForm.html");
+				// 파일의 내용을 읽어오기 위해 IO스트림을 생성한다.
+	            BufferedReader br = new BufferedReader(new FileReader(dirPath));
+	            // 파일의 내용을 한 줄씩 읽어 변수에 저장
+	            // 더 이상 내용이 없으면 while문 탈출
+	            while((oneLine = br.readLine()) != null){
+	               mailContents += oneLine + "\n";
+	            }
+	            // 스트림 자원 반납
+	            br.close();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			// 메일 form에서 읽어온 내용(HTML태그)에서 내용 부분 변경
+	        mailContents = mailContents.replace("__CONTENT__", content);
+	        // 내용을 Map컬렉션에 추가
+	        emailContent.put("content", mailContents);
+		}
+		if(req.getParameter("content") != null) {
+			// 입력된 내용이 있다면 메일 발송.
+			// 이 때 form값을 저장한 Map컬렉션을 인수로 전달
+			// emailSending2(emailContent);
+			// 전송 여부 확인 용
+            boolean emailResult = emailSending2(emailContent);
+            if(emailResult==true) {
+               System.out.println("이메일 전송 성공");
+               sendResult = "이메일 전송 성공";
+            }
+            else {
+               System.out.println("이메일 전송 실패");
+               sendResult = "이메일 전송 실패";
+            }
+        }
+		// 컨트롤러에서 즉시 전송 결과 출력
+        resp.setContentType("text/html; charset=utf-8");
+        // 전송 완료 후 뜨는 페이지에 뜨자마자 닫는 script 태그 삽입
+        resp.getWriter().write("<script src=\"https://code.jquery.com/jquery-3.6.0.js\" integrity=\"sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=\" crossorigin=\"anonymous\"></script>\r\n"
+        		+ "<script>\r\n"
+        		+ "$(document).ready(function(){\r\n"
+        		+ "	self.close();\r\n"
+        		+ "});\r\n"
+        		+ "</script>");
+        // resp.getWriter().write(sendResult);
+	}
 	
 	//시터 후기
 	@RequestMapping("/Petsitters/sitterreview")
@@ -434,6 +683,9 @@ public class PetSitterController {
 		parameterDTO.setTyptag(typtag);
 		parameterDTO.setCount(count);
 		
+		String price = req.getParameter("pr");
+		parameterDTO.setPrice(price);
+		
 		int totalCount = sqlSession.getMapper(PetSitterDAOImpl.class).searchCount(parameterDTO);
 		model.addAttribute("total", totalCount);
 		System.out.println("전체 개수 : " + totalCount);
@@ -533,6 +785,9 @@ public class PetSitterController {
 		System.out.println("타입 개수 : " + count);
 		parameterDTO.setTyptag(typtag);
 		parameterDTO.setCount(count);
+		
+		String price = req.getParameter("pr");
+		parameterDTO.setPrice(price);
 		
 		int totalCount = sqlSession.getMapper(PetSitterDAOImpl.class).searchCount(parameterDTO);
 		System.out.println("전체 개수 : " + totalCount);

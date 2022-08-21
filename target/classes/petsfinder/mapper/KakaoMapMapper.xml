@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="petsfinder.map.MapDAOImpl">
+	
+	<!-- 유기동물 신고폼에서 DB로 데이터 저장 -->
+	<insert id="write">
+  		INSERT INTO abandonedanimal (abani_idx, abani_kind, abani_gender, abani_loc, abani_regdate, abani_neut, abani_stat, abani_photo, abani_age, abani_vaccin, abani_species, abani_char)
+  		VALUES
+  		(seq_abani_idx.nextval, '아메리칸 숏헤어', 'M', #{ address }
+                                , '2022-07-15', '1', 'prtct', '_', '3살', 1, 'cat', '큰 눈이 특징이며, 추위나 더위에 약합니다. 까망이 입니다.')
+  	</insert>
+</mapper>

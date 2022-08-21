@@ -249,7 +249,43 @@ public class PetSitterDTO {
 	private String sbook_start;
 	// 예약 마지막일
 	private String sbook_end;
+	//시터와 회원의 이름을 각각 뽑기 위한 변수
+	private String s_name;
+	private String b_name;
+	//예약상태
+	private String sbook_status;
+	// 예약한 반려동물 크기 및 종류
+	private String p_cellData;
+	// 예약한 합계 금액
+	private String totalPrice;
+	// 예약 한 날짜
+	private String sbook_date;
+	
+	public String getSbook_date() {
+		return sbook_date;
+	}
+	public void setSbook_date(String sbook_date) {
+		this.sbook_date = sbook_date;
+	}
+	public String getP_cellData() {
+		return p_cellData;
+	}
+	public void setP_cellData(String p_cellData) {
+		this.p_cellData = p_cellData;
+	}
+	public String getTotalPrice() {
+		return totalPrice;
+	}
+	public void setTotalPrice(String totalPrice) {
+		this.totalPrice = totalPrice;
+	}
 
+	public String getSbook_status() {
+		return sbook_status;
+	}
+	public void setSbook_status(String sbook_status) {
+		this.sbook_status = sbook_status;
+	}
 	public int getSbook_idx() {
 		return sbook_idx;
 	}
@@ -267,6 +303,18 @@ public class PetSitterDTO {
 	}
 	public void setSbook_end(String sbook_end) {
 		this.sbook_end = sbook_end;
+	}
+	public String getS_name() {
+		return s_name;
+	}
+	public void setS_name(String s_name) {
+		this.s_name = s_name;
+	}
+	public String getB_name() {
+		return b_name;
+	}
+	public void setB_name(String b_name) {
+		this.b_name = b_name;
 	}
 	
 	

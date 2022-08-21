@@ -78,7 +78,7 @@
 		    pet_idx, pet_age, pet_name, pet_gender
 		from 
 		    sitter s
-		inner join 
+		left outer join 
 			pet p on s.member_idx = p.member_idx 
 		inner join 
 			member m on s.member_idx = m.member_idx
@@ -200,7 +200,19 @@
 
 	<!-- 예약 등록 -->
 	<insert id="reserve" parameterType="petsfinder.petsitter.PetSitterDTO">
-		insert into sit_book values (seq_sit_book_idx.nextval, #{ sit_idx }, #{ sbook_start }, #{ sbook_end } )
+		insert into sit_book 
+			( 
+			sbook_idx, 
+			sit_idx, 
+			member_idx, 
+			sbook_start, 
+			sbook_end, 
+			p_cellData, 
+			totalPrice
+			)
+		values 
+			(SEQ_sbook_idx.NEXTVAL, #{ sit_idx }, #{ member_idx }, #{ sbook_start }, 
+			#{sbook_end}, #{p_cellData}, #{totalPrice} )
 	</insert>
 
 	<!-- 리스트 -->
@@ -239,10 +251,11 @@
 			                sit_idx
 			            FROM
 			                sit_book 
-			            WHERE 
+			            WHERE (
 			                (sbook_start <![CDATA[<=]]> #{ sbook_start1 } AND sbook_end <![CDATA[>]]> #{ sbook_start2 }) 
 				            OR 
 				            (sbook_start <![CDATA[<]]> #{ sbook_end1 } AND sbook_end <![CDATA[>=]]> #{ sbook_end2 })
+				            ) and sbook_status not in ('can')
 			        ) 
 				<if test="typtag != null and !typtag.isEmpty()">
 			        AND s.sit_idx IN (
@@ -271,9 +284,14 @@
 		            )
                 </if>
 			</if>
+			<if test="price != null and price == 1">
+				ORDER BY s_fee ASC
+			</if>
+			<if test="price == null or price != 1">
 			    ORDER BY s.sit_idx DESC
-			    ) a
-			)
+			</if>
+		    ) a
+		)
 		WHERE rNum BETWEEN #{ start } AND #{ end }
 	</select>
 
@@ -307,10 +325,11 @@
 	                sit_idx
 	            FROM
 	                sit_book 
-	            WHERE
+	            WHERE (
 	                (sbook_start <![CDATA[<=]]> #{ sbook_start1 } AND sbook_end <![CDATA[>]]> #{ sbook_start2 }) 
 		            OR 
 		            (sbook_start <![CDATA[<]]> #{ sbook_end1 } AND sbook_end <![CDATA[>=]]> #{ sbook_end2 })
+		            ) and sbook_status not in ('can')
             )
             <if test="typtag != null and !typtag.isEmpty()">
 		        AND s.sit_idx IN (
@@ -395,4 +414,7 @@
 		DELETE FROM sitter_photo WHERE sit_idx = #{ sit_idx }
 	</delete>
 
+	<select id="u_sitIdx" resultType="int">
+		select sit_idx from sitter where sit_title = #{ sit_title }
+	</select>
 </mapper>

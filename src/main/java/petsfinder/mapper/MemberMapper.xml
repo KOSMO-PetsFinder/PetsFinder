@@ -73,5 +73,84 @@
 		select member_addr from member where member_idx = #{ member_idx }
 	</select>
 	
+	<select id="adpReview" resultType="petsfinder.review.ReviewBoardDTO">
+		select rb.*, member_name member_namer, member_photo from review_board rb left outer join member m on rb.member_idx = m.member_idx where review_flag = 'adp' and m.member_idx = #{ param1 }
+	</select>
+	
+	<select id="sitReview" resultType="petsfinder.review.ReviewBoardDTO">
+		select rb.*, member_name member_namer, member_photo from review_board rb left outer join member m on rb.member_idx = m.member_idx where review_flag = 'sit' and m.member_idx = #{ param1 }
+	</select>
+	
+	<select id="myReview" resultType="petsfinder.review.ReviewBoardDTO">
+		select rb.*, member_name member_namer, member_photo from review_board rb left outer join member m on rb.member_idx = m.member_idx where review_idx = #{ param1 }
+	</select>
+	
+	<update id="review_up">
+		update review_board set review_content = #{ param1 }, review_regdate = sysdate where review_idx = #{ param2 }
+	</update>
+	
+	<delete id="review_del">
+		delete from review_board where review_idx = #{ param1 }
+	</delete>
+	
+	<select id="m_Reserve" resultType="petsfinder.petsitter.PetSitterDTO">
+		SELECT 
+		    sbook_idx, sb.sit_idx, sbook_date, to_char(sbook_start, 'yyyy-mm-dd') sbook_start, to_char(sbook_end, 'yyyy-mm-dd') sbook_end,
+		    sbook_status, p_celldata, totalprice, sb.member_idx member_idx, member_name, sit_addr
+		FROM 
+		    sit_book sb
+		INNER JOIN
+		    sitter s
+		ON
+		    sb.sit_idx = s.sit_idx
+		INNER JOIN
+		    member m
+		ON
+		    s.member_idx = m.member_idx
+		WHERE 
+		    sb.member_idx = #{ member_idx }
+		ORDER BY sbook_start asc
+	</select>
+	
+	<update id="up_Reserve">
+		UPDATE sit_book SET sbook_status = #{ param1 } WHERE sbook_idx = #{ param2 }
+	</update>
+	
+	<insert id="reviewWrite" parameterType="petsfinder.review.ReviewBoardDTO">
+		INSERT INTO review_board (
+			review_idx, review_content, review_regdate, review_flag, member_idx,
+			<!-- <if test="!review_photo.equals('') and review_photo != null">
+				review_photo,
+			</if> -->
+			<choose>
+				<when test="review_flag.equals('adp')">
+					abani_idx
+				</when>
+				<when test="review_flag.equals('sit')">
+					sit_idx
+				</when>
+				<when test="review_flag.equals('shp')">
+					product_idx
+				</when>
+			</choose>
+			
+		) VALUES (seq_review_idx.nextval, #{ review_content }, sysdate, #{ review_flag }, #{ member_idx },
+			<!-- <if test="!review_photo.equals('') and review_photo != null">
+				#{ review_photo },
+			</if> -->
+			<choose>
+				<when test="review_flag.equals('adp')">
+					#{ abani_idx }
+				</when>
+				<when test="review_flag.equals('sit')">
+					#{ sit_idx }
+				</when>
+				<when test="review_flag.equals('shp')">
+					#{ product_idx }
+				</when>
+			</choose>
+			)
+	</insert>
+	
 </mapper>
 

@@ -10,15 +10,17 @@
    <select id="abandonedAnimalView" resultType="petsfinder.abandonedanimal.AbandonedAnimalDTO"
   		parameterType="petsfinder.abandonedanimal.AbandonedAnimalDTO">
   		select 
-		    a.*, NVL(b.member_idx, 0) adoptmember_idx, 
-		    decode(a.abani_gender,'F','암컷','M','수컷','불명') abani_gender1 
+		    a.abani_idx, abani_kind, abani_loc, abani_regdate, abani_neut, abani_stat,
+		    abani_photo, abani_age, abani_vaccin, abani_species, abani_char, 
+		    NVL(b.member_idx, 0) adoptmember_idx, 
+		    decode(a.abani_gender,'F','암컷','M','수컷','불명') abani_gender
 		from 
 		    abandonedAnimal a 
 		left OUTER JOIN 
 		    ADOPTION_list b 
 		on 
-		    a.abani_idx=b.abani_idx 
-		where a.abani_idx=#{abani_idx}
+		    a.abani_idx = b.abani_idx 
+		where a.abani_idx = #{ abani_idx }
    </select>
   	
   	<!-- 유기동물 전체 수 가져오기 -->

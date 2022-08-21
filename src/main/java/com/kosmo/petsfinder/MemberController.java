@@ -10,6 +10,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -41,6 +42,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import fileupload.FileUtil;
 import petsfinder.member.MemberDAOImpl;
 import petsfinder.member.MemberDTO;
+import petsfinder.petsitter.PetSitterDTO;
+import petsfinder.review.ReviewBoardDTO;
 import petsfinder.utils.CookieManager;
 import smtp.SMTPAuth;
 
@@ -173,8 +176,13 @@ public class MemberController {
 	        	e.printStackTrace();
 	        }
 	    }
-
-		return "redirect:./";
+	    String backUrl = req.getParameter("backUrl");
+		if(backUrl == null || backUrl.equals("")) {
+			return "redirect:./";
+		} else {
+			return "redirect:" + backUrl;
+		}
+		
 	}
 	
 	@RequestMapping(value="/Login", method = RequestMethod.POST)
@@ -201,8 +209,15 @@ public class MemberController {
 			}
 			
 			model.addAttribute("dto", dto);
-			return "redirect:./";
+			String backUrl = req.getParameter("backUrl");
+			if(backUrl == null || backUrl.equals("")) {
+				return "redirect:./";
+			} else {
+				return "redirect:" + backUrl;
+			}
 		} else {
+			String backUrl = req.getParameter("backUrl");
+			model.addAttribute("backUrl", backUrl);
 			return "redirect:./Login";
 		}
 	}
@@ -454,7 +469,7 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/pw_Reset", method = RequestMethod.POST)
-	public String pw_Reset(Model model, HttpServletRequest req, HttpServletResponse resp) {
+	public String pw_Reset(Model model, HttpServletRequest req, HttpServletResponse resp, HttpSession session) {
 		
 		String resetPass = req.getParameter("pass2");
 		String id = req.getParameter("id");
@@ -469,7 +484,17 @@ public class MemberController {
 		
 		if(result == 1) {
 			System.out.println("비밀번호 변경 성공");
-			return "redirect:./Login";
+			if (session.getAttribute("idx") == null)
+				return "redirect:./Login";
+			else {
+				String backUrl = req.getParameter("backUrl");
+				if(backUrl == null || backUrl.equals("")) {
+					return "redirect:./Login";
+				} else {
+					return "default";
+				}
+			}
+				
 		} else {
 			System.out.println("비밀번호 변경 실패");
 			return "redirect:./pw_Reset";
@@ -493,7 +518,9 @@ public class MemberController {
 		String checkPass = sqlSession.getMapper(MemberDAOImpl.class).pwSearch(dto);
 		if(checkPass.equals(pass)) {
 			if(mode.equals("p")) {
-				return "pw_Reset";
+				String backUrl = req.getParameter("backUrl");
+				model.addAttribute("backUrl", backUrl);
+				return "myPw_Reset";
 			} else if(mode.equals("i")) {
 				MemberDTO mto = sqlSession.getMapper(MemberDAOImpl.class).memberLogin(dto);
 				String email1 = mto.getMember_email().split("@")[0];
@@ -570,5 +597,167 @@ public class MemberController {
 		}
 	}
 	
+	@RequestMapping("/myReview")
+	public String myReview(Model model, HttpSession session, HttpServletRequest req) {
+		
+		if (session.getAttribute("idx") == null) {
+			return "redirect:./Login";
+		} else {
+			int member_idx = Integer.parseInt(session.getAttribute("idx").toString());
+			String mode = req.getParameter("mode");
+			if (mode.equals("adp")) {
+				
+				ArrayList<ReviewBoardDTO> adpReview = sqlSession.getMapper(MemberDAOImpl.class).adpReview(member_idx);
+				if(!adpReview.isEmpty()) {
+					for(ReviewBoardDTO dto : adpReview){
+						String temp = dto.getReview_content().replace("\r\n", "<br/>");
+						dto.setReview_content(temp);
+					}
+					model.addAttribute("adp", adpReview);
+				}
+				model.addAttribute("mode", mode);
+				
+			} else if (mode.equals("sit")) {
+				
+				ArrayList<ReviewBoardDTO> sitReview = sqlSession.getMapper(MemberDAOImpl.class).sitReview(member_idx);
+				if(!sitReview.isEmpty()) {
+					for(ReviewBoardDTO dto : sitReview){
+						String temp = dto.getReview_content().replace("\r\n", "<br/>");
+						dto.setReview_content(temp);
+					}
+					model.addAttribute("sit", sitReview);
+				}
+				model.addAttribute("mode", mode);
+				
+			} else if (mode.equals("shop")) {
+				
+			} else if (mode.equals("up")) {
+				
+				int review_idx = Integer.parseInt(req.getParameter("review_idx"));
+				String r_where = req.getParameter("r");
+				ReviewBoardDTO myReview = sqlSession.getMapper(MemberDAOImpl.class).myReview(review_idx);
+				model.addAttribute("myReview", myReview);
+				model.addAttribute("r", r_where);
+				
+			} else if (mode.equals("del")) {
+				
+				int review_idx = Integer.parseInt(req.getParameter("review_idx"));
+				
+				int result = sqlSession.getMapper(MemberDAOImpl.class).review_del(review_idx);
+				
+				if (result == 1)
+					System.out.println("마이리뷰 삭제 성공");
+				else
+					System.out.println("마이리뷰 삭제 실패");
+			} 
+			
+			return "myReview";
+		}
+	}
 	
+	@RequestMapping(value="/upReview", method = RequestMethod.POST)
+	public String upReview(HttpServletRequest req) {
+		
+		int review_idx = Integer.parseInt(req.getParameter("review_idx"));
+		String r_where = req.getParameter("r_where");
+		System.out.println(r_where);
+		String review_content = req.getParameter("review_content");
+		
+		int result = sqlSession.getMapper(MemberDAOImpl.class).review_up(review_content, review_idx);
+		
+		if (result == 1) {
+			System.out.println("마이리뷰 수정 성공");
+			if (r_where.equals("adp")) {
+				return "redirect:./myReview?mode=adp";
+			} else if (r_where.equals("sit")) {
+				return "redirect:./myReview?mode=sit";
+			}
+		}
+		else {
+			System.out.println("마이리뷰 수정 실패");
+		}
+		
+		return "myReview";
+	}
+	
+	@RequestMapping("/myReserve")
+	public String myReserve(Model model, HttpSession session) {
+		
+		if (session.getAttribute("idx") == null) {
+			return "redirect:./Login";
+		} else {
+			
+			int member_idx = Integer.parseInt(session.getAttribute("idx").toString());
+			ArrayList<PetSitterDTO> m_Reserve = sqlSession.getMapper(MemberDAOImpl.class).m_Reserve(member_idx);
+			
+			model.addAttribute("m_Reserve", m_Reserve);
+			return "myReserve";
+		}
+	}
+	
+	@RequestMapping("/up_Reserve")
+	public String up_Reserve(Model model, HttpSession session, HttpServletRequest req) {
+		
+		if (session.getAttribute("idx") == null) {
+			return "redirect:./Login";
+		} else {
+			
+			String mode = req.getParameter("mode");
+			if (mode.equals("up")) {
+				int sbook_idx = Integer.parseInt(req.getParameter("sbook_idx"));
+				sqlSession.getMapper(MemberDAOImpl.class).up_Reserve("fix", sbook_idx);
+				return "redirect:./myReserve";
+			} else if (mode.equals("cn")) {
+				int sbook_idx = Integer.parseInt(req.getParameter("sbook_idx"));
+				sqlSession.getMapper(MemberDAOImpl.class).up_Reserve("can", sbook_idx);
+				return "redirect:./myReserve";
+			} else {
+				String n = req.getParameter("m");
+				String s = req.getParameter("ss");
+				String e = req.getParameter("se");
+				String sit_idx = req.getParameter("i");
+				model.addAttribute("n", n);
+				model.addAttribute("s", s);
+				model.addAttribute("e", e);
+				model.addAttribute("sit_idx", sit_idx);
+				model.addAttribute("flag", "sit");
+				return "reviewWrite";
+			}
+			
+		}
+	}
+	
+	@RequestMapping("/reviewWrite")
+	public String reviewWrite(HttpSession session, HttpServletRequest req) {
+		
+		if (session.getAttribute("idx") != null) {
+
+			int member_idx = Integer.parseInt(session.getAttribute("idx").toString());
+			String review_flag = req.getParameter("flag");
+			String review_content = req.getParameter("review_content");
+			ReviewBoardDTO dto = new ReviewBoardDTO();
+			dto.setMember_idx(member_idx);
+			dto.setReview_flag(review_flag);
+			dto.setReview_content(review_content);
+			
+			if (review_flag.equals("adp")) {
+				
+				return "redirect:./myReview?mode=adp";
+			} else if (review_flag.equals("sit")) {
+				
+				int sit_idx = Integer.parseInt(req.getParameter("sit_idx"));
+				dto.setSit_idx(sit_idx);
+				
+				sqlSession.getMapper(MemberDAOImpl.class).reviewWrite(dto);
+				
+				return "redirect:./myReview?mode=sit";
+			} else {
+				
+				return "redirect:./myReview?mode=shop";
+			}
+		} else {
+			return "redirect:./Login";
+		}
+
+	}
 }
