@@ -1,4 +1,4 @@
-package petsfinder.shop;
+ package petsfinder.shop;
 //payList
 public class BuyOrCartDTO {
 	private String subM; //장바구니,카트
@@ -98,3 +98,4 @@ public class BuyOrCartDTO {
 	
 	
 }
+

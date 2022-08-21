@@ -30,3 +30,4 @@ public interface ShopDAOImpl {
 	public int cartCount(int member_idx);
 	
 }
+

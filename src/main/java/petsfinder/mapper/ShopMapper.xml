@@ -143,7 +143,7 @@
 		INSERT INTO cart( cart_idx,	product_idx, member_idx, product_quanity )
 							VALUES(	SEQ_cart_idx.nextval, #{product_idx}, #{member_idx}, #{product_quanity})
 	</insert>
-	
+
 	<update id="updateCart" parameterType="petsfinder.shop.CartDTO">
 		UPDATE cart SET product_quanity = product_quanity + #{ product_quanity } WHERE product_idx = #{ product_idx } and member_idx = #{ member_idx }
 	</update>

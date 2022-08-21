@@ -31,7 +31,7 @@ import petsfinder.shop.ShopDAOImpl;
 public class ShopController {
 	@Autowired
 	private SqlSession sqlSession;
-	
+
 	// SHOP
 	@RequestMapping("/Shop")
 	public String shopMain(HttpServletRequest req, Model model) {
