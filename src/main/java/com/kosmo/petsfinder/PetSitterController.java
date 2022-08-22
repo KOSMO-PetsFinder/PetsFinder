@@ -205,9 +205,15 @@ public class PetSitterController {
 		int sit_idx = Integer.parseInt(req.getParameter("sit_idx"));
 		
 		//Sitter 테이블 정보 추출
-
 		PetSitterDTO sitterView = sqlSession.getMapper(PetSitterDAOImpl.class).sitterView(sit_idx);
-		
+		double sp = sitterView.getSit_starpoint();
+		double sc = sitterView.getSit_starcount();
+		// 확인용
+		double s = (sp / sc);
+		System.out.println(s);
+		// 출력용
+		int star = (int) Math.round(sp / sc);
+		System.out.println(star);
 		// Sitter 사진
 		ArrayList<PetSitterDTO> sit_photo = sqlSession.getMapper(PetSitterDAOImpl.class).sit_photo(sit_idx);
 		model.addAttribute("sit_photo", sit_photo);
@@ -254,6 +260,7 @@ public class PetSitterController {
 
 		model.addAttribute("stReview", stReview);
 		model.addAttribute("sitterView",sitterView);
+		model.addAttribute("star", star);
 		model.addAttribute("petSitterDTO", petSitterDTO);
 		model.addAttribute("reviewCommLists",reviewCommLists);
 		model.addAttribute("revState",revState);

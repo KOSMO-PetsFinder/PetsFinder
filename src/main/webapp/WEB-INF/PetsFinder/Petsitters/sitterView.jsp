@@ -110,7 +110,7 @@
 						<div>
 							<div class="wrapper">
 								<div>
-								<input type="hidden" value="${member_idx }"/>
+								<input type="hidden" value="${ member_idx }"/>
 									<div
 										style="z-index: 1; width: 100px; height: 36px; display: flex; align-items: center; justify-content: center; border: 1px solid rgb(223, 227, 234); border-radius: 3px; position: absolute; top: 109px; right: 24px; background-color: white; cursor: pointer; user-select: none;">
 										<img width="22" height="22"
@@ -328,16 +328,9 @@
 															<!-- 별점부분 -->
 															<div
 																style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 113px;">
-																<img width="18" height="18"
-																	src="<c:url value='/'/>sitterView/star_1.png"><img
-																	width="18" height="18"
-																	src="<c:url value='/'/>sitterView/star_1.png"><img
-																	width="18" height="18"
-																	src="<c:url value='/'/>sitterView/star_1.png"><img
-																	width="18" height="18"
-																	src="<c:url value='/'/>sitterView/star_1.png"><img
-																	width="18" height="18"
-																	src="<c:url value='/'/>sitterView/star_1.png">
+																<c:forEach begin="1" end="${ star }">
+																<img width="18" height="18"	src="<c:url value='/'/>sitterView/star_1.png" />
+																</c:forEach>
 															</div>
 														</div>
 														<!-- 안건드릴 사진부분 -->
@@ -536,8 +529,6 @@
 																<p style="font-size: 15px; line-height: 25px; color: rgb(76, 80, 86); margin-top: 18px;">${ sr.review_content}</p>
 																<div style="display: flex; flex-direction: row; margin-top: 33px;">
 																	<img width="90" height="90" src="<c:url value='/' />Uploads/${ sr.review_photo }" style="border-radius: 2px; object-fit: cover; margin-right: 9px; user-select: none; cursor: pointer;">
-																	<img width="90" height="90" src="<c:url value='/' />Uploads/${ sr.review_photo }" style="border-radius: 2px; object-fit: cover; margin-right: 9px; user-select: none; cursor: pointer;">
-																	<img width="90" height="90" src="<c:url value='/'/>Uploads/${ sr.review_photo }" style="border-radius: 2px; object-fit: cover; margin-right: 9px; user-select: none; cursor: pointer;">
 																	<div style="display: flex; flex-direction: column-reverse; margin-left:auto;  float: right; vertical-align:bottom; padding-bottom: 10px;">
 																			<p onclick="com_view${sr.review_idx}()" style="cursor: pointer; color:#75c9ba;" >
 																				댓글보기

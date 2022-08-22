@@ -260,7 +260,15 @@ public class PetSitterDTO {
 	private String totalPrice;
 	// 예약 한 날짜
 	private String sbook_date;
+	// 예약 리뷰 작성 체크
+	private int review_check;
 	
+	public int getReview_check() {
+		return review_check;
+	}
+	public void setReview_check(int review_check) {
+		this.review_check = review_check;
+	}
 	public String getSbook_date() {
 		return sbook_date;
 	}

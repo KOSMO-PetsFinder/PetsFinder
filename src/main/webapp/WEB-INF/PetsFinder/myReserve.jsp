@@ -23,6 +23,8 @@ textarea {
     outline: none;
 }
 </style>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <div style="display: flex; justify-content: right; color: #CCCCCC; padding-top: 55px; margin-top: 50px">
 	<img src="./images/mypage_color.png" alt="" style="width:30px; height:25px; padding-right: 5px">
 	<p style="margin-top:9px;">마이페이지 > 신청/이용 내역 > 시터 이용 내역</p>
@@ -73,8 +75,13 @@ textarea {
 				<a href="./up_Reserve?mode=up&sbook_idx=${ mr.sbook_idx }" style="padding-right: 10px">예약 확정</a>
 				<a href="./up_Reserve?mode=cn&sbook_idx=${ mr.sbook_idx }">예약 취소</a>
 				</c:when>
-				<c:when test="${ mr.sbook_status eq 'fix'}">
-				<a href="./up_Reserve?mode=latter&m=${ mr.member_name }&ss=${ mr.sbook_start }&se=${ mr.sbook_end }&i=${ mr.sit_idx }">후기쓰기</a>
+				<c:when test="${ mr.sbook_status eq 'fix' and mr.review_check eq 0}">
+				<script>
+				function check() {
+					alert("리뷰 작성은 1번만 가능합니다!");
+				}
+				</script>
+				<a href="./up_Reserve?mode=latter&m=${ mr.member_name }&ss=${ mr.sbook_start }&se=${ mr.sbook_end }&i=${ mr.sit_idx }&sbook_idx=${mr.sbook_idx}" onclick="check();">후기쓰기</a>
 				</c:when>
 				<c:when test="${ mr.sbook_status eq 'can'}">
 				</c:when>

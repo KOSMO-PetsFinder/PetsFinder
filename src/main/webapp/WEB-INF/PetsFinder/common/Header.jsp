@@ -23,7 +23,7 @@
       gtag("config", "UA-164229575-1");
     </script>
 
-    <title>Header</title>
+    <title>PetsFinder</title>
 	
 	<link rel="stylesheet" href="<c:url value='/' />css/main2.css" type="text/css" />
 	<link rel="stylesheet" href="<c:url value='/' />css/reset.css" type="text/css" />

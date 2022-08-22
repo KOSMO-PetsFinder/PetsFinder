@@ -26,7 +26,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="<c:url value='/' />css/calendar.css">
-<title>Petsitters</title>
+<title>PetsFinder</title>
 <style>
 * {
 	font-family: 'BM JUA_TTF';

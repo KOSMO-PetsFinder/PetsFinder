@@ -561,7 +561,7 @@ public class MemberController {
 		MemberDTO dto = new MemberDTO();
 		
 		String fileName = mr.getFile("ofile").toString();
-		if ( fileName != null) {
+		if ( !fileName.split("filename=")[1].split(",")[0].equals("")) {
 			String path = req.getSession().getServletContext().getRealPath("/resources/Uploads");
 			
 			MultipartFile mfile = null;
@@ -647,6 +647,20 @@ public class MemberController {
 				
 				if (result == 1)
 					System.out.println("마이리뷰 삭제 성공");
+//					System.out.println(review_idx);
+//					int effect = sqlSession.getMapper(MemberDAOImpl.class).review_on(review_idx);
+//					if (effect == 1) {
+//						System.out.println("후기 체크 0 변경 성공");
+//						sqlSession.getMapper(MemberDAOImpl.class).r_idxDel(review_idx);
+//					} else {
+//						System.out.println("후기 체크 0 변경 실패");
+//					}
+					String r_where = req.getParameter("r");
+					if (r_where.equals("adp")) {
+						return "redirect:./myReview?mode=adp";
+					} else if (r_where.equals("sit")) {
+						return "redirect:./myReview?mode=sit";
+					}
 				else
 					System.out.println("마이리뷰 삭제 실패");
 			} 
@@ -656,14 +670,40 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/upReview", method = RequestMethod.POST)
-	public String upReview(HttpServletRequest req) {
+	public String upReview(HttpServletRequest req, MultipartHttpServletRequest mr) {
 		
 		int review_idx = Integer.parseInt(req.getParameter("review_idx"));
 		String r_where = req.getParameter("r_where");
 		System.out.println(r_where);
 		String review_content = req.getParameter("review_content");
+		ReviewBoardDTO dto = new ReviewBoardDTO();
+		dto.setReview_idx(review_idx);
+		dto.setReview_content(review_content);
+		// 사진 넣기
+		String fileName = mr.getFile("ofile").toString();
+		// 파일명 확인
+		System.out.println("파일명 : " + fileName.split("filename=")[1].split(",")[0]);
+		// 파일명이 ""이 아니면 업로드 및 DTO에 셋팅
+		if ( !fileName.split("filename=")[1].split(",")[0].equals("") ) {
+			String path = req.getSession().getServletContext().getRealPath("/resources/Uploads");
+			
+			MultipartFile mfile = null;
+			try {
+				Iterator itr = mr.getFileNames();
+				if(itr.hasNext()) {
+					mfile = mr.getFile(itr.next().toString());
+					String originalName = new String(mfile.getOriginalFilename().getBytes(), "UTF-8");
+					String ext = originalName.substring(originalName.lastIndexOf('.'));
+					String saveFileName = FileUtil.getUuid() + ext;
+					mfile.transferTo(new File(path + File.separator + saveFileName));
+					dto.setReview_photo(saveFileName);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		
-		int result = sqlSession.getMapper(MemberDAOImpl.class).review_up(review_content, review_idx);
+		int result = sqlSession.getMapper(MemberDAOImpl.class).review_up(dto);
 		
 		if (result == 1) {
 			System.out.println("마이리뷰 수정 성공");
@@ -702,15 +742,17 @@ public class MemberController {
 			return "redirect:./Login";
 		} else {
 			
+			int sbook_idx = Integer.parseInt(req.getParameter("sbook_idx"));
 			String mode = req.getParameter("mode");
+			// 예약 확정
 			if (mode.equals("up")) {
-				int sbook_idx = Integer.parseInt(req.getParameter("sbook_idx"));
 				sqlSession.getMapper(MemberDAOImpl.class).up_Reserve("fix", sbook_idx);
 				return "redirect:./myReserve";
+			// 예약 취소
 			} else if (mode.equals("cn")) {
-				int sbook_idx = Integer.parseInt(req.getParameter("sbook_idx"));
 				sqlSession.getMapper(MemberDAOImpl.class).up_Reserve("can", sbook_idx);
 				return "redirect:./myReserve";
+			// 후기 쓰기
 			} else {
 				String n = req.getParameter("m");
 				String s = req.getParameter("ss");
@@ -720,25 +762,91 @@ public class MemberController {
 				model.addAttribute("s", s);
 				model.addAttribute("e", e);
 				model.addAttribute("sit_idx", sit_idx);
+				model.addAttribute("sbook_idx", sbook_idx);
 				model.addAttribute("flag", "sit");
-				return "reviewWrite";
+				return "star";
 			}
 			
 		}
 	}
-	
+	@RequestMapping(value="/starReview", method=RequestMethod.POST)
+    public String starReview(HttpServletRequest req, Model model) {
+    	
+    	int sit_starpoint = Integer.parseInt(req.getParameter("sit_starpoint"));
+    	int sit_idx = Integer.parseInt(req.getParameter("sit_idx"));
+    	
+    	PetSitterDTO dto = new PetSitterDTO();
+    	dto.setSit_starpoint(sit_starpoint);
+    	dto.setSit_idx(sit_idx);
+    	int result =sqlSession.getMapper(MemberDAOImpl.class).plusStar(sit_starpoint,sit_idx);
+    	
+    	if(result ==1) {
+    		System.out.println("별점 삽입 성공");
+    		String n = req.getParameter("m_name");
+			String s = req.getParameter("start");
+			String e = req.getParameter("end");
+			String flag = req.getParameter("flag");
+			int sbook_idx = Integer.parseInt(req.getParameter("sbook_idx"));
+			System.out.println(sbook_idx);
+//			int effect = sqlSession.getMapper(MemberDAOImpl.class).sbook_review(sbook_idx);
+//			if (effect == 1) {
+//				System.out.println("리뷰 idx 생성 성공");
+//				int review_idx = sqlSession.getMapper(MemberDAOImpl.class).r_idx(sbook_idx);
+				model.addAttribute("n", n);
+				model.addAttribute("s", s);
+				model.addAttribute("e", e);
+				model.addAttribute("sit_idx", sit_idx);
+				model.addAttribute("sbook_idx", sbook_idx);
+//				model.addAttribute("review_idx", review_idx);
+				model.addAttribute("flag", flag);
+				return "reviewWrite";
+//			} else {
+//				return "reviewWrite";
+//			}
+    	}else {
+    		System.out.println("별점 삽입 실패");
+    		return "redirect:./starReview";
+    	}
+    }
 	@RequestMapping("/reviewWrite")
-	public String reviewWrite(HttpSession session, HttpServletRequest req) {
+	public String reviewWrite(HttpSession session, HttpServletRequest req, MultipartHttpServletRequest mr) {
 		
 		if (session.getAttribute("idx") != null) {
 
 			int member_idx = Integer.parseInt(session.getAttribute("idx").toString());
 			String review_flag = req.getParameter("flag");
 			String review_content = req.getParameter("review_content");
+			int sbook_idx = Integer.parseInt(req.getParameter("sbook_idx"));
+//			int review_idx = Integer.parseInt(req.getParameter("review_idx"));
 			ReviewBoardDTO dto = new ReviewBoardDTO();
 			dto.setMember_idx(member_idx);
 			dto.setReview_flag(review_flag);
 			dto.setReview_content(review_content);
+//			dto.setReview_idx(review_idx);
+			
+			// 사진 넣기
+			String fileName = mr.getFile("ofile").toString();
+			// 파일명 확인
+			System.out.println("파일명 : " + fileName.split("filename=")[1].split(",")[0]);
+			// 파일명이 ""이 아니면 업로드 및 DTO에 셋팅
+			if ( !fileName.split("filename=")[1].split(",")[0].equals("") ) {
+				String path = req.getSession().getServletContext().getRealPath("/resources/Uploads");
+				
+				MultipartFile mfile = null;
+				try {
+					Iterator itr = mr.getFileNames();
+					if(itr.hasNext()) {
+						mfile = mr.getFile(itr.next().toString());
+						String originalName = new String(mfile.getOriginalFilename().getBytes(), "UTF-8");
+						String ext = originalName.substring(originalName.lastIndexOf('.'));
+						String saveFileName = FileUtil.getUuid() + ext;
+						mfile.transferTo(new File(path + File.separator + saveFileName));
+						dto.setReview_photo(saveFileName);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 			
 			if (review_flag.equals("adp")) {
 				
@@ -748,8 +856,15 @@ public class MemberController {
 				int sit_idx = Integer.parseInt(req.getParameter("sit_idx"));
 				dto.setSit_idx(sit_idx);
 				
-				sqlSession.getMapper(MemberDAOImpl.class).reviewWrite(dto);
+				int result = sqlSession.getMapper(MemberDAOImpl.class).reviewWrite(dto);
 				
+				if (result == 1) {
+					System.out.println("후기 쓰기 성공");
+					sqlSession.getMapper(MemberDAOImpl.class).review_off(sbook_idx);
+					
+				} else {
+					System.out.println("후기 쓰기 실패");
+				}
 				return "redirect:./myReview?mode=sit";
 			} else {
 				

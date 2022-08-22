@@ -5,23 +5,21 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>PetsFinder</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <style>
 *{
 	font-family: 'BM JUA_TTF';
 }
-a {
-	text-decoration: none;
-	color: #75c9ba
-}
 textarea {
 	font-size: 1.2em; 
 	width: 100%; 
 	height: 300px; 
-	border: 0;
-	font-family: 'BM JUA_TTF'; 
+	border: solid 2px #75c9ba;
+	border-radius: 5px;
+	font-family: 'BM JUA_TTF';
 	overflow: hidden; 
 	background:none; 
 	resize:none;
@@ -29,6 +27,11 @@ textarea {
     overflow-y: hidden;
     outline-color: #75c9ba;
     padding-left: 10px
+}
+.file{
+	width:50%;
+	border: solid 2px #75c9ba;
+	margin-top:5px;
 }
 </style>
 <c:if test="${ flag eq 'adp' }">
@@ -50,9 +53,11 @@ textarea {
 		document.reviewFrm.submit();
 	}
 	</script>
-	<form name="reviewFrm" action="./reviewWrite" method="POST">
+	<form name="reviewFrm" action="./reviewWrite" method="POST" enctype="multipart/form-data">
 		<input type="hidden" name="flag" value="${ flag }"/>
 		<input type="hidden" name="sit_idx" value="${ sit_idx }"/>
+		<input type="hidden" name="sbook_idx" value="${ sbook_idx }"/>
+		<input type="hidden" name="review_idx" value="${ review_idx }"/>
 		<c:if test="${ flag eq 'sit' }">
 		<div style="display: flex; flex-direction: row; align-items: center; border-bottom: 1px solid #cccccc;">
 			<div style="margin-left: 18px;">
@@ -66,13 +71,15 @@ textarea {
 		</div>
 		</c:if>
 		<div style="display: flex; flex-direction: row; margin-bottom: 50px; margin-top: 20px">
-			<textarea name="review_content"></textarea>
+			<textarea name="review_content" placeholder="후기를 입력해주세요"></textarea>
 		</div>
+		<input type="file" class="form-control file" name="ofile" />
 		<div style="display: flex; justify-content: flex-end;">
-			<a style="padding-right: 10px; background: none; border: none; cursor: pointer;" onclick="review_write();">작성하기</a>
+			<a style="padding-right: 10px; background: none; border: none; cursor: pointer; color: #75c9ba" onclick="review_write();">작성하기</a>
 		</div>
 	</form>
 	</div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -134,7 +134,7 @@
       </div>
       <!-- right -->
       <div class="container" style="display: flex; justify-content: center;">
-        <iframe src="" name="rightwin" scrolling="auto" frameborder="1" width="1600" height="10000">
+        <iframe src="" name="rightwin" scrolling="auto" frameborder="1" width="1600" height="1000">
         </iframe>
       </div>
     </div>

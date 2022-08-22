@@ -32,7 +32,7 @@ public interface MemberDAOImpl {
 	
 	public ReviewBoardDTO myReview(int review_idx);
 	
-	public int review_up(String review_content, int review_idx);
+	public int review_up(ReviewBoardDTO reviewBoardDTO);
 	
 	public int review_del(int review_idx);
 	
@@ -40,5 +40,15 @@ public interface MemberDAOImpl {
 	
 	public int up_Reserve(String sbook_status, int sbook_idx);
 	
+	public int plusStar(int sit_starpoint, int sit_idx);
+	
+//	public int sbook_review(int sbook_idx);
+//	public int r_idx(int sbook_idx);
+//	public int r_idxDel(int review_idx);
+	
 	public int reviewWrite(ReviewBoardDTO reviewBoardDTO);
+	
+	public int review_on(int review_idx);
+	public int review_off(int sbook_idx);
+	
 }

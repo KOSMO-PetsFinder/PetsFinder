@@ -15,7 +15,7 @@
 	var IMP = window.IMP; // 생략 가능
 	IMP.init("imp81376814"); // 예: imp00000000
 	</script>
-    <title>Document</title>
+    <title>PetsFinder</title>
 </head>
 <style>
     a {

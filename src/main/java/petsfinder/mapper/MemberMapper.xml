@@ -85,8 +85,12 @@
 		select rb.*, member_name member_namer, member_photo from review_board rb left outer join member m on rb.member_idx = m.member_idx where review_idx = #{ param1 }
 	</select>
 	
-	<update id="review_up">
-		update review_board set review_content = #{ param1 }, review_regdate = sysdate where review_idx = #{ param2 }
+	<update id="review_up" parameterType="petsfinder.review.ReviewBoardDTO">
+		update review_board set
+		<if test="review_photo != null">
+			review_photo = #{ review_photo },
+		</if>
+		 review_content = #{ review_content }, review_regdate = sysdate where review_idx = #{ review_idx }
 	</update>
 	
 	<delete id="review_del">
@@ -96,7 +100,7 @@
 	<select id="m_Reserve" resultType="petsfinder.petsitter.PetSitterDTO">
 		SELECT 
 		    sbook_idx, sb.sit_idx, sbook_date, to_char(sbook_start, 'yyyy-mm-dd') sbook_start, to_char(sbook_end, 'yyyy-mm-dd') sbook_end,
-		    sbook_status, p_celldata, totalprice, sb.member_idx member_idx, member_name, sit_addr
+		    sbook_status, p_celldata, totalprice, review_check, sb.member_idx member_idx, member_name, sit_addr
 		FROM 
 		    sit_book sb
 		INNER JOIN
@@ -116,12 +120,16 @@
 		UPDATE sit_book SET sbook_status = #{ param1 } WHERE sbook_idx = #{ param2 }
 	</update>
 	
+	<update id="plusStar" parameterType="int">	
+		update sitter set sit_starcount=sit_starcount+1, sit_starpoint=sit_starpoint+#{param1} where sit_idx=#{param2}
+	</update>
+	
 	<insert id="reviewWrite" parameterType="petsfinder.review.ReviewBoardDTO">
 		INSERT INTO review_board (
 			review_idx, review_content, review_regdate, review_flag, member_idx,
-			<!-- <if test="!review_photo.equals('') and review_photo != null">
+			<if test="review_photo != null">
 				review_photo,
-			</if> -->
+			</if>
 			<choose>
 				<when test="review_flag.equals('adp')">
 					abani_idx
@@ -135,9 +143,9 @@
 			</choose>
 			
 		) VALUES (seq_review_idx.nextval, #{ review_content }, sysdate, #{ review_flag }, #{ member_idx },
-			<!-- <if test="!review_photo.equals('') and review_photo != null">
+			<if test="review_photo != null">
 				#{ review_photo },
-			</if> -->
+			</if>
 			<choose>
 				<when test="review_flag.equals('adp')">
 					#{ abani_idx }
@@ -151,6 +159,25 @@
 			</choose>
 			)
 	</insert>
+	
+	<!-- 후기 쓰기 -->
+	<!-- <insert id="sbook_review">
+		INSERT INTO sbook_review VALUES (#{ param1 }, seq_review_idx.nextval)
+	</insert> -->
+	
+	<!-- <select id="r_idx" resultType="integer">
+		SELECT review_idx FROM sbook_review WHERE sbook_idx = #{ param1 } 
+	</select>
+	<delete id="r_idxDel">
+		DELETE FROM sbook_review WHERE review_idx = #{ param1 }
+	</delete> -->
+	
+<!-- 	<update id="review_on">
+		UPDATE sit_book SET review_check = 0 WHERE sbook_idx = (select sbook_idx from sbook_review where review_idx = #{ review_idx })
+	</update> -->
+	<update id="review_off">
+		UPDATE sit_book SET review_check = 1 WHERE sbook_idx = #{ param1 } 
+	</update>
 	
 </mapper>
 
