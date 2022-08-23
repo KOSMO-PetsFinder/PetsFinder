@@ -770,7 +770,7 @@ where sit_idx = 11;
 
 SELECT 
     sbook_idx, sb.sit_idx, sbook_date, to_char(sbook_start, 'yyyy-mm-dd') sbook_start, to_char(sbook_end, 'yyyy-mm-dd') sbook_end,
-    sbook_status, p_celldata, totalprice, sb.member_idx member_idx, member_name, sit_addr
+    sbook_status, p_celldata, totalprice, review_check, sb.member_idx member_idx, member_name, sit_addr
 FROM 
     sit_book sb
 INNER JOIN
@@ -785,3 +785,61 @@ WHERE
     sb.member_idx = 30
 ORDER BY sbook_start asc;
     
+select * from sitter s inner join member m on s.member_idx = m.member_idx;
+
+
+select * from review_board where review_flag = 'sit';
+
+select
+    rb.*, member_name member_namer, member_photo
+from 
+    review_board rb 
+left outer join 
+    member m
+on 
+    rb.member_idx = m.member_idx
+where 
+    review_flag = 'sit' and m.member_idx = 30;
+    
+select * from sit_book where member_idx = 30 and sbook_status = 'fix';
+
+SELECT review_idx FROM sbook_review WHERE sbook_idx = 9;
+
+select sbook_idx from sbook_review where review_idx = 62;
+
+select member_id, review_content, review_regdate from member m inner join 
+(select * from review_board where review_flag='shp') Tb
+on m.member_idx = Tb.member_idx where product_idx=13
+order by review_regdate desc;
+
+select review_idx, review_content, review_regdate, member_id from review_board r 
+inner join member m on m.member_idx=r.member_idx 
+where product_idx=1 and review_flag='shp' order by review_regdate desc;
+
+
+select * from (
+    select a.*, rownum rNum from (
+        SELECT 
+            s.*, sitphoto_idx, sitphoto_photo
+        FROM 
+            sitter s
+        FULL OUTER JOIN 
+            (select * from sitter_photo where sitphoto_idx in (select min(sitphoto_idx) from sitter_photo group by sit_idx)) sp
+        ON 
+            s.sit_idx = sp.sit_idx
+        order by s.sit_client desc
+    ) a
+)
+where rNum between 1 and 4;
+
+select product_idx from product where product_name = 'À£ÄÄ½ºÅ¸ÅÍÆÑ(°í¾çÀÌ¿ë)';
+
+insert into SALES_DETAILS values (SEQ_sales_idx.nextval, product_quanity, product_idx, member_idx, (select max(payment_idx) payment_idx from payment));
+
+select si.*,p.payment_idx, member_idx, amount, payStus,pay_date,productname 
+      from (select * from shippingLoc_info) si 
+      inner join payment p on si.payment_idx=p.payment_idx 
+      where p.member_idx=30;
+      
+      
+select * from product where product_idx in (1, 3, 5);

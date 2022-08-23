@@ -31,6 +31,7 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -51,6 +52,8 @@ import petsfinder.review.ReviewBoardDAOImpl;
 import petsfinder.review.ReviewBoardDTO;
 import petsfinder.review.ReviewCommentDTO;
 import petsfinder.review.ReviewLikeDTO;
+import petsfinder.shop.PayInfoDTO;
+import petsfinder.shop.ShopDAOImpl;
 import petsfinder.utils.PagingUtil;
 import smtp.SMTPAuth;
 
@@ -346,34 +349,35 @@ public class PetSitterController {
 	
 	//펫시터 예약 요청시 이메일 전송
 	@RequestMapping("/Petsitters/bookEmailInfo.do")
-	public void reservEmail(Model model, HttpServletRequest req, HttpSession session, HttpServletResponse resp) throws IOException {
+	@ResponseBody
+	public int reservEmail(Model model, @RequestBody PetSitterDTO petSitterDTO, HttpSession session, HttpServletResponse resp) throws IOException {
 		//10개의 데이터 중 시터 이메일 정보와, 회원의 이메일 정보는 이메일 전송용. 
 		//시터의 이름과 이메일 정보 
 		//1
-		String sitter_name = req.getParameter("member_name");
+		String sitter_name = petSitterDTO.getMember_name();
 		System.out.println("시터의 이름: "+sitter_name);
 		//2
-		String sitter_email = req.getParameter("member_email");
+		String sitter_email = petSitterDTO.getMember_email();
 		System.out.println("시터의 이메일: "+sitter_email);
 		//3
 		//int idx =Integer.parseInt(sIdx);
-		int sit_idx  = Integer.parseInt(req.getParameter("sit_idx"));
+		int sit_idx  = petSitterDTO.getSit_idx();
 		System.out.println("시터의 idx: "+ sit_idx);
 		
 		//고객의 예약 날짜
 		//4
-		String sbook_start = req.getParameter("sD");
+		String sbook_start = petSitterDTO.getSbook_start();
 		System.out.println("startDate: "+sbook_start);
 		//5
-		String sbook_end = req.getParameter("eD");
+		String sbook_end = petSitterDTO.getSbook_end();
 		System.out.println("endDate: "+sbook_end);
 		//고객의 예약 합계
 		//6
-		String p_cellData = req.getParameter("p_cellData");
+		String p_cellData = petSitterDTO.getP_cellData();
 		System.out.println("반려동물정보:"+p_cellData);
 		//고객의 예약 반려동물 정보 
 		//7
-		String totalPrice = req.getParameter("totalPrice");
+		String totalPrice = petSitterDTO.getTotalPrice();
 		System.out.println("합계: "+totalPrice);
 		
 		//현재 로그인한 고객의 이메일 & member_idx 정보 
@@ -400,44 +404,28 @@ public class PetSitterController {
 		p_cellData
 		totalPrice
 		*/
-		PetSitterDTO petSitterDTO = new PetSitterDTO();
-		petSitterDTO.setSit_idx(sit_idx);
-		petSitterDTO.setMember_idx(member_idx);
-		petSitterDTO.setSbook_start(sbook_start);
-		petSitterDTO.setSbook_end(sbook_end);
-		//petSitterDTO.setSbook_status(sbook_status);
-		petSitterDTO.setP_cellData(p_cellData);
-		petSitterDTO.setTotalPrice(totalPrice);
-		
-		//고객의 이름
-		petSitterDTO.setMember_name(member_name);
-		System.out.println("고객의 이름:"+ member_name);
-		
+		PayInfoDTO p_dto = new PayInfoDTO();
+		p_dto.setMember_idx(member_idx);
+		p_dto.setMerchant_uid(petSitterDTO.getMerchant_uid());
+		p_dto.setProductname(petSitterDTO.getP_cellData());
+		String b = petSitterDTO.getTotalPrice().split("원")[0];
+		String[] a = b.split(",");
+		String amount = "";
+		for (int i = 0; i < a.length; i++) {
+			amount += a[i];
+		}
+		p_dto.setAmount(Integer.parseInt(amount));
+		p_dto.setPayStus(petSitterDTO.getPayStus());
+		int result = sqlSession.getMapper(ShopDAOImpl.class).insertPay(p_dto);
 		int success = sqlSession.getMapper(PetSitterDAOImpl.class).reserve(petSitterDTO);
-		if(success ==1) {
+		if( success == 1 ) {
 			System.out.println("예약 내역 DB저장 성공");
-			
-			if(session.getAttribute("id") != null) {
-				resp.setContentType("text/html; charset=UTF-8");
-				PrintWriter out = resp.getWriter();
-				//추가로 sbook_start, sbook_end, p_cellData, totalPrice 값 넘김.
-				out.println(String.format("<script>window.open('./bookEmailSend?sitter_email=%s&login_email=%s&sitter_name=%s&sbook_start=%s&sbook_end=%s&p_cellData=%s&totalPrice=%s&member_name=%s', "
-						+ " 'reserve', 'width=1, height=1'); location.replace('../')</script>", 
-						 sitter_email, login_email, sitter_name, sbook_start, sbook_end, p_cellData, totalPrice, member_name));
-			}
-			else {
-				//로그인 되어있는 상태가 아니라면 로그인 페이지로 
-				resp.setContentType("text/html; charset=UTF8");
-				PrintWriter out = resp.getWriter();
-				out.println("<script>alert('로그인을 해 주세요'); location.href='../Login';</script>");
-				
-			}
 		}
 		else {
 			System.out.println("예약 내역 DB저장 실패");
 		}
-	
 		
+		return success;
 	}
 	
 	//이 컨트롤러가 사라지고 위에서 처리하게 만들어야함. 

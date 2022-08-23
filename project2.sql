@@ -536,7 +536,9 @@ CREATE TABLE sit_book
     -- 예약한 반려동물 크기 및 종류
     p_cellData varchar2(100), 
     -- 예약한 합계 금액
-    totalPrice varchar2(100), 
+    totalPrice varchar2(100),
+    -- 후기 작성 체크 ( NO -> 0 // YES -> 1 )
+    review_check number DEFAULT 0 NOT NULL,
 
 	PRIMARY KEY (sbook_idx)
 );
@@ -620,6 +622,69 @@ create table sale(
     member_grade varchar2(30),
     discount_rate number
 ); 
+
+-- 결제 시퀀스
+CREATE SEQUENCE SEQ_payment_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
+-- 결제 테이블
+CREATE TABLE payment
+(
+	-- 결제 일련번호
+	payment_idx number NOT NULL,
+	-- 상품 아이디
+	merchant_uid varchar2(200) NOT NULL,
+	-- 가격
+	amount number NOT NULL,
+	-- pg사
+	pg varchar2(100) NOT NULL,
+	-- 결제상태(결제,환불) pay,rfn
+	payStus char(3) DEFAULT 'pay' NOT NULL,
+	-- 결제일
+	pay_date date NOT NULL,
+	-- 판매자
+	seller varchar2(20) DEFAULT 'PetsFinder' NOT NULL,
+	-- 상품명
+	productname varchar2(300) NOT NULL,
+	-- 회원번호
+	member_idx number NOT NULL,
+	PRIMARY KEY (payment_idx)
+);
+-- 판매 내역 시퀀스
+CREATE SEQUENCE SEQ_sales_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
+-- 판매내역 테이블
+CREATE TABLE SALES_DETAILS
+(
+	-- 판매내역 일련번호
+	sales_idx number NOT NULL,
+	-- 판매수량
+	product_quanity number NOT NULL,
+	-- 상품 일련번호
+	product_idx number NOT NULL,
+	-- 회원번호
+	member_idx number NOT NULL,
+	-- 결제 일련번호
+	payment_idx number NOT NULL,
+	PRIMARY KEY (sales_idx)
+);
+
+-- 배송 시퀀스
+CREATE SEQUENCE SEQ_shiplocInfo_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
+-- 배송지 정보 테이블
+CREATE TABLE shippingLoc_info
+(
+	-- 배송지 정보 일련번호
+	shiplocInfo_idx number NOT NULL,
+	-- 수령인
+	recipient varchar2(30) NOT NULL,
+	-- 연락처
+	recipient_phone varchar2(30) NOT NULL,
+	-- 배송지 주소
+	SHIPPING_LOCATION varchar2(100) NOT NULL,
+	-- 배송상태(PRP : 배송준비, dlv : 배송중, cmp : 배송완료)
+	DELIVERY_STATUS char(3)  DEFAULT 'PRP' NOT NULL,
+	-- 결제 일련번호
+	payment_idx number NOT NULL,
+	PRIMARY KEY (shiplocInfo_idx)
+);
 
 /* Create Foreign Keys */
 

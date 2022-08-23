@@ -72,7 +72,7 @@ textarea {
 			<div style="display: flex; justify-content: flex-end; margin-right: 20px">
 			<c:choose>
 				<c:when test="${ mr.sbook_status eq 'stb'}">
-				<a href="./up_Reserve?mode=up&sbook_idx=${ mr.sbook_idx }" style="padding-right: 10px">예약 확정</a>
+				<a href="./up_Reserve?mode=up&sbook_idx=${ mr.sbook_idx }&sit_idx=${ mr.sit_idx }" style="padding-right: 10px">예약 확정</a>
 				<a href="./up_Reserve?mode=cn&sbook_idx=${ mr.sbook_idx }">예약 취소</a>
 				</c:when>
 				<c:when test="${ mr.sbook_status eq 'fix' and mr.review_check eq 0}">

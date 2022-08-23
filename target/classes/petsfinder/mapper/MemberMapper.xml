@@ -119,6 +119,9 @@
 	<update id="up_Reserve">
 		UPDATE sit_book SET sbook_status = #{ param1 } WHERE sbook_idx = #{ param2 }
 	</update>
+	<update id="up_client">
+		UPDATE sitter SET sit_client = sit_client + 1 WHERE sit_idx = #{ param1 }
+	</update>
 	
 	<update id="plusStar" parameterType="int">	
 		update sitter set sit_starcount=sit_starcount+1, sit_starpoint=sit_starpoint+#{param1} where sit_idx=#{param2}
@@ -178,6 +181,17 @@
 	<update id="review_off">
 		UPDATE sit_book SET review_check = 1 WHERE sbook_idx = #{ param1 } 
 	</update>
+	
+	<select id="sitterAplInsert" parameterType="int" resultType="petsfinder.member.MemberDTO">
+		select member_name, member_gender, to_char(member_birth, 'yyyy-mm-dd') member_birth, member_phone, member_addr from member where member_idx=#{param1}
+	</select>
+	
+	<insert id="setsitterApl" parameterType="petsfinder.admin.AdminSitAplDTO">
+		INSERT INTO sitter_application(
+			sitapl_idx, sitapl_name, sitapl_gender, sitapl_birth, sitapl_tel, sitapl_addr, sitapl_smkstt, sitapl_havepet, sitapl_exp, member_idx) VALUES (
+			seq_sitapl_idx.nextval, #{sitapl_name}, #{sitapl_gender}, #{sitapl_birth}, #{sitapl_tel}, #{sitapl_addr}, #{sitapl_smkstt}, #{sitapl_havepet}, #{sitapl_exp}, #{member_idx}
+		)
+	</insert>
 	
 </mapper>
 

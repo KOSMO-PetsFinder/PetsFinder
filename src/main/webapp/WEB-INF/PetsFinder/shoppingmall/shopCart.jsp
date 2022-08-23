@@ -83,12 +83,13 @@ tr.cartlist td {
 							
 							<tr class="cartlist" style="color:#6c757d;">
 								<td>
-					               	<input name="checkedValue" type="checkbox" style="width: 20px;height: 20px;" value="${row.cart_idx }">
+					               	<input name="checkedValue" type="checkbox" style="width: 20px;height: 20px;" value="${ row.cart_idx }">
+					               	<input name="cart_idx" type="hidden" value="${ row.cart_idx }">
 								</td>
 								<td style="vertical-align: middle;">
 									<div class="media">
 										<div class="d-flex">
-											<img src="./images/${row.product_photo }" style="width:80px; height:80px;"  />
+											<img src="./Uploads/${row.product_photo }" style="width:80px; height:80px;"  />
 											<div style="height:60px; padding-left: 10px;">
 											<p style="font-size: 19px;">${row.product_name }</p>
 											<br/>
@@ -164,6 +165,7 @@ tr.cartlist td {
 								    			},
 								    			dataType : 'text',
 								    			success : function () {
+								    				
 								    				console.log("성공");
 								    			}, 
 								    			

@@ -61,7 +61,7 @@
 		</choose>
 		
   		<choose>
-		    <when test="sort != null and sort == 1">
+		    <when test="sort != null and sort == 2">
 		    	<choose>
 				    <when test="sortm != null and sortm == 0">
 				    	order by p.product_idx desc
@@ -77,7 +77,7 @@
 				    </otherwise>
 				</choose>
 		    </when>
-		    <when test="sort != null and sort == 2">
+		    <when test="sort != null and sort == 3">
 		    	<choose>
 				    <when test="sortm != null and sortm == 0">
 				    	order by p.product_idx desc
@@ -93,7 +93,7 @@
 				    </otherwise>
 				</choose>
 		    </when>
-		    <when test="sort != null and sort == 3">
+		    <when test="sort != null and sort == 1">
 		    	<choose>
 				    <when test="sortm != null and sortm == 0">
 				    	order by a.product_idx desc
@@ -209,5 +209,21 @@
 	<update id="cartUpdate" parameterType="petsfinder.shop.CartDTO">
 		update cart set product_quanity=#{product_quanity} where cart_idx = #{cart_idx}
 	</update>
+  	
+  	<insert id="insertPay">
+  		INSERT INTO payment VALUES (SEQ_payment_idx.nextval, #{ merchant_uid }, #{ amount }, 'kakaopay', #{ payStus }, sysdate, 'PetsFinder', #{ productname }, #{ member_idx })
+  	</insert>
+  	
+  	<insert id="insertS_Detail">
+  		INSERT INTO sales_details VALUES (SEQ_sales_idx.nextval, #{ product_quanity }, #{ product_idx }, #{ member_idx }, (select max(payment_idx) payment_idx from payment))
+  	</insert>
+  	
+  	<insert id="insertS_Loc">
+  		INSERT INTO shippingLoc_info VALUES (SEQ_shiplocInfo_idx.nextval, #{ recipient }, #{ recipient_phone }, #{ shipping_location }, 'PRP', (select max(payment_idx) payment_idx from payment))
+  	</insert>
+  	
+  	<update id="del_Pstock">
+  		UPDATE product SET product_stock = product_stock - #{ param1 } WHERE product_idx = #{ param2 }
+  	</update>
   	
   </mapper>

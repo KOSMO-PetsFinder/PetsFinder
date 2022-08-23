@@ -43,6 +43,7 @@ a {
 		<div style="display: flex; flex-direction:row ;">
 			<input type="hidden" id="sortS" value="1">
 			<input type="hidden" id="sortmS" value="0">
+			<input type="hidden" id="cate" value="${ param.cate }"/>
 			<p 
 				style="border: 0; border-radius: 5px; height: 34px; display: flex; align-items: center; justify-content: center;">
 				<a id="sortmSK" href="#" onclick="sortsell();" style="font-size: 15px; color: #81899b; display: flex; align-items: center; padding-bottom: 6px;">
@@ -76,7 +77,7 @@ a {
 			var photo${row.product_idx} = photos${row.product_idx}.split(',');
 			console.log(photo${row.product_idx}.length);
 			$(function () {
-			    $('#photo${row.product_idx}').attr({ src: './Uploads/' + photo${row.product_idx}[0] });
+			    $('#photo${row.product_idx}').attr({ src: '<c:url value="/"/>Uploads/' + photo${row.product_idx}[0] });
 			});
 		</script>
 	</c:forEach>
@@ -95,7 +96,7 @@ a {
 		        	<div style="float:left; padding-right:3px;">
 		              	<div style="width: 245px; height: 170px; border-radius: 3px;"  >
 				            <a href="<c:url value='/'/>ShopView?product_idx=${row.product_idx}" id="photos" style="margin-right: 14px">
-				                <img   id="photo${row.product_idx }" style="width: 245px; height: 170px; border-radius: 3px">
+				                <img id="photo${row.product_idx }" style="width: 245px; height: 170px; border-radius: 3px">
 				            </a>
 		              	</div>
 			            <div style=" margin-top: -15px; width: 245px; justify-content: space-between; align-items: center; padding-left: 5px;padding-right: 5px;"  >
@@ -209,15 +210,21 @@ a {
 					//정렬순 이름 변경
 					console.log(val01);
 					$('#sortmP').val(0);
-				  	$('#sortmPK').text('가격순');
 					$('#sortmR').val(0);
+				  	$('#sortmPK').text('가격순');
 				  	$('#sortmRK').text('등록순');
 					if (val01 == 0) {
-					  	$('#sortmSK').text('판매많은순');
-					  	$('#sortmSK').attr({style: '#75c9ba'})
+						var element = document.getElementById("sortmSK");
+						var element1 = document.getElementById("sortmPK");
+						var element2 = document.getElementById("sortmRK");
+						element.innerText = "판매많은순";
+						element.style.color = "#75c9ba"
+						element1.style.color = "#81899b"
+						element2.style.color = "#81899b"
 					} else if (val01 == 1) {
-						$('#sortmSK').text('판매순');
-						$('#sortmSK').attr({style: '#81899b'})
+						var element = document.getElementById("sortmSK");
+						element.innerText = "판매순";
+						element.style.color = "#81899b"
 					}
 					<c:forEach items="${lists }" var="row" varStatus="vs" >
 						var photos${row.product_idx} = "${row.photos}";
@@ -250,7 +257,7 @@ a {
 				},
 			    dataType : 'json',
 				success : function (lists) {
-					console.log(lists.length);
+					console.log("가격순");
 					var content="";    
 					var vs=0;  
 					for(var i=0; i<lists.length; i++){ 
@@ -294,10 +301,18 @@ a {
 					window.scrollTo({top:location, behavior:'smooth'}); */
 					//정렬순 이름 변경
 					console.log(val01);
+					$('#sortmS').val(0);
+					$('#sortmR').val(0);
+					$('#sortmSK').text('판매순');
+				  	$('#sortmRK').text('등록순');
 					if(val01 ==0) {
 						var element = document.getElementById("sortmPK");
+						var element1 = document.getElementById("sortmRK");
+						var element2 = document.getElementById("sortmSK");
 						element.innerText = "낮은가격순";
 						element.style.color = "#75c9ba"
+						element1.style.color = "#81899b"
+						element2.style.color = "#81899b"
 					}else if (val01 ==1) {
 						var element = document.getElementById("sortmPK");
 						element.innerText = "높은가격순";
@@ -387,11 +402,17 @@ a {
 					$('#sortmSK').text('판매순');
 				  	$('#sortmPK').text('가격순');
 					if(val01 ==0) {
-					  	$('#sortmRK').text('최신등록순');
-					  	$('#sortmRK').attr({style: '#75c9ba'})
+						var element = document.getElementById("sortmRK");
+						var element1 = document.getElementById("sortmPK");
+						var element2 = document.getElementById("sortmSK");
+						element.innerText = "최신등록순";
+						element.style.color = "#75c9ba"
+						element1.style.color = "#81899b"
+						element2.style.color = "#81899b"
 					}else if (val01 ==1) {
-					  	$('#sortmRK').text('등록순');
-					  	$('#sortmRK').attr({style: '#81899b'})
+						var element = document.getElementById("sortmRK");
+						element.innerText = "등록순";
+						element.style.color = "#81899b"
 					}
 					<c:forEach items="${lists }" var="row" varStatus="vs" >
 						var photos${row.product_idx} = "${row.photos}";

@@ -156,7 +156,7 @@
 											<div style="display: flex; flex-direction: row;">
 												<div style="overflow: hidden; width: 90px; height: 90px; border: none; border-radius: 12px; margin-top: 5px;">
 													<img width="90" height="90" alt="경북 영주시 휴천동 펫시터"
-														src="./sitterView/08d8f81d5fd74638bcd1e4d6792e95d0.jpg"
+														src="../sitterView/08d8f81d5fd74638bcd1e4d6792e95d0.jpg"
 														style="object-fit: cover; display: inline-block;">
 												</div>
 												<div style="margin-left: 32px;" >
@@ -183,7 +183,7 @@
 												<div
 													style="display: flex; flex-direction: row; align-items: center;">
 													<img width="26" height="27"
-														src="./sitterView/verification.png">
+														src="../sitterView/verification.png">
 													<p
 														style="font-weight: 600; font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(57, 60, 71); margin-left: 5px;">예방 접종${abandonedAnimalDTO.abani_vaccin } / 중성화 완료${abandonedAnimalDTO.abani_neut }</p>
 												</div>

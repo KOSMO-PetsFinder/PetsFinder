@@ -20,6 +20,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>    
 <link rel="stylesheet" href="../jquery/jquery-ui.css">
 <script src="../jquery/jquery-ui.js"></script>
+<!-- iamport.payment.js -->
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 	<c:forEach items="${stReview }" var="sr">
 	<!-- ajax시작 -->
     <script type="text/javascript">
@@ -734,16 +736,112 @@
 										<div>
 										<!-- 예약 form 시작 -->
 										<script>
-										function reserveSubmit() {
-											var p_cell = document.getElementById('p_cell');
-											document.getElementById("p_cellData").value = p_cell.innerText
-											console.log(document.getElementById("p_cellData").value)
-											var sum = document.getElementById('sum');
-											document.getElementById("totalPrice").value = sum.innerText;
-											document.reserveFrm.submit();
-										}
+										
+										$(document).ready(function (){
+										   	  
+											var IMP = window.IMP;
+											var code = "imp70517070"; //가맹점 식별코드
+											IMP.init(code);
+											
+											$("#reservation").click(function(e){
+												var p_cell = document.getElementById('p_cell');
+												document.getElementById("p_cellData").value = p_cell.innerText
+												var p_cellData = document.getElementById("p_cellData").value;
+												var sum = document.getElementById('sum');
+												document.getElementById("totalPrice").value = sum.innerText;
+												var totalPrice = document.getElementById("totalPrice").value;
+												var start_date = $('#sD').val()
+												var end_date = $('#eD').val()
+												var member_name = $('#sit_name').val()
+												var member_email = $('#sit_email').val()
+												var sit_idx = ${ sitterView.sit_idx }
+												console.log(start_date)
+												console.log(end_date)
+												console.log(p_cellData)
+												console.log(totalPrice)
+												console.log(member_name)
+												console.log(member_email)
+												console.log(sit_idx)
+												var location = "";
+												location += "./bookEmailSend?sitter_email=" + member_email + "&login_email=${ email }&sitter_name=" + member_name + "&sbook_start=" + start_date
+								        	  	location +=	"&sbook_end=" + end_date + "&p_cellData=" + p_cellData + "&totalPrice=" + totalPrice + "&member_name=${ name }"
+								        	  	console.log(location)
+								        	  	var pop = window.open("about:blank", "reserve", "width=1,height=1");
+												if(${ idx } != null) {
+													//결제요청
+													IMP.request_pay({
+														//name과 amout만있어도 결제 진행가능
+														// pg : 'tosspay',  //pg사 선택 (kakao, kakaopay 둘다 가능)
+														pg : 'kakaopay',  //pg사 선택 (kakao, kakaopay 둘다 가능)
+														pay_method: 'card',
+														merchant_uid : 'merchant_' + new Date().getTime(),
+														name : p_cellData, // 상품명(반려동물)
+														amount : totalPrice, //가격 
+														buyer_email : '${ email }', // 구매자 이메일
+														buyer_name : '${ name }', // 구매자 이름
+														buyer_tel : '${ phone }',  // 구매자 전화번호
+														//결제완료후 이동할 페이지 kko나 kkopay는 생략 가능
+														//m_redirect_url : 'https://localhost:8080/payments/complete'
+													}, function(rsp){
+														console.log(rsp);
+														if(rsp.success){//결제 성공시
+															var msg = '결제가 완료되었습니다';
+															var result = {
+															"p_cellData" : p_cellData,
+															"totalPrice" : totalPrice,
+													    	"sbook_start" : start_date,
+													    	"sbook_end" : end_date,
+													    	"member_name" : member_name,
+													    	"member_email" : member_email,
+													    	"sit_idx" : sit_idx,
+													    	"member_idx" : ${ idx },
+													    	"amount" : totalPrice,
+													    	"productname" : p_cellData,
+													    	"merchant_uid" : rsp.merchant_uid,
+													    	"payStus" : 'pay',
+															}
+															console.log("결제성공 : " + msg);
+															console.log("result : " + JSON.stringify(result,
+													        		['p_cellData', 'totalPrice', 'sbook_start', 'sbook_end', 
+												        			'member_name', 'member_email', 'sit_idx', 'member_idx',
+												        			'merchant_uid', 'payStus', 'productname', 'amount',
+													        		]))
+															$.ajax({
+																url : './bookEmailInfo.do', 
+														        type :'POST',
+														        data : JSON.stringify(result,
+														        		['p_cellData', 'totalPrice', 'sbook_start', 'sbook_end', 
+													        			'member_name', 'member_email', 'sit_idx', 'member_idx',
+													        			'merchant_uid', 'payStus', 'productname', 'amount',
+															    		]),
+														        contentType:'application/json;charset=UTF-8',
+														        dataType: 'json', //서버에서 보내줄 데이터 타입
+														        success: function(res){
+														        	if (res == 1) {
+														        	  	console.log("결제 성공!!!")
+														        	  	pop.location.href=location
+														        	  	document.location.replace('../myPage')
+														        	} else {
+														        		console.log("결제 실패...");
+														        	}
+														        },
+														        error:function(){
+														            console.log("Insert ajax 통신 실패!!!");
+														        }
+															}) //ajax
+														}
+														else{//결제 실패시
+															var msg = '결제에 실패했습니다';
+															msg += '에러 : ' + rsp.error_msg
+														}
+														console.log(msg);
+													});//pay
+												} else {
+													location.href="./Login";
+												}
+											}); //check1 클릭 이벤트 
+										}); //doc.ready
 										</script>
-								        <form action="./bookEmailInfo.do" name="reserveFrm">
 								        	<input type="hidden" id="sit" name="sit_idx" value="${ sitterView.sit_idx }"/>
 								        	<!-- 예약 날짜 정보 -->
 									        <input type="hidden" id="sD" name="sD"/>
@@ -753,8 +851,8 @@
 			                                <!-- 이용요금 합계 -->
 			                                <input type="hidden" id="totalPrice" name="totalPrice"/>
 			                                <!-- 시터의 이름과 이메일 -->
-									        <input name="member_name" type="hidden" value="${ sitterView.member_name }"/>
-							     			<input name="member_email" type="hidden" value="${ sitterView.member_email }"/>
+									        <input id="sit_name" name="member_name" type="hidden" value="${ sitterView.member_name }"/>
+							     			<input id="sit_email" name="member_email" type="hidden" value="${ sitterView.member_email }"/>
 											
 											<div
 												style="width: 375px; border-radius: 8px; border: 1px solid rgb(223, 227, 234); box-shadow: rgba(0, 0, 0, 0.07) 1px 3px 7px; padding-left: 32px; padding-right: 32px; padding-bottom: 32px;">
@@ -846,8 +944,7 @@
 												</div>
 												<div
 													style="display: flex; align-items: center; justify-content: center; width: 311px; height: 59px; border-radius: 3px; background-color: rgb(113, 162, 255); margin-top: 50px; user-select: none; cursor: pointer;">
-													<p
-														style="font-family: &amp; quot; Noto Sans KR&amp;quot;; font-weight: 600; font-size: 15px; letter-spacing: 0.2px; line-height: 22px; color: white;" onclick="reserveSubmit();">예약 요청</p>
+													<p id="reservation" style="font-family: &amp; quot; Noto Sans KR&amp;quot;; font-weight: 600; font-size: 15px; letter-spacing: 0.2px; line-height: 22px; color: white;">예약 요청</p>
 												</div>
 											</div>
 											<!-- 반려동물 선택 창 & 금액 계산 -->
@@ -1378,10 +1475,6 @@
 											    </div>
 											  </div>
 											</div>
-											
-										</form>	
-											
-											
 											<div
 												style="width: 375px; border-radius: 8px; border: 1px solid rgb(223, 227, 234); box-shadow: rgba(0, 0, 0, 0.07) 1px 3px 7px; padding: 38px 32px; margin-top: 38px;">
 												<div
@@ -1511,91 +1604,70 @@
 															style="font-weight: 600; font-size: 17px; letter-spacing: -0.2px; line-height: 25px; color: rgb(57, 60, 71);">펫시터님
 															위치</p>
 														<div>
-															<p
-																style="font-size: 14px; letter-spacing: -0.2px; line-height: 20px; color: rgb(119, 119, 119); width: 160px; margin-top: 3px;">영주시
-																휴천동</p>
-															<p
-																style="font-size: 14px; letter-spacing: -0.2px; line-height: 20px; color: rgb(119, 119, 119); width: 160px; margin-top: 5px;">영주어린이집에서
-																도보로 1분</p>
+															<p style="font-size: 14px; letter-spacing: -0.2px; line-height: 20px; color: rgb(119, 119, 119); width: 160px; margin-top: 3px;">
+																${sitterView.sit_addr }
+															</p>
 														</div>
 													</div>
 												</div>
+												<!-- 지도 -->
 												<div>
-													<div class="map"
-														style="width: 373px; height: 270px; position: relative; overflow: hidden; background: url(&quot;https://t1.daumcdn.net/mapjsapi/images/2x/bg_tile.png&quot;);">
-														<div
-															style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; touch-action: none; cursor: url(&quot;https://t1.daumcdn.net/mapjsapi/images/2x/cursor/openhand.cur.ico&quot;) 7 5, url(&quot;https://t1.daumcdn.net/mapjsapi/images/2x/cursor/openhand.cur.ico&quot;), default;">
-															<div style="position: absolute;">
-																<div style="position: absolute; z-index: 0;"></div>
-																<div
-																	style="position: absolute; z-index: 1; left: 0px; top: 0px;">
-																	<img
-																		src="<c:url value='/'/>sitterView/182.png"
-																		alt="" draggable="false"
-																		style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: -82px; top: 133px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;"><img
-																		src="<c:url value='/'/>sitterView/183.png"
-																		alt="" draggable="false"
-																		style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: 174px; top: 133px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;"><img
-																		src="<c:url value='/'/>sitterView/184.png"
-																		alt="" draggable="false"
-																		style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: 430px; top: 133px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;"><img
-																		src="<c:url value='/'/>sitterView/182(1).png"
-																		alt="" draggable="false"
-																		style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: -82px; top: -123px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;"><img
-																		src="<c:url value='/'/>sitterView/183(1).png"
-																		alt="" draggable="false"
-																		style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: 174px; top: -123px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;"><img
-																		src="<c:url value='/'/>sitterView/184(1).png"
-																		alt="" draggable="false"
-																		style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: 430px; top: -123px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;"><img
-																		src="<c:url value='/'/>sitterView/182(2).png"
-																		alt="" draggable="false"
-																		style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: -82px; top: -379px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;"><img
-																		src="<c:url value='/'/>sitterView/183(2).png"
-																		alt="" draggable="false"
-																		style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: 174px; top: -379px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;"><img
-																		src="<c:url value='/'/>sitterView/184(2).png"
-																		alt="" draggable="false"
-																		style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: 430px; top: -379px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;">
-																</div>
-																<div style="position: absolute; z-index: 1;"></div>
-																<div
-																	style="width: 373px; height: 270px; position: absolute; z-index: 1;"></div>
-																<div style="position: absolute; z-index: 1;">
-																	<svg version="1.1"
-																		style="stroke: none; stroke-dashoffset: 0.5; stroke-linejoin: round; fill: none; transform: translateZ(0px); position: absolute; width: 1865px; height: 1350px; left: -746px; top: -540px;"
-																		viewBox="0 0 1865 1350">
-																		<defs></defs>
-																		<ellipse id="daum-maps-shape-0"
-																			style="stroke:#75B8FA;stroke-opacity:1;stroke-width:1px;color:#75B8FA;stroke-linecap:round;fill:#CFE7FF;fill-opacity:0.7;fill-rule:evenodd;"
-																			cx="932" cy="675" rx="62.5" ry="62.5" gtype="oval"></ellipse></svg>
-																</div>
-																<div
-																	style="position: absolute; z-index: 1; width: 100%; height: 0px; transform: translateZ(0px);"></div>
-															</div>
-														</div>
-														<div
-															style="position: absolute; cursor: default; z-index: 1; margin: 0px 6px; height: 19px; line-height: 14px; left: 0px; bottom: 0px; color: rgb(0, 0, 0);">
-															<div
-																style="color: rgb(0, 0, 0); text-align: center; font-size: 10px; float: left;">
-																<div
-																	style="float: left; margin: 2px 3px 0px 4px; height: 6px; transition: width 0.1s ease 0s; border-top: none rgb(0, 0, 0); border-right: 2px solid rgb(0, 0, 0); border-bottom: 2px solid rgb(0, 0, 0); border-left: 2px solid rgb(0, 0, 0); border-image: initial; width: 58px;"></div>
-																<div
-																	style="float: left; margin: 0px 4px 0px 0px; font-family: AppleSDGothicNeo-Regular, 돋움, dotum, sans-serif; font-weight: bold; color: rgb(0, 0, 0);">500m</div>
-															</div>
-															<div style="margin: 0px 4px; float: left;">
-																<a target="_blank" href="http://map.kakao.com/"
-																	title="Kakao 지도로 보시려면 클릭하세요."
-																	style="float: left; width: 32px; height: 10px;"><img
-																	src="<c:url value='/'/>sitterView/m_bi_b.png"
-																	alt="Kakao 지도로 이동"
-																	style="float: left; width: 32px; height: 10px; border: none;"></a>
-																<div
-																	style="font: 11px/11px Arial, Tahoma, Dotum, sans-serif; float: left;"></div>
-															</div>
-														</div>
-														<div
-															style="cursor: auto; position: absolute; z-index: 2; left: 0px; top: 0px;"></div>
+													<div id="map" style="width: 373px; height: 270px; position: relative; overflow: hidden; background: url(&quot;https://t1.daumcdn.net/mapjsapi/images/2x/bg_tile.png&quot;);">
+													<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=35e77046a3cf263c67aba7432d1af2f2&libraries=services,clusterer,drawing"></script>
+									                <script>
+								                	$(function () {
+								                    
+								                		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+								                	    mapOption = {
+								                	        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+								                	        level: 3 // 지도의 확대 레벨
+								                	    };  
+
+									                	// 지도를 생성합니다    
+									                	var map = new kakao.maps.Map(mapContainer, mapOption); 
+	
+									                	// 주소-좌표 변환 객체를 생성합니다
+									                	var geocoder = new kakao.maps.services.Geocoder();
+	
+									                	// 주소로 좌표를 검색합니다
+									                	geocoder.addressSearch('${sitterView.sit_addr }', function(result, status) {
+	
+									                	    // 정상적으로 검색이 완료됐으면 
+									                	     if (status === kakao.maps.services.Status.OK) {
+	
+									                	        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+	
+									                	        // 결과값으로 받은 위치를 마커로 표시합니다
+									                	        var marker = new kakao.maps.Marker({
+									                	            map: map,
+									                	            position: coords
+									                	        });
+									                	     	// 지도에 표시할 원을 생성합니다
+									                	        var circle = new kakao.maps.Circle({
+									                	            center : new kakao.maps.LatLng(result[0].y, result[0].x),  // 원의 중심좌표 입니다 
+									                	            radius: 100, // 미터 단위의 원의 반지름입니다 
+									                	            strokeWeight: 5, // 선의 두께입니다 
+									                	            strokeColor: '#75B8FA', // 선의 색깔입니다
+									                	            strokeOpacity: 0, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+									                	            strokeStyle: 'dashed', // 선의 스타일 입니다
+									                	            fillColor: '#75c9ba', // 채우기 색깔입니다
+									                	            fillOpacity: 0.3  // 채우기 불투명도 입니다   
+									                	        }); 
+
+									                	        // 지도에 원을 표시합니다 
+									                	        circle.setMap(map); 
+									                	        /* // 인포윈도우로 장소에 대한 설명을 표시합니다
+									                	        var infowindow = new kakao.maps.InfoWindow({
+									                	            content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
+									                	        });
+									                	        infowindow.open(map, marker); */
+	
+									                	        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+									                	        map.setCenter(coords);
+									                	    } 
+									                	});    
+								                	})
+								              	</script>
 													</div>
 												</div>
 											</div>
@@ -1609,51 +1681,6 @@
 			</div>
 		</div>
 	</div>
-<!-- 	
-	<script async="" data-next-page="/details" src="../sitterView/details.js"></script>
-
-	<script async="" data-next-page="/_app"	src="../sitterView/_app.js"></script>
-
-	<script	src="../sitterView/webpack-4b444dab214c6491079c.js"	async=""></script>
-
-	<script	src="../sitterView/commons.7c16b5d39bd35b619670.js"	async=""></script>
-
-	<script	src="../sitterView/styles.58a0c59fae1a4a2af04e.js" async=""></script>
-
-	<script	src="../sitterView/main-02a579c90518306d4183.js" async=""></script>
-
-
-	<script type="application/ld+json">{
-    "@context": "http://schema.org",
-    "@type": "Person",
-    "name": "펫플래닛",
-    "url": "https://petplanet.co",
-    "sameAs": [
-        "http://blog.naver.com/petplanet_kr",
-        "https://www.instagram.com/petplanet.co",
-        "https://www.facebook.com/petplanet.co",
-        "https://play.google.com/store/apps/details?id=co.petpeople.petplanet",
-        "https://apps.apple.com/us/app/%ED%8E%AB%ED%94%8C%EB%9E%98%EB%8B%9B-%EC%97%84%EC%84%A0%EB%90%9C-%ED%8E%AB%EC%8B%9C%ED%84%B0/id1343097834"
-    ]
-	}</script>
- -->
-
-<!-- 
-	<div id="ch-plugin">
-		<div id="ch-plugin-core">
-			<style data-styled="active" data-styled-version="5.1.1"></style>
-		</div>
-		<div id="ch-plugin-script" style="display: none"
-			class="ch-messenger-hidden">
-			<iframe id="ch-plugin-script-iframe"
-				style="position: relative !important; height: 100%; width: 100% !important; border: none !important;"
-				src="../sitterView/saved_resource.html"></iframe>
-		</div>
-	</div>
-	<style data-styled="active" data-styled-version="5.1.1"></style> 
-	 -->
 	 <jsp:include page="../common/foot.jsp" />
-
-	 
 </body>
 </html>

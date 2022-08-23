@@ -325,6 +325,29 @@ public class PetSitterDTO {
 		this.b_name = b_name;
 	}
 	
+	/* 예약 후 결제 테이블 */
+	private String merchant_uid;
+	private String payStus;
+	private String productname;
+
+	public String getMerchant_uid() {
+		return merchant_uid;
+	}
+	public void setMerchant_uid(String merchant_uid) {
+		this.merchant_uid = merchant_uid;
+	}
+	public String getPayStus() {
+		return payStus;
+	}
+	public void setPayStus(String payStus) {
+		this.payStus = payStus;
+	}
+	public String getProductname() {
+		return productname;
+	}
+	public void setProductname(String productname) {
+		this.productname = productname;
+	}
 	
 	
 }

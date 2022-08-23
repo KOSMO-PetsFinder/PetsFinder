@@ -335,6 +335,7 @@ public class AdminController {
  		model.addAttribute("reportList", reportList);
  		return "./Admin/AdminAdopt/reportList";
  	}
+ 	
  	// 구조 상태 수정(접수 or 구조진행중 or 구조완료)
  	@RequestMapping("/Admin/AdminAdopt/modifyReportStat")
  	public String modifyReportStat(Model model, HttpServletRequest req) {

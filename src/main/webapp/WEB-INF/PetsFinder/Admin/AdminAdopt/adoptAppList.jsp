@@ -73,8 +73,8 @@
 								<td>${row.ADPAPL_birth }</td>
 								<td>${row.ADPAPL_tel }</td>
 								<td>${row.ADPAPL_addr }</td>
-								<td>${row.ADPAPL_job1 }</td>
-								<td>${row.ADPAPL_exp1 }</td>
+								<td>${row.ADPAPL_job }</td>
+								<td>${row.ADPAPL_exp }</td>
 								<td>${row.ADPAPL_havepet }</td>
 								<td>${row.adpapl_fNum }</td>
 								<td>${row.abani_idx }</td>

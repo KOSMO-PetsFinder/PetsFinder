@@ -40,6 +40,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import fileupload.FileUtil;
+import petsfinder.admin.AdminSitAplDTO;
 import petsfinder.member.MemberDAOImpl;
 import petsfinder.member.MemberDTO;
 import petsfinder.petsitter.PetSitterDTO;
@@ -201,6 +202,7 @@ public class MemberController {
 			session.setAttribute("name", dto.getMember_name());
 			session.setAttribute("email", dto.getMember_email());
 			session.setAttribute("photo", dto.getMember_photo());
+			session.setAttribute("phone", dto.getMember_phone());
 			session.setAttribute("type", dto.getMember_type());
 			if (save_check != null && save_check.equals("Y")) {
 				CookieManager.makeCookie(resp, "loginId", id, 86400);
@@ -746,7 +748,9 @@ public class MemberController {
 			String mode = req.getParameter("mode");
 			// 예약 확정
 			if (mode.equals("up")) {
+				int sit_idx = Integer.parseInt(req.getParameter("sit_idx"));
 				sqlSession.getMapper(MemberDAOImpl.class).up_Reserve("fix", sbook_idx);
+				sqlSession.getMapper(MemberDAOImpl.class).up_client(sit_idx);
 				return "redirect:./myReserve";
 			// 예약 취소
 			} else if (mode.equals("cn")) {
@@ -808,6 +812,7 @@ public class MemberController {
     		return "redirect:./starReview";
     	}
     }
+	
 	@RequestMapping("/reviewWrite")
 	public String reviewWrite(HttpSession session, HttpServletRequest req, MultipartHttpServletRequest mr) {
 		
@@ -873,6 +878,64 @@ public class MemberController {
 		} else {
 			return "redirect:./Login";
 		}
-
 	}
+	
+	@RequestMapping(value ="/sitterApl" )
+    public String sitterApl(MemberDTO memberDTO, Model model, HttpServletRequest req, HttpSession session) {
+      
+      int idx =Integer.parseInt(session.getAttribute("idx").toString());
+   
+      MemberDTO dto = sqlSession.getMapper(MemberDAOImpl.class).sitterAplInsert(idx);
+      
+      String name = dto.getMember_name();
+      String gender = dto.getMember_gender();
+      String birth = dto.getMember_birth();
+      String address = dto.getMember_addr();
+      String phone = dto.getMember_phone();
+      
+      model.addAttribute("dto", dto);
+      model.addAttribute("name", name);
+      model.addAttribute("birth", birth);
+      model.addAttribute("gender", gender);
+      model.addAttribute("phone", phone);
+      model.addAttribute("address", address);
+      
+      
+      return "sitterApl";
+    }
+	
+	@RequestMapping(value ="/sitterApl", method=RequestMethod.POST )
+    public String sitterApl(HttpServletRequest req, Model model, AdminSitAplDTO adminSitAplDTO) {
+    	
+    	int idx = Integer.parseInt(req.getParameter("idx"));
+    	String name = req.getParameter("name");
+    	String gender = req.getParameter("gender");
+    	String birth = req.getParameter("birth");
+    	String address = req.getParameter("address");
+    	String phone = req.getParameter("phone");
+    	int smoke = Integer.parseInt(req.getParameter("smoke"));
+    	String havepet = req.getParameter("havepet");
+    	String explain = req.getParameter("explain");
+    	
+    	adminSitAplDTO.setSitapl_name(name);
+    	adminSitAplDTO.setSitapl_gender(gender);
+    	adminSitAplDTO.setSitapl_birth(birth);
+    	adminSitAplDTO.setSitapl_tel(phone);
+    	adminSitAplDTO.setSitapl_addr(address);
+    	adminSitAplDTO.setSitapl_smkstt(smoke);
+    	adminSitAplDTO.setSitapl_havepet(havepet);
+    	adminSitAplDTO.setSitapl_exp(explain);
+    	adminSitAplDTO.setMember_idx(idx);
+    	
+    	int result = sqlSession.getMapper(MemberDAOImpl.class).setsitterApl(adminSitAplDTO);
+    	
+    	if(result == 1) {
+			System.out.println("성공");
+			return "default";
+		} else {
+			System.out.println("실패");
+			return "redirect:./sitterApl";
+		}
+    	
+    }
 }

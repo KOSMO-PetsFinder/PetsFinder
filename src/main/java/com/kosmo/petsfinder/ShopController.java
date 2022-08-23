@@ -2,7 +2,9 @@ package com.kosmo.petsfinder;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -114,7 +116,7 @@ public class ShopController {
 	public ArrayList<ProductDTO> sortList(ParameterDTO parameterDTO) {
 		
 		ArrayList<ProductDTO> lists = new ArrayList<ProductDTO>();
-		
+		System.out.println(parameterDTO.getSort());
 		//판매순 정렬
 		if(parameterDTO.getSort()==1) {
 			//0 : 일반, 1 : 오름차순(asc)↑ ,2: 내림차순(desc)↓
@@ -137,7 +139,7 @@ public class ShopController {
 			int m = parameterDTO.getSortm();
 			if(m==2) {
 				m=0;
-			}else {
+			} else {
 				m+=1;
 			}
 			parameterDTO.setSortm(m);
@@ -185,7 +187,7 @@ public class ShopController {
 		String url = "";
 		if (session.getAttribute("idx") == null) {
 			model.addAttribute("backUrl", "./shopCart");
-			return "redirect:./Login";
+			return "redirect:../Login";
 		} else {
 			int member_idx = Integer.parseInt(String.valueOf(session.getAttribute("idx")));
 			int cartCount = sqlSession.getMapper(ShopDAOImpl.class).cartCount(member_idx);
@@ -236,7 +238,7 @@ public class ShopController {
 					
 					
 				}else {
-					//할인 10 or 15, 배송비 0
+					//할인 5 or 10, 배송비 0
 					buyOrCartDTO.setDeliveryCharge(0);
 					int a = buyOrCartDTO.getAmount();
 					int b = memberSDTO.getSale();
@@ -249,7 +251,7 @@ public class ShopController {
 				//장바구니 결제와 형태를 맞추기 위해 list로 넘김
 				ArrayList<BuyOrCartDTO> payList = new ArrayList<BuyOrCartDTO>();
 				payList.add(buyOrCartDTO);
-				
+				int pl_count = payList.size();
 				//최종 결제정보 
 				PayInfoDTO payInfoDTO = new PayInfoDTO();
 				payInfoDTO.setAmount(buyOrCartDTO.getAmount());
@@ -264,7 +266,8 @@ public class ShopController {
 				model.addAttribute("cartCount", cartCount);
 				model.addAttribute("memberSDTO", memberSDTO);
 				model.addAttribute("payList", payList);
-				model.addAttribute("payInfoDTO", payInfoDTO);
+				model.addAttribute("payInfo", payInfoDTO);
+				model.addAttribute("pl_count", pl_count);
 				
 				url = "shoppingmall/paymentForm";
 			}
@@ -497,7 +500,6 @@ public class ShopController {
 					System.out.println(dto.getDiscount());
 					total -= dto.getDiscount();
 				}
-				
 			}
 			model.addAttribute("cartCount", cartCount);
 			model.addAttribute("payList", payList);
@@ -512,9 +514,6 @@ public class ShopController {
 		
 		
 	}
-	
-	
-	
 	
 	@RequestMapping(value = "cartDelete") 
 	@ResponseBody
@@ -540,11 +539,67 @@ public class ShopController {
 		int result = 
 				sqlSession.getMapper(ShopDAOImpl.class).cartUpdate(cartDTO);
 		
-		
-	
-		
 		return result;
 	}
 	
+	@RequestMapping(value="Shop/insertPay", method = RequestMethod.POST)
+	@ResponseBody
+	public int insertPay(@RequestBody PayInfoDTO payInfoDTO, HttpSession session) {
+		
+		int member_idx = Integer.parseInt(String.valueOf(session.getAttribute("idx")));
+		payInfoDTO.setMember_idx(member_idx);
+		
+		String[] p_name = payInfoDTO.getProductname().split(",");
+		String productname = "";
+		for (int i = 0; i < p_name.length; i++) {
+			if (i < p_name.length - 1) {
+				productname += p_name[i] + ", ";				
+			} else {
+				productname += p_name[i];
+			}
+		}
+		System.out.println(productname);
+		int amount = payInfoDTO.getAmount();
+		payInfoDTO.setProductname(productname);
+		payInfoDTO.setAmount(amount);
+		payInfoDTO.setMember_idx(Integer.parseInt(session.getAttribute("idx").toString()));
+		int result = sqlSession.getMapper(ShopDAOImpl.class).insertPay(payInfoDTO);
+		
+		if (result == 1) {
+			System.out.println("결제 테이블 추가 성공");
+			int ship = sqlSession.getMapper(ShopDAOImpl.class).insertS_Loc(payInfoDTO);
+			if (ship == 1) {
+				System.out.println("배송 정보 추가 성공");
+			} else {
+				System.out.println("배송 정보 추가 실패");
+			}
+			String[] total_quanity = payInfoDTO.getQuanity().split(",");
+			int product_quanity = 0;
+			String[] total_idx = payInfoDTO.getP_idx().split(",");
+			int product_idx = 0;
+			for (int i = 0; i < total_quanity.length; i++) {
+				product_quanity = Integer.parseInt(total_quanity[i]);
+				product_idx = Integer.parseInt(total_idx[i]);
+				payInfoDTO.setProduct_idx(product_idx);
+				payInfoDTO.setProduct_quanity(product_quanity);
+				int effect = sqlSession.getMapper(ShopDAOImpl.class).insertS_Detail(payInfoDTO);
+				if (effect == 1) {
+					System.out.println("판매 내역 추가 성공");
+					int del = sqlSession.getMapper(ShopDAOImpl.class).del_Pstock(product_quanity, product_idx);
+					if (del == 1) {
+						System.out.println("재고 수정 성공");
+					} else {
+						System.out.println("재고 수정 실패");
+					}
+				} else {
+					System.out.println("판매 내역 추가 실패");
+				}
+			}
+		} else {
+			System.out.println("결제 테이블 추가 실패");
+		}
+		
+		return result;
+	}
 	
 }

@@ -15,6 +15,40 @@
 	
 	<!-- 미니리스트 1번째 -->
 	<select id="listPage" resultType="petsfinder.petsitter.PetSitterDTO">
+		select * from (
+		    select a.*, rownum rNum from (
+		        SELECT 
+		            s.*, sitphoto_idx, sitphoto_photo
+		        FROM 
+		            sitter s
+				FULL OUTER JOIN 
+		            (select * from sitter_photo where sitphoto_idx in (select min(sitphoto_idx) from sitter_photo group by sit_idx)) sp
+				ON 
+		            s.sit_idx = sp.sit_idx
+				order by s.sit_idx asc
+		    ) a
+		)
+		where rNum between #{ param1 } and #{ param2 }
+	</select>
+	<!-- 미니리스트 2번재 -->
+	<select id="listPage1" resultType="petsfinder.petsitter.PetSitterDTO">
+		select * from (
+		    select a.*, rownum rNum from (
+		        SELECT 
+		            s.*, sitphoto_idx, sitphoto_photo
+		        FROM 
+		            sitter s
+				FULL OUTER JOIN 
+		            (select * from sitter_photo where sitphoto_idx in (select min(sitphoto_idx) from sitter_photo group by sit_idx)) sp
+				ON 
+		            s.sit_idx = sp.sit_idx
+				order by s.sit_client desc
+		    ) a
+		)
+		where rNum between #{ param1 } and #{ param2 }
+	</select>
+	<!-- 미니리스트 3번째 -->
+	<select id="listPage2" resultType="petsfinder.petsitter.PetSitterDTO">
 	   select * from (
 		    select a.*, rownum rNum from (
 		        SELECT 
@@ -29,43 +63,6 @@
 		    ) a
 		)
 		where rNum between #{ param1 } and #{ param2 }
-
-	</select>
-	<!-- 미니리스트 2번재 -->
-	<select id="listPage1" resultType="petsfinder.petsitter.PetSitterDTO">
-	   select * from (
-		    select a.*, rownum rNum from (
-		        SELECT 
-		            s.*, sitphoto_idx, sitphoto_photo
-		        FROM 
-		            sitter s
-				FULL OUTER JOIN 
-		            (select * from sitter_photo where sitphoto_idx in (select min(sitphoto_idx) from sitter_photo group by sit_idx)) sp
-				ON 
-		            s.sit_idx = sp.sit_idx
-				order by s.sit_idx asc
-		    ) a
-		)
-		where rNum between #{ param1 } and #{ param2 }
-		
-	</select>
-	<!-- 미니리스트 3번째 -->
-	<select id="listPage2" resultType="petsfinder.petsitter.PetSitterDTO">
-	   select * from (
-		    select a.*, rownum rNum from (
-		        SELECT 
-		            s.*, sitphoto_idx, sitphoto_photo
-		        FROM 
-		            sitter s
-				FULL OUTER JOIN 
-		            (select * from sitter_photo where sitphoto_idx in (select min(sitphoto_idx) from sitter_photo group by sit_idx)) sp
-				ON 
-		            s.sit_idx = sp.sit_idx
-				order by s.sit_client desc
-		    ) a
-		)
-		where rNum between #{ param1 } and #{ param2 }
-		
 	</select>
 	<!-- 상세보기 -->
 	<!-- 전체 목록 조회 -->
@@ -211,8 +208,8 @@
 			totalPrice
 			)
 		values 
-			(SEQ_sbook_idx.NEXTVAL, #{ sit_idx }, #{ member_idx }, #{ sbook_start }, 
-			#{sbook_end}, #{p_cellData}, #{totalPrice} )
+			( SEQ_sbook_idx.NEXTVAL, #{ sit_idx }, #{ member_idx }, #{ sbook_start }, 
+			#{ sbook_end }, #{ p_cellData }, #{ totalPrice } )
 	</insert>
 
 	<!-- 리스트 -->

@@ -28,6 +28,13 @@ public interface ShopDAOImpl {
 	public int cartUpdate(CartDTO cartDTO);
 	// 장바구니 개수
 	public int cartCount(int member_idx);
-	
+	// 결제 테이블 추가
+	public int insertPay(PayInfoDTO payInfoDTO);
+	// 판매 내역 추가
+	public int insertS_Detail(PayInfoDTO payInfoDTO);
+	// 배송 정보 추가
+	public int insertS_Loc(PayInfoDTO payInfoDTO);
+	// 재고 수정
+	public int del_Pstock(int product_quanity, int product_idx);
 }
 

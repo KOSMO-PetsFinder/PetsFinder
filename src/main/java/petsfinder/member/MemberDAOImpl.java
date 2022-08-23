@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.springframework.stereotype.Service;
 
+import petsfinder.admin.AdminSitAplDTO;
 import petsfinder.petsitter.PetSitterDTO;
 import petsfinder.review.ReviewBoardDTO;
 
@@ -39,6 +40,7 @@ public interface MemberDAOImpl {
 	public ArrayList<PetSitterDTO> m_Reserve(int member_idx);
 	
 	public int up_Reserve(String sbook_status, int sbook_idx);
+	public int up_client(int sit_idx);
 	
 	public int plusStar(int sit_starpoint, int sit_idx);
 	
@@ -51,4 +53,7 @@ public interface MemberDAOImpl {
 	public int review_on(int review_idx);
 	public int review_off(int sbook_idx);
 	
+	public MemberDTO sitterAplInsert(int member_idx);
+	
+	public int setsitterApl(AdminSitAplDTO adminSitAplDTO);
 }

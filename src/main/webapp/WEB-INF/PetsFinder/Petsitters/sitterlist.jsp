@@ -284,8 +284,8 @@
 	                    
 	              content += "<form action='<c:url value='/'/>Petsitters/sitterView.do' method='POST'>"
 	
-	              content += "<input type='hid den' value="+lists[i].member_idx+" name='member_idx' />";
-	              content += "<input type='hid den' value="+lists[i].sit_idx+" name='sit_idx' />";
+	              content += "<input type='hidden' value="+lists[i].member_idx+" name='member_idx' />";
+	              content += "<input type='hidden' value="+lists[i].sit_idx+" name='sit_idx' />";
 	              content += "<div style='width: 1028px; height: 260px; border: 1px solid rgb(235, 235, 235); display: flex; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.07) 0px 0px 12px 0px; position: relative; align-items: center;'>";
 	
 	              content += "<div style='width: 390px; height: 250px; border-radius: 5px; margin-left: 5px; overflow: hidden; position: relative;'>";
@@ -453,8 +453,8 @@
                        <c:forEach items="${lists }" var="row">
                        <form action="<c:url value='/'/>Petsitters/sitterView.do" method="POST">
                        
-                          <input type="hid den" value="${row.member_idx }" name="member_idx" />
-                                    <input type="hid den" value="${row.sit_idx }" name="sit_idx" />
+                          	<input type="hidden" value="${row.member_idx }" name="member_idx" />
+                            <input type="hidden" value="${row.sit_idx }" name="sit_idx" />
                           <div
                              style="width: 1028px; height: 260px; border: 1px solid rgb(235, 235, 235); display: flex; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.07) 0px 0px 12px 0px; position: relative; align-items: center;">
 

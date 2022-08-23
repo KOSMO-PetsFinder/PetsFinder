@@ -90,7 +90,7 @@
 	                </li>
 				<c:if test="${ sessionScope.type ne 'sit' }">
 	                <li>
-	                	<a href="" target="rightwin">시터신청</a>
+	                	<a href="./sitterApl" target="rightwin">시터신청</a>
 	                </li>
 	            </c:if>
                 </ul>

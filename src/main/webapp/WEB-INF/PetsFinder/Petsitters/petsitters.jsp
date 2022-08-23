@@ -324,7 +324,7 @@
         <!--2번쨰 인기순(sit_client 순) -->
         <form action="<c:url value='/'/>Petsitters/sitterView.do" method="POST">
         <div style="width: 1024px; margin-top: 50px; display: flex; justify-content: space-between">
-        <c:forEach items="${lists2 }" var="row">
+        <c:forEach items="${lists1 }" var="row">
           <a href="<c:url value='/'/>Petsitters/sitterView.do?member_idx=${row.member_idx }&sit_idx=${row.sit_idx }" target="_blank" style="margin-right: 14px"><div>
               <div style="width: 245px; height: 170px; border-radius: 3px">
                 <img src="<c:url value='/' />Uploads/${row.sitphoto_photo }" style="width: 245px; height: 170px; border-radius: 3px">
@@ -367,7 +367,7 @@
         <!-- 3번째 최신순 -->
         <form action="<c:url value='/'/>Petsitters/sitterView.do" method="POST">
         <div style="width: 1024px; margin-top: 50px; display: flex">
-       <c:forEach items="${lists1 }" var="row">
+       <c:forEach items="${lists2 }" var="row">
           <a href="<c:url value='/'/>Petsitters/sitterView.do?member_idx=${row.member_idx }&sit_idx=${row.sit_idx }" target="_blank" style="margin-right: 14px"><div>
               <div style="width: 245px; height: 170px; border-radius: 3px">
                 <img src="<c:url value='/' />Uploads/${row.sitphoto_photo }" style="width: 245px; height: 170px; border-radius: 3px">
