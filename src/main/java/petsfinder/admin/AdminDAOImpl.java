@@ -7,11 +7,14 @@ import org.springframework.stereotype.Service;
 import petsfinder.abandonedanimal.AbandonedAnimalDTO;
 import petsfinder.abandonedanimal.AdoptionAppDTO;
 import petsfinder.abandonedanimal.ReportDTO;
+import petsfinder.board.QnACommentDTO;
 import petsfinder.member.MemberDTO;
 import petsfinder.petsitter.PetSitterDTO;
 import petsfinder.review.ReviewBoardDTO;
 import petsfinder.shop.ParameterDTO;
+import petsfinder.shop.PayMentDTO;
 import petsfinder.shop.ProductDTO;
+import petsfinder.shop.ShipLocInfoDTO;
 
 @Service
 public interface AdminDAOImpl {
@@ -105,7 +108,22 @@ public interface AdminDAOImpl {
 	//기존 게시물 내용을 읽어옴
 	public ProductDTO view(ParameterDTO parameterDTO);	
 	
+	public ArrayList<QnACommentDTO> commentlist(QnACommentDTO qnACommentDTO);
 	
+	public AdminDTO qnaView1(int qna_idx);
+	
+	public AdminDTO qnaView(int qna_idx);
+	
+//	public QnACommentDTO qnaComment(QnACommentDTO qnACommentDTO);
+	
+	//QnA 댓글쓰기
+	public int qnawriteac(QnACommentDTO qnACommentDTO);
+	//QnA qna_stt 업데이트
+	public int updatecom(int qna_idx);
+	//QnA 댓글 삭제
+	public int deletecomm(int qnacomm_idx);
+	//QnA 댓글 수정
+	public int modifyQnAcomm(AdminDTO adminDTO);
 	
 	
 	
@@ -123,7 +141,8 @@ public interface AdminDAOImpl {
    
     //유기동물 상태 수정(보호중 or 입양완료)
 	public int modifyAnimalList(String abani_stat, int abani_neut, int abani_vaccin,  int abani_idx);
-    
+	public int adp_insert(int abani_idx, int member_idx);
+	
     //신고/구조 상태 수정(접수 or 구조진행중 or 구조완료)
     public int modifyReportStat(String dclrAbnd_stts, int dclrAbnd_idx);
     
@@ -135,6 +154,9 @@ public interface AdminDAOImpl {
   	
 	//유기동물 등록
 	public int animalRegistration(AbandonedAnimalDTO abandonedAnimalDTO);	
+
+	//입양심사 상태 수정(거절, 심사중, 승인)
+	public int modifyAdoptStt(String ADPAPL_stt, int ADPAPL_idx);	
 
 	
 
@@ -154,5 +176,20 @@ public interface AdminDAOImpl {
 	public ArrayList<ReviewBoardDTO> AdpReview(ReviewBoardDTO reviewBoardDTO);
 	
 	public int AdpDelete(int review_idx);
+	
+	//구매내역 리스트 가져오기
+	public ArrayList<PayMentDTO> PayMent();
+	
+	//구매 내역(결제상태) 수정
+	public int modifypay(String payStus, int payment_idx);
+	
+	//배송내역 리스트 가져오기
+	public ArrayList<ShipLocInfoDTO> ShipLocInfo();
+	
+	//배송내역 리스트 삭제
+	public int ShipInfoDelete(int shiplocinfo_idx);
+	
+	//배송상태(PRP준비, dlv중, cmp완료) 수정
+	public int modifyshipinfo(String delivery_status, int shiplocinfo_idx);
 
 }

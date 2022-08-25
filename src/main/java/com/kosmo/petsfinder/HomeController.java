@@ -1,12 +1,22 @@
 package com.kosmo.petsfinder;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import petsfinder.member.MemberDAOImpl;
+import petsfinder.member.MemberDTO;
 
 @Controller
 public class HomeController {
+	
+	@Autowired
+	private SqlSession sqlSession;
 	
 	// main
 	@RequestMapping("/")
@@ -51,9 +61,20 @@ public class HomeController {
 		if(session.getAttribute("idx") != null) {
 			return "myPage";			
 		} else {
-			return "main";
+			return "Login";
 		}
 	}
+	
+	@RequestMapping("/default")
+	public String myPageDefault(HttpServletRequest req, Model model) {
+		
+		HttpSession session = req.getSession();
+		MemberDTO mto = sqlSession.getMapper(MemberDAOImpl.class).memberInfo(Integer.parseInt(session.getAttribute("idx").toString()));
+		
+		model.addAttribute("m_info", mto);
+		return "default";
+	}
+	
 	@RequestMapping("/passCheck")
 	public String passCheck() {
 		return "passCheck";

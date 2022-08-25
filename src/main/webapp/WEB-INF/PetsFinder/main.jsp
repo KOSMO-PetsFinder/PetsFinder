@@ -228,7 +228,7 @@
 			<div class="main_foot">
 				<div class="foot_menu" style="left: 50px;">실시간 후원 정보</div>
 				<div class="foot_menu" style="left: 500px;">유기동물에 대한 실시간 정보</div>
-				<div class="foot_menu" style="right: 300px;">제휴 병원 소개(family site)</div>
+				<div class="foot_menu" style="right: 300px;"><a href="./notifyForm.do">신고</a></div>
 			</div>
 	    	<script>
 	    	function endVideo() {
@@ -573,7 +573,7 @@
 	                    		var geocoder = new kakao.maps.services.Geocoder();
 	                       
 	                    		// 키워드로 장소를 검색합니다
-	                    		ps.keywordSearch('${reportView.dclrAbnd_loc }', placesSearchCB, {
+	                    		ps.keywordSearch('동물병원', placesSearchCB, {
 	                        	location : new kakao.maps.LatLng(lat, lon)
 	                    		});
 	                    }
@@ -585,12 +585,12 @@
 	                      	// GeoLocation을 이용해서 접속 위치를 얻어옵니다
 	                      	navigator.geolocation.getCurrentPosition(function(position) {
 	                          
-	                        		var lat = position.coords.latitude; // 위도
+                        		var lat = position.coords.latitude; // 위도
 	                       		var lon = position.coords.longitude; // 경도
 	                          
-	                         		var locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-	                         		// 마커와 인포윈도우를 표시합니다
-	                        		console.log("위도", lat, "경도", lon, "마커", locPosition)
+                        		var locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+                        		// 마커와 인포윈도우를 표시합니다
+                       			console.log("위도", lat, "경도", lon, "마커", locPosition)
 	                         	latitude = lat;
 		                        longitude = lon;
 		                        loc = locPosition;

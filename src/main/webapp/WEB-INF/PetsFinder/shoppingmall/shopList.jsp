@@ -85,16 +85,16 @@ a {
 		
 					
     <!-- Start -->
-    <section class="bg-light" style="height:90%">
-        <div id="scrollB" class="container py-5" style="height:1200px;" >
-            <div id="listDivP" class="ms-auto me-auto" style="width: 1024px; height:90%; margin-top: 50px; " >
+    <section class="bg-light">
+        <div id="scrollB" class="container py-5">
+            <div id="listDivP" class="ms-auto me-auto" style="width:1024px; margin-top: 50px;" >
         	<!-- 아이템 반복 -->
           		<c:forEach items="${lists }" var="row" varStatus="vs" >
 	          		<c:if test="${vs.index%4==0 }">
-       			<div class="listDiv" style=" margin-right: 20px; padding-top:10px;"  >
+       			<div class="listDiv" style=" margin-right: 20px; padding-top:30px; display: flex"  >
         			</c:if>	
-		        	<div style="float:left; padding-right:3px;">
-		              	<div style="width: 245px; height: 170px; border-radius: 3px;"  >
+		        	<div style="margin-right: 20px">
+		              	<div style="width: 245px; height: 170px; border-radius: 3px; display: flex"  >
 				            <a href="<c:url value='/'/>ShopView?product_idx=${row.product_idx}" id="photos" style="margin-right: 14px">
 				                <img id="photo${row.product_idx }" style="width: 245px; height: 170px; border-radius: 3px">
 				            </a>
@@ -107,7 +107,7 @@ a {
 				            </div>
 				            <div style="margin-top:15px; justify-content: space-between; display: flex">
 				          		<p><fmt:formatNumber value="${row.product_price }" pattern="#,###" />원</p>
-			              		<a href="<c:url value='/' />Shop/buyOrCart.do?product_idx=${row.product_idx}&subM=addtocart&product_quanity=1&backUrl=ShopList">
+			              		<a href="<c:url value='/' />Shop/buyOrCart.do?product_idx=${row.product_idx}&subM=addtocart&product_quanity=1&backUrl=ShopList?cate=${ param.cate }">
 				                	<img src="./images/premium-icon-shopping-cart-4570068.png" style="width: 20px;height: 20px;">
 				              	</a>
 			             	</div>
@@ -138,17 +138,7 @@ a {
  		
 		var m = '${ param.m }'
  		message(m);
-        var currentPosition = 150;
-        var topscrollx = 1100;
-        $(".quickmenu").stop().animate({"top":topscrollx+"px"});
-        $(window).scroll(function() {
-            var position = $(window).scrollTop();
-            if(position <= topscrollx) {
-                $(".quickmenu").stop().animate({"top":topscrollx+"px"});
-            }else {
-                $(".quickmenu").stop().animate({"top":position+currentPosition+"px"});
-            }
-        });
+       
     });
 	</script>
  	<script type="text/javascript">

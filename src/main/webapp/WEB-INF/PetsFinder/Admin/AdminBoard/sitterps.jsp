@@ -16,7 +16,7 @@
 <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 <style>
  * {
-        font-family: 'BM JUA_TTF', sans-serif;
+        font-family: SpoqaHanSans,'BM JUA_TTF', sans-serif;
         text-align: left;
       }
 th{

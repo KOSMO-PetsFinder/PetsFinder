@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -142,12 +143,12 @@ a {
             <div class="col-12 col-md-4 p-5 mt-3">
                 <a href="#"><img src="https://cdn.pixabay.com/photo/2020/03/28/16/03/dog-4977599_960_720.jpg" class="rounded-circle img-fluid border"></a>
                 <h2 class="h5 text-center mt-3 mb-3">Doggie's</h2>
-                <p class="text-center"><a class="btn"style="background-color:#75c9ba; color:white;">Go Shop</a></p>
+                <p class="text-center"><a href="<c:url value="/" />ShopView?product_idx=12" class="btn" style="background-color:#75c9ba; color:white;">Go Shop</a></p>
             </div>
             <div class="col-12 col-md-4 p-5 mt-3">
                 <a href="#"><img src="https://cdn.pixabay.com/photo/2015/11/16/22/14/cat-1046544_960_720.jpg" class="rounded-circle img-fluid border"></a>
                 <h2 class="h5 text-center mt-3 mb-3">Kittie's</h2>
-                <p class="text-center"><a class="btn" style="background-color:#75c9ba; color:white;">Go Shop</a></p>
+                <p class="text-center"><a href="<c:url value="/" />ShopView?product_idx=13" class="btn" style="background-color:#75c9ba; color:white;">Go Shop</a></p>
             </div>
         </div>
     </section>

@@ -76,7 +76,7 @@
   	<!-- 유기동물 후기 리스트 가져오기 -->
   	<select id="abaAniReview" resultType="petsfinder.review.ReviewBoardDTO">
   		select a.*,  NVL(b.countlike, 0) as countlike
-		from (select r.*, m.member_name member_namer
+		from (select r.*, m.member_name member_namer, member_photo
 	        from review_board r, member m 
 	        where r.member_idx=m.member_idx and abani_idx=#{param1}
 	        order by review_idx desc) a 
@@ -87,7 +87,7 @@
   	<!-- 그 입양동물 상세보기에서 쓰인 후기들의 댓글을 모두 가져오기 -->
   	<select id="reviewComment" resultType="petsfinder.review.ReviewCommentDTO">
   		select 
-		    a.*, b.member_name member_namec
+		    a.*, b.member_name member_namec, member_photo
 		from (select * 
 		    from review_Comment 
 		    where review_idx 
@@ -104,6 +104,10 @@
 										, #{member_idx})
 	</insert>
 	
+	<!-- 후기 댓글 삭제 -->
+  	<delete id="deleteComm">
+  		delete from review_comment where REVIEWCOMM_IDX=#{param1}
+  	</delete>
 	
 	<!-- 좋아요 유무확인 -->
 	<select id="likeStatus" resultType="petsfinder.review.ReviewLikeDTO"

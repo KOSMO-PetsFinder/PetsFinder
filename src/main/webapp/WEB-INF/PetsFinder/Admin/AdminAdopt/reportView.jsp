@@ -59,7 +59,17 @@
 						<th>신고접수일</th>
 						<td>${reportView.dclrAbnd_regdate }</td>
 						<th>구조 작업 현황</th>
-						<td>${reportView.dclrAbnd_stts }</td>			
+						<td>
+						<c:if test="${reportView.dclrAbnd_stts eq 'reg'  }">
+							<span class="badge rounded-pill bg-danger">접수</span>
+							</c:if>
+							<c:if test="${reportView.dclrAbnd_stts eq 'PRG'  }">
+							<span class="badge rounded-pill bg-warning text-dark">구조진행중</span>
+							</c:if>
+							<c:if test="${reportView.dclrAbnd_stts eq 'CMP'  }">
+							<span class="badge rounded-pill bg-success">구조완료</span>
+						</c:if>
+						</td>			
 					</tr>
 					<tr>
 						<th>제목</th>
@@ -69,116 +79,78 @@
 					</tr>
 					<tr>
 					<td colspan=4>
-						<div id="map" style="width:100%;height:350px;"></div>
+						<div id="map" style="width:100%;height:700px;"></div>
 						<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=35e77046a3cf263c67aba7432d1af2f2&libraries=services"></script>
 						<script>
-						$(function(){
-						
-						var container = document.getElementById('map'), // 지도를 표시할 div 
-						    option = { 
-						        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-						        level: 5 // 지도의 확대 레벨 
-						    }; 
-						var map = new kakao.maps.Map(container, option); // 지도를 생성합니다
-						
-						// HTML5의 geolocation으로 사용할 수 있는지 확인합니다 
-						if (navigator.geolocation) {
-						    
-						    // GeoLocation을 이용해서 접속 위치를 얻어옵니다
-						    navigator.geolocation.getCurrentPosition(function(position) {
-						        
-						        var lat = position.coords.latitude, // 위도
-						               lon = position.coords.longitude; // 경도
-						        
-						        var locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-						            message = '<div style="padding:5px;">동물 발견 장소</div>'; // 인포윈도우에 표시될 내용입니다
-						        // 마커와 인포윈도우를 표시합니다
-						        displayMarker(locPosition, message);
-						            
-						      });
-						    
-						} else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
-						    
-						    var locPosition = new kakao.maps.LatLng(33.450701, 126.570667),    
-						        message = 'geolocation을 사용할수 없어요..'
-						        
-						    displayMarker(locPosition, message);
-						}
-						
-						//주소-좌표 변환 객체를 생성합니다
-						var geocoder = new kakao.maps.services.Geocoder();
-						
-						var marker = new kakao.maps.Marker(), // 클릭한 위치를 표시할 마커입니다
-						infowindow = new kakao.maps.InfoWindow({zindex:1}); // 클릭한 위치에 대한 주소를 표시할 인포윈도우입니다
-						
-						//현재 지도 중심좌표로 주소를 검색해서 지도 좌측 상단에 표시합니다
-						searchAddrFromCoords(map.getCenter(), displayCenterInfo);
-						
-						var coord = new kakao.maps.LatLng(37.56496830314491, 126.93990862062978);
-						var callback = function(result, status) {
-						    if (status === kakao.maps.services.Status.OK) {
-						        console.log('그런 너를 마주칠까 ' + result[0].address.address_name + '을 못가');
-						        address = result[0].address.address_name;
-						    }
-						};
-						
-						geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
-						
-						//중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
-						kakao.maps.event.addListener(map, 'idle', function() {
-						    searchAddrFromCoords(map.getCenter(), displayCenterInfo);
-						});
-						
-						function searchAddrFromCoords(coords, callback) {
-						    // 좌표로 행정동 주소 정보를 요청합니다
-						    geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback); 
-						}
-						
-						function searchDetailAddrFromCoords(coords, callback) {
-						    // 좌표로 법정동 상세 주소 정보를 요청합니다
-						    geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
-						}
-						
-						// 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
-						function displayCenterInfo(result, status) {
-						    if (status === kakao.maps.services.Status.OK) {
-						        var infoDiv = document.getElementById('centerAddr');
-						
-						        for(var i = 0; i < result.length; i++) {
-						            // 행정동의 region_type 값은 'H' 이므로
-						            if (result[i].region_type === 'H') {
-						                infoDiv.innerHTML = result[i].address_name;
-						                break;
-						            }
-						        }
-						    }    
-						}
-						// 지도에 마커와 인포윈도우를 표시하는 함수입니다
-						function displayMarker(locPosition, message) {
-						
-						    // 마커를 생성합니다
-						    var marker = new kakao.maps.Marker({  
-						        map: map, 
-						        position: locPosition
-						    }); 
-						    
-						    var iwContent = message, // 인포윈도우에 표시할 내용
-						        iwRemoveable = true;
-						
-						    // 인포윈도우를 생성합니다
-						    var infowindow = new kakao.maps.InfoWindow({
-						        content : iwContent,
-						        removable : iwRemoveable
-						    });
-						    
-						    // 인포윈도우를 마커위에 표시합니다 
-						    infowindow.open(map, marker);
-						    
-						    // 지도 중심좌표를 접속위치로 변경합니다
-						    map.setCenter(locPosition);      
-						}    
-						})
-						</script>
+					$(function () {
+					
+					var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+					mapOption = {
+					center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+					level: 3 // 지도의 확대 레벨
+					};  
+					
+					// 지도를 생성합니다    
+					var map = new kakao.maps.Map(mapContainer, mapOption); 
+					
+					// 주소-좌표 변환 객체를 생성합니다
+					var geocoder = new kakao.maps.services.Geocoder();
+					
+					// 주소로 좌표를 검색합니다
+					geocoder.addressSearch('${reportView.dclrAbnd_loc }', function(result, status) {
+					
+					// 정상적으로 검색이 완료됐으면 
+					if (status === kakao.maps.services.Status.OK) {
+					
+					var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+					
+					// 결과값으로 받은 위치를 마커로 표시합니다
+					var marker = new kakao.maps.Marker({
+					map: map,
+					position: coords
+					});
+					var a = result[0].y;
+					var b = result[0].x;
+					var roadView = '<div style="padding:5px; margin-right ">유기동물 발견 지점<br/><a href="https://map.kakao.com/link/to/유기동물 발견 지점, ' + a + ',' + b + '" style="color:blue; padding:5px;" target="_blank">길찾기</a></div>';
+					
+					var iwContent = roadView, // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+				    iwPosition = new kakao.maps.LatLng(result[0].y, result[0].x); //인포윈도우 표시 위치입니다
+
+					// 인포윈도우를 생성합니다
+					var infowindow = new kakao.maps.InfoWindow({
+					    position : iwPosition, 
+					    content : iwContent 
+					});
+				  
+					// 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
+					infowindow.open(map, marker); 
+					
+					// 지도에 표시할 원을 생성합니다
+					var circle = new kakao.maps.Circle({
+					center : new kakao.maps.LatLng(result[0].y, result[0].x),  // 원의 중심좌표 입니다 
+						radius: 300, // 미터 단위의 원의 반지름입니다 
+						strokeWeight: 5, // 선의 두께입니다 
+						strokeColor: '#75B8FA', // 선의 색깔입니다
+						strokeOpacity: 0, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+						strokeStyle: 'dashed', // 선의 스타일 입니다
+						fillColor: '#75c9ba', // 채우기 색깔입니다
+						fillOpacity: 0.4  // 채우기 불투명도 입니다   
+					}); 
+					
+					// 지도에 원을 표시합니다 
+					circle.setMap(map); 
+					/* // 인포윈도우로 장소에 대한 설명을 표시합니다
+					var infowindow = new kakao.maps.InfoWindow({
+					content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
+					});
+					infowindow.open(map, marker); */
+					
+					// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+					map.setCenter(coords);
+					} 
+					});    
+					})
+					</script>
 					</td>
 					</tr>
 					<tr>

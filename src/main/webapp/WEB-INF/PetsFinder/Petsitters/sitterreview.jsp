@@ -28,9 +28,11 @@
     </div>
     <section style="margin-top: 102px; box-shadow: rgba(0, 0, 0, 0.08) 0 0 10px 0;">
       <!-- 후기 한 줄 시작 -->
-      <div style="display: flex; justify-content: flex-start; margin-left:200px;">
         <!-- 후기 시작 -->
 	    <c:forEach items="${reviewlist }" var="list" varStatus="vs">
+	    <c:if test="${ vs.index % 3 == 0 }">
+    <div style="display: flex; justify-content: flex-start; margin-left:200px;">
+      </c:if>
 	    <input type="hidden" value="${list.member_idx }" />
 	    <input type="hidden" value="${list.sit_idx }" />
         <div style="width: 480px; padding-top: 50px; padding-bottom: 50px; margin-right:50px;" >
@@ -50,7 +52,7 @@
           >
             <div style="width: 453px; height: 270px; overflow: hidden; position: relative">
               <img
-                src="${list.review_photo }"
+                src="<c:url value="/" />Uploads/${list.review_photo }"
                 alt=""
                 style="position: absolute; inset: -100%; margin: auto; min-height: 50%; width: 100%; border-radius: 3px; pointer-events: none"
               />
@@ -58,15 +60,15 @@
             <div style="display: flex; justify-content: space-between; width: 381px; margin-top: 35px">
               <p style="font-size: 23px; color: rgb(51, 51, 51); font-weight: 500; letter-spacing: -0.2px">${list.pet_name } 보호자님</p>
               <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 80px">
-                <img width="13" height="13" src="../images/common/star_1.png" /><img
+                <img width="13" height="13" src="../images/star_1.png" /><img
                   width="13"
                   height="13"
-                  src="../images/common/star_1.png"
-                /><img width="13" height="13" src="../imagescommon//star_1.png" /><img
+                  src="../images/star_1.png"
+                /><img width="13" height="13" src="../images/star_1.png" /><img
                   width="13"
                   height="13"
-                  src="../images/common/star_1.png"
-                /><img width="13" height="13" src="../images/common/star_1.png" />
+                  src="../images/star_1.png"
+                /><img width="13" height="13" src="../images/star_1.png" />
               </div>
             </div>
             <p
@@ -106,8 +108,10 @@
         </div>
         <!-- 후기 끝 -->
      
-	     </c:forEach>
+    <c:if test="${ vs.index % 3 == 2 }">
       </div>
+    </c:if>
+	     </c:forEach>
       <!-- 후기 한 줄 끝 -->
     </section>
     

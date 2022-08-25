@@ -81,6 +81,10 @@
 		select rb.*, member_name member_namer, member_photo from review_board rb left outer join member m on rb.member_idx = m.member_idx where review_flag = 'sit' and m.member_idx = #{ param1 }
 	</select>
 	
+	<select id="shpReview" resultType="petsfinder.review.ReviewBoardDTO">
+      select rb.*, member_name member_namer, member_photo from review_board rb left outer join member m on rb.member_idx = m.member_idx where review_flag = 'shp' and m.member_idx = #{ param1 }
+   </select>
+	
 	<select id="myReview" resultType="petsfinder.review.ReviewBoardDTO">
 		select rb.*, member_name member_namer, member_photo from review_board rb left outer join member m on rb.member_idx = m.member_idx where review_idx = #{ param1 }
 	</select>
@@ -119,9 +123,47 @@
 	<update id="up_Reserve">
 		UPDATE sit_book SET sbook_status = #{ param1 } WHERE sbook_idx = #{ param2 }
 	</update>
+	
 	<update id="up_client">
 		UPDATE sitter SET sit_client = sit_client + 1 WHERE sit_idx = #{ param1 }
 	</update>
+	
+	<update id="up_Adopt">
+		update adoption_application set adpapl_stt = #{param1} where adpapl_idx=#{param2}
+	</update>
+	<update id="up_Abandoned">
+		update abandonedanimal set abani_stat = 'adopt' where abani_idx=#{param1}
+	</update>
+	
+	<update id="up_refund">
+		update payment set payStus='rfn' where payment_idx=#{param1}
+	</update>
+	
+	<update id="up_delivery">
+		update shippingLoc_info set delivery_status=#{param1} where payment_idx=#{param2}
+	</update>
+
+	<select id="m_Boughtview" parameterType="int" resultType="petsfinder.shop.PayDTO">
+		select pay_date, a.* from 
+		(select tb.*, p.product_name from 
+			(select * from SALES_DETAILS) tb 
+			inner join product p on tb.product_idx=p.product_idx 
+			where tb.member_idx=#{param1} and tb.payment_idx=#{param2})a 
+		inner join payment pm on a.payment_idx=pm.payment_idx
+	</select>
+
+	<select  id="m_Adopt" resultType="petsfinder.abandonedanimal.AbandonedAnimalDTO">
+		select ab.*, ap.member_idx, ap.adpapl_stt, ap.adpapl_idx from (select abani_idx, abani_kind, abani_species from abandonedanimal) ab 
+		inner join adoption_application ap
+    	on ab.abani_idx=ap.abani_idx where member_idx=#{member_idx}
+	</select>
+	
+	<select  id="m_Bought" resultType="petsfinder.shop.PayDTO">
+		select si.*,p.payment_idx, member_idx, amount, payStus,pay_date,productname 
+		from (select * from shippingLoc_info) si 
+		inner join payment p on si.payment_idx=p.payment_idx 
+		where p.member_idx=#{member_idx}
+	</select>
 	
 	<update id="plusStar" parameterType="int">	
 		update sitter set sit_starcount=sit_starcount+1, sit_starpoint=sit_starpoint+#{param1} where sit_idx=#{param2}
@@ -193,5 +235,9 @@
 		)
 	</insert>
 	
+	
+	<select id="memberInfo" resultType="petsfinder.member.MemberDTO">
+		select member_name, member_gender, member_addr, member_phone, to_char(member_birth, 'YYYY-MM-DD') member_birth, member_photo, member_type from member where member_idx = #{ param1 }
+	</select>
 </mapper>
 

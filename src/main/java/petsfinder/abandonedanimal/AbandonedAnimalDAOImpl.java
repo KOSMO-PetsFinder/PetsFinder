@@ -26,6 +26,8 @@ public interface AbandonedAnimalDAOImpl {
 	public ArrayList<ReviewCommentDTO> reviewComment(int abani_idx);
 	//후기의 댓글 저장
 	public int commentInsert(ReviewCommentDTO reviewCommentDTO);
+	//후기 댓글 삭제
+	public int deleteComm(int reviewcomm_idx);
 	//좋아요 유무확인
 	public ReviewLikeDTO likeStatus(ReviewLikeDTO reviewLikeDTO);
 	//좋아요 저장 

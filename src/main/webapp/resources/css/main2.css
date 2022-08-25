@@ -185,11 +185,11 @@
 } */
 
 .contwrap .header .menu_2depth .adopt {
-    margin-left:520px;
+    margin-left:560px;
     position:absolute;
 }
 .contwrap .header .menu_2depth .admin {
-    margin-left:800px;
+    margin-left:600px;
     position:absolute;
 }
 
@@ -198,7 +198,7 @@
     /* top: 50%;
     margin-top: -35px;
     right: 0; */
-    margin-left:610px;
+    margin-left:645px;
 }
 
 /* /header */

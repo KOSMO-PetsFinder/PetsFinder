@@ -177,6 +177,8 @@
 	
 	</select>
 	
+	<!-- 장바구니 -->
+	
 	<select id="cartList" resultType="petsfinder.shop.BuyOrCartDTO">
 		select 
 		    c.cart_idx, c.product_quanity, p.product_idx, p.product_name,
@@ -210,6 +212,8 @@
 		update cart set product_quanity=#{product_quanity} where cart_idx = #{cart_idx}
 	</update>
   	
+  	<!-- 결제 -->
+  	
   	<insert id="insertPay">
   		INSERT INTO payment VALUES (SEQ_payment_idx.nextval, #{ merchant_uid }, #{ amount }, 'kakaopay', #{ payStus }, sysdate, 'PetsFinder', #{ productname }, #{ member_idx })
   	</insert>
@@ -219,11 +223,46 @@
   	</insert>
   	
   	<insert id="insertS_Loc">
-  		INSERT INTO shippingLoc_info VALUES (SEQ_shiplocInfo_idx.nextval, #{ recipient }, #{ recipient_phone }, #{ shipping_location }, 'PRP', (select max(payment_idx) payment_idx from payment))
+  		INSERT INTO shippingLoc_info VALUES (SEQ_shiplocInfo_idx.nextval, #{ recipient }, #{ recipient_phone }, #{ shipping_location }, 'prp', (select max(payment_idx) payment_idx from payment))
   	</insert>
   	
   	<update id="del_Pstock">
   		UPDATE product SET product_stock = product_stock - #{ param1 } WHERE product_idx = #{ param2 }
   	</update>
+  	
+  	<!-- 최근 본 상품 -->
+  	<insert id="insertRecent">
+  		insert into recent_board values(seq_recentboard_idx.nextval, #{ param1 }, sysdate)
+  	</insert>
+  	
+  	<update id="updateRecent">
+  		update recent_board set regidate = sysdate where product_idx=#{param1}
+  	</update>
+  	
+  	<select id="selectListRecent" resultType="petsfinder.shop.ProductDTO">
+  		SELECT * from 
+	  		(SELECT b.*, rownum rNum from 
+	  			(SELECT a.* from 
+	  				(SELECT p.product_idx, product_name, pi.pdt_image_file 
+	  					FROM product p 
+	  					INNER JOIN product_image pi 
+						ON p.product_idx = pi.product_idx) a 
+					INNER JOIN recent_board rb 
+					ON a.product_idx=rb.product_idx
+	        		ORDER BY regidate DESC)
+	         b ) 
+         where rNum BETWEEN 1 AND 3
+  	</select>
+  	
+  	<select id="selectRecentAll" resultType="petsfinder.shop.ProductDTO">
+  		select Tb.* from 
+	  		(select p.product_idx, pdt_image_file 
+	  		from product p 
+	  		inner join product_image pi 
+	  		on p.product_idx=pi.product_idx)Tb 
+  		inner join recent_board rb 
+  		on Tb.product_idx=rb.product_idx 
+  		order by regidate desc
+  	</select>
   	
   </mapper>

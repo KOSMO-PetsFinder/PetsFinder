@@ -2,9 +2,11 @@ package com.kosmo.petsfinder;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +24,14 @@ import petsfinder.abandonedanimal.ReportDTO;
 import petsfinder.admin.AdminDAOImpl;
 import petsfinder.admin.AdminDTO;
 import petsfinder.admin.AdminSitAplDTO;
+import petsfinder.board.QnACommentDTO;
 import petsfinder.member.MemberDTO;
 import petsfinder.petsitter.PetSitterDTO;
 import petsfinder.review.ReviewBoardDTO;
 import petsfinder.shop.ParameterDTO;
+import petsfinder.shop.PayMentDTO;
 import petsfinder.shop.ProductDTO;
+import petsfinder.shop.ShipLocInfoDTO;
 import petsfinder.shop.ShopDAOImpl;
 
 @Controller
@@ -304,7 +309,91 @@ public class AdminController {
 		return "redirect:Admin/AdminShop/shopRegi";
 	}
 	
+	@RequestMapping("/Admin/qnaView.do")
+	public String adminQnaView1(Model model, HttpServletRequest req) { 
+		
+		int qna_idx = Integer.parseInt(req.getParameter("qna_idx"));
+		System.out.println("qna_idx"+qna_idx);
+		AdminDTO dto = new AdminDTO();
+		
+		AdminDTO qnaView1 = sqlSession.getMapper(AdminDAOImpl.class).qnaView1(qna_idx);
+		AdminDTO qnaView = sqlSession.getMapper(AdminDAOImpl.class).qnaView(qna_idx);
+		
+		model.addAttribute("req", req);
+		model.addAttribute("qnaView", qnaView);
+		model.addAttribute("qnaView1", qnaView1);
+		return"./Admin/AdminBoard/qnaView";
+	}
 	
+	//QnA 댓글쓰기
+	@RequestMapping("/qnacomment")
+	public String qnacommentwrite(HttpServletRequest req, Model model) {
+		
+		AdminDTO adminDTO = new AdminDTO();
+		
+		int qna_idx = Integer.parseInt(req.getParameter("qna_idx"));
+		adminDTO.setQna_idx(qna_idx);
+		AdminDTO qnaView = sqlSession.getMapper(AdminDAOImpl.class).qnaView(qna_idx);
+		AdminDTO qnaView1 = sqlSession.getMapper(AdminDAOImpl.class).qnaView1(qna_idx);
+		
+		model.addAttribute("qnaView",qnaView);
+		model.addAttribute("qnaView1",qnaView1);
+				
+		
+		return "./Admin/AdminBoard/qnacomment";
+	}
+	
+	//QnA 댓글 등록 액션
+	@RequestMapping(value="/qnawriteaction", method=RequestMethod.POST)
+	public String qnawriteaction(Model model, HttpServletRequest req) {
+		
+		QnACommentDTO dto = new QnACommentDTO();
+		
+		String qnacomm_content = req.getParameter("qnacomm_content");
+		int qna_idx = Integer.parseInt(req.getParameter("qna_idx"));
+		
+		dto.setQna_idx(qna_idx);
+		dto.setQnacomm_content(qnacomm_content);
+		
+		sqlSession.getMapper(AdminDAOImpl.class).qnawriteac(dto);
+		sqlSession.getMapper(AdminDAOImpl.class).updatecom(qna_idx);
+		
+		return "redirect:./Admin/qnaList.do";
+	}
+	
+	@RequestMapping("/deletecomm")
+	public String deletecomm(HttpServletRequest req) {
+		
+		int qnacomm_idx = Integer.parseInt(req.getParameter("qnacomm_idx"));
+		sqlSession.getMapper(AdminDAOImpl.class).deletecomm(qnacomm_idx);
+		
+		return "redirect:./Admin/qnaList.do";
+	}
+	
+	@RequestMapping("/modifycomm")
+	public String modifycomm(HttpServletRequest req, Model model) {
+
+		AdminDTO adminDTO = new AdminDTO();
+		
+		int qna_idx = Integer.parseInt(req.getParameter("qna_idx"));
+		adminDTO.setQna_idx(qna_idx);
+		AdminDTO qnaView = sqlSession.getMapper(AdminDAOImpl.class).qnaView(qna_idx);
+		AdminDTO qnaView1 = sqlSession.getMapper(AdminDAOImpl.class).qnaView1(qna_idx);
+		
+		model.addAttribute("qnaView",qnaView);
+		model.addAttribute("qnaView1",qnaView1);
+		
+		return "./Admin/AdminBoard/modifycomm";
+		
+	}
+	
+	@RequestMapping(value="/modifyQnAcomm", method=RequestMethod.POST)
+	public String modifyQnAcomm(HttpServletRequest req, AdminDTO adminDTO) {
+		
+		sqlSession.getMapper(AdminDAOImpl.class).modifyQnAcomm(adminDTO);
+		
+		return "redirect:./Admin/qnaList.do";
+	}
 	
 	
 /////////////////////원재옵///////////////////////////////////////////
@@ -312,93 +401,129 @@ public class AdminController {
 	
 	
 	//유기동물 리스트 
- 	@RequestMapping("/Admin/animalList.do")
- 	public String animalList(Model model, HttpServletRequest req) { 
- 		
- 		AbandonedAnimalDTO abandonedAnimalDTO = new AbandonedAnimalDTO();
- 		//유기동물 리스트 
- 		ArrayList<AbandonedAnimalDTO> animalList = sqlSession.getMapper(AdminDAOImpl.class).animalList(abandonedAnimalDTO);
- 		//모델에 저장
- 		model.addAttribute("animalList", animalList);
- 		
- 		return "./Admin/AdminAdopt/animalList";
- 	}
- 	
- 	//유기동물 신고 목록 
- 	@RequestMapping("/Admin/reportList.do")
- 	public String reportList(Model model, HttpServletRequest req) { 
- 		
- 		ReportDTO reportDTO = new ReportDTO();
- 		//유기동물 신고 
- 		ArrayList<ReportDTO> reportList = sqlSession.getMapper(AdminDAOImpl.class).reportList(reportDTO);
- 		//모델에 저장
- 		model.addAttribute("reportList", reportList);
- 		return "./Admin/AdminAdopt/reportList";
- 	}
- 	
- 	// 구조 상태 수정(접수 or 구조진행중 or 구조완료)
- 	@RequestMapping("/Admin/AdminAdopt/modifyReportStat")
- 	public String modifyReportStat(Model model, HttpServletRequest req) {
- 		
- 		int dclrAbnd_idx = Integer.parseInt(req.getParameter("dclrAbnd_idx"));
- 		String dclrAbnd_stts = req.getParameter("dclrAbnd_stts");
- 		int success = sqlSession.getMapper(AdminDAOImpl.class).modifyReportStat(dclrAbnd_stts, dclrAbnd_idx);
- 		
- 		if(success == 1) {
- 			System.out.println("동물 구조 상태 수정 성공");
- 			return "redirect:../reportList.do";
- 		} else {
- 			System.out.println("동물 구조 상태 수정 실패");
- 			return "redirect:../reportList.do";
- 		}
- 	}
- 	//유기동물 신고 상세보기
- 	@RequestMapping("/Admin/reportView.do")
- 	public String reportView(Model model, HttpServletRequest req) { 
- 		
- 		int dclrAbnd_idx = Integer.parseInt(req.getParameter("dclrAbnd_idx"));
- 		//유기동물 신고 
- 		ReportDTO reportView = sqlSession.getMapper(AdminDAOImpl.class).reportView(dclrAbnd_idx);
- 		//모델에 저장
- 		model.addAttribute("reportView", reportView);
- 		return "./Admin/AdminAdopt/reportView";
- 	}
- 	
- 	//유기동물 등록
-	@RequestMapping(value = "/Admin/animalRegistration.do",method = RequestMethod.GET)
-	public String animalRegistration() {
-		
-		return "/Admin/AdminAdopt/animalRegistration";
-	}
-	
-	@RequestMapping(value = "/Admin/animalRegistration.do",method = RequestMethod.POST)
-	public String abAniRegAction(AbandonedAnimalDTO abandonedAnimalDTO) {
-		System.out.println("ddd"+abandonedAnimalDTO.getAbani_neut());
-		
-		
-		int result = 
-				sqlSession.getMapper(AdminDAOImpl.class).animalRegistration(abandonedAnimalDTO);
-		if(result ==1) {
-			System.out.println("유기동물 등록성공!");
-		}
-		
-		
-		return "redirect:../";
-	}
+    @RequestMapping("/Admin/animalList.do")
+    public String animalList(Model model, HttpServletRequest req) { 
+       
+       AbandonedAnimalDTO abandonedAnimalDTO = new AbandonedAnimalDTO();
+       //유기동물 리스트 
+       ArrayList<AbandonedAnimalDTO> animalList = sqlSession.getMapper(AdminDAOImpl.class).animalList(abandonedAnimalDTO);
+       //모델에 저장
+       model.addAttribute("animalList", animalList);
+       
+       return "./Admin/AdminAdopt/animalList";
+    }
+    
+    //유기동물 신고 목록 
+    @RequestMapping("/Admin/reportList.do")
+    public String reportList(Model model, HttpServletRequest req) { 
+       
+       ReportDTO reportDTO = new ReportDTO();
+       //유기동물 신고 
+       ArrayList<ReportDTO> reportList = sqlSession.getMapper(AdminDAOImpl.class).reportList(reportDTO);
+       //모델에 저장
+       model.addAttribute("reportList", reportList);
+       return "./Admin/AdminAdopt/reportList";
+    }
+    // 구조 상태 수정(접수 or 구조진행중 or 구조완료)
+    @RequestMapping("/Admin/AdminAdopt/modifyReportStat")
+    public String modifyReportStat(Model model, HttpServletRequest req) {
+       
+       int dclrAbnd_idx = Integer.parseInt(req.getParameter("dclrAbnd_idx"));
+       String dclrAbnd_stts = req.getParameter("dclrAbnd_stts");
+       int success = sqlSession.getMapper(AdminDAOImpl.class).modifyReportStat(dclrAbnd_stts, dclrAbnd_idx);
+       
+       if(success == 1) {
+          System.out.println("동물 구조 상태 수정 성공");
+          return "redirect:../reportList.do";
+       } else {
+          System.out.println("동물 구조 상태 수정 실패");
+          return "redirect:../reportList.do";
+       }
+    }
+    // 입양 심사 상태 수정(거절, 심사중, 승인)
+     @RequestMapping("/Admin/AdminAdopt/modifyAdoptStt")
+     public String modifyAdoptStt(Model model, HttpServletRequest req) {
+        
+        int ADPAPL_idx = Integer.parseInt(req.getParameter("ADPAPL_idx"));
+        String ADPAPL_stt = req.getParameter("ADPAPL_stt");
+        int success = sqlSession.getMapper(AdminDAOImpl.class).modifyAdoptStt(ADPAPL_stt, ADPAPL_idx);
+        
+        if(success == 1) {
+           System.out.println("입양 심사 상태 수정 성공");
+           return "redirect:../animalList.do";
+        } else {
+           System.out.println("입양 심사 상태 수정 실패");
+           return "redirect:../adoptAppList.do";
+        }
+     }
+    //유기동물 신고 상세보기
+    @RequestMapping("/Admin/reportView.do")
+    public String reportView(Model model, HttpServletRequest req) { 
+       
+       int dclrAbnd_idx = Integer.parseInt(req.getParameter("dclrAbnd_idx"));
+       //유기동물 신고 
+       ReportDTO reportView = sqlSession.getMapper(AdminDAOImpl.class).reportView(dclrAbnd_idx);
+       //모델에 저장
+       model.addAttribute("reportView", reportView);
+       return "./Admin/AdminAdopt/reportView";
+    }
+    
+    //유기동물 등록
+   @RequestMapping(value = "/Admin/animalRegistration.do",method = RequestMethod.GET)
+   public String animalRegistration() {
+      
+      return "/Admin/AdminAdopt/animalRegistration";
+   }
+   
+   @RequestMapping(value = "/Admin/animalRegistration.do",method = RequestMethod.POST)
+   public String abAniRegAction(AbandonedAnimalDTO abandonedAnimalDTO, Model model, HttpServletRequest req, HttpSession session, MultipartHttpServletRequest mr) {
+      
+      System.out.println(abandonedAnimalDTO.getAbani_kind());
+      String age = abandonedAnimalDTO.getAbani_age() + "살";
+      abandonedAnimalDTO.setAbani_age(age);
+      String fileName = mr.getFile("ofile").toString();
+      if ( !fileName.split("filename=")[1].split(",")[0].equals("")) {
+         String path = req.getSession().getServletContext().getRealPath("/resources/Uploads");
+         
+         MultipartFile mfile = null;
+         try {
+            Iterator itr = mr.getFileNames();
+            if(itr.hasNext()) {
+               mfile = mr.getFile(itr.next().toString());
+               String originalName = new String(mfile.getOriginalFilename().getBytes(), "UTF-8");
+               String ext = originalName.substring(originalName.lastIndexOf('.'));
+               String saveFileName = FileUtil.getUuid() + ext;
+               mfile.transferTo(new File(path + File.separator + saveFileName));
+               abandonedAnimalDTO.setAbani_photo(saveFileName);
+            }
+         } catch (Exception e) {
+            e.printStackTrace();
+         }
+      }
+      
+      int result = 
+            sqlSession.getMapper(AdminDAOImpl.class).animalRegistration(abandonedAnimalDTO);
+      if(result ==1) {
+         System.out.println("유기동물 등록성공!");
+      }
+      
+      
+      return "redirect:./animalList.do";
+   }
 
- 	//입양신청 내역 
- 	@RequestMapping("/Admin/adoptAppList.do")
- 	public String adoptAppList(Model model, HttpServletRequest req) { 
- 		
- 		AdoptionAppDTO adoptionAppDTO = new AdoptionAppDTO();
- 		//입양신청내역 
- 		ArrayList<AdoptionAppDTO> adoptAppList = sqlSession.getMapper(AdminDAOImpl.class).adoptAppList(adoptionAppDTO);
- 		//모델에 저장
- 		model.addAttribute("adoptAppList", adoptAppList);
- 		return "./Admin/AdminAdopt/adoptAppList";
- 	}
- 	
- 	//동물 상태 수정(보호중 or 입양완료, 백신접종 여부, 중성화 여부)
+    //입양신청 내역 
+    @RequestMapping("/Admin/adoptAppList.do")
+    public String adoptAppList(Model model, HttpServletRequest req) { 
+       
+       AdoptionAppDTO adoptionAppDTO = new AdoptionAppDTO();
+       //입양신청내역 
+       ArrayList<AdoptionAppDTO> adoptAppList = sqlSession.getMapper(AdminDAOImpl.class).adoptAppList(adoptionAppDTO);
+       //모델에 저장
+       model.addAttribute("adoptAppList", adoptAppList);
+       return "./Admin/AdminAdopt/adoptAppList";
+    }
+    
+    //동물 상태 수정(보호중 or 입양완료, 백신접종 여부, 중성화 여부)
     @RequestMapping("/Admin/AdminAdopt/modifyAnimalList")
     public String modifyAnimalList(Model model, HttpServletRequest req) {
        
@@ -407,10 +532,16 @@ public class AdminController {
        int abani_neut = Integer.parseInt(req.getParameter("abani_neut"));
        int abani_vaccin = Integer.parseInt(req.getParameter("abani_vaccin"));       
        int success = sqlSession.getMapper(AdminDAOImpl.class).modifyAnimalList(abani_stat, abani_neut, abani_vaccin, abani_idx);
-       
        if(success == 1) {
-          System.out.println("회원정보 수정 성공");
-          return "redirect:../animalList.do";
+    	   System.out.println("회원정보 수정 성공");
+    	   int member_idx = Integer.parseInt(req.getParameter("m_idx"));
+    	   int effect = sqlSession.getMapper(AdminDAOImpl.class).adp_insert(abani_idx, member_idx);
+    	   if(effect == 1) {
+    		   System.out.println("입양 완료 성공");
+    	   } else {
+    		   System.out.println("입양 완료 실패");
+    	   }
+    	   return "redirect:../animalList.do";
        } else {
           System.out.println("회원정보 수정 실패");
           return "redirect:../animalList.do";
@@ -504,5 +635,66 @@ public class AdminController {
  		sqlSession.getMapper(AdminDAOImpl.class).AdpDelete(review_idx);
  		return "redirect:./Admin/AdpReview.do";
  	}    
-    
+ // 고객 주문내역 리스트
+  	@RequestMapping("/Admin/PayMent.do")
+  	public String PayMent(Model model) {
+  		
+  		ArrayList<PayMentDTO> PayMent = sqlSession.getMapper(AdminDAOImpl.class).PayMent();
+  		model.addAttribute("PayMent", PayMent);
+  		System.out.println("PayMent" + PayMent);
+  		return "./Admin/AdminBoard/PayMent";
+  	}
+
+ 	// 구매 주문내역(결제상태) 수정
+ 	@RequestMapping("/Admin/AdminBoard/modifypay")
+ 	public String modifypay(Model model, HttpServletRequest req) {
+ 		
+ 		int payment_idx = Integer.parseInt(req.getParameter("payment_idx"));
+ 		String payStus = req.getParameter("payStus");
+ 		int success = sqlSession.getMapper(AdminDAOImpl.class).modifypay(payStus, payment_idx);
+ 		
+ 		if(success == 1) {
+ 			System.out.println("결제상태 수정 성공");
+ 			return "redirect:../PayMent.do";
+ 		} else {
+ 			System.out.println("결제상태 수정 실패");
+ 			return "redirect:../PayMent.do";
+ 		}
+ 	}
+ 	
+   	// 배송내역 리스트
+   	@RequestMapping("/Admin/ShipLocInfo.do")
+   	public String ShipLocInfo(Model model) {
+   		
+   		ArrayList<ShipLocInfoDTO> ShipLocInfo = sqlSession.getMapper(AdminDAOImpl.class).ShipLocInfo();
+   		model.addAttribute("ShipLocInfo", ShipLocInfo);
+   		System.out.println("ShipLocInfo" + ShipLocInfo);
+   		return "./Admin/AdminBoard/ShipLocInfo";
+   	}
+   	
+   	// 배송상태(PRP준비, dlv중, cmp완료) 수정
+  	@RequestMapping("/Admin/AdminBoard/modifyshipinfo")
+  	public String modifyshipinfo(Model model, HttpServletRequest req) {
+  		
+  		int shiplocinfo_idx = Integer.parseInt(req.getParameter("shiplocinfo_idx"));
+  		String delivery_status = req.getParameter("delivery_status");
+  		int success = sqlSession.getMapper(AdminDAOImpl.class).modifyshipinfo(delivery_status, shiplocinfo_idx);
+  		
+  		if(success == 1) {
+  			System.out.println("결제상태 수정 성공");
+  			return "redirect:../ShipLocInfo.do";
+  		} else {
+  			System.out.println("결제상태 수정 실패");
+  			return "redirect:../ShipLocInfo.do";
+  		}
+  	}
+   	// 배송내역 삭제 
+	@RequestMapping("/ShipInfoDelete.do")
+	public String ShipInfoDelete(HttpServletRequest req) {
+
+		int shiplocinfo_idx = Integer.parseInt(req.getParameter("shiplocinfo_idx"));
+		System.out.println("shiplocinfo_idx" + shiplocinfo_idx);
+		sqlSession.getMapper(AdminDAOImpl.class).ShipInfoDelete(shiplocinfo_idx);
+		return "redirect:./Admin/ShipLocInfo.do";
+	}    
 }

@@ -97,6 +97,28 @@ public class AbandonedAnimalDTO {
 		this.abani_species = abani_species;
 	}
 	
+	private int member_idx;
+	private String adpapl_stt;
+	private int adpapl_idx;
 	
+	
+	public int getAdpapl_idx() {
+		return adpapl_idx;
+	}
+	public void setAdpapl_idx(int adpapl_idx) {
+		this.adpapl_idx = adpapl_idx;
+	}
+	public String getAdpapl_stt() {
+		return adpapl_stt;
+	}
+	public void setAdpapl_stt(String adpapl_stt) {
+		this.adpapl_stt = adpapl_stt;
+	}
+	public int getMember_idx() {
+		return member_idx;
+	}
+	public void setMember_idx(int member_idx) {
+		this.member_idx = member_idx;
+	}
 	
 }

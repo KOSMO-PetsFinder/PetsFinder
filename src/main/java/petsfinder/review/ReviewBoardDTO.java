@@ -97,7 +97,28 @@ public class ReviewBoardDTO {
 		this.pet_name = pet_name;
 	}
 
+	private int product_idx;
+	private String member_id;
+	private int payment_idx;
 
+	public int getPayment_idx() {
+		return payment_idx;
+	}
+	public void setPayment_idx(int payment_idx) {
+		this.payment_idx = payment_idx;
+	}
+	public String getMember_id() {
+		return member_id;
+	}
+	public void setMember_id(String member_id) {
+		this.member_id = member_id;
+	}
+	public int getProduct_idx() {
+		return product_idx;
+	}
+	public void setProduct_idx(int product_idx) {
+		this.product_idx = product_idx;
+	}
 	
 	
 	

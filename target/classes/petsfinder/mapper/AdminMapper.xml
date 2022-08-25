@@ -9,7 +9,7 @@
   <!--//// 은아언니 ////////////////////////////////////-->
   
   <select id="qnaList" resultType="petsfinder.admin.AdminDTO">
-  	select qna_idx, qna_title, qna_content, qna_photo, to_char(qna_regdate, 'yyyy-mm-dd')qna_regdate, qna_stt, qna_openstatus, member_idx from qna_board
+  	select qna_idx, qna_title, qna_content, qna_photo, to_char(qna_regdate, 'yyyy-mm-dd') qna_regdate, qna_stt, qna_openstatus, member_idx from qna_board
   </select>
   
   <select id="qnaView" resultType="petsfinder.admin.AdminDTO">
@@ -182,14 +182,46 @@
 	
 	<!-- 상품 사진 -->
 	<insert id="i_photo">
-		INSERT INTO product_image VALUES (SEQ_pdt_image_idx.nextval, #{ param1 }, seq_product_idx.nextval)
+		INSERT INTO product_image VALUES (SEQ_pdt_image_idx.nextval, #{ param1 }, (select max(product_idx) product_idx from product))
 	</insert>
 	
 	<delete id="d_photo">
 		DELETE FROM product_image WHERE pdt_image_idx = #{ pdt_image_idx }
 	</delete>
 	
-  
+	  <!-- qna + 댓글-->
+	  
+	  <select id="qnaView1" resultType="petsfinder.admin.AdminDTO" parameterType="int">
+			select * from qna_comment
+				where qna_idx=#{ param1 }
+	  </select>
+	  
+	  <select id="commentlist" resultType="petsfinder.board.QnACommentDTO">
+	  	select * from qna_comment
+	  </select>
+	  
+	  <select id="qnaComment" resultType="petsfinder.board.QnACommentDTO">
+	  	select * from qna_comment where qnacomm_idx=#{qnacomm_idx }
+	  </select>
+	  
+	  <insert id="qnawriteac" parameterType="petsfinder.board.QnACommentDTO">
+	  	INSERT INTO qna_comment (
+	  		qnacomm_idx, qnacomm_content, qnacomm_regdate, qna_idx)
+	  	VALUES
+	  	(seq_qnacomm_idx.nextval, #{qnacomm_content}, sysdate, #{qna_idx})
+	  </insert>
+	  <!-- QnA답변 완료 -->
+	<update id="updatecom" parameterType="int">
+		UPDATE qna_board SET qna_stt='com' WHERE qna_idx=#{qna_idx}
+	</update>
+	
+	<delete id="deletecomm" parameterType="int">
+		delete from qna_comment where qnacomm_idx=#{qnacomm_idx}
+	</delete>
+	
+	<update id="modifyQnAcomm" parameterType="petsfinder.admin.AdminDTO">
+		update qna_comment set qnacomm_content=#{qnacomm_content} where qna_idx=#{qna_idx}
+	</update>
   
   
   
@@ -202,7 +234,7 @@
 					, ADPAPL_tel, ADPAPL_addr
 					, decode (ADPAPL_job,'0','X','1','O') ADPAPL_job1
 					, decode (ADPAPL_exp,'0','X','1','O') ADPAPL_exp1
-					, ADPAPL_havepet, adpapl_fNum, abani_idx
+					, ADPAPL_havepet, adpapl_fNum, abani_idx, ADPAPL_stt, member_idx
 			from ADOPTION_APPLICATION ORDER BY ADPAPL_idx ASC
 	</select>
   
@@ -210,20 +242,37 @@
   
 	<!-- 유기동물 리스트 가져오기 -->
 	<select id="animalList" resultType="petsfinder.abandonedanimal.AbandonedAnimalDTO">
-			SELECT abani_idx, abani_kind
-					, decode (abani_gender,'F','암컷','M','수컷') abani_gender
-					, abani_loc, abani_regdate, abani_neut
-					, decode (abani_stat,'prtct','prtct','adopt','adopt') abani_stat
-					, abani_age, abani_vaccin
-					, decode (abani_species, 'dog', '강아지', 'cat', '고양이') abani_species
-					, abani_char
-			from abandonedAnimal ORDER BY abani_idx ASC
+		SELECT a.abani_idx, abani_kind
+		        , decode (abani_gender,'F','암컷','M','수컷') abani_gender
+		        , abani_loc, abani_regdate, abani_neut
+		        , decode (abani_stat,'prtct','prtct','adopt','adopt') abani_stat
+		        , abani_age, abani_vaccin
+		        , decode (abani_species, 'dog', '강아지', 'cat', '고양이') abani_species
+		        , abani_char, adpapl_stt, member_idx
+		from 
+		    abandonedAnimal a 
+		left outer join
+		    adoption_application b
+		on 
+		    a.abani_idx = b.abani_idx
+		ORDER BY a.abani_idx ASC
 	</select>
   
 	<!-- 입양상태 수정 -->
 	<update id="modifyAnimalList">
 	  		UPDATE abandonedAnimal SET abani_stat=#{ param1 }, abani_neut=#{ param2 }, abani_vaccin=#{ param3 } WHERE abani_idx=#{ param4 }
 	</update>
+	
+	
+	<!-- 입양 심사 상태 업데이트 -->
+	<update id="modifyAdoptStt">
+	  		UPDATE ADOPTION_APPLICATION SET ADPAPL_stt=#{ param1 } WHERE ADPAPL_idx=#{ param2 }
+	</update>
+	 
+	 <insert id="adp_insert">
+	 	insert into ADOPTION_list values (SEQ_ADOPlist_idx.nextval, sysdate, #{ param1 }, #{ param2 })
+	 </insert>
+	 
 	 
 	 <!-- 유기동물 전체 리스트 가져오기 -->
 	<select id="getTotalCount" resultType="int">
@@ -262,11 +311,9 @@
 									, abani_loc, abani_regdate,	abani_neut, abani_stat
 									, abani_photo, abani_age, abani_vaccin, abani_species,abani_char )
                 VALUES(	SEQ_abani_idx.nextval, #{abani_kind}, #{abani_gender}, #{abani_loc}
-                        , #{abani_regdate}, #{abani_neut}, 'prtct', '사진경로'
+                        , sysdate, #{abani_neut}, 'prtct', #{abani_photo}
                         , #{abani_age}, #{abani_vaccin}, #{abani_species}, #{abani_char} )
 	</insert>
-  
-  
   
   
   <!--////////////////////택수옵////////////////////////////////////////////////////////  -->
@@ -304,6 +351,31 @@
   <!-- 입양 후기 게시판 삭제 -->
   <delete id="AdpDelete" parameterType="int">
   	delete from review_board where review_idx=#{param1}
+  </delete>
+  
+  <!-- 구매 내역 리스트 -->
+  <select id="PayMent" resultType="petsfinder.shop.PayMentDTO">
+     select * from payment
+  </select>
+  
+  <!-- 구매 내역(결제상태) 수정 -->
+  <update id="modifypay">
+		UPDATE payment SET payStus=#{ param1 } WHERE payment_idx=#{ param2 }
+  </update>
+ 
+  <!-- 배송내역 리스트 -->
+  <select id="ShipLocInfo" resultType="petsfinder.shop.ShipLocInfoDTO">
+   		select * from shippingloc_info
+  </select>
+  
+  <!-- 배송상태(PRP준비, dlv중, cmp완료) 수정 -->
+  <update id="modifyshipinfo">
+		UPDATE shippingloc_info SET delivery_status=#{ param1 } WHERE shiplocinfo_idx=#{ param2 }
+  </update>
+  
+  <!-- 배송내역 삭제 -->
+  <delete id="ShipInfoDelete" parameterType="int">
+  		delete from shippingloc_info where shiplocinfo_idx=#{param1}
   </delete>
   
   </mapper>

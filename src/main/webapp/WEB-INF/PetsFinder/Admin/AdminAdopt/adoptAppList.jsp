@@ -27,6 +27,20 @@
 		<div id="layoutSidenav_nav">
 			<jsp:include page="../common/leftHeader.jsp"></jsp:include>
 		</div>
+		<form name="changeFrm" action="./AdminAdopt/modifyAdoptStt" method="GET">
+	    <input type="hidden" name="ADPAPL_idx" id="ADPAPL_idx"/>
+	    <input type="hidden" name="ADPAPL_stt" id="ADPAPL_stt"/>
+	    </form>
+	    <script>
+	        function modifyAdoptStt(idx) {
+	        	console.log(idx)
+	    	    $('#ADPAPL_idx').val(idx);
+	            var type = $('#ADPAPL_stt_' + idx).val();
+	            console.log(type)
+	            $('#ADPAPL_stt').val(type)
+	            document.changeFrm.submit();
+	        }
+	    </script>
 		<div id="layoutSidenav_content" style="text-align: center;">
 			<div style="margin-top: 50px;">
 				<h1>입양 신청 내역</h1>
@@ -47,6 +61,8 @@
 							<th>반려동물 키운 기간</th>
 							<th>가족 수</th>
 							<th>신청 유기동물</th>
+							<th>심사상태</th>
+							<th>업데이트</th>
 						</tr>
 					</thead>
 					<tfoot>
@@ -62,6 +78,8 @@
 							<th>반려동물 키운 기간</th>
 							<th>가족 수</th>
 							<th>신청 유기동물</th>
+							<th>심사상태</th>
+							<th>업데이트</th>
 						</tr>
 					</tfoot>
 					<tbody>
@@ -78,6 +96,14 @@
 								<td>${row.ADPAPL_havepet }</td>
 								<td>${row.adpapl_fNum }</td>
 								<td>${row.abani_idx }</td>
+								<td><select id="ADPAPL_stt_${row.ADPAPL_idx }" name="ADPAPL_stt">
+		                            <option ${row.ADPAPL_stt == 'rej' ? 'selected' : "" } value="rej">입양거절</option>
+		                            <option ${row.ADPAPL_stt == 'udr' ? 'selected' : "" } value="udr">심사중</option>
+		                            <option ${row.ADPAPL_stt == 'apl' ? 'selected' : "" } value="apl">입양승인</option>
+	                            </select></td>
+	                            <td><button type="button" class="btn btn-info btn-sm" 
+									onclick="modifyAdoptStt(${row.ADPAPL_idx });">적용</button>
+								</td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -86,6 +112,7 @@
 		</div>
 	</div>
 	<!-- footer -->
+	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 	<script src="<c:url value='/'/>jsAdmin/scripts.js"></script>
 	<script	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>

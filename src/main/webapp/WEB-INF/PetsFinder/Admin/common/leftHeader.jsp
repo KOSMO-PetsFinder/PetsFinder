@@ -127,14 +127,14 @@
 										<a class="nav-link" href="<c:url value="/" />Admin/AdminShop/shopRegi">
 												상품등록
 										</a>
-										<a class="nav-link" href="401.html">
+										<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#shopPay" aria-expanded="false" aria-controls="pagesCollapseError1">
 												결제
 												<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
 										</a>
-										<div class="collapse" id="pagesCollapseError1" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+										<div class="collapse" id="shopPay" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
 												<nav class="sb-sidenav-menu-nested nav">
-														<a class="nav-link" href="401.html">쇼핑몰 관련 결제내역</a>
-														<a class="nav-link" href="404.html">코인 관련 결제내역</a>
+														<a class="nav-link" href="<c:url value='/' />Admin/PayMent.do">고객 주문내역</a>
+														<a class="nav-link" href="<c:url value='/' />Admin/ShipLocInfo.do">배송내역</a>
 												</nav>
 										</div>
 											<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">

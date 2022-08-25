@@ -23,6 +23,17 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    
+    <script type="text/javascript">
+	function deleteComm(idx) {
+    if(confirm("정말로 삭제하시겠습니까?")){
+    	var abani_idx = "${abandonedAnimalDTO.abani_idx}";
+	    location.href = "./deleteComm?commIdx="+idx+"&abani_idx="+abani_idx;
+	   }
+	}
+	</script>
+	
 </head> 
 
 <body cz-shortcut-listen="true">
@@ -56,17 +67,21 @@
 				"review_idx" : review_idx,
 				"reviewcomm_regdate" : reviewcomm_regdate,
 			},
-			dataType : 'text',
-			success : function () {
+			dataType : 'json',
+			success : function (res) {
 				console.log("성공");
 				var content=""; 
 				content += "<div style='display: flex; flex-direction: row; align-self: flex-end; margin-top: 32px; width: 600px'><img width='50' height='50'";
 				content += "src='<c:url value='/' />Uploads/"+member_photo+"' style='object-fit: cover; border-radius: 50%;'>";
 				content += "<div style='background-color: rgb(250, 250, 252); width: 100%; padding: 20px 24px;'>";
-				content	+= "<div style='display: flex; flex-direction: row; align-items: center;'>";
-				content += "<p style='font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);'>" +member_namec+"님";
-				content += "댓글</p><p style='font-size: 13px; line-height: 19px; color: rgb(157, 164, 180); margin-left: 9px;'>" +reviewcomm_regdate+"</p>";
-				content	+= "</div>";
+				content	+= "<div style='display: flex; flex-direction: row; justify-content: space-between;'>";
+ 				content += "<div style='display: flex; flex-direction: row; align-items: center'>";
+				content += "<p style='font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);'>" + member_namec + "</p>";
+				content += "<p style='font-size: 13px; line-height: 19px; color: rgb(157, 164, 180); margin-left: 9px;'>" + reviewcomm_regdate + "</p>";
+ 				content += "</div>";
+				content += "<div>";
+				content += "<button type='button' style='border: none; background: none; color: red; ' onclick='deleteCommSit(" + res.reviewcomm_idx +");'>X</button>";
+				content	+= "</div></div>";
 				content	+= "<p style='font-size: 15px; line-height: 25px; color: rgb(85, 85, 85); margin-top: 12px;'>"+reviewcomm_content+"</p>";
             	content	+= "</div></div>";
 				$(content).appendTo("#com${row.review_idx}");
@@ -239,25 +254,25 @@
 													<div
 														style="display: flex; overflow: hidden; border-radius: 3px; margin-right: 9px; user-select: none; cursor: pointer; position: relative;">
 														<img width="139" height="139"
-															src="./sitterView/46bbf847d6434a20a033a18a0061879b.jpg"
+															src="../sitterView/46bbf847d6434a20a033a18a0061879b.jpg"
 															style="object-fit: cover;">
 													</div>
 													<div
 														style="display: flex; overflow: hidden; border-radius: 3px; margin-right: 9px; user-select: none; cursor: pointer; position: relative;">
 														<img width="139" height="139"
-															src="./sitterView/8a2b86f4fc534f73a15a434baebd53fa.jpg"
+															src="../sitterView/8a2b86f4fc534f73a15a434baebd53fa.jpg"
 															style="object-fit: cover;">
 													</div>
 													<div
 														style="display: flex; overflow: hidden; border-radius: 3px; margin-right: 9px; user-select: none; cursor: pointer; position: relative;">
 														<img width="139" height="139"
-															src="./sitterView/01b9927be704472a8e4f75dbdfcf55ce.jpg"
+															src="../sitterView/01b9927be704472a8e4f75dbdfcf55ce.jpg"
 															style="object-fit: cover;">
 													</div>
 													<div
 														style="display: flex; overflow: hidden; border-radius: 3px; margin-right: 9px; user-select: none; cursor: pointer; position: relative;">
 														<img width="139" height="139"
-															src="./sitterView/6a7dffb15ac44f28a39289bf5357ad23.jpg"
+															src="../sitterView/6a7dffb15ac44f28a39289bf5357ad23.jpg"
 															style="object-fit: cover;">
 														<div
 															style="display: flex; position: absolute; inset: 0px; width: 139px; height: 139px; align-items: center; justify-content: center; background-color: rgba(0, 0, 0, 0.59); border-radius: 3px;">
@@ -306,9 +321,16 @@
 														<!-- 이름,날짜,내용 -->
 														<div
 															style="display: flex; flex-direction: row; align-items: center;">
+															<c:if test="${ row.member_photo ne null }" var="rmp">
 															<img width="50" height="50"
-																src="../images/4.png"
+																src="<c:url value="/"/>Uploads/${ row.member_photo }"
 																style="object-fit: cover; border-radius: 50%;">
+															</c:if>
+															<c:if test="${ not rmp }">
+															<img width="50" height="50"
+																src="<c:url value="/"/>images/no_review.png"
+																style="object-fit: cover; border-radius: 50%;">
+															</c:if>
 															<div style="margin-left: 18px;">
 																<p
 																	style="font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72); margtin-bottom: 0">${row.member_namer }</p>
@@ -407,20 +429,15 @@
 														<!-- 사진 -->
 														<div
 															style="display: flex; flex-direction: row; margin-top: 33px;">
-															<img width="90" height="90"
-																src="../images/4.png"
-																style="border-radius: 2px; object-fit: cover; margin-right: 9px; user-select: none; cursor: pointer;"><img
-																width="90" height="90"
-																src="../images/4.png"
-																style="border-radius: 2px; object-fit: cover; margin-right: 9px; user-select: none; cursor: pointer;"><img
-																width="90" height="90"
-																src="../images/4.png"
-																style="border-radius: 2px; object-fit: cover; margin-right: 9px; user-select: none; cursor: pointer;">
+															<c:if test="${ row.review_photo ne null }">
+																<img width="90" height="90"	src="<c:url value="/"/>Uploads/${ row.review_photo }"
+																	style="border-radius: 2px; object-fit: cover; margin-right: 9px; user-select: none;">
+															</c:if>
 															<c:if test="${sessionScope.idx ne null }">
 															<div style="display: flex; flex-direction: column-reverse; margin-left:auto;  float: right; vertical-align:bottom; padding-bottom: 3px;">
-																<p onclick="commentView${row.review_idx}()" style="cursor: pointer;" >
-																	댓글달기
-																	<img src="../images/comment.png" alt="" width="20" height="20" />
+																<p onclick="commentView${row.review_idx}()" style="cursor: pointer; color:#75c9ba;" >
+																	댓글쓰기
+																	<img src="../images/comment.png" alt="" width="15" height="15" style="color:#75c9ba;" />
 																</p>
 															</div>
 															</c:if>
@@ -448,7 +465,7 @@
 																if(temp < 1) {
 																	temp++;
 																%>
-																	<button onclick="com_view${row.review_idx}();" style='background: none; border: none;'>댓글보기</button>
+																	<button onclick="com_view${row.review_idx}();" style='background: none; border: none; color: #75c9ba'>댓글보기</button>
 																<%}%>
 															</c:if>
 														</c:forEach>
@@ -460,24 +477,29 @@
 														
 														
 														
-															<div
-															style="display: flex; flex-direction: row; align-self: flex-end; margin-top: 32px; width: 600px">
-															<img width="50" height="50"
-															src="<c:url value='/' />Uploads/${ rerow.member_photo }"
-															style="object-fit: cover; border-radius: 50%;">
+														<div style="display: flex; flex-direction: row; align-self: flex-end; margin-top: 32px; width: 600px">
+															<c:if test="${ rerow.member_photo ne null}" var="mp">
+															<img width="50" height="50"	src="<c:url value='/' />Uploads/${ rerow.member_photo }" style="object-fit: cover; border-radius: 50%;">
+															</c:if>
+															<c:if test="${ not mp }">
+															<img width="50" height="50"	src="<c:url value='/' />images/no_review.png" style="object-fit: cover; border-radius: 50%;">
+															</c:if>
 															<div
 																style="background-color: rgb(250, 250, 252); width: 100%; padding: 20px 24px;">
-																<div
-																	style="display: flex; flex-direction: row; align-items: center;">
-																	<p
-																		style="font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);">${rerow.member_namec }님
-																		댓글</p>
-																	<p
-																		style="font-size: 13px; line-height: 19px; color: rgb(157, 164, 180); margin-left: 9px;">${rerow.reviewcomm_regdate }</p>
+					                                          	<div style="display: flex; flex-direction: row; justify-content: space-between;">
+																	<div style="display: flex; flex-direction: row; align-items: center">
+																		<p style="font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);">${rerow.member_namec }</p>
+																		<p style="font-size: 13px; line-height: 19px; color: rgb(157, 164, 180); margin-left: 9px;">${rerow.reviewcomm_regdate }</p>
+																	</div>
+																	<c:if test="${rerow.member_idx eq sessionScope.idx }">
+																	<div>
+						                                             	<button type="button" style="border: none; background: none; color: red; " onclick="deleteCommSit(${rerow.reviewcomm_idx});">X</button>
+																	</div>
+						                                          	</c:if>
 																</div>
 																<p style="font-size: 15px; line-height: 25px; color: rgb(85, 85, 85); margin-top: 12px;">${rerow.reviewcomm_content }</p>
 															</div>
-															</div>
+														</div>
 															
 														</c:if>
 														<c:if test="${index.last  }">
@@ -506,12 +528,6 @@
 									</div>
 								</div>
 							</div>
-						</div>
-						<div class="custom-channel-io-button"
-							style="position: fixed; right: 0px; bottom: 90px; z-index: 99999;">
-							<img
-								src="./sitterView/mobile_channelio_icon.png"
-								style="width: 95px; height: 95px;">
 						</div>
 					</div>
 				</div>

@@ -46,6 +46,12 @@ textarea {
 	<p style="margin-top:9px;">마이페이지 > 시터 후기 쓰기</p>
 </div>
 </c:if>
+<c:if test="${ flag eq 'shp' }">
+<div style="display: flex; justify-content: right; color: #CCCCCC; padding-top: 55px; margin-top: 50px">
+	<img src="./images/mypage_color.png" alt="" style="width:30px; height:25px; padding-right: 5px">
+	<p style="margin-top:9px;">마이페이지 > 구매 후기 쓰기</p>
+</div>
+</c:if>
 <div style="display:flex; justify-content: center;">
 	<div style="display: flex; flex-direction: column; border-top: 2px solid #75c9ba; padding: 38px 0px; margin-top: 100px; width: 800px;">
 	<script>
@@ -58,6 +64,9 @@ textarea {
 		<input type="hidden" name="sit_idx" value="${ sit_idx }"/>
 		<input type="hidden" name="sbook_idx" value="${ sbook_idx }"/>
 		<input type="hidden" name="review_idx" value="${ review_idx }"/>
+		<input type="hidden" name="abani_idx" value="${ abani_idx }" />
+		<input type="hidden" name="payment_idx" value="${payment_idx }" />
+		<input type="hidden" name="product_idx" value="${product_idx }" />
 		<c:if test="${ flag eq 'sit' }">
 		<div style="display: flex; flex-direction: row; align-items: center; border-bottom: 1px solid #cccccc;">
 			<div style="margin-left: 18px;">
@@ -66,6 +75,18 @@ textarea {
 				</p>
 				<p style="font-size: 15px; line-height: 19px; color: rgb(76, 80, 86); margin-top: 6px;">
 					예약 기간 : ${ s } ~ ${ e }
+				</p>
+			</div>
+		</div>
+		</c:if>
+		<c:if test="${ flag eq 'shp' }">
+		<div style="display: flex; flex-direction: row; align-items: center; border-bottom: 1px solid #cccccc;">
+			<div style="margin-left: 18px;">
+				<p style="font-size: 20px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);">
+					상품명 : ${ product_name } 
+				</p>
+				<p style="font-size: 15px; line-height: 19px; color: rgb(76, 80, 86); margin-top: 6px;">
+					구매 날짜 : ${ pay_date }
 				</p>
 			</div>
 		</div>

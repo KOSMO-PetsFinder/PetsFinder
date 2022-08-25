@@ -42,7 +42,7 @@
     
     <section style="margin-top: 102px; box-shadow: rgba(0, 0, 0, 0.08) 0 0 10px 0;">
       <!-- 후기 시작 -->
-      <c:forEach items="${lists }" var="row" varStatus="vs">
+      <c:forEach items="${ lists }" var="row" varStatus="vs">
       <c:if test="${vs.index%3 == 0  }">
       <!-- 후기 한 줄 시작 -->
       <div style="display: flex; justify-content: flex-start; margin-left:200px;">

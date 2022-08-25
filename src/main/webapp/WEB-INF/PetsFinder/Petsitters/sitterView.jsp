@@ -22,6 +22,14 @@
 <script src="../jquery/jquery-ui.js"></script>
 <!-- iamport.payment.js -->
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+	<script type="text/javascript">
+    function deleteCommSit(idx) {
+    if(confirm("정말로 삭제하시겠습니까?")){
+        var sit_idx = "${sitterView.sit_idx}";
+        location.href = "./deleteCommSit?commIdx="+idx+"&sit_idx="+sit_idx;
+       }
+    }
+    </script>
 	<c:forEach items="${stReview }" var="sr">
 	<!-- ajax시작 -->
     <script type="text/javascript">
@@ -56,17 +64,21 @@
 				"review_idx" : review_idx,
 				"reviewcomm_regdate" : reviewcomm_regdate,
 			},
-			dataType : 'text',
-			success : function () {
+			dataType : 'json',
+			success : function (res) {
 				console.log("성공");
 				var content=""; 
 				content += "<div style='display: flex; flex-direction: row; justify-content: space-between; margin-top: 32px; '><img width='50' height='50'";
 				content += "src='<c:url value='/' />Uploads/"+member_photo+"' style='object-fit: cover; border-radius: 50%;'>";
 				content += "<div style='background-color: rgb(250, 250, 252); width: 515px; padding: 20px 24px;'>";
-				content	+= "<div style='display: flex; flex-direction: row; align-items: center;'>";
-				content += "<p style='font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);'>" +member_namec;
-				content += "</p><p style='font-size: 13px; line-height: 19px; color: rgb(157, 164, 180); margin-left: 9px;'>" +reviewcomm_regdate+"</p>";
-				content	+= "</div>";
+				content	+= "<div style='display: flex; flex-direction: row; justify-content: space-between;'>";
+ 				content += "<div style='display: flex; flex-direction: row; align-items: center'>";
+				content += "<p style='font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);'>" + member_namec + "</p>";
+				content += "<p style='font-size: 13px; line-height: 19px; color: rgb(157, 164, 180); margin-left: 9px;'>" + reviewcomm_regdate + "</p>";
+ 				content += "</div>";
+				content += "<div>";
+				content += "<button type='button' style='border: none; background: none; color: red; ' onclick='deleteCommSit(" + res.reviewcomm_idx +");'>X</button>";
+				content	+= "</div></div>";
 				content	+= "<p style='font-size: 15px; line-height: 25px; color: rgb(85, 85, 85); margin-top: 12px;'>"+reviewcomm_content+"</p>";
             	content	+= "</div></div>";
 				$(content).appendTo("#com${sr.review_idx}");
@@ -530,7 +542,9 @@
 															
 																<p style="font-size: 15px; line-height: 25px; color: rgb(76, 80, 86); margin-top: 18px;">${ sr.review_content}</p>
 																<div style="display: flex; flex-direction: row; margin-top: 33px;">
+																	<c:if test="${ sr.review_photo ne null }">
 																	<img width="90" height="90" src="<c:url value='/' />Uploads/${ sr.review_photo }" style="border-radius: 2px; object-fit: cover; margin-right: 9px; user-select: none; cursor: pointer;">
+																	</c:if>
 																	<div style="display: flex; flex-direction: column-reverse; margin-left:auto;  float: right; vertical-align:bottom; padding-bottom: 10px;">
 																			<p onclick="com_view${sr.review_idx}()" style="cursor: pointer; color:#75c9ba;" >
 																				댓글보기
@@ -569,11 +583,23 @@
 																		<c:if test="${rerow.review_idx eq sr.review_idx }" >
 																		<!-- 댓글 부분 -->
 																		<div style="display: flex; flex-direction: row; justify-content: space-between; margin-top: 32px;">
-																			<img width="50" height="50" src="<c:url value='/'/>Uploads/${rerow.member_photo }" style="object-fit: cover; border-radius: 50%;">
+																			<c:if test="${ rerow.member_photo ne null}" var="mp">
+																			<img width="50" height="50"	src="<c:url value='/' />Uploads/${ rerow.member_photo }" style="object-fit: cover; border-radius: 50%;">
+																			</c:if>
+																			<c:if test="${ not mp }">
+																			<img width="50" height="50"	src="<c:url value='/' />images/no_review.png" style="object-fit: cover; border-radius: 50%;">
+																			</c:if>
 																			<div style="background-color: rgb(250, 250, 252); width: 515px; padding: 20px 24px;">
-																				<div style="display: flex; flex-direction: row; align-items: center;">
-																					<p style="font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);">${rerow.member_namec }</p>
-																					<p style="font-size: 13px; line-height: 19px; color: rgb(157, 164, 180); margin-left: 9px;">${rerow.reviewcomm_regdate }</p>
+																				<div style="display: flex; flex-direction: row; justify-content: space-between;">
+																					<div style="display: flex; flex-direction: row; align-items: center">
+																						<p style="font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(56, 60, 72);">${rerow.member_namec }</p>
+																						<p style="font-size: 13px; line-height: 19px; color: rgb(157, 164, 180); margin-left: 9px;">${rerow.reviewcomm_regdate }</p>
+																					</div>
+																					<c:if test="${rerow.member_idx eq sessionScope.idx }">
+																					<div>
+										                                             	<button type="button" style="border: none; background: none; color: red; " onclick="deleteCommSit(${rerow.reviewcomm_idx});">X</button>
+																					</div>
+										                                          	</c:if>
 																				</div>
 																				<p style="font-size: 15px; line-height: 25px; color: rgb(85, 85, 85); margin-top: 12px;">${rerow.reviewcomm_content }</p>
 																			</div>

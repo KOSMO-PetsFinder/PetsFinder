@@ -83,5 +83,21 @@ public class ProductDTO {
 		this.product_stock = product_stock;
 	} 
 	
+	//최근 본 게시물
 	
+	private int recent_idx;
+	private Date regidate;
+	
+	public int getRecent_idx() {
+		return recent_idx;
+	}
+	public void setRecent_idx(int recent_idx) {
+		this.recent_idx = recent_idx;
+	}
+	public Date getRegidate() {
+		return regidate;
+	}
+	public void setRegidate(Date regidate) {
+		this.regidate = regidate;
+	}
 }

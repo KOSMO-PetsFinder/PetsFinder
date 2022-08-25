@@ -1,8 +1,10 @@
 package com.kosmo.petsfinder;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -15,12 +17,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import fileupload.FileUtil;
 import petsfinder.abandonedanimal.AbandonedAnimalDAOImpl;
 import petsfinder.abandonedanimal.AbandonedAnimalDTO;
 import petsfinder.abandonedanimal.AdoptionAppDTO;
 import petsfinder.abandonedanimal.ParameterDTO;
 import petsfinder.abandonedanimal.ReportDTO;
+import petsfinder.member.MemberDAOImpl;
+import petsfinder.member.MemberDTO;
+import petsfinder.petsitter.PetSitterDAOImpl;
 import petsfinder.review.ReviewBoardDTO;
 import petsfinder.review.ReviewCommentDTO;
 import petsfinder.review.ReviewLikeDTO;
@@ -284,12 +292,26 @@ public class AbandonedAnimalController {
 				sqlSession.getMapper(AbandonedAnimalDAOImpl.class).commentInsert(reviewCommentDTO);
 		if(result==1) {
 			System.out.println("저장성공!");
+			int reviewcomm_idx = sqlSession.getMapper(PetSitterDAOImpl.class).rc_idx();
+			//반환할 dto에 필요한 정보 저장
+			reviewCommentDTO.setReviewcomm_idx(reviewcomm_idx);
+			reviewCommentDTO.setReviewcomm_regdate(date.format(today));
+			reviewCommentDTO.setReview_idx(1);
 		}
-		//반환할 dto에 필요한 정보 저장
-		reviewCommentDTO.setReviewcomm_regdate(date.format(today));
-		reviewCommentDTO.setReview_idx(1);
 		return reviewCommentDTO;
 	}
+	
+	//후기 댓글 삭제
+    @RequestMapping("AbandonedAnimal/deleteComm")
+    public String deleteComm(HttpServletRequest req) {
+         int abani_idx = Integer.parseInt(req.getParameter("abani_idx"));
+         int commIdx = Integer.parseInt(req.getParameter("commIdx"));
+         System.out.println("commIdx" + commIdx);
+         System.out.println("abani_idx" + abani_idx);
+         //sqlSession.getMapper(AbandonedAnimalDAOImpl.class).deleteComm(reviewcomm_idx);
+         sqlSession.getMapper(AbandonedAnimalDAOImpl.class).deleteComm(commIdx);
+         return "redirect:/AbandonedAnimal/adoptView.do?abani_idx="+abani_idx;
+    }
 	
 	//좋아요 처리 
 	@RequestMapping(value = "AbandonedAnimal/abanilike")
@@ -371,12 +393,13 @@ public class AbandonedAnimalController {
 	
 	
 	/*원재님*/
-	/*
-	member_idx session에서 받아오는거 처리해야됨 
-	*/
 	//입양 신청 폼
 	@RequestMapping("AbandonedAnimal/AdoptApplicationForm.do")
-	public String AdoptApplicationForm() {
+	public String AdoptApplicationForm(Model model, HttpSession session) {
+		
+		MemberDTO dto = sqlSession.getMapper(MemberDAOImpl.class).memberInfo(Integer.parseInt(session.getAttribute("idx").toString()));
+		
+		model.addAttribute("adpApp", dto);
 		System.out.println("Adoption Form Clear!");
 		return "AbandonedAnimal/AdoptApplicationForm";
 	}
@@ -388,7 +411,9 @@ public class AbandonedAnimalController {
 		//System.out.println(adoptionAppDTO.getADPAPL_gender());
 		//System.out.println(adoptionAppDTO.getADPAPL_birth());
 		//멤버 idx를 받아서 dto에 저장
-		int member_idx = Integer.parseInt((String) session.getAttribute("idx"));
+		
+		int member_idx = Integer.parseInt(session.getAttribute("idx").toString());
+		System.out.println(member_idx);
 		adoptionAppDTO.setMember_idx(member_idx);
 		int abani_idx = Integer.parseInt(req.getParameter("abani_idx"));
 		adoptionAppDTO.setAbani_idx(abani_idx);
@@ -396,7 +421,8 @@ public class AbandonedAnimalController {
 	    int result = sqlSession.getMapper(AbandonedAnimalDAOImpl.class).AdoptApplicationForm(adoptionAppDTO);
 	    System.out.println("입력결과:"+ result);
 	    
-	    return "redirect:../";
+	    model.addAttribute("abani_idx", abani_idx);
+	    return "redirect: ./adoptView.do";
 	}
 	
 	//유기동물 신고 폼 
@@ -407,23 +433,45 @@ public class AbandonedAnimalController {
 	}
 	//유기동물 신고 
 	@RequestMapping(value = "/notifyForm.do",method = RequestMethod.POST)
-	public String notifyForm(ReportDTO reportDTO, Model model,HttpServletRequest req,HttpSession session) {
+	public String notifyForm(ReportDTO reportDTO, Model model,HttpServletRequest req,HttpSession session, MultipartHttpServletRequest mr) {
 		
 		
-//		System.out.println(req.getParameter("dclrAbnd_loc"));
-//		System.out.println(reportDTO.getDclrAbnd_title());
-//		System.out.println(reportDTO.getDclrAbnd_content());
+//			System.out.println(req.getParameter("dclrAbnd_loc"));
+//			System.out.println(reportDTO.getDclrAbnd_title());
+//			System.out.println(reportDTO.getDclrAbnd_content());
 		
 		//멤버 idx를 받아서 dto에 저장
-		int member_idx = Integer.parseInt((String) session.getAttribute("idx"));
+		int member_idx = Integer.parseInt(session.getAttribute("idx").toString());
 		reportDTO.setMember_idx(member_idx);
+		System.out.println("MemberIdx Clear!:"+ member_idx);
+		
+		String fileName = mr.getFile("ofile").toString();
+		if ( !fileName.split("filename=")[1].split(",")[0].equals("")) {
+			String path = req.getSession().getServletContext().getRealPath("/resources/Uploads");
+			
+			MultipartFile mfile = null;
+			try {
+				Iterator itr = mr.getFileNames();
+				if(itr.hasNext()) {
+					mfile = mr.getFile(itr.next().toString());
+					String originalName = new String(mfile.getOriginalFilename().getBytes(), "UTF-8");
+					String ext = originalName.substring(originalName.lastIndexOf('.'));
+					String saveFileName = FileUtil.getUuid() + ext;
+					mfile.transferTo(new File(path + File.separator + saveFileName));
+					reportDTO.setDclrAbnd_photo(saveFileName);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		
 		// repRegist()메서드를 호출
 	    int result = sqlSession.getMapper(AbandonedAnimalDAOImpl.class).notifyForm(reportDTO);
 	    System.out.println("입력결과:"+ result);
 	    
-	    return "myPage";
+	    return "main";
 	}
+
 	
 	
 	

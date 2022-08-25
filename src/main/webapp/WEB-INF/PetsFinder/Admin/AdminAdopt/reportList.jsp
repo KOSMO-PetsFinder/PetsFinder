@@ -90,7 +90,7 @@
 								<td>${row.dclrAbnd_regdate }</td>
 								<td><select id="dclrAbnd_stts_${row.dclrAbnd_idx }" name="dclrAbnd_idx">
 	                              <option ${row.dclrAbnd_stts == 'reg' ? 'selected' : "" } value="reg">접수</option>
-	                              <option ${row.dclrAbnd_stts == 'PRG' ? 'selected' : "" } value="PRG">처리중</option>
+	                              <option ${row.dclrAbnd_stts == 'PRG' ? 'selected' : "" } value="PRG">구조진행중</option>
 	                              <option ${row.dclrAbnd_stts == 'CMP' ? 'selected' : "" } value="CMP">구조완료</option>
 	                            </select></td>
 	                            <td><button type="button" class="btn btn-info btn-sm" onclick="changeRepStat(${row.dclrAbnd_idx });">저장</button></td>

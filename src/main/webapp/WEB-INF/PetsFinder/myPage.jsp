@@ -63,14 +63,16 @@
         background-color: #75c9ba;
         color: #FFFFFF;
       }
+
     </style>
   </head>
   <body>
  	<jsp:include page="./common/Header.jsp" />
     <div style="display: flex; justify-content: center">
       <!-- left -->
-      <div style="display: flex; justify-content: center; position:fixed; left: 50px; top: 120px">
+      <div style="display: flex; justify-content: center; position:fixed; left: 50px; top: 200px">
         <div class="container">
+        	
           <div
             class="uk-width-1-2@s uk-width-2-5@m"
             style="margin: 0; border: 1px solid #cccccc; width: 240px; display: inline-block"
@@ -90,7 +92,7 @@
 	                </li>
 				<c:if test="${ sessionScope.type ne 'sit' }">
 	                <li>
-	                	<a href="./sitterApl" target="rightwin">시터신청</a>
+	                	<a href="./sitterApl" target="rightwin">시터 신청</a>
 	                </li>
 	            </c:if>
                 </ul>
@@ -112,19 +114,22 @@
                   <li>
                     <a href="./myReview?mode=sit" target="rightwin" >시터 후기</a>
                   </li>
+                  <li>
+                    <a href="./myReview?mode=shp" target="rightwin" >구매 후기</a>
+                  </li>
                 </ul>
               </li>
               <li class="uk-parent">
                 <a href="#" class="side">신청/이용 내역</a>
                 <ul class="uk-nav-sub">
 	                <li>
-	                    <a href="" target="rightwin">입양신청 확인</a>
+	                    <a href="./myAdopt" target="rightwin">입양 신청 확인</a>
 	                </li>
 	                <li>
 	                    <a href="./myReserve" target="rightwin">시터 이용 내역</a>
 	                </li>
 	                <li>
-	                    <a href="" target="rightwin">구매 내역</a>
+	                    <a href="./myBought" target="rightwin">구매 내역</a>
 	                </li>
                 </ul>
               </li>
@@ -134,7 +139,7 @@
       </div>
       <!-- right -->
       <div class="container" style="display: flex; justify-content: center;">
-        <iframe src="" name="rightwin" scrolling="auto" frameborder="1" width="1600" height="1000">
+        <iframe src="./default" name="rightwin" frameborder=0 allowTransparency="true" style="overflow: hidden" width="2000" height="900">
         </iframe>
       </div>
     </div>

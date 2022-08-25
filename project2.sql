@@ -172,9 +172,10 @@ CREATE TABLE ADOPTION_APPLICATION
 	abani_idx number NOT NULL,
 	-- 회원번호
 	member_idx number NOT NULL,
+    -- 입양신청상태(rej: 거절, udr: 심사중, apl: 승인) 
+    ADPAPL_stt char(3) default 'udr' NOT NULL,
 	PRIMARY KEY (ADPAPL_idx)
 );
-
 
 -- 입양 목록
 CREATE TABLE ADOPTION_list
@@ -346,6 +347,21 @@ CREATE TABLE qna_board
 	PRIMARY KEY (qna_idx)
 );
 
+--QnA 시퀀스
+CREATE SEQUENCE SEQ_qnacomm_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
+--QnA 댓글
+CREATE TABLE qna_Comment
+(
+   -- QnA 댓글 일련번호
+   qnacomm_idx number NOT NULL,
+   -- 댓글 내용
+   qnacomm_content varchar2(1000) NOT NULL,
+   -- 댓글 등록일
+   qnacomm_regdate date NOT NULL,
+   -- 후기 일련번호
+   qna_idx number NOT NULL,
+   PRIMARY KEY (qnacomm_idx)
+);
 
 -- 유기동물신고 테이블
 CREATE TABLE REPORT_ABANDONED_ANIMALS
@@ -680,12 +696,22 @@ CREATE TABLE shippingLoc_info
 	-- 배송지 주소
 	SHIPPING_LOCATION varchar2(100) NOT NULL,
 	-- 배송상태(PRP : 배송준비, dlv : 배송중, cmp : 배송완료)
-	DELIVERY_STATUS char(3)  DEFAULT 'PRP' NOT NULL,
+	DELIVERY_STATUS char(3)  DEFAULT 'prp' NOT NULL,
 	-- 결제 일련번호
 	payment_idx number NOT NULL,
 	PRIMARY KEY (shiplocInfo_idx)
 );
 
+-- 최근 본 상품 시퀀스
+CREATE SEQUENCE seq_recentboard_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
+-- 최근 본 상품
+create table recent_board(
+    recent_idx number NOT NULL,
+    product_idx number NOT NULL,
+    regidate date default sysdate NOT NULL,
+    PRIMARY KEY (recent_idx)
+);
+drop table recent_board;
 /* Create Foreign Keys */
 
 ALTER TABLE ADOPTION_APPLICATION

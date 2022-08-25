@@ -36,7 +36,6 @@
 <body>
     <jsp:include page="../common/Header.jsp" />
 	<jsp:include page="../common/Shopheader.jsp" />
-	
     <div class="container" style="height:200px;">
 			<div class="row ">
 				<div class="col-xl-12">
@@ -189,9 +188,9 @@
     var p_idx = "";
     var c_idx = "";
     <c:if test="${ pl_count eq 1 }" var="result">
-    	product += $('#product_0').text() + ","
-		quanity += $('#quanity_0').val() + ","
-		p_idx += $('#product_idx0').val() + ","
+    	product += $('#product_0').text()
+		quanity += $('#quanity_0').val()
+		p_idx += $('#product_idx0').val()
 	</c:if>
     <c:if test="${ not result }">
 		<c:forEach begin="0" end="${ pl_count - 1 }" varStatus="p">
@@ -268,7 +267,7 @@
 					        dataType: 'json', //서버에서 보내줄 데이터 타입
 					        success: function(res){
 					          	if (res == 1){
-					          		<c:if test="${ not result }">
+					          		<c:if test="${ r ne 'buy' }">
 						        	  	$.ajax({
 							      			url : "../cartDelete",
 							      			type : "GET",
@@ -277,7 +276,7 @@
 							      			},
 							      			dataType : 'text',
 							      			success : function () {
-							      				location.href = "../shopCart";
+							      				location.href = "../Shop";
 							      			}, 
 							      			
 							      			error:function(request, status, error) {

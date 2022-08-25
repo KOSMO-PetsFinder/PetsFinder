@@ -4,9 +4,11 @@ import java.util.ArrayList;
 
 import org.springframework.stereotype.Service;
 
+import petsfinder.abandonedanimal.AbandonedAnimalDTO;
 import petsfinder.admin.AdminSitAplDTO;
 import petsfinder.petsitter.PetSitterDTO;
 import petsfinder.review.ReviewBoardDTO;
+import petsfinder.shop.PayDTO;
 
 @Service
 public interface MemberDAOImpl {
@@ -30,6 +32,8 @@ public interface MemberDAOImpl {
 	public ArrayList<ReviewBoardDTO> adpReview(int member_idx);
 	
 	public ArrayList<ReviewBoardDTO> sitReview(int member_idx);
+	
+	public ArrayList<ReviewBoardDTO> shpReview(int member_idx);
 	
 	public ReviewBoardDTO myReview(int review_idx);
 	
@@ -56,4 +60,20 @@ public interface MemberDAOImpl {
 	public MemberDTO sitterAplInsert(int member_idx);
 	
 	public int setsitterApl(AdminSitAplDTO adminSitAplDTO);
+	
+	public ArrayList<AbandonedAnimalDTO> m_Adopt(int member_idx);
+	
+	public ArrayList<PayDTO> m_Bought(int member_idx);
+	
+	public int up_Adopt(String adpapl_stt, int adpapl_idx);
+	
+	public int up_Abandoned(int abani_idx);
+	
+	public int up_refund(int payment_idx);
+	
+	public int up_delivery(String delivery_status, int payment_idx);
+	
+	public ArrayList<PayDTO> m_Boughtview(int member_idx, int payment_idx);
+	
+	public MemberDTO memberInfo(int member_idx);
 }

@@ -15,7 +15,15 @@ public class AdoptionAppDTO {
 	private int adpapl_fNum; // 신청자 가족 수 
 	private int abani_idx; // 유기동물 일련번호
 	private int member_idx;	// 회원번호
+	private String ADPAPL_stt; // 입양신청상태
 	
+	
+	public String getADPAPL_stt() {
+		return ADPAPL_stt;
+	}
+	public void setADPAPL_stt(String aDPAPL_stt) {
+		ADPAPL_stt = aDPAPL_stt;
+	}
 	public int getADPAPL_idx() {
 		return ADPAPL_idx;
 	}

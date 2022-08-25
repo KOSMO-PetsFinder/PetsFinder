@@ -42,6 +42,8 @@ public class ShopController {
 		int cartCount = 0;
 		if (session.getAttribute("idx") != null) {
 			cartCount = sqlSession.getMapper(ShopDAOImpl.class).cartCount(Integer.parseInt(session.getAttribute("idx").toString()));
+			ArrayList<ProductDTO> recentlist = sqlSession.getMapper(ShopDAOImpl.class).selectListRecent();
+			model.addAttribute("rlist", recentlist);
 		}
 		model.addAttribute("cartCount", cartCount);
 		return "./shoppingmall/shopMain";
@@ -54,6 +56,8 @@ public class ShopController {
 		int cartCount = 0;
 		if (session.getAttribute("idx") != null) {
 			cartCount = sqlSession.getMapper(ShopDAOImpl.class).cartCount(Integer.parseInt(session.getAttribute("idx").toString()));
+			ArrayList<ProductDTO> recentlist = sqlSession.getMapper(ShopDAOImpl.class).selectListRecent();
+			model.addAttribute("rlist", recentlist);
 		}
 		
 		//카테고리 종류 받아옴
@@ -263,6 +267,7 @@ public class ShopController {
 				
 				
 				//모델에 저장
+				model.addAttribute("r", buyOrCartDTO.getSubM());
 				model.addAttribute("cartCount", cartCount);
 				model.addAttribute("memberSDTO", memberSDTO);
 				model.addAttribute("payList", payList);
@@ -425,28 +430,37 @@ public class ShopController {
 		int cartCount = 0;
 		if (session.getAttribute("idx") != null) {
 			cartCount = sqlSession.getMapper(ShopDAOImpl.class).cartCount(Integer.parseInt(session.getAttribute("idx").toString()));
+			ArrayList<ProductDTO> list = sqlSession.getMapper(ShopDAOImpl.class).selectRecentAll();
+			boolean check = false;
+			for(ProductDTO dto : list) {
+				if(dto.getProduct_idx() == product_idx) {
+					check = true;
+					break;
+				}else {
+					check = false;
+				}
+			}
+			if(check == true) {
+				int result = sqlSession.getMapper(ShopDAOImpl.class).updateRecent(product_idx);
+				if(result==1) {
+					System.out.println("업데이트 성공");
+				}else {
+					System.out.println("업데이트 실패");
+				}
+			}else {
+				int result = sqlSession.getMapper(ShopDAOImpl.class).insertRecent(product_idx);
+				if(result==1) {
+					System.out.println("추가 성공");
+				}else {
+					System.out.println("추가 실패");
+				}
+			}
 		}
 		
 		model.addAttribute("cartCount", cartCount);
 		model.addAttribute("productDTO", productDTO);
 		return "./shoppingmall/shopView";
 	}
-//	//쇼핑 상세보기
-//	@RequestMapping("/ShopView")
-//	public String shopView(Model model, HttpServletRequest req ) {
-//		
-//		int product_idx = Integer.parseInt(req.getParameter("product_idx"));
-//		
-//		ArrayList<ProductDTO> pdlist = sqlSession.getMapper(ShopDAOImpl.class).shopview(product_idx);
-//		for(ProductDTO dto : pdlist) {
-//			String temp = dto.getProduct_description().replace("\r\n", "</br>");
-//			dto.setProduct_description(temp);
-//		}
-//		
-//		model.addAttribute("pdlist", pdlist);
-//		return "./shoppingmall/shopView";
-//	}
-	
 	
 	//장바구니 페이지
 	@RequestMapping(value = "/shopCart")
@@ -525,6 +539,12 @@ public class ShopController {
 		}
 		int result =
 				sqlSession.getMapper(ShopDAOImpl.class).cartDelete(num);
+		
+		if (result != 0) {
+			System.out.println("장바구니 삭제 성공");
+		} else {
+			System.out.println("장바구니 삭제 실패");
+		}
 		
 		return "shopCart";
 	}

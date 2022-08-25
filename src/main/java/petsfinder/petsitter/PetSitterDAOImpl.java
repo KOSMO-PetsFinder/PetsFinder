@@ -56,6 +56,9 @@ public interface PetSitterDAOImpl {
 	public ArrayList<ReviewCommentDTO> reviewComment1(int sit_idx);
 	//댓글 저장
 	public int commentInsert1(ReviewCommentDTO reviewCommentDTO);
+	//시터 후기 댓글 삭제
+	public int deleteCommSit(int reviewcomm_idx);
+	public int rc_idx();
 	//좋아요 유무확인
 	public ReviewLikeDTO likeStatus1(ReviewLikeDTO reviewLikeDTO);
 	//좋아요 저장 

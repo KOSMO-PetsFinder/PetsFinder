@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="petsfinder.board.boardDAOImpl">
+ 
+ <!-- Qna리스트 -->
+ <select id="qnaList" resultType="petsfinder.admin.AdminDTO"
+	parameterType="petsfinder.board.ParameterDTO">
+	select * from (select tb.*, rowNum as qna_idx from (select qna_title, qna_content, 
+	to_char(qna_regdate,'yyyy-mm-dd')qna_regdate,
+	qna_stt, qna_openstatus, member_idx from qna_board
+     order by qna_idx desc
+     ) tb
+) where qna_idx between #{param1} and #{param2}
+ </select>
+<!-- FAQ 리스트 -->
+<select id="FaqList" resultType="petsfinder.admin.AdminDTO">
+   select * from faq_board
+   <if test="searchTxt!=null and !searchTxt.equals('')">
+   	WHERE ${searchField} like '%'||#{searchTxt}||'%'
+   </if>
+</select>
+<!-- QnA겟토탈카운트 -->  
+<select id="getTotalCountSearch" resultType="int"
+	parameterType="petsfinder.board.ParameterDTO">
+	SELECT COUNT(*) from qna_board
+</select>
+<!-- QnA글쓰기 -->
+<insert id="writeQNA" parameterType="petsfinder.admin.AdminDTO">
+	INSERT INTO qna_board (
+	qna_idx, qna_title, qna_content, qna_regdate, 
+	qna_stt, qna_OPENSTATUS, member_idx)
+	VALUES
+	(seq_qna_idx.nextval, #{qna_title}, #{qna_content},
+	sysdate, #{qna_stt}, #{qna_OPENSTATUS}, #{member_idx})
+</insert>
+
+<!-- QnA 글 삭제 -->
+<delete id="deleteqna">
+	DELETE FROM qna_board WHERE qna_idx=#{qna_idx}
+</delete>
+
+<!-- QnA 게시글 보기 -->
+<select id="viewQnA" resultType="petsfinder.admin.AdminDTO">
+	SELECT qna_idx, qna_title, qna_content,
+	qna_regdate, qna_stt, qna_OPENSTATUS, member_idx FROM qna_board WHERE qna_idx=#{qna_idx}
+</select>
+<!-- QnA 게시글 수정 -->
+<update id="editQnA" parameterType="petsfinder.admin.AdminDTO">
+	UPDATE qna_board SET qna_title=#{qna_title}, qna_content=#{qna_content},
+	qna_stt=#{qna_stt}, qna_OPENSTATUS=#{qna_OPENSTATUS},
+	member_idx=#{member_idx} WHERE qna_idx=#{qna_idx}
+</update>
+
+<!-- QnA커맨트 쓰기 -->
+<insert id="qnacommwrite">
+	INSERT INTO qna_comment (qnacomm_idx, qnacomm_content, qnacomm_regdate, qna_idx, member_idx)
+	values (seq_qnacomm_idx, #{qnacomm_content}, sysdate, #{qna_idx}, #{member_idx})
+</insert>
+<!-- QnA -->
+<select id="qnalistview" resultType="petsfinder.admin.AdminDTO" parameterType="petsfinder.board.ParameterDTO">
+	 select * from (select tb.*,rownum rnum from (
+	  select * from qna_board q
+      inner join 
+       qna_comment qc on q.qna_idx = qc.qna_idx 
+      where q.qna_idx= qc.qna_idx )tb) where rnum between #{param1} and #{param2}
+</select>
+
+<select id="qnaAll" resultType="petsfinder.admin.AdminDTO" parameterType="petsfinder.board.ParameterDTO">
+	 select * from (
+  select tb.*, rownum rnum from
+        (SELECT * FROM qna_board a FULL OUTER JOIN qna_comment b
+         ON a.qna_idx = b.qna_idx order by a.qna_idx desc )tb ) 
+where rnum between #{param1} and #{param2}
+</select>
+
+ </mapper>
+

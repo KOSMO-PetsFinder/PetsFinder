@@ -27,11 +27,15 @@
 		<div id="layoutSidenav_nav">
 			<jsp:include page="../common/leftHeader.jsp"></jsp:include>
 		</div>
+		<c:forEach items="${ animalList }" var="r">
+		<input type="hidden" id="adp_idx_${ r.abani_idx }" value="${ r.member_idx }"/>
+		</c:forEach>
 		<form name="changeFrm" action="./AdminAdopt/modifyAnimalList" method="GET">
 	        <input type="hidden" name="abani_idx" id="idx"/>
 	        <input type="hidden" name="abani_stat" id="stat"/>
 	        <input type="hidden" name="abani_neut" id="neut"/>
 	        <input type="hidden" name="abani_vaccin" id="vaccin"/>
+	        <input type="hidden" name="m_idx" id="m_idx"/>
 	    </form>
 	    <script>
 	        function modifyAnimalList(idx) {
@@ -39,9 +43,11 @@
 	            var stat = $('#abani_stat_' + idx).val();
 	            var neut = $('#abani_neut_' + idx).val();
 	            var vaccin = $('#abani_vaccin_' + idx).val();
+	            var mem_idx = $('#adp_idx_' + idx).val();
 	            $('#stat').val(stat)
 	            $('#neut').val(neut)
 	            $('#vaccin').val(vaccin)
+	            $('#m_idx').val(mem_idx)
 	            document.changeFrm.submit();
 	        }
 	    </script>
@@ -103,10 +109,17 @@
 	                              <option ${row.abani_vaccin == '1' ? 'selected' : "" } value="1">O</option>
 	                              <option ${row.abani_vaccin == '0' ? 'selected' : "" } value="0">X</option>
 	                            </select></td>
-								<td><select id="abani_stat_${row.abani_idx }" name="abani_stat">
-	                              <option ${row.abani_stat == 'prtct' ? 'selected' : "" } value="prtct">보호중</option>
-	                              <option ${row.abani_stat == 'adopt' ? 'selected' : "" } value="adopt">입양완료</option>
-	                            </select></td>
+								<td>
+								<c:if test="${ row.adpapl_stt eq 'apl' and row.abani_stat eq 'prtct'}" var="a_stt">
+									<select id="abani_stat_${row.abani_idx }" name="abani_stat">
+		                              <option ${row.abani_stat == 'prtct' ? 'selected' : "" } value="prtct">보호중</option>
+		                              <option ${row.abani_stat == 'adopt' ? 'selected' : "" } value="adopt">입양완료</option>
+		                            </select>
+								</c:if>
+								<c:if test="${ not a_stt }">
+									${row.abani_stat == 'prtct' ? '보호중' : '입양완료' }
+								</c:if>
+	                            </td>
 								<td><button type="button" class="btn btn-info btn-sm" 
 									onclick="modifyAnimalList(${row.abani_idx });">적용</button></td>
 							</tr>

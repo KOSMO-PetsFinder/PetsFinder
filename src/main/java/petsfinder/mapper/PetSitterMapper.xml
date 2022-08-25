@@ -143,10 +143,15 @@
 									VALUES(	SEQ_reviewcomm_idx.nextval, #{reviewcomm_content}, sysdate, #{review_idx}
 										, #{member_idx})
 	</insert>
+	
+	<select id="rc_idx" resultType="int">
+		select max(reviewcomm_idx) reviewcomm_idx from review_Comment
+	</select>
+	
 	<!-- 후기댓글뽑아오기 -->
 	<select id="reviewComment1" resultType="petsfinder.review.ReviewCommentDTO">
   		select 
-		    a.*, b.member_name member_namec
+		    a.*, b.member_name member_namec, member_photo
 		from (select * 
 		    from review_Comment 
 		    where review_idx 
@@ -156,6 +161,10 @@
 		where a.member_idx=b.member_idx
   	</select>
 	
+	<!-- 후기 댓글 삭제 -->
+  	<delete id="deleteCommSit">
+  		delete from review_comment where REVIEWCOMM_IDX=#{param1}
+  	</delete> 
 	
 	<!-- 좋아요 유무확인 -->
 	<select id="likeStatus1" resultType="petsfinder.review.ReviewLikeDTO"
@@ -221,7 +230,7 @@
 				a.*, rownum rNum
 			FROM (
 			    SELECT
-			        s.*, sitphoto_idx, sitphoto_photo
+			        s.*, sitphoto_idx, sitphoto_photo, NVL(sit_starpoint / DECODE(sit_starcount, 0, NULL, sit_starcount), 0) star
 			    FROM
 			        sitter s 
 			    FULL OUTER JOIN (
@@ -283,9 +292,17 @@
 			</if>
 			<if test="price != null and price == 1">
 				ORDER BY s_fee ASC
+				<if test="star != null and star == 1">
+				, star DESC
+				</if>
 			</if>
 			<if test="price == null or price != 1">
-			    ORDER BY s.sit_idx DESC
+				<if test="star != null and star == 1">
+					ORDER BY star DESC
+				</if>
+				<if test="star == null and star != 1">
+					ORDER BY s.sit_idx DESC
+				</if>
 			</if>
 		    ) a
 		)

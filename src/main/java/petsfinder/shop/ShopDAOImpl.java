@@ -36,5 +36,14 @@ public interface ShopDAOImpl {
 	public int insertS_Loc(PayInfoDTO payInfoDTO);
 	// 재고 수정
 	public int del_Pstock(int product_quanity, int product_idx);
+	//최근 본 게시물 삽입
+	public int insertRecent(int recent_idx);
+	//최근 본 게시물 업데이트
+	public int updateRecent (int product_idx);
+	//띄울 리스트 3개
+	public ArrayList<ProductDTO> selectListRecent();
+	//최근본 게시물 전체 리스트
+	public ArrayList<ProductDTO> selectRecentAll();
+
 }
 

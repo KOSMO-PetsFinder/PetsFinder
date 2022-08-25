@@ -181,7 +181,7 @@ public class PetSitterController {
 		}
 
 
-		return "default";
+		return "redirect:./default";
 	}
 	
 	//시터 상세보기
@@ -306,15 +306,30 @@ public class PetSitterController {
 				sqlSession.getMapper(PetSitterDAOImpl.class).commentInsert1(reviewCommentDTO);
 		if(result==1) {
 			System.out.println("저장성공!");
+			int reviewcomm_idx = sqlSession.getMapper(PetSitterDAOImpl.class).rc_idx();
+			System.out.println(reviewcomm_idx);
+			//반환할 dto에 필요한 정보 저장
+			reviewCommentDTO.setReviewcomm_idx(reviewcomm_idx);
+			reviewCommentDTO.setMember_idx(idx);
+			reviewCommentDTO.setMember_namec(name);
+			reviewCommentDTO.setMember_photo(photo);
+			reviewCommentDTO.setReviewcomm_regdate(date.format(today));
+			reviewCommentDTO.setReview_idx(1);
 		}
-		//반환할 dto에 필요한 정보 저장
-		reviewCommentDTO.setMember_idx(idx);
-		reviewCommentDTO.setMember_namec(name);
-		reviewCommentDTO.setMember_photo(photo);
-		reviewCommentDTO.setReviewcomm_regdate(date.format(today));
-		reviewCommentDTO.setReview_idx(1);
 		return reviewCommentDTO;
 	}
+	
+	//후기 댓글 삭제
+    @RequestMapping("Petsitters/deleteCommSit")
+    public String deleteCommSit(HttpServletRequest req) {
+         int sit_idx = Integer.parseInt(req.getParameter("sit_idx"));
+         int commIdx = Integer.parseInt(req.getParameter("commIdx"));
+         System.out.println("commIdx" + commIdx);
+         System.out.println("sit_idx" + sit_idx);
+         //sqlSession.getMapper(AbandonedAnimalDAOImpl.class).deleteComm(reviewcomm_idx);
+         sqlSession.getMapper(PetSitterDAOImpl.class).deleteCommSit(commIdx);
+         return "redirect:/Petsitters/sitterView.do?sit_idx="+sit_idx;
+    }
 	
 	//좋아요 처리 
 	@RequestMapping(value = "/Petsitters/sitlike")
@@ -573,14 +588,14 @@ public class PetSitterController {
 		
 		int totalRecordCount = sqlSession.getMapper(ReviewBoardDAOImpl.class).getTotalCount();
 		
-		int pageSize = 2;
+		int pageSize = 6;
 		int blockPage = 3;
 		
-		int nowPage = req.getParameter("nowPage")==null ? 1:Integer.parseInt(req.getParameter("nowPage"));
+		int nowPage = req.getParameter("nowPage") == null ? 1:Integer.parseInt(req.getParameter("nowPage"));
 		
 		int totalPage = (int)Math.ceil((double)totalRecordCount/pageSize);
-		int start = (nowPage-1) * pageSize +1;
-		int end = nowPage + pageSize;
+		int start = (nowPage-1) * pageSize + 1;
+		int end = nowPage * pageSize;
 		
 		ArrayList<ReviewBoardDTO> reviewlist = sqlSession.getMapper(ReviewBoardDAOImpl.class).PSlist(start, end);
 		String pagingImg = PagingUtil.pagingImg(totalRecordCount, pageSize, blockPage, nowPage, req.getContextPath()+
@@ -680,6 +695,8 @@ public class PetSitterController {
 		
 		String price = req.getParameter("pr");
 		parameterDTO.setPrice(price);
+		String star = req.getParameter("st");
+		parameterDTO.setStar(star);
 		
 		int totalCount = sqlSession.getMapper(PetSitterDAOImpl.class).searchCount(parameterDTO);
 		model.addAttribute("total", totalCount);

@@ -14,9 +14,16 @@
 </head>
 <style>
 * {
-   font-family:  'BM JUA_TTF', sans-serif;
+   font-family: 'BM JUA_TTF', sans-serif;
 }
 </style>
+<script type="text/javascript">
+function deletecomm(qnacomm_idx) {
+	if(confirm("정말로 삭제하시겠습니까?")){
+		location.href="<c:url value='/' />deletecomm?qnacomm_idx="+qnacomm_idx;
+	}
+}
+</script>
 <body>
 <jsp:include page="../common/topHeader.jsp"></jsp:include>
 <div id="layoutSidenav">
@@ -65,11 +72,23 @@
 					<td colspan="10" style="height:150px;">
 						${qnaView.qna_content }
 					</td>
-				</tr>		
+				</tr>
+				<tr>
+					<th>답글내용</th>
+					<td colspan="10" style="height:150px;">
+					${qnaView1.qnacomm_content }
+					<button style="float: right; margin-right: 50px;" class="btn btn-danger btn-sm"
+					onclick="javascript:deletecomm(${qnaView1.qnacomm_idx});">삭제</button>
+					<button style="float: right; margin-right: 50px;" class="btn btn-success btn-sm"
+					onclick="location.href='<c:url value='/' />modifycomm?qna_idx=${qnaView.qna_idx}';">수정</button>
+					</td>
+				</tr>
 				<tr>
 					<td colspan="10" align="center">	
 					<button type="button" 
 		            onclick="location.href='<c:url value='/' />Admin/qnaList.do';">리스트보기</button>
+		            <button type="button" 
+		            onclick="location.href='<c:url value='/' />qnacomment?qna_idx=${qnaView.qna_idx}';">답글달기</button>
 					</td>
 				</tr>
 			</table>

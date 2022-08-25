@@ -259,7 +259,7 @@
 			<a href="./adoptView.do?abani_idx=${row.abani_idx }" target="_blank" style="margin-right: 14px; width: 245px;">
             <div>
               <div style="width: 245px; height: 170px; border-radius: 3px">
-                <img src="../images/4.png" alt="아이 사진" style="width: 245px; height: 170px; border-radius: 3px">
+                <img src="<c:url value="/" />Uploads/${ row.abani_photo }" alt="아이 사진" style="width: 245px; height: 170px; border-radius: 3px">
               </div>
               <p style="font-size: 16px; letter-spacing: -0.2px; line-height: 20px; color: #383c48; margin-top: 20px">
               <c:choose> 

@@ -16,7 +16,7 @@
 </head>
 <style>
 * {
-   font-family:  'BM JUA_TTF', sans-serif;
+   font-family: 'BM JUA_TTF', sans-serif;
 }
 </style>
 <script type="text/javascript">
@@ -60,11 +60,12 @@ function deleteList(qna_idx) {
 										</c:when>
 									<c:otherwise>
 										<c:forEach items="${qnaList }" var="list" varStatus="loop">
+										<input type="hidden" name="qna_idx" value="${list.qna_idx }" />
 											<tr align="center">
 													<td>${list.qna_idx }</td>
 													<td>${list.member_idx }</td>	
 													<td>
-														<a href="<c:url value='/' />qnaView.do?qna_idx=${list.qna_idx}">
+														<a href="<c:url value='/' />Admin/qnaView.do?qna_idx=${list.qna_idx}">
 														${list.qna_title }
 														</a>
 													</td>		

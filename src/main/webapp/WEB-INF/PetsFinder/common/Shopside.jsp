@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,19 +40,26 @@
     <div class="quickmenu">
         <div style="text-align: center; margin-top: 10px;margin-bottom: 10px;">
             최근본상품
-            <span style="width: 100%; color:red ;">
+            <!-- <span style="width: 100%; color:red ;">
                 3
-            </span>
+            </span> -->
         </div>
-        <div>
-            <img style="width: 100%;" 
-             src="./images/강아지용 계단.jpg" alt="">
-            <img style="width: 100%;" 
-             src="./images/폭탄인형.jpg" alt="">
-            <img style="width: 100%;" 
-             src="./images/샴푸.jpg" alt="">
-
-        </div>
+        <c:forEach items="${rlist }" var="r" varStatus="vs">
+        	<script>
+				var ps${r.product_idx} = "${r.pdt_image_file}";
+				var p${r.product_idx} = ps${r.product_idx}.split(',');
+				console.log(p${r.product_idx}.length);
+				$(function () {
+				    $('#p_${r.product_idx}').attr({ src: '<c:url value="/"/>Uploads/' + p${r.product_idx}[0] });
+				});
+			</script>
+	        <div>
+	        	<input type="hidden" name="product_idx" value="${r.product_idx }" />
+		        <a href="<c:url value='/'/>ShopView?product_idx=${r.product_idx}" id="p s">
+		            <img id="p_${r.product_idx }" style="width: 100%;">
+		        </a>
+	        </div>
+		</c:forEach>
 
         <div style="text-align: center; margin-top: 10px;margin-bottom: 10px;">
             
@@ -60,7 +68,7 @@
 
         <div >
             <ul>
-                <li><a href="#">장바구니</a></li>
+                <li><a href="#<c:url value='/'/>shopCart">장바구니</a></li>
                 <li><a href="#">등급별혜택</a></li>
                 <li><a href="#">1:1문의</a></li>
             </ul>

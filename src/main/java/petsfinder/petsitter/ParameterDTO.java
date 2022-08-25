@@ -67,7 +67,14 @@ public class ParameterDTO {
 	
 	// 정렬
 	private String price; // 가격순
-
+	private String star; // 인기순
+	
+	public String getStar() {
+		return star;
+	}
+	public void setStar(String star) {
+		this.star = star;
+	}
 	public String getPrice() {
 		return price;
 	}

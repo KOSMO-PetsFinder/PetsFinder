@@ -45,6 +45,7 @@
         });
       })
     </script>
+    
     <div style="display: flex; justify-content: right; color: #CCCCCC; padding-top: 55px; margin-top: 100px">
 		<img src="./images/mypage_color.png" alt="" style="width:30px; height:25px; padding-right: 5px">
 		<p style="margin-top:9px;"> 마이페이지 > 개인정보관리 > 회원정보 수정</p>

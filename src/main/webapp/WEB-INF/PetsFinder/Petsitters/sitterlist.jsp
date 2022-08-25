@@ -116,19 +116,36 @@
         var no_pet = document.getElementById('no_pet');
         if (no_pet.style.borderColor == 'rgb(223, 227, 234)') {
         	if(path == 'http://localhost:8088/PetsFinder/Petsitters/sitterlist?') {
-		        location.href += 'np=1&'
+		        location.href += 'np=1'
         	} else if (path == 'http://localhost:8088/PetsFinder/Petsitters/sitterlist') {
-        		location.href += '?np=1&'
+        		location.href += '?np=1'
         	} else {
-        		location.href += '&np=1&'
+        		location.href += '&np=1'
         	}
         } else {
-            console.log(path.indexOf('np=1&'))
-            var front = path.substr(0, path.indexOf('np=1&'))
-            console.log(front)
-            var back = path.substring(path.indexOf('np=1&') + 5, path.length)
-            console.log(back)
-            location.href = front + back
+        	if(path.indexOf('http://localhost:8088/PetsFinder/Petsitters/sitterlist?np=1') != -1 ) {
+        		console.log(path.indexOf('np=1&'))
+	            var front = path.substr(0, path.indexOf('np=1&'))
+	            console.log(front)
+	            var back = path.substring(path.indexOf('np=1&') + 5, path.length)
+	            console.log(back)
+	            location.href = front + back
+	        	if(path == 'http://localhost:8088/PetsFinder/Petsitters/sitterlist?np=1') {
+	        		console.log(path.indexOf('np=1'))
+		            var front = path.substr(0, path.indexOf('np=1'))
+		            console.log(front)
+		            var back = path.substring(path.indexOf('np=1') + 4, path.length)
+		            console.log(back)
+		            location.href = front + back
+	        	}
+        	} else {
+	            console.log(path.indexOf('&np=1'))
+	            var front = path.substr(0, path.indexOf('&np=1'))
+	            console.log(front)
+	            var back = path.substring(path.indexOf('&np=1') + 5, path.length)
+	            console.log(back)
+	            location.href = front + back
+        	}
         }
     }
     function option_check02() {
@@ -136,19 +153,36 @@
         var pick_up = document.getElementById('pick_up');
         if (pick_up.style.borderColor == 'rgb(223, 227, 234)') {
         	if(path == 'http://localhost:8088/PetsFinder/Petsitters/sitterlist?') {
-		        location.href += 'pu=1&'
+		        location.href += 'pu=1'
         	} else if (path == 'http://localhost:8088/PetsFinder/Petsitters/sitterlist') {
-        		location.href += '?pu=1&'
+        		location.href += '?pu=1'
         	} else {
-        		location.href += '&pu=1&'
+        		location.href += '&pu=1'
         	}
         } else {
-        	console.log(path.indexOf('pu=1&'))
-            var front = path.substr(0, path.indexOf('pu=1&'))
-            console.log(front)
-            var back = path.substring(path.indexOf('pu=1&') + 5, path.length)
-            console.log(back)
-            location.href = front + back
+        	if(path.indexOf('http://localhost:8088/PetsFinder/Petsitters/sitterlist?pu=1') != -1 ) {
+        		console.log(path.indexOf('pu=1&'))
+	            var front = path.substr(0, path.indexOf('pu=1&'))
+	            console.log(front)
+	            var back = path.substring(path.indexOf('pu=1&') + 5, path.length)
+	            console.log(back)
+	            location.href = front + back
+	        	if(path == 'http://localhost:8088/PetsFinder/Petsitters/sitterlist?pu=1') {
+	        		console.log(path.indexOf('pu=1'))
+		            var front = path.substr(0, path.indexOf('pu=1'))
+		            console.log(front)
+		            var back = path.substring(path.indexOf('pu=1') + 4, path.length)
+		            console.log(back)
+		            location.href = front + back
+	        	}
+        	} else {
+	        	console.log(path.indexOf('&pu=1'))
+	            var front = path.substr(0, path.indexOf('&pu=1'))
+	            console.log(front)
+	            var back = path.substring(path.indexOf('&pu=1') + 5, path.length)
+	            console.log(back)
+	            location.href = front + back
+        	}
         }
     }
     function option_check03(){
@@ -156,19 +190,36 @@
         var big = document.getElementById('big');
         if (big.style.borderColor == 'rgb(223, 227, 234)') {
         	if(path == 'http://localhost:8088/PetsFinder/Petsitters/sitterlist?') {
-		        location.href += 'b=1&'
+		        location.href += 'b=1'
         	} else if (path == 'http://localhost:8088/PetsFinder/Petsitters/sitterlist') {
-        		location.href += '?b=1&'
+        		location.href += '?b=1'
         	} else {
-        		location.href += '&b=1&'
+        		location.href += '&b=1'
         	}
         } else {
-        	console.log(path.indexOf('b=1&'))
-            var front = path.substr(0, path.indexOf('b=1&'))
-            console.log(front)
-            var back = path.substring(path.indexOf('b=1&') + 4, path.length)
-            console.log(back)
-            location.href = front + back
+        	if(path.indexOf('http://localhost:8088/PetsFinder/Petsitters/sitterlist?b=1') != -1 ) {
+        		console.log(path.indexOf('b=1&'))
+	            var front = path.substr(0, path.indexOf('b=1&'))
+	            console.log(front)
+	            var back = path.substring(path.indexOf('b=1&') + 4, path.length)
+	            console.log(back)
+	            location.href = front + back
+	        	if(path == 'http://localhost:8088/PetsFinder/Petsitters/sitterlist?b=1') {
+	        		console.log(path.indexOf('b=1'))
+		            var front = path.substr(0, path.indexOf('b=1'))
+		            console.log(front)
+		            var back = path.substring(path.indexOf('b=1') + 3, path.length)
+		            console.log(back)
+		            location.href = front + back
+	        	}
+        	} else {
+	        	console.log(path.indexOf('&b=1'))
+	            var front = path.substr(0, path.indexOf('&b=1'))
+	            console.log(front)
+	            var back = path.substring(path.indexOf('&b=1') + 4, path.length)
+	            console.log(back)
+	            location.href = front + back
+        	}
         }
     }
     function option_check04(){
@@ -176,19 +227,36 @@
    	  	var playground = document.getElementById('playground');
         if (playground.style.borderColor == 'rgb(223, 227, 234)') {
         	if(path == 'http://localhost:8088/PetsFinder/Petsitters/sitterlist?') {
-		        location.href += 'pg=1&'
+		        location.href += 'pg=1'
         	} else if (path == 'http://localhost:8088/PetsFinder/Petsitters/sitterlist') {
-        		location.href += '?pg=1&'
+        		location.href += '?pg=1'
         	} else {
-        		location.href += '&pg=1&'
+        		location.href += '&pg=1'
         	}
         } else {
-        	console.log(path.indexOf('pg=1&'))
-            var front = path.substr(0, path.indexOf('pg=1&'))
-            console.log(front)
-            var back = path.substring(path.indexOf('pg=1&') + 5, path.length)
-            console.log(back)
-            location.href = front + back
+        	if(path.indexOf('http://localhost:8088/PetsFinder/Petsitters/sitterlist?pg=1') != -1 ) {
+        		console.log(path.indexOf('pg=1&'))
+	            var front = path.substr(0, path.indexOf('pg=1&'))
+	            console.log(front)
+	            var back = path.substring(path.indexOf('pg=1&') + 5, path.length)
+	            console.log(back)
+	            location.href = front + back
+	        	if(path == 'http://localhost:8088/PetsFinder/Petsitters/sitterlist?pg=1') {
+	        		console.log(path.indexOf('pg=1'))
+		            var front = path.substr(0, path.indexOf('pg=1'))
+		            console.log(front)
+		            var back = path.substring(path.indexOf('pg=1') + 4, path.length)
+		            console.log(back)
+		            location.href = front + back
+	        	}
+        	} else {
+	        	console.log(path.indexOf('&pg=1'))
+	            var front = path.substr(0, path.indexOf('&pg=1'))
+	            console.log(front)
+	            var back = path.substring(path.indexOf('&pg=1') + 5, path.length)
+	            console.log(back)
+	            location.href = front + back
+        	}
         }
     }
     function option_check05(){
@@ -196,19 +264,36 @@
         var old_care = document.getElementById('old_care');
         if (old_care.style.borderColor == 'rgb(223, 227, 234)') {
         	if(path == 'http://localhost:8088/PetsFinder/Petsitters/sitterlist?') {
-		        location.href += 'oc=1&'
+		        location.href += 'oc=1'
         	} else if (path == 'http://localhost:8088/PetsFinder/Petsitters/sitterlist') {
-        		location.href += '?oc=1&'
+        		location.href += '?oc=1'
         	} else {
-        		location.href += '&oc=1&'
+        		location.href += '&oc=1'
         	}
         } else {
-        	console.log(path.indexOf('oc=1&'))
-            var front = path.substr(0, path.indexOf('oc=1&'))
-            console.log(front)
-            var back = path.substring(path.indexOf('oc=1&') + 5, path.length)
-            console.log(back)
-            location.href = front + back
+        	if(path.indexOf('http://localhost:8088/PetsFinder/Petsitters/sitterlist?oc=1') != -1 ) {
+        		console.log(path.indexOf('oc=1&'))
+	            var front = path.substr(0, path.indexOf('oc=1&'))
+	            console.log(front)
+	            var back = path.substring(path.indexOf('oc=1&') + 5, path.length)
+	            console.log(back)
+	            location.href = front + back
+	        	if(path == 'http://localhost:8088/PetsFinder/Petsitters/sitterlist?oc=1') {
+	        		console.log(path.indexOf('oc=1'))
+		            var front = path.substr(0, path.indexOf('oc=1'))
+		            console.log(front)
+		            var back = path.substring(path.indexOf('oc=1') + 4, path.length)
+		            console.log(back)
+		            location.href = front + back
+	        	}
+        	} else {
+	        	console.log(path.indexOf('&oc=1'))
+	            var front = path.substr(0, path.indexOf('&oc=1'))
+	            console.log(front)
+	            var back = path.substring(path.indexOf('&oc=1') + 5, path.length)
+	            console.log(back)
+	            location.href = front + back
+        	}
         }
     }
     
@@ -217,21 +302,77 @@
         var price = document.getElementById('price');
         if (price.style.color == 'rgb(170, 170, 170)') {
         	if(path == 'http://localhost:8088/PetsFinder/Petsitters/sitterlist?') {
-		        location.href += 'pr=1&'
+		        location.href += 'pr=1'
         	} else if (path == 'http://localhost:8088/PetsFinder/Petsitters/sitterlist') {
-        		location.href += '?pr=1&'
+        		location.href += '?pr=1'
         	} else {
-        		location.href += '&pr=1&'
+        		location.href += '&pr=1'
         	}
         } else {
-        	console.log(path.indexOf('pr=1&'))
-            var front = path.substr(0, path.indexOf('pr=1&'))
-            console.log(front)
-            var back = path.substring(path.indexOf('pr=1&') + 5, path.length)
-            console.log(back)
-            location.href = front + back
+        	if(path.indexOf('http://localhost:8088/PetsFinder/Petsitters/sitterlist?pr=1') != -1 ) {
+        		console.log(path.indexOf('pr=1&'))
+	            var front = path.substr(0, path.indexOf('pr=1&'))
+	            console.log(front)
+	            var back = path.substring(path.indexOf('pr=1&') + 5, path.length)
+	            console.log(back)
+	            location.href = front + back
+	            if (path == 'http://localhost:8088/PetsFinder/Petsitters/sitterlist?pr=1') {
+	            	console.log(path.indexOf('pr=1'))
+		            var front = path.substr(0, path.indexOf('pr=1'))
+		            console.log(front)
+		            var back = path.substring(path.indexOf('pr=1') + 4, path.length)
+		            console.log(back)
+		            location.href = front + back
+	            }
+        	} else {
+	        	console.log(path.indexOf('&pr=1'))
+	            var front = path.substr(0, path.indexOf('&pr=1'))
+	            console.log(front)
+	            var back = path.substring(path.indexOf('&pr=1') + 5, path.length)
+	            console.log(back)
+	            location.href = front + back
+        	}
         }
     }
+    
+    function starArray() {
+    	var path = window.location.href;
+        var price = document.getElementById('star');
+        if (price.style.color == 'rgb(170, 170, 170)') {
+        	if(path == 'http://localhost:8088/PetsFinder/Petsitters/sitterlist?') {
+		        location.href += 'st=1'
+        	} else if (path == 'http://localhost:8088/PetsFinder/Petsitters/sitterlist') {
+        		location.href += '?st=1'
+        	} else {
+        		location.href += '&st=1'
+        	}
+        } else {
+        	if(path.indexOf('http://localhost:8088/PetsFinder/Petsitters/sitterlist?st=1') != -1 ) {
+        		console.log(path.indexOf('st=1&'))
+	            var front = path.substr(0, path.indexOf('st=1&'))
+	            console.log(front)
+	            var back = path.substring(path.indexOf('st=1&') + 5, path.length)
+	            console.log(back)
+	            location.href = front + back
+	            if (path == 'http://localhost:8088/PetsFinder/Petsitters/sitterlist?st=1') {
+	            	console.log(path.indexOf('st=1'))
+		            var front = path.substr(0, path.indexOf('st=1'))
+		            console.log(front)
+		            var back = path.substring(path.indexOf('st=1') + 4, path.length)
+		            console.log(back)
+		            location.href = front + back
+	            }
+        	} else {
+	        	console.log(path.indexOf('&st=1'))
+	            var front = path.substr(0, path.indexOf('&st=1'))
+	            console.log(front)
+	            var back = path.substring(path.indexOf('&st=1') + 5, path.length)
+	            console.log(back)
+	            location.href = front + back
+        	}
+        }
+    }
+    
     window.onload = function() {
         	
 	    if ('${ param.np }' == 1) {
@@ -251,6 +392,9 @@
 	    }
 	    if ('${ param.pr }' == 1) {
 	    	$('#price').css({color : '#75c9ba'})
+	    }
+	    if ('${ param.st }' == 1) {
+	    	$('#star').css({color : '#75c9ba'})
 	    }
 	}
 
@@ -273,6 +417,7 @@
 	            "pg" : '${ param.pg }',
 	            "oc" : '${ param.oc }',
 	            "pr" : '${ param.pr }',
+	            "st" : '${ param.st }',
 	            "count" : $('#typtagCount').val(),
          	},
        		dataType : 'json',
@@ -438,7 +583,7 @@
                                               style="font-size: 14px; color: rgb(170, 170, 170); cursor: pointer; " id="">
                                               가까운순</p>
                                           <p
-                                              style="font-size: 14px; color: rgb(170, 170, 170); cursor: pointer;" id="famous">
+                                              style="font-size: 14px; color: rgb(170, 170, 170); cursor: pointer;" id="star" onclick="starArray();">
                                               인기순</p>
                                           <p
                                               style="font-size: 14px; color: rgb(170, 170, 170); cursor: pointer;" id="price" onclick="priceArray();">

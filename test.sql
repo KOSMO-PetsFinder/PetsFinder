@@ -181,7 +181,7 @@ from (
         a.*, rownum rNum 
     from (
             SELECT 
-                s.*, sitphoto_idx, sitphoto_photo
+                s.*, sitphoto_idx, sitphoto_photo, NVL(sit_starpoint / DECODE(sit_starcount, 0, NULL, sit_starcount), 0) star
             FROM 
                 sitter s
             FULL OUTER JOIN (
@@ -230,7 +230,7 @@ from (
     )
     order by rNum asc
 )
-where rNum between 1 and 4;
+;
 
 
 -- 특정 시터 태그를 가지고 있는 시터 명수
@@ -238,7 +238,7 @@ select
     count(*)
 from (
         SELECT 
-            s.*, sitphoto_idx, sitphoto_photo
+            s.*, sitphoto_idx, sitphoto_photo, NVL(sit_starpoint / DECODE(sit_starcount, 0, NULL, sit_starcount), 0) star
         FROM 
             sitter s
         FULL OUTER JOIN (
@@ -299,7 +299,7 @@ SELECT * FROM (
         a.*, rownum rNum
     FROM (
         SELECT
-            s.*, sitphoto_idx, sitphoto_photo
+            s.*, sitphoto_idx, sitphoto_photo, NVL(sit_starpoint / DECODE(sit_starcount, 0, NULL, sit_starcount), 0) star
         FROM
             sitter s 
         FULL OUTER JOIN (
@@ -843,3 +843,50 @@ select si.*,p.payment_idx, member_idx, amount, payStus,pay_date,productname
       
       
 select * from product where product_idx in (1, 3, 5);
+
+select max(reviewcomm_idx) reviewcomm_idx from review_Comment;
+
+
+
+select a.*,  NVL(b.countlike, 0) as countlike
+		from (select r.*, m.member_name member_namer, member_photo
+	        from review_board r, member m 
+	        where r.member_idx=m.member_idx and abani_idx=21
+	        order by review_idx desc) a 
+		left OUTER JOIN (select  review_idx, count(review_idx) countlike 
+                   	 	from review_like  where reviewLike_stt=1 group by review_idx) b 
+		on a.review_idx=b.review_idx;
+        
+        
+select c.*, d.member_name member_namer from 
+		(select a.adoplist_idx, b.* from ADOPTION_list a, 
+		review_board b where a.abani_idx=b.abani_idx and review_flag ='adp' order by review_idx desc) c, 
+		member d where c.member_idx=d.member_idx;
+        
+
+SELECT a.abani_idx, abani_kind
+        , decode (abani_gender,'F','암컷','M','수컷') abani_gender
+        , abani_loc, abani_regdate, abani_neut
+        , decode (abani_stat,'prtct','prtct','adopt','adopt') abani_stat
+        , abani_age, abani_vaccin
+        , decode (abani_species, 'dog', '강아지', 'cat', '고양이') abani_species
+        , abani_char, adpapl_stt, member_idx
+from 
+    abandonedAnimal a 
+left outer join
+    ADOPTION_APPLICATION b
+on 
+    a.abani_idx = b.abani_idx
+ORDER BY a.abani_idx ASC;
+
+SELECT NVL(sit_starpoint / DECODE(sit_starcount, 0, NULL, sit_starcount), 0) star FROM sitter;
+
+select * from sitter order by (select sit_starpoint / sit_starcount from sitter where sit_starcount not 0) desc;
+
+
+select * from payment where payment_idx = 27;
+
+select tb.*, p.product_name from 
+			(select * from SALES_DETAILS) tb 
+			inner join product p on tb.product_idx=p.product_idx
+			where tb.member_idx=33 and tb.payment_idx=27;

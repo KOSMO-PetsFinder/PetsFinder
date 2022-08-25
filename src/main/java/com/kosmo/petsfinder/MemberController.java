@@ -40,11 +40,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import fileupload.FileUtil;
+import petsfinder.abandonedanimal.AbandonedAnimalDTO;
 import petsfinder.admin.AdminSitAplDTO;
 import petsfinder.member.MemberDAOImpl;
 import petsfinder.member.MemberDTO;
 import petsfinder.petsitter.PetSitterDTO;
 import petsfinder.review.ReviewBoardDTO;
+import petsfinder.shop.PayDTO;
 import petsfinder.utils.CookieManager;
 import smtp.SMTPAuth;
 
@@ -493,7 +495,7 @@ public class MemberController {
 				if(backUrl == null || backUrl.equals("")) {
 					return "redirect:./Login";
 				} else {
-					return "default";
+					return "redirect:./default";
 				}
 			}
 				
@@ -592,7 +594,7 @@ public class MemberController {
 		
 		if(success == 1) {
 			System.out.println("회원정보 수정 성공");
-			return "default";
+			return "redirect:./default";
 		} else {
 			System.out.println("회원정보 수정 실패");
 			return "redirect:./re_Info";
@@ -631,7 +633,17 @@ public class MemberController {
 				}
 				model.addAttribute("mode", mode);
 				
-			} else if (mode.equals("shop")) {
+			} else if (mode.equals("shp")) {
+				
+				ArrayList<ReviewBoardDTO> shpReview = sqlSession.getMapper(MemberDAOImpl.class).shpReview(member_idx);
+				if(!shpReview.isEmpty()) {
+					for(ReviewBoardDTO dto : shpReview) {
+						String temp = dto.getReview_content().replace("\r\n", "<br/>");
+						dto.setReview_content(temp);
+					}
+					model.addAttribute("shp", shpReview);
+				}
+				model.addAttribute("mode", mode);
 				
 			} else if (mode.equals("up")) {
 				
@@ -662,6 +674,8 @@ public class MemberController {
 						return "redirect:./myReview?mode=adp";
 					} else if (r_where.equals("sit")) {
 						return "redirect:./myReview?mode=sit";
+					} else if (r_where.equals("shp")) {
+						return "redirect:./myReview?mode=shp";
 					}
 				else
 					System.out.println("마이리뷰 삭제 실패");
@@ -713,6 +727,8 @@ public class MemberController {
 				return "redirect:./myReview?mode=adp";
 			} else if (r_where.equals("sit")) {
 				return "redirect:./myReview?mode=sit";
+			} else if (r_where.equals("shp")) {
+				return "redirect:./myReview?mode=shp";
 			}
 		}
 		else {
@@ -734,6 +750,51 @@ public class MemberController {
 			
 			model.addAttribute("m_Reserve", m_Reserve);
 			return "myReserve";
+		}
+	}
+	
+	@RequestMapping("/myAdopt")
+	public String myAdopt(Model model, HttpSession session) {
+		
+		if(session.getAttribute("idx")== null) {
+			return "redirect:./Login";
+		}else {
+			
+			int member_idx = Integer.parseInt(session.getAttribute("idx").toString());
+			ArrayList<AbandonedAnimalDTO> m_Adopt = sqlSession.getMapper(MemberDAOImpl.class).m_Adopt(member_idx);
+			
+			model.addAttribute("m_Adopt", m_Adopt);
+			return "myAdopt";
+		}
+	}
+	@RequestMapping("/myBought")
+	public String myBought(Model model, HttpSession session, HttpServletRequest req) {
+		
+		if(session.getAttribute("idx")== null) {
+			return "redirect:./Login";
+		}else {
+			
+			int member_idx = Integer.parseInt(session.getAttribute("idx").toString());
+			
+			ArrayList<PayDTO> m_Bought = sqlSession.getMapper(MemberDAOImpl.class).m_Bought(member_idx);
+			
+			model.addAttribute("m_Bought", m_Bought);
+			return "myBought";
+		}
+	}
+	
+	@RequestMapping("/myBoughtView")
+	public String myBoughtView(Model model, HttpSession session, HttpServletRequest req) {
+		
+		if(session.getAttribute("idx")==null) {
+			return "redirect:../Login";
+		}else {
+			int member_idx = Integer.parseInt(session.getAttribute("idx").toString());
+			int payment_idx = Integer.parseInt(req.getParameter("payment_idx"));
+			ArrayList<PayDTO> m_BoughtView = sqlSession.getMapper(MemberDAOImpl.class).m_Boughtview(member_idx, payment_idx);
+			model.addAttribute("m_BoughtView", m_BoughtView);
+			
+			return "myBoughtView";
 		}
 	}
 	
@@ -769,6 +830,81 @@ public class MemberController {
 				model.addAttribute("sbook_idx", sbook_idx);
 				model.addAttribute("flag", "sit");
 				return "star";
+			}
+			
+		}
+	}
+	
+	@RequestMapping("/up_Adopt")
+	public String up_Adopt(Model model, HttpSession session, HttpServletRequest req) {
+		
+		if (session.getAttribute("idx") == null) {
+			return "redirect:./Login";
+		} else {
+			
+			int abani_idx1 = Integer.parseInt(req.getParameter("i"));
+			int adpapl_idx = Integer.parseInt(req.getParameter("adpapl_idx"));
+			String mode = req.getParameter("mode");
+			// 확정
+			if (mode.equals("up")) {
+				int result = sqlSession.getMapper(MemberDAOImpl.class).up_Adopt("apl", adpapl_idx);
+				if(result==1) {
+					sqlSession.getMapper(MemberDAOImpl.class).up_Abandoned(abani_idx1);
+				}
+				return "redirect:./myAdopt";
+			//  취소
+			} else if (mode.equals("cn")) {
+				sqlSession.getMapper(MemberDAOImpl.class).up_Adopt("rej", adpapl_idx);
+				return "redirect:./myAdopt";
+			// 후기 쓰기
+			} else {
+				String abani_idx = req.getParameter("i");
+				model.addAttribute("abani_idx", abani_idx);
+				model.addAttribute("adpapl_idx", adpapl_idx);
+				model.addAttribute("flag", "adp");
+				return "reviewWrite";
+			}
+			
+		}
+	}
+	@RequestMapping("/up_Bought")
+	public String up_Bought(Model model, HttpSession session, HttpServletRequest req) {
+		
+		if (session.getAttribute("idx") == null) {
+			return "redirect:./Login";
+		} else {
+			int member_idx = Integer.parseInt(session.getAttribute("idx").toString());
+			int payment_idx = Integer.parseInt(req.getParameter("payment_idx"));
+			String mode = req.getParameter("mode");
+			
+			// 배송중
+			if (mode.equals("up")) {
+				sqlSession.getMapper(MemberDAOImpl.class).up_delivery("dlv", payment_idx);
+				return "redirect:./myBought";
+			// 예약 취소
+			} else if (mode.equals("cn")) {
+				sqlSession.getMapper(MemberDAOImpl.class).up_refund(payment_idx);
+				return "redirect:./myBought";
+				
+			} else if (mode.equals("vi")) {
+				ArrayList<PayDTO> viewlist = sqlSession.getMapper(MemberDAOImpl.class).m_Boughtview(member_idx, payment_idx);
+				
+				model.addAttribute("viewlist", viewlist);
+				return "myBoughtView";
+				// 후기 쓰기
+			} else {
+				//배송완료
+				sqlSession.getMapper(MemberDAOImpl.class).up_delivery("cmp", payment_idx);
+				
+				String product_idx = req.getParameter("p");
+				String pay_date = req.getParameter("pd");
+				String product_name = req.getParameter("pn");
+				model.addAttribute("pay_date", pay_date);
+				model.addAttribute("product_idx", product_idx);
+				model.addAttribute("product_name", product_name);
+				model.addAttribute("payment_idx", payment_idx);
+				model.addAttribute("flag", "shp");
+				return "reviewWrite";
 			}
 			
 		}
@@ -815,70 +951,96 @@ public class MemberController {
 	
 	@RequestMapping("/reviewWrite")
 	public String reviewWrite(HttpSession session, HttpServletRequest req, MultipartHttpServletRequest mr) {
-		
+	      
 		if (session.getAttribute("idx") != null) {
 
 			int member_idx = Integer.parseInt(session.getAttribute("idx").toString());
 			String review_flag = req.getParameter("flag");
 			String review_content = req.getParameter("review_content");
-			int sbook_idx = Integer.parseInt(req.getParameter("sbook_idx"));
+	         
 //			int review_idx = Integer.parseInt(req.getParameter("review_idx"));
 			ReviewBoardDTO dto = new ReviewBoardDTO();
 			dto.setMember_idx(member_idx);
 			dto.setReview_flag(review_flag);
 			dto.setReview_content(review_content);
-//			dto.setReview_idx(review_idx);
-			
-			// 사진 넣기
-			String fileName = mr.getFile("ofile").toString();
-			// 파일명 확인
-			System.out.println("파일명 : " + fileName.split("filename=")[1].split(",")[0]);
-			// 파일명이 ""이 아니면 업로드 및 DTO에 셋팅
-			if ( !fileName.split("filename=")[1].split(",")[0].equals("") ) {
-				String path = req.getSession().getServletContext().getRealPath("/resources/Uploads");
-				
-				MultipartFile mfile = null;
-				try {
-					Iterator itr = mr.getFileNames();
-					if(itr.hasNext()) {
-						mfile = mr.getFile(itr.next().toString());
-						String originalName = new String(mfile.getOriginalFilename().getBytes(), "UTF-8");
-						String ext = originalName.substring(originalName.lastIndexOf('.'));
-						String saveFileName = FileUtil.getUuid() + ext;
-						mfile.transferTo(new File(path + File.separator + saveFileName));
-						dto.setReview_photo(saveFileName);
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			
-			if (review_flag.equals("adp")) {
-				
-				return "redirect:./myReview?mode=adp";
-			} else if (review_flag.equals("sit")) {
-				
-				int sit_idx = Integer.parseInt(req.getParameter("sit_idx"));
-				dto.setSit_idx(sit_idx);
-				
-				int result = sqlSession.getMapper(MemberDAOImpl.class).reviewWrite(dto);
-				
-				if (result == 1) {
-					System.out.println("후기 쓰기 성공");
-					sqlSession.getMapper(MemberDAOImpl.class).review_off(sbook_idx);
-					
-				} else {
-					System.out.println("후기 쓰기 실패");
-				}
-				return "redirect:./myReview?mode=sit";
-			} else {
-				
-				return "redirect:./myReview?mode=shop";
-			}
-		} else {
-			return "redirect:./Login";
-		}
-	}
+//	       	dto.setReview_idx(review_idx);
+	         
+	         // 사진 넣기
+	         String fileName = mr.getFile("ofile").toString();
+	         // 파일명 확인
+	         System.out.println("파일명 : " + fileName.split("filename=")[1].split(",")[0]);
+	         // 파일명이 ""이 아니면 업로드 및 DTO에 셋팅
+	         if ( !fileName.split("filename=")[1].split(",")[0].equals("") ) {
+	            String path = req.getSession().getServletContext().getRealPath("/resources/Uploads");
+	            
+	            MultipartFile mfile = null;
+	            try {
+	               Iterator itr = mr.getFileNames();
+	               if(itr.hasNext()) {
+	                  mfile = mr.getFile(itr.next().toString());
+	                  String originalName = new String(mfile.getOriginalFilename().getBytes(), "UTF-8");
+	                  String ext = originalName.substring(originalName.lastIndexOf('.'));
+	                  String saveFileName = FileUtil.getUuid() + ext;
+	                  mfile.transferTo(new File(path + File.separator + saveFileName));
+	                  dto.setReview_photo(saveFileName);
+	               }
+	            } catch (Exception e) {
+	               e.printStackTrace();
+	            }
+	         }
+	         
+	         if (review_flag.equals("adp")) {
+	            
+	            int abani_idx = Integer.parseInt(req.getParameter("abani_idx"));
+	            dto.setAbani_idx(abani_idx);
+	            
+	            int result = sqlSession.getMapper(MemberDAOImpl.class).reviewWrite(dto);
+	            
+	            if(result ==1) {
+	               System.out.println("후기 쓰기 성공(adpt)");
+	            }
+	            else {
+	               System.out.println("후기쓰기 실패(adpt)");
+	            }
+	            
+	            return "redirect:./myReview?mode=adp";
+	         } else if (review_flag.equals("sit")) {
+	            
+	            int sbook_idx = Integer.parseInt(req.getParameter("sbook_idx"));
+	            int sit_idx = Integer.parseInt(req.getParameter("sit_idx"));
+	            dto.setSit_idx(sit_idx);
+	            
+	            int result = sqlSession.getMapper(MemberDAOImpl.class).reviewWrite(dto);
+	            
+	            if (result == 1) {
+	               System.out.println("후기 쓰기 성공");
+	               sqlSession.getMapper(MemberDAOImpl.class).review_off(sbook_idx);
+	               
+	            } else {
+	               System.out.println("후기 쓰기 실패");
+	            }
+	            return "redirect:./myReview?mode=sit";
+	         } else {
+	            
+	            int product_idx = Integer.parseInt(req.getParameter("product_idx"));
+	               
+	            dto.setProduct_idx(product_idx);
+	            
+	            int result = sqlSession.getMapper(MemberDAOImpl.class).reviewWrite(dto);
+	            if(result==1) {
+	               System.out.println("후기 입력 성공(pdt)");
+	            }
+	            else {
+	               System.out.println("후기 입력 실패(pdt)");
+	            }
+	            
+	            return "redirect:./myReview?mode=shop";
+	         }
+	      } else {
+	         return "redirect:./Login";
+	      }
+
+	   	}
 	
 	@RequestMapping(value ="/sitterApl" )
     public String sitterApl(MemberDTO memberDTO, Model model, HttpServletRequest req, HttpSession session) {
@@ -931,7 +1093,7 @@ public class MemberController {
     	
     	if(result == 1) {
 			System.out.println("성공");
-			return "default";
+			return "redirect:./default";
 		} else {
 			System.out.println("실패");
 			return "redirect:./sitterApl";

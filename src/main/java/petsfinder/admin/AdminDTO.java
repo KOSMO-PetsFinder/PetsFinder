@@ -236,7 +236,30 @@ public class AdminDTO {
 		this.faq_answer = faq_answer;
 	}
 
-		
+	   private int qnacomm_idx;
+	   private String qnacomm_content;
+	   private String qnacomm_regdate;
+	   
+	   
+	   public int getQnacomm_idx() {
+	      return qnacomm_idx;
+	   }
+	   public void setQnacomm_idx(int qnacomm_idx) {
+	      this.qnacomm_idx = qnacomm_idx;
+	   }
+	   public String getQnacomm_content() {
+	      return qnacomm_content;
+	   }
+	   public void setQnacomm_content(String qnacomm_content) {
+	      this.qnacomm_content = qnacomm_content;
+	   }
+	   public String getQnacomm_regdate() {
+	      return qnacomm_regdate;
+	   }
+	   public void setQnacomm_regdate(String qnacomm_regdate) {
+	      this.qnacomm_regdate = qnacomm_regdate;
+	   }
+
 		
 	
 
