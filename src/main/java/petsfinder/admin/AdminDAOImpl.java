@@ -54,7 +54,11 @@ public interface AdminDAOImpl {
 	
 	public int nEdit(AdminDTO adminDTO);
 	
-	
+	//택수
+	//공지사항 리스트 게시물 갯수 카운트
+	public int mGetTotalCount(AdminParameterDTO adminParameterDTO);
+	//공지사항 리스트 가져오기
+	public ArrayList<AdminDTO> mListPage(int s, int e);	
 	
 ///////////////////////////////승헌////////////////////////////////////////
 	

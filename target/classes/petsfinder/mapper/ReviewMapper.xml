@@ -15,4 +15,10 @@
   		 where rNum between #{param1} and #{param2}
   	</select>
   	
+  	<!-- 쇼핑몰 후기 리스트 -->
+  	<select id="shopReviewSelect" resultType="petsfinder.review.ReviewBoardDTO">
+  		select member_id, review_photo, review_regdate, review_content from review_board r 
+		inner join member m on m.member_idx=r.member_idx 
+		where product_idx=#{param1} and review_flag='shp' order by review_regdate desc
+  	</select>
   </mapper>

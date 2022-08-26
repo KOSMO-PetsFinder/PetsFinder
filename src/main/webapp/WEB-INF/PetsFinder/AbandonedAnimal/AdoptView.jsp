@@ -24,13 +24,29 @@
      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     
-    
+   	<!-- alert 창 꾸미기 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script type="text/javascript">
 	function deleteComm(idx) {
-    if(confirm("정말로 삭제하시겠습니까?")){
-    	var abani_idx = "${abandonedAnimalDTO.abani_idx}";
-	    location.href = "./deleteComm?commIdx="+idx+"&abani_idx="+abani_idx;
-	   }
+    	Swal.fire({
+    		title: '댓글 삭제 하시겠습니까?',
+            text: "삭제 후 복구가 불가능합니다.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#75c9ba',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '승인',
+            cancelButtonText: '취소'
+        }).then((result) => {
+        	if (result.isConfirmed) {
+                Swal.fire(
+                    '댓글이 삭제되었습니다.',
+                ).then(() => {
+			    	var abani_idx = "${abandonedAnimalDTO.abani_idx}";
+				    location.href = "./deleteComm?commIdx="+idx+"&abani_idx="+abani_idx;
+		        })
+            }
+        })
 	}
 	</script>
 	
@@ -72,7 +88,11 @@
 				console.log("성공");
 				var content=""; 
 				content += "<div style='display: flex; flex-direction: row; align-self: flex-end; margin-top: 32px; width: 600px'><img width='50' height='50'";
-				content += "src='<c:url value='/' />Uploads/"+member_photo+"' style='object-fit: cover; border-radius: 50%;'>";
+				if ((member_photo + "1") != "1") {
+					content += "src='<c:url value='/' />Uploads/"+member_photo+"' style='object-fit: cover; border-radius: 50%;'>";
+				} else {
+					content += "src='<c:url value='/' />images/no_review.png' style='object-fit: cover; border-radius: 50%;'>";
+				}	
 				content += "<div style='background-color: rgb(250, 250, 252); width: 100%; padding: 20px 24px;'>";
 				content	+= "<div style='display: flex; flex-direction: row; justify-content: space-between;'>";
  				content += "<div style='display: flex; flex-direction: row; align-items: center'>";
@@ -80,7 +100,7 @@
 				content += "<p style='font-size: 13px; line-height: 19px; color: rgb(157, 164, 180); margin-left: 9px;'>" + reviewcomm_regdate + "</p>";
  				content += "</div>";
 				content += "<div>";
-				content += "<button type='button' style='border: none; background: none; color: red; ' onclick='deleteCommSit(" + res.reviewcomm_idx +");'>X</button>";
+				content += "<button type='button' style='border: none; background: none; color: red; ' onclick='deleteComm(" + res.reviewcomm_idx +");'>X</button>";
 				content	+= "</div></div>";
 				content	+= "<p style='font-size: 15px; line-height: 25px; color: rgb(85, 85, 85); margin-top: 12px;'>"+reviewcomm_content+"</p>";
             	content	+= "</div></div>";
@@ -139,19 +159,19 @@
 										<!-- 캐러셀 이미지 -->
 										<div style="width: 100%; height: 580px;" class="carousel-inner">
 											<div class="carousel-item active">
-												<img alt="경북 영주시 휴천동, 송*은 펫시터 환경" width="1500" height="580"
+												<img alt="" width="1500" height="580"
 													class="d-block"
 													src="<c:url value='/'/>sitterView/e0b00068f0f84976a9442d8a89e18646.jpg"
 													style="object-fit: cover; width: 100%; user-select: none; cursor: pointer;">
 											</div>
 											<div class="carousel-item">
-												<img alt="경북 영주시 휴천동, 송*은 펫시터 환경" width="1500" height="580"
+												<img alt="" width="1500" height="580"
 													class="d-block"
 													src="<c:url value='/'/>sitterView/e0b00068f0f84976a9442d8a89e18646.jpg"
 													style="object-fit: cover; width: 100%; user-select: none; cursor: pointer;">
 											</div>
 											<div class="carousel-item">
-												<img alt="경북 영주시 휴천동, 송*은 펫시터 환경" width="1500" height="580"
+												<img alt="" width="1500" height="580"
 													class="d-block"
 													src="<c:url value='/'/>sitterView/e0b00068f0f84976a9442d8a89e18646.jpg"
 													style="object-fit: cover; width: 100%; user-select: none; cursor: pointer;">
@@ -170,7 +190,7 @@
 										<div>
 											<div style="display: flex; flex-direction: row;">
 												<div style="overflow: hidden; width: 90px; height: 90px; border: none; border-radius: 12px; margin-top: 5px;">
-													<img width="90" height="90" alt="경북 영주시 휴천동 펫시터"
+													<img width="90" height="90" alt=""
 														src="../sitterView/08d8f81d5fd74638bcd1e4d6792e95d0.jpg"
 														style="object-fit: cover; display: inline-block;">
 												</div>
@@ -186,10 +206,10 @@
 												</div>
 												<div style="display: inline-block; margin-left:auto;  float: right;">
 													<c:if test="${abandonedAnimalDTO.abani_stat eq 'adopt'  }">
-													<span class="badge rounded-pill bg-success">입양완료</span>
+													<span class="badge bg-success" style="font-size: 25px;">입양완료</span>
 													</c:if>
 													<c:if test="${abandonedAnimalDTO.abani_stat eq 'prtct'  }">
-													<span class="badge rounded-pill bg-primary">보호중</span>
+													<span class="badge bg-danger" style="font-size: 25px;">보호중</span>
 													</c:if>
 												</div>
 											</div>
@@ -200,7 +220,7 @@
 													<img width="26" height="27"
 														src="../sitterView/verification.png">
 													<p
-														style="font-weight: 600; font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(57, 60, 71); margin-left: 5px;">예방 접종${abandonedAnimalDTO.abani_vaccin } / 중성화 완료${abandonedAnimalDTO.abani_neut }</p>
+														style="font-weight: 600; font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color: rgb(57, 60, 71); margin-left: 5px;">예방 접종 ${ abandonedAnimalDTO.abani_vaccin eq 1 ? 'O' : 'X' } / 중성화 완료 ${abandonedAnimalDTO.abani_neut eq 1 ? 'O' : 'X' }</p>
 												</div>
 												<p
 													style="font-size: 12px; letter-spacing: -0.2px; line-height: 18px; color: rgb(85, 85, 85); margin-top: 5px;">5단계 신원 검증 및 돌봄 환경의 안전성 검증이 완료된 펫츠 파인더입니다</p>
@@ -208,7 +228,7 @@
 											<div  style="margin-top: 53px; width: 1027px;">
 												<h2 style="font-weight: 600; font-size: 17px; letter-spacing: -0.2px; line-height: 25px; color: rgb(57, 60, 71);">아이를 소개합니다.</h2>
 												<p style="font-size: 15px; line-height: 25px; color: rgb(85, 85, 85); margin-top: 32px;">
-													${abandonedAnimalDTO.abani_char }
+													${ abandonedAnimalDTO.abani_char }
 												</p>
 											</div>
 											
@@ -237,13 +257,7 @@
 											
 											<!-- 입양중일 경우 -->
 											<c:if test="${abandonedAnimalDTO.abani_stat eq 'adopt'  }">
-											<!-- 유기동물을 입양한 유저일 떄 -->
-											<c:if test="${sessionScope.idx eq  abandonedAnimalDTO.adoptmember_idx}">
-												<div style="margin-top: 80px;">
-													<button onclick="location.href='#';"
-													type="button" class="btn btn-success" style="width: 200px;height: 50px;">후기등록</button> 
-												</div>
-											</c:if>
+											
 											<!-- 후기가 있을 때  -->
 											<c:if test="${revState eq 'exe' }">
 											<div style="margin-top: 80px;">
@@ -251,35 +265,15 @@
 													<h2 style="font-weight: 600; font-size: 22px; letter-spacing: -0.2px; line-height: 33px; color: rgb(57, 60, 71); margin-right: 20px; margin-bottom: 0px;">입양 후기</h2>
 												</div>
 												<div style="display: flex; flex-direction: row;">
+														<c:forEach items="${reviewLists }" var="rp">
 													<div
 														style="display: flex; overflow: hidden; border-radius: 3px; margin-right: 9px; user-select: none; cursor: pointer; position: relative;">
-														<img width="139" height="139"
-															src="../sitterView/46bbf847d6434a20a033a18a0061879b.jpg"
-															style="object-fit: cover;">
+															<c:if test="${ rp.review_photo ne null }">
+																<input type="hidden" value="${ rp.review_photo }" />
+																<img width="139" height="139" src="<c:url value='/' />Uploads/${ rp.review_photo }" alt="" style="object-fit: cover;"/>
+															</c:if>
 													</div>
-													<div
-														style="display: flex; overflow: hidden; border-radius: 3px; margin-right: 9px; user-select: none; cursor: pointer; position: relative;">
-														<img width="139" height="139"
-															src="../sitterView/8a2b86f4fc534f73a15a434baebd53fa.jpg"
-															style="object-fit: cover;">
-													</div>
-													<div
-														style="display: flex; overflow: hidden; border-radius: 3px; margin-right: 9px; user-select: none; cursor: pointer; position: relative;">
-														<img width="139" height="139"
-															src="../sitterView/01b9927be704472a8e4f75dbdfcf55ce.jpg"
-															style="object-fit: cover;">
-													</div>
-													<div
-														style="display: flex; overflow: hidden; border-radius: 3px; margin-right: 9px; user-select: none; cursor: pointer; position: relative;">
-														<img width="139" height="139"
-															src="../sitterView/6a7dffb15ac44f28a39289bf5357ad23.jpg"
-															style="object-fit: cover;">
-														<div
-															style="display: flex; position: absolute; inset: 0px; width: 139px; height: 139px; align-items: center; justify-content: center; background-color: rgba(0, 0, 0, 0.59); border-radius: 3px;">
-															<p
-																style="font-size: 17px; letter-spacing: 0.5px; line-height: 25px; color: white;">+8</p>
-														</div>
-													</div>
+														</c:forEach>
 												</div>
 												<!-- 댓글보기 전체 불러오기 -->
 												<c:forEach items="${reviewLists }" var="row">
@@ -435,6 +429,21 @@
 															</c:if>
 															<c:if test="${sessionScope.idx ne null }">
 															<div style="display: flex; flex-direction: column-reverse; margin-left:auto;  float: right; vertical-align:bottom; padding-bottom: 3px;">
+																<% int temp = 0; %>
+																<c:forEach items="${reviewCommLists }" var="rerow" varStatus="status">
+																	
+																	<c:if test="${rerow.review_idx eq row.review_idx }" >
+																		<%  
+																		if(temp < 1) {
+																			temp++;
+																		%>
+																			<p onclick="com_view${row.review_idx}();" style="cursor: pointer; color:#75c9ba;">
+																				댓글보기
+																				<img src="../images/comment.png" alt="" width="15" height="15" style="color:#75c9ba;" />
+																			</p>
+																		<%}%>
+																	</c:if>
+																</c:forEach>
 																<p onclick="commentView${row.review_idx}()" style="cursor: pointer; color:#75c9ba;" >
 																	댓글쓰기
 																	<img src="../images/comment.png" alt="" width="15" height="15" style="color:#75c9ba;" />
@@ -449,34 +458,20 @@
 														<input type="hidden" id="member_idx${row.review_idx }" name="member_idx" value="${sessionScope.idx }">
 														<input type="hidden" id="abani_idx${row.review_idx }" name="abani_idx" value="${abandonedAnimalDTO.abani_idx }">
 														<div>
-															<textarea style="width:972px; height: 150px; margin-top: 30px;" id="reviewcomm_content${row.review_idx }" name="reviewcomm_content"></textarea>														
+															<textarea class="form-control" style="width:772px; height: 50px; margin-top: 30px;" id="reviewcomm_content${row.review_idx }" name="reviewcomm_content"></textarea>														
 														</div>
 														<div style="display: flex; flex-direction: column-reverse; margin-left:auto;  float: right; vertical-align:bottom; padding-bottom: 3px; padding-top: 10px; padding-right:25px;">
-															<button type="button" onclick="commentInsert${row.review_idx }();" class="btn btn-info">등록</button>
+															<button type="button" onclick="commentInsert${row.review_idx }();" class="btn" style="background-color: #75c9ba;color:white;">등록</button>
 														</div>
 														</form>
 														</div>
 														
-														<% int temp = 0; %>
-														<c:forEach items="${reviewCommLists }" var="rerow" varStatus="status">
-															
-															<c:if test="${rerow.review_idx eq row.review_idx }" >
-																<%  
-																if(temp < 1) {
-																	temp++;
-																%>
-																	<button onclick="com_view${row.review_idx}();" style='background: none; border: none; color: #75c9ba'>댓글보기</button>
-																<%}%>
-															</c:if>
-														</c:forEach>
+														
 														
 														<div id="com${row.review_idx }" name="com${row.review_idx }" style="display: none; flex-direction: column; justify-content: right; margin-top: 32px;">
 														
 														<c:forEach items="${reviewCommLists }" var="rerow" varStatus="index">
 														<c:if test="${rerow.review_idx eq row.review_idx }" >
-														
-														
-														
 														<div style="display: flex; flex-direction: row; align-self: flex-end; margin-top: 32px; width: 600px">
 															<c:if test="${ rerow.member_photo ne null}" var="mp">
 															<img width="50" height="50"	src="<c:url value='/' />Uploads/${ rerow.member_photo }" style="object-fit: cover; border-radius: 50%;">
@@ -493,7 +488,7 @@
 																	</div>
 																	<c:if test="${rerow.member_idx eq sessionScope.idx }">
 																	<div>
-						                                             	<button type="button" style="border: none; background: none; color: red; " onclick="deleteCommSit(${rerow.reviewcomm_idx});">X</button>
+						                                             	<button type="button" style="border: none; background: none; color: red; " onclick="deleteComm(${rerow.reviewcomm_idx});">X</button>
 																	</div>
 						                                          	</c:if>
 																</div>

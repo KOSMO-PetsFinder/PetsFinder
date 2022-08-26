@@ -201,7 +201,7 @@
 	
 	<!-- 시터별 예약된 날짜 조회 -->
 	<select id="reserved" resultType="petsfinder.petsitter.PetSitterDTO">
-		select * from sit_book where sit_idx = #{ sit_idx }
+		select * from sit_book where sit_idx = #{ sit_idx } and sbook_status != 'can'
 	</select>
 
 	<!-- 예약 등록 -->

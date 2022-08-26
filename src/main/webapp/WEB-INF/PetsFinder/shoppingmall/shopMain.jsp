@@ -48,7 +48,7 @@ a {
 	
 	
 
-
+	<input type="hidden" name="cate" value="${cate }" />
     <!-- Start Banner Hero -->
     <div id="template-mo-zay-hero-carousel" class="carousel slide mt-3" data-bs-ride="carousel" >
         <ol class="carousel-indicators">

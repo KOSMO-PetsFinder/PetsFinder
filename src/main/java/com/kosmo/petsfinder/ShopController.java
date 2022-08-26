@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import petsfinder.review.ReviewBoardDAOImpl;
+import petsfinder.review.ReviewBoardDTO;
 import petsfinder.shop.BuyOrCartDTO;
 import petsfinder.shop.CartDTO;
 import petsfinder.shop.MemberSDTO;
@@ -45,6 +47,10 @@ public class ShopController {
 			ArrayList<ProductDTO> recentlist = sqlSession.getMapper(ShopDAOImpl.class).selectListRecent();
 			model.addAttribute("rlist", recentlist);
 		}
+		ParameterDTO parameterDTO = new ParameterDTO();
+		parameterDTO.setSearchText(req.getParameter("searchText"));
+		int cate =0;
+		model.addAttribute("cate", cate);
 		model.addAttribute("cartCount", cartCount);
 		return "./shoppingmall/shopMain";
 	}
@@ -85,6 +91,13 @@ public class ShopController {
 		ArrayList<ProductDTO> lists =
 				sqlSession.getMapper(ShopDAOImpl.class).productList(parameterDTO);
 		
+//		String searchTxt = req.getParameter("q");
+//		String addQueryString = "";
+//		
+//		if(!searchTxt.equals("")) {
+//			addQueryString = "&searchTxt=" + searchTxt + "&";
+//		}
+		
 		String category = "";
 		switch (cate) {
 		case 0:
@@ -94,14 +107,17 @@ public class ShopController {
 			category ="필수용품";
 			break;
 		case 2:
-			category ="약";
+			category ="의약품";
 			break;
 		case 3:
 			category ="굿즈";
 			break;
 
 		}		
-		
+		String keyword = req.getParameter("searchText");
+		parameterDTO.setSearchText(keyword);
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("cate", cate);
 		
 		//모델에 저장
 		model.addAttribute("cartCount", cartCount);
@@ -425,6 +441,16 @@ public class ShopController {
 		ProductDTO productDTO = 
 				sqlSession.getMapper(ShopDAOImpl.class).productInfo(product_idx);
 		productDTO.setPhoto(productDTO.getPhotos().split("\\|"));
+		
+		ArrayList<ReviewBoardDTO> review = sqlSession.getMapper(ReviewBoardDAOImpl.class).shopReviewSelect(product_idx);
+		
+		if(!review.isEmpty()) {
+			for(ReviewBoardDTO dto : review) {
+				String temp = dto.getReview_content().replace("\r\n", "<br/>");
+				dto.setReview_content(temp);
+			}
+			model.addAttribute("review", review);
+		}
 		
 		HttpSession session = req.getSession();
 		int cartCount = 0;

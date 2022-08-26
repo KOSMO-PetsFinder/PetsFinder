@@ -326,37 +326,13 @@ SELECT * FROM (
                 FROM
                     sit_book 
                 WHERE (
-                    (sbook_start <= '2022-08-14' and sbook_end > '2022-08-14') 
+                    (sbook_start <= '2022-08-25' and sbook_end > '2022-08-25') 
                     or 
-                    (sbook_start < '2022-08-15' and sbook_end > '2022-08-15')
+                    (sbook_start < '2022-08-26' and sbook_end >= '2022-08-26')
                     ) and sbook_status not in ('can')
             ) 
             
-            and s.sit_idx in (
-                select 
-                    sit_idx 
-                from (
-                    select 
-                        sit_idx, count(sit_idx) 
-                    from (
-                        select 
-                            sit_idx 
-                        from 
-                            sitter_tag 
-                        where 
-                            typtag_idx 
-                        in (
-                          1,2,3,4 
-                        )
-                    ) 
-                    group by 
-                        sit_idx 
-                    having 
-                        count(sit_idx) = 4
-                )
-            )
             
-        ORDER BY s_fee asc
     ) a
 )
 ;
@@ -890,3 +866,8 @@ select tb.*, p.product_name from
 			(select * from SALES_DETAILS) tb 
 			inner join product p on tb.product_idx=p.product_idx
 			where tb.member_idx=33 and tb.payment_idx=27;
+
+
+select * from sit_book where sit_idx = 11;
+
+select * from sit_book where sit_idx = 11 and sbook_status != 'can';

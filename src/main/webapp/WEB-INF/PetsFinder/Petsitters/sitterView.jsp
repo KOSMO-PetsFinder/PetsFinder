@@ -22,12 +22,29 @@
 <script src="../jquery/jquery-ui.js"></script>
 <!-- iamport.payment.js -->
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+	<!-- alert 창 꾸미기 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 	<script type="text/javascript">
     function deleteCommSit(idx) {
-    if(confirm("정말로 삭제하시겠습니까?")){
-        var sit_idx = "${sitterView.sit_idx}";
-        location.href = "./deleteCommSit?commIdx="+idx+"&sit_idx="+sit_idx;
-       }
+    	Swal.fire({
+    		title: '댓글 삭제 하시겠습니까?',
+            text: "삭제 후 복구가 불가능합니다.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#75c9ba',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '승인',
+            cancelButtonText: '취소'
+        }).then((result) => {
+        	if (result.isConfirmed) {
+                Swal.fire(
+                    '댓글이 삭제되었습니다.',
+                ).then(() => {
+			        var sit_idx = "${sitterView.sit_idx}";
+			        location.href = "./deleteCommSit?commIdx="+idx+"&sit_idx="+sit_idx;
+                })
+            }
+        })
     }
     </script>
 	<c:forEach items="${stReview }" var="sr">
@@ -69,7 +86,11 @@
 				console.log("성공");
 				var content=""; 
 				content += "<div style='display: flex; flex-direction: row; justify-content: space-between; margin-top: 32px; '><img width='50' height='50'";
-				content += "src='<c:url value='/' />Uploads/"+member_photo+"' style='object-fit: cover; border-radius: 50%;'>";
+				if ((member_photo + "1") != "1") {
+					content += "src='<c:url value='/' />Uploads/"+member_photo+"' style='object-fit: cover; border-radius: 50%;'>";
+				} else {
+					content += "src='<c:url value='/' />images/no_review.png' style='object-fit: cover; border-radius: 50%;'>";
+				}
 				content += "<div style='background-color: rgb(250, 250, 252); width: 515px; padding: 20px 24px;'>";
 				content	+= "<div style='display: flex; flex-direction: row; justify-content: space-between;'>";
  				content += "<div style='display: flex; flex-direction: row; align-items: center'>";
@@ -628,7 +649,8 @@
 										
 										<!-- 예약 하기 -->
 									  	<script>
-									  		var noReservation = [];
+									  		var noReservation_sD = [];
+									  		var noReservation_eD = [];
 									  	</script>
 									    <c:if test="${ not empty re_list }">
 									 		<c:forEach items="${ re_list }" var="rl" varStatus="loop">
@@ -640,16 +662,29 @@
 									    <script>
 									   	var sD_${ loop.count } = $('#${ rl.sit_idx }start${ loop.count }').val();
 									   	var eD_${ loop.count } = $('#${ rl.sit_idx }end${ loop.count }').val();
-									   	/* console.log(${loop.count})
-									   	console.log(sD_${ loop.count });
-									   	console.log(eD_${ loop.count }); */
-									   	for (var d = new Date(sD_${ loop.count }); d <= new Date(eD_${ loop.count }); d.setDate(d.getDate() + 1)) {
-									        noReservation.push($.datepicker.formatDate('yy-mm-dd', d));
+									   	
+									   	for (var d = new Date(sD_${ loop.count } + 1); d <= new Date(eD_${ loop.count }); d.setDate(d.getDate() + 1)) {
+									   		console.log("d : " + d)
+									        noReservation_sD.push($.datepicker.formatDate('yy-mm-dd', d));
 									    }
-										function noReserve(date) {
+								        console.log("noReservation_sD : " + noReservation_sD)
+								        var b = new Date(sD_${ loop.count })
+									   	for ( a = new Date(b.setDate(b.getDate() + 1)); a <= new Date(eD_${ loop.count }); a.setDate(a.getDate() + 1)) {
+									   		console.log("a : " + a)
+									        noReservation_eD.push($.datepicker.formatDate('yy-mm-dd', a));
+									    }
+								        console.log("noReservation_eD : " + noReservation_eD)
+										function noReserve_sD(date) {
 									    	
 										   	var dateString = jQuery.datepicker.formatDate('yy-mm-dd', date);
-									        return [noReservation.indexOf(dateString) == -1];
+									        return [noReservation_sD.indexOf(dateString) == -1];
+									        
+									    }
+										function noReserve_eD(date) {
+									    	
+										   	var dateString = jQuery.datepicker.formatDate('yy-mm-dd', date);
+									        return [noReservation_eD.indexOf(dateString) == -1];
+									        
 									    }
 									 	</script>
 									    	</c:forEach>
@@ -681,7 +716,7 @@
 										        $('#startDate').datepicker({
 										        	minDate: 'D',
 										        	<c:if test="${ not empty re_list }">
-										        	beforeShowDay: noReserve,
+										        	beforeShowDay: noReserve_sD,
 										        	</c:if>
 										        	onSelect : function(dateText){
 										        		
@@ -699,11 +734,13 @@
 										        		예약 되어 있는 날짜가 저장되어 있는 배열과 시작 선택 날짜를 비교하여
 										        		종료 날짜 선택 가능 마지막 날 정하는 부분
 										        		*/
-														for (var i = 0; i < noReservation.length; i++) {
-														    if (selectDate <= noReservation[i]) {
-															    console.log(noReservation[i])
-															    $('#endDate').datepicker("option", "maxDate", noReservation[i]);
+														for (var i = 0; i < noReservation_eD.length; i++) {
+														    if (selectDate < noReservation_eD[i]) {
+															    console.log(noReservation_eD[i])
+															    $('#endDate').datepicker("option", "maxDate", noReservation_eD[i]);
 															    break;
+														    } else {
+														    	console.log("없다!")
 														    }
 													  	}
 														/* 종료 날짜 선택 가능 시작 날 정하는 부분 */
@@ -729,7 +766,7 @@
 										        $('#endDate').datepicker({
 										        	minDate: 'D',
 										        	<c:if test="${ not empty re_list }">
-										        	beforeShowDay: noReserve,
+										        	beforeShowDay: noReserve_eD,
 										        	</c:if>
 										        	onShow : function() {
 										        		var location = document.getElementById("startDate").getBoundingClientRect().top;
@@ -742,7 +779,9 @@
 										        		$('#cal_img').datepicker("option", "maxDate", dateText);
 										        		$('#eD').val(dateText);
 										        		$('#endDate').removeClass('DateInput_input__focused DateInput_input__focused_2');
-										        		$('.ant-btn').removeAttr('disabled')
+										        		if ($('#startDate').val() != null && $('#startDate').val() != "") {
+											        		$('.ant-btn').removeAttr('disabled')
+										        		}
 										        		/* location.href="<c:url value='/' />petsfinder/petsitters/reserve?sD=" + $('#sD').val() + "&eD=" + $('#eD').val(); */
 										        	},
 										        	onClose : function() {

@@ -116,7 +116,7 @@
       function option_check01() {
         var no_pet = document.getElementById('no_pet');
         if (no_pet.style.borderColor == 'rgb(223, 227, 234)') {
-        	location.href='./sitterlist?np=1&'
+        	location.href='./sitterlist?np=1'
 	        no_pet.style.borderColor = '#75c9ba';
 	        no_pet.style.color = '#75c9ba';
         } else {
@@ -127,7 +127,7 @@
       function option_check02() {
         var pick_up = document.getElementById('pick_up');
         if (pick_up.style.borderColor == 'rgb(223, 227, 234)') {
-        	location.href='./sitterlist?pu=1&'
+        	location.href='./sitterlist?pu=1'
           pick_up.style.borderColor = '#75c9ba';
           pick_up.style.color = '#75c9ba';
         } else {
@@ -138,7 +138,7 @@
       function option_check03(){
         var big = document.getElementById('big');
         if (big.style.borderColor == 'rgb(223, 227, 234)') {
-        	location.href='./sitterlist?b=1&'
+        	location.href='./sitterlist?b=1'
           big.style.borderColor = '#75c9ba';
           big.style.color = '#75c9ba';
         } else {
@@ -149,7 +149,7 @@
       function option_check04(){
         var playground = document.getElementById('playground');
         if (space.style.borderColor == 'rgb(223, 227, 234)') {
-        	location.href='./sitterlist?pg=1&'
+        	location.href='./sitterlist?pg=1'
           space.style.borderColor = '#75c9ba';
           space.style.color = '#75c9ba';
         } else {
@@ -160,7 +160,7 @@
       function option_check05(){
         var old_care = document.getElementById('old_care');
         if (old_care.style.borderColor == 'rgb(223, 227, 234)') {
-        	location.href='./sitterlist?oc=1&'
+        	location.href='./sitterlist?oc=1'
 	        old_care.style.borderColor = '#75c9ba';
 	        old_care.style.color = '#75c9ba';
         } else {
@@ -441,10 +441,11 @@
         <!-- left -->
         <div style="display: flex; flex-direction: column; align-items: center; align-self: center;">
           <p style="font-size: 38px; line-height: 55px; font-weight: bold; color: white;">
-            모바일 앱 다운받고
+            사지 말고 입양하세요!
             <br>
-            우리 동네 펫시터 찾기
+            많은 유기동물들이 <br>여러분의 손을 기다리고 있습니다.
           </p>
+          <!-- 
           <div style="display: flex; margin-bottom: 70px; margin-top: 38px;">
             <a href="https://play.google.com/store/apps/details?id=co.petpeople.petplanet">
               <div style="display: flex; align-items: center; justify-content: center; border: 1px solid white; width: 152px; height: 52px; border-radius: 7px; margin-right: 20px;">
@@ -457,10 +458,11 @@
               </div>
             </a>
           </div>
+           -->
         </div>
         <!-- right -->
         <div>
-          <img src="<c:url value='/' />images/app-section2.png" alt="" style="width: 435px; height: 350px;">
+          <img src="<c:url value='/' />images/입양하세요.png" alt="" style="width: 435px; height: 350px; padding-bottom: 20px;">
         </div>
       </div>
     </div>

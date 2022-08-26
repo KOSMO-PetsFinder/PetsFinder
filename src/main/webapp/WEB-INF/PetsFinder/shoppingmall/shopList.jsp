@@ -105,6 +105,16 @@ a {
 				              		${row.product_name }
 			            		</div>
 				            </div>
+				               	<!-- alert 창 꾸미기 -->
+							<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+				            <script>
+					            function input(){
+					            	Swal.fire({
+							            icon: 'success',                         // Alert 타입
+							            title: '장바구니에서 담겼습니다',         // Alert 제목
+							        })
+					            }
+				            </script>
 				            <div style="margin-top:15px; justify-content: space-between; display: flex">
 				          		<p><fmt:formatNumber value="${row.product_price }" pattern="#,###" />원</p>
 			              		<a href="<c:url value='/' />Shop/buyOrCart.do?product_idx=${row.product_idx}&subM=addtocart&product_quanity=1&backUrl=ShopList?cate=${ param.cate }">

@@ -29,13 +29,13 @@ textarea {
 	<img src="./images/mypage_color.png" alt="" style="width:30px; height:25px; padding-right: 5px">
 	<p style="margin-top:9px;">마이페이지 > 신청/이용 내역 > 구매 내역</p>
 </div>
-<c:if test="${ m_Bought eq null}">
+<c:if test="${ m_Bought.isEmpty() }">
 <div style="display: flex; flex-direction: row; justify-content: center">
-	<img width="200" height="200" src="<c:url value='/'/>images/no_reivew.png" style="object-fit: cover; border-radius: 50%;">
+	<img width="200" height="200" src="<c:url value='/'/>images/no_review.png" style="object-fit: cover; border-radius: 50%;">
 </div>
 </c:if>
 <div style="display:flex; justify-content: center; align-items:center; flex-direction: column;">
-	<c:if test="${ m_Bought ne null }">
+	<c:if test="${ !m_Bought.isEmpty() }">
 		<c:forEach items="${ m_Bought }" var="mb">
 	<div style="display: flex;  flex-direction: column; border: 2px solid #75c9ba; border-radius: 10px; padding: 38px 0px; margin-top: 100px; width: 800px;">
 		<div>
@@ -88,7 +88,7 @@ textarea {
 				<a href="./up_Bought?mode=cn&payment_idx=${ mb.payment_idx }" style="padding-right: 10px">결제 취소</a>
 				</c:when>
 				<c:when test="${ mb.payStus eq 'pay' && mb.delivery_status eq 'cmp' }">
-				<a href="./up_Bought?mode=vi&payment_idx=${mb.payment_idx}" onclick="check();">상품 상세보기</a>
+				<a href="./up_Bought?mode=vi&payment_idx=${mb.payment_idx}" >상품 상세보기</a>
 				</c:when>
 				<c:when test="${ mb.payStus eq 'rfn'}">
 				</c:when>
@@ -98,9 +98,9 @@ textarea {
 	</div>
 		</c:forEach>
 	</c:if>
-	<c:if test="${ m_Bought eq null }">
+	<c:if test="${ m_Bought.isEmpty() }">
 		<div style="display: flex; flex-direction: row; justify-content: center">
-			<p style="font-size: 2em">이용한 예약이 없어요.. ㅠ ㅠ</p>
+			<p style="font-size: 2em">구매한 예약이 없어요.. ㅠ ㅠ</p>
 		</div>
 	</c:if>
 </div>

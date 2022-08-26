@@ -27,6 +27,7 @@
 * {
    font-family: 'BM JUA_TTF';
    text-align: center;
+   font-size: 18px;
 }
 </style>
 </head>
@@ -36,7 +37,7 @@
 		<div id="layoutSidenav_nav">
 			<jsp:include page="../common/leftHeader.jsp"></jsp:include>
 		</div>
-		<div id="layoutSidenav_content" style="text-align: center;">
+		<div id="layoutSidenav_content" style="text-align: center; ">
 			<div style="margin-top: 50px;">
 				<h1>유기동물 신고 위치</h1>
 			</div>
@@ -45,36 +46,36 @@
 				<table id="datatablesSimple" style="text-align: center;">
 					<colgroup>
 						<col width="15%" />
-						<col width="40%" />
+						<col width="30%" />
 						<col width="15%" />
-						<col width="40%" />
+						<col width="30%" />
 					</colgroup>
 					<tr>
-						<th>접수번호</th>
+						<th style="text-align: center; ">접수번호</th>
 						<td>${reportView.dclrAbnd_idx }</td>
-						<th>신고자</th>
+						<th style="text-align: center; ">신고자</th>
 						<td>${reportView.member_idx }</td>			
 					</tr>
 					<tr>
-						<th>신고접수일</th>
+						<th style="text-align: center; ">신고접수일</th>
 						<td>${reportView.dclrAbnd_regdate }</td>
-						<th>구조 작업 현황</th>
+						<th style="text-align: center; ">구조 작업 현황</th>
 						<td>
 						<c:if test="${reportView.dclrAbnd_stts eq 'reg'  }">
-							<span class="badge rounded-pill bg-danger">접수</span>
+							<span class="badge bg-danger" style="font-size:20px">접수</span>
 							</c:if>
 							<c:if test="${reportView.dclrAbnd_stts eq 'PRG'  }">
-							<span class="badge rounded-pill bg-warning text-dark">구조진행중</span>
+							<span class="badge bg-warning text-dark" style="font-size:20px">구조진행중</span>
 							</c:if>
 							<c:if test="${reportView.dclrAbnd_stts eq 'CMP'  }">
-							<span class="badge rounded-pill bg-success">구조완료</span>
+							<span class="badge bg-success" style="font-size:20px">구조완료</span>
 						</c:if>
 						</td>			
 					</tr>
 					<tr>
-						<th>제목</th>
+						<th style="text-align: center; ">제목</th>
 						<td>${reportView.dclrAbnd_title }</td>
-						<th>발견 위치</th>
+						<th style="text-align: center; ">발견 위치</th>
 						<td>${reportView.dclrAbnd_loc }</td>
 					</tr>
 					<tr>
@@ -111,7 +112,8 @@
 					});
 					var a = result[0].y;
 					var b = result[0].x;
-					var roadView = '<div style="padding:5px; margin-right ">유기동물 발견 지점<br/><a href="https://map.kakao.com/link/to/유기동물 발견 지점, ' + a + ',' + b + '" style="color:blue; padding:5px;" target="_blank">길찾기</a></div>';
+
+					var roadView = '<div style="padding:5px; margin-right ">유기동물 발견 지점<br/><a href="https://map.kakao.com/link/to/유기동물 발견 지점, ' + a + ',' + b + '/from/펫츠파인더 구조대,37.478825,126.878643" style="color:blue; padding:5px;" target="_blank">길찾기</a></div>';
 					
 					var iwContent = roadView, // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
 				    iwPosition = new kakao.maps.LatLng(result[0].y, result[0].x); //인포윈도우 표시 위치입니다
@@ -155,13 +157,13 @@
 					</tr>
 					<tr>
 						<th>내용</th>
-						<td colspan="3" style="height:150px;">
+						<td colspan="3">
 							${reportView.dclrAbnd_content }
 						</td>
 					</tr>
 					<tr>
 						<th>사진</th>
-						<td colspan="3" style="height:150px;">
+						<td colspan="3" >
 							${reportView.dclrAbnd_photo }
 						</td>
 					</tr>		

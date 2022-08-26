@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import petsfinder.admin.AdminDAOImpl;
 import petsfinder.admin.AdminDTO;
+import petsfinder.admin.AdminParameterDTO;
 import petsfinder.board.ParameterDTO;
 import petsfinder.board.boardDAOImpl;
 import petsfinder.utils.PagingUtil;
@@ -28,9 +29,6 @@ public class BoardController {
 	//qna,faq 리스트 출력
 	@RequestMapping("/board")
 	public String board(Model model, HttpServletRequest req,HttpSession session) {
-		
-		
-		
 		
 		ParameterDTO parameterDTO = new ParameterDTO();
 		int totalRecordCount = sqlSession.getMapper(boardDAOImpl.class).getTotalCountSearch(parameterDTO);
@@ -129,5 +127,45 @@ public class BoardController {
 		return "redirect:./board";
 	}
 	
-	
+	@RequestMapping("/notBoardlist")
+	public String notBoardlist(Model model, HttpServletRequest req) {
+		
+		AdminParameterDTO adminParameterDTO = new AdminParameterDTO();
+		
+		int totalRecordCount =
+			sqlSession.getMapper(AdminDAOImpl.class).mGetTotalCount(adminParameterDTO); 
+		
+		int pageSize = 5;
+		int blockPage = 2;
+		int totalPage = (int)Math.ceil((double)totalRecordCount/pageSize);
+		
+		int nowPage = req.getParameter("nowPage")==null ? 1 :
+			Integer.parseInt(req.getParameter("nowPage"));
+		int start = (nowPage-1) * pageSize + 1;
+		int end = nowPage * pageSize;
+		  
+
+		
+		String pagingImg =
+				petsfinder.utils.PagingUtil.pagingImg(totalRecordCount, pageSize, blockPage, nowPage,
+						req.getContextPath()+"/notBoardlist?");
+		
+		AdminDTO adminDTO = new AdminDTO();
+		
+		ArrayList<AdminDTO> lists =
+			sqlSession.getMapper(AdminDAOImpl.class).mListPage(start, end);
+		
+		
+		model.addAttribute("pagingImg", pagingImg);
+		
+		for(AdminDTO dto : lists)
+		{
+			String temp = 
+				dto.getNotboard_content().replace("\r\n", "<br/>");
+			dto.setNotboard_content(temp);
+		}
+		model.addAttribute("lists", lists);
+
+		return "/notBoardlist";
+	}
 }

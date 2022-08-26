@@ -16,37 +16,35 @@
   <div style="display: flex; justify-content: space-between; align-items: center; width: 1090px; height: 360px; border-top: 1px solid #E7E9EB;">
     <!-- left -->
     <div style="display: flex; flex-direction: column; height: 304px; justify-content: space-between; margin-top: 55px; margin-left: 28px; margin-right: 28px;">
-      <p style="font-size: 15px; font-weight: 600; color: #383C38;">주식회사 펫피플</p>
+      <p style="font-size: 15px; font-weight: 600; color: #383C38;">112기 3팀 PetsFinder</p>
       <p style="font-size: 13px; color: #383C38; line-height: 24px;">
-        서울시 강남구 논현동 20-2 세정빌딩 3층<br>
-        사업자 등록번호 : 347-87-00837<br>
-        통신판매업 신고번호 : 제 2017-서울강남-03319<br>
-        대표 : 이원복 | 개인정보책임자 : 김태호<brs>
-        대표전화 : 070-4756-2223<br>
-        업무시간 : 평일 10:00-18:00 (점심 13:00-14:00)<br>
-        이메일 : help@petplanet.co
+        서울시 금천구 가산동 426-5 월드메르디앙 2차 413호<br>
+        PM : 정우성님 | PL : 각도형, 0= <br>
+        PA : 금은동, 5^, 21재, Tax4<br>
+        도움을 주신 분 : 성낙현 선생님<br>
+        사진 제공 : 라떼, 콩, 솜, 말랭, 치노, 나나, 달, 초코, 루비, 간지, 금복, 로미
       </p>
-      <p style="font-size: 13px; color: #9DA4B4;">© PET PEOPLE Inc. All Rights Reserved</p>
+      <p style="font-size: 13px; color: #9DA4B4;">© PetsFinder 팀원분들 수고 많으셨습니다</p>
     </div>
     <!-- right -->
     <div style="display: flex; justify-content: space-between; flex-direction: column; align-items: flex-end; height: 360px;">
       <div style="display: flex; justify-content: space-between;">
         <div style="display: flex; flex-direction: column; margin-top: 55px; margin-right: 100px">
-          <p style="font-size: 15px; color: #383C38; font-weight: 600;">펫플래닛 서비스</p>
+          <p style="font-size: 15px; color: #383C38; font-weight: 600;">PetsFinder 서비스</p>
           <a href="" style="font-size: 13px; margin-top: 32px;">서비스 소개</a>
-          <a href="" style="font-size: 13px; margin-top: 19px; ">질문과 답변</a>
-          <p style="font-size: 13px; margin-top: 19px;">채팅 상담</p>
-          <a href="" style="font-size: 13px; margin-top: 19px;">안전 보상 제도</a>
-          <a href="" style="font-size: 13px; margin-top: 19px;">이용 약관</a>
+          <a href="" style="font-size: 13px; margin-top: 19px; ">유기동물 입양</a>
+          <p style="font-size: 13px; margin-top: 19px;">채팅 상담 및 즉시 신고</p>
+          <a href="" style="font-size: 13px; margin-top: 19px;">펫시터 찾기</a>
+          <a href="" style="font-size: 13px; margin-top: 19px;">펫 쇼핑몰</a>
         </div>
         <div style="display: flex; flex-direction: column; margin-top: 55px; margin-right: 100px; height: 228px;">
-          <p style="font-size: 15px; color: #383C38; font-weight: 600;">회사에 대하여</p>
-          <a href="" style="font-size: 13px; margin-top: 32px;">펫피플 컴퍼니</a>
-          <a href="" style="font-size: 13px; margin-top: 19px;">채용 공고</a>
-          <a href="" style="font-size: 13px; margin-top: 19px;">비즈니스 제휴</a>
+          <p style="font-size: 15px; color: #383C38; font-weight: 600;">PetsFinder 비전</p>
+          <a href="" style="font-size: 13px; margin-top: 32px;">유기동물의</a>
+          <a href="" style="font-size: 13px; margin-top: 19px;">길을 찾아주는</a>
+          <a href="" style="font-size: 13px; margin-top: 19px;">공간이 될 수 있도록</a>
         </div>
         <div style="display: flex; flex-direction: column; margin-top: 55px; margin-right: 28px; height: 228px;">
-          <p style="font-size: 15px; color: #383C38; font-weight: 600;">팻플래닛 계정</p>
+          <p style="font-size: 15px; color: #383C38; font-weight: 600;">PetsFinder 계정</p>
           <c:if test="${ sessionScope.u_id eq null and sessionScope.naver_name eq null }" var="result">
           <a href="<c:url value="/" />Regist" style="font-size: 13px; margin-top: 32px;">회원가입</a>
           <a id="" href="<c:url value="/" />Login" style="font-size: 13px; margin-top: 19px;">로그인</a>
@@ -59,16 +57,16 @@
       </div>
       <div>
         <a href="https://www.instagram.com/petplanet.co">
-          <img src="<c:url value="/" />images/icon_insta.png" alt="펫플래닛 인스타그램" style="width: 40px; height: 40px; margin-right: 10px;">
+          <img src="<c:url value="/" />images/icon_insta.png" alt="인스타그램" style="width: 40px; height: 40px; margin-right: 10px;">
         </a>
         <a href="https://www.facebook.com/petplanet.co">
-          <img src="<c:url value="/" />images/icon_facebook.png" alt="펫플래닛 페이스북" style="width: 40px; height: 40px; margin-right: 10px;">
+          <img src="<c:url value="/" />images/icon_facebook.png" alt="페이스북" style="width: 40px; height: 40px; margin-right: 10px;">
         </a>
         <a href="https://blog.naver.com/petplanet_kr">
-          <img src="<c:url value="/" />images/icon_blog.png" alt="펫플래닛 블로그" style="width: 40px; height: 40px; margin-right: 10px;">
+          <img src="<c:url value="/" />images/icon_blog.png" alt="블로그" style="width: 40px; height: 40px; margin-right: 10px;">
         </a>
         <a href="https://www.youtube.com/channel/UCWfbYQA0PSdU5up5s9_ySmA">
-          <img src="<c:url value="/" />images/icon_youtube.png" alt="펫플래닛 유튜브" style="width: 40px; height: 40px; margin-right: 20px;">
+          <img src="<c:url value="/" />images/icon_youtube.png" alt="유튜브" style="width: 40px; height: 40px; margin-right: 20px;">
         </a>
       </div>
     </div>

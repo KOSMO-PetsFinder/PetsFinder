@@ -12,4 +12,7 @@ public interface ReviewBoardDAOImpl {
 	public int getTotalCount();
 	//시터 후기 리스트 가져오기
 	public ArrayList<ReviewBoardDTO> PSlist(int s, int e);
+	//쇼핑몰 후기
+	public ArrayList<ReviewBoardDTO> shopReviewSelect(int product_idx);
+
 }

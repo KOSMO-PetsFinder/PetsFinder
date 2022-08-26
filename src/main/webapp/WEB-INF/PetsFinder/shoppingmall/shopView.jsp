@@ -157,7 +157,25 @@ a {
                            
                         </div>
                     </div>
-                </div>
+	                <c:forEach items="${review }" var="reply">
+					<div style="display: flex; flex-direction: row; align-self: flex-end; margin-top: 32px; width: 600px">
+						<div style="background-color: rgb(250, 250, 252); width: 100%; ">
+							<div style="display: flex; flex-direction: row; align-items: center;">
+								<p style="font-size: 15px; letter-spacing: -0.2px; line-height: 22px; color:#75c9ba;">${reply.member_id }</p>
+								<p style="font-size: 13px; line-height: 19px; color: rgb(157, 164, 180); margin-left: 9px;">${reply.review_regdate }</p>
+							</div>
+							<div style="display: flex; margin-top: 10px;">
+								<c:if test="${ !reply.review_photo.isEmpty() }">
+									<input type="hidden" value="${ reply.review_photo}" />
+									<img style="width: 100px" src="./Uploads/${ reply.review_photo }" alt="" />
+								</c:if>
+							</div>
+								<p style="font-size: 15px; line-height: 25px; color: rgb(85, 85, 85); margin-top: 12px;">${reply.review_content }</p>
+						</div>
+					</div>
+					<hr style="color:#75c9ba; height:2px;" />
+					</c:forEach>
+               	</div>
                 <!-- 상세내용 끝 -->
             </div>
         </div>

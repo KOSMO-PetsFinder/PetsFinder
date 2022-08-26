@@ -185,11 +185,11 @@
 } */
 
 .contwrap .header .menu_2depth .adopt {
-    margin-left:560px;
+    left: 600px;
     position:absolute;
 }
 .contwrap .header .menu_2depth .admin {
-    margin-left:600px;
+    left:800px;
     position:absolute;
 }
 

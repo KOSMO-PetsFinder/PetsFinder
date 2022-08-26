@@ -7,128 +7,18 @@
 <%request.setCharacterEncoding("utf-8");String abani_idx = request.getParameter("abani_idx");%>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-<meta name="naver-site-verification" content="9d4ada4a32e188c9c5e42e8a751c4f497033d0c7" />
-<link rel="shortcut icon" href="/static/images/favicon.ico" />
-<link rel="stylesheet" type="text/css" href="/static/js/slick.min.css" />
-<link rel="stylesheet" type="text/css" href="/static/js/slick.min.js" />
-<link rel="stylesheet" type="text/css" href="/static/js/slick-theme.min.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script type="text/javascript" src="/static/js/jquery-1.11.0.min.js"></script>
-<script type="text/javascript" src="/static/js/jquery-migrate-1.2.1.min.js"></script>
-<script type="text/javascript" src="/static/js/polyfill.min.js"></script>
-<script type="text/javascript" src="/static/js/kakao.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8f23556bd57117a96842def422603994"></script>
-<script type="text/javascript" src="/static/js/ua-parser.min.js"></script>
-<script type="text/javascript" src="/static/js/react.production.min.js"></script>
 <!-- jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>    
 <script src="https://kit.fontawesome.com/54b3b8eebf.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script type="text/javascript" src="/static/js/react-copy-to-clipboard.js"></script>
-
-<script>
 
 
-
-
-(function() {
-var w = window;
-if (w.ChannelIO) {
-return (window.console.error || window.console.log || function() {
-})('ChannelIO script included twice.');
-}
-var d = window.document;
-var ch = function() {
-ch.c(arguments);
-};
-ch.q = [];
-ch.c = function(args) {
-ch.q.push(args);
-};
-w.ChannelIO = ch;
-function l() {
-if (w.ChannelIOInitialized) {
-return;
-}
-w.ChannelIOInitialized = true;
-var s = document.createElement('script');
-s.type = 'text/javascript';
-s.async = true;
-s.src = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
-s.charset = 'UTF-8';
-var x = document.getElementsByTagName('script')[0];
-x.parentNode.insertBefore(s, x);
-}
-if (document.readyState === 'complete') {
-l();
-} else if (window.attachEvent) {
-window.attachEvent('onload', l);
-} else {
-window.addEventListener('DOMContentLoaded', l, false);
-window.addEventListener('load', l, false);
-}
-})();
-ChannelIO(
-'boot',
-{
-"pluginKey" : "28718193-bc8b-4f0a-bcee-32aff281d5f2",
-"customLauncherSelector" : "#channel-io-button, .custom-channel-io-button",
-"hideDefaultLauncher" : true
-});
-</script>
-<script>
-(function(w, d, s, l, i) {
-w[l] = w[l] || [];
-w[l].push({
-'gtm.start' : new Date().getTime(),
-event : 'gtm.js'
-});
-var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l='
-+ l
-: '';
-j.async = true;
-j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-f.parentNode.insertBefore(j, f);
-})(window, document, 'script', 'dataLayer', 'GTM-PDQCPDS');
-</script>
-<script>
-(function() {
-if (typeof NodeList.prototype.forEach === "function")
-return false;
-NodeList.prototype.forEach = Array.prototype.forEach;
-})();
-</script>
-<script>
-var parser = new UAParser();
-var browser = parser.getResult().browser;
-if (browser.name === 'IE' && parseInt(browser.version) < 11) {
-if (window.location.pathname !== '/notsupported') {
-window.location.href = '/notsupported';
-}
-} else {
-if (window.location.pathname === '/notsupported') {
-window.location.href = '/';
-}
-}
-</script>
-
-<meta charSet="utf-8" />
 <title>펫시터 교육과 지원을 통해 전문가로 성장하세요 | 펫플래닛</title>
-<meta name="description"
-content="펫플래닛 반려동물 전문가에게 펫시터 교육을 받고 펫시터 알바에서 펫케어 전문가로 성장하세요." />
-<meta name="keywords" content="펫시터알바,펫시터자격증,펫시터교육,펫시터자격,펫시터월급" />
-<link rel="canonical" href="https://petplanet.co/apply" />
-<meta property="og:type" content="website" />
-<meta property="og:title" content="펫시터 교육과 지원을 통해 전문가로 성장하세요 | 펫플래닛" />
-<meta property="og:description"
-content="펫플래닛 반려동물 전문가에게 펫시터 교육을 받고 펫시터 알바에서 펫케어 전문가로 성장하세요." />
-<meta property="og:image" content="/static/images/common/og_home.png" />
-<meta property="og:url" content="https://petplanet.co/apply" />
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-<meta name="next-head-count" content="11" />
+
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 </head>
@@ -138,69 +28,59 @@ content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable
 <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PDQCPDS"
 height="0" width="0" style="display: none; visibility: hidden;"></iframe>
 </noscript>
-
+<!-- alert 창 꾸미기 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script type="text/javascript">
-        function checkAppForm(fm) {
-                
-                if(fm.ADPAPL_name.value=="") {
-                        ADPAPL_name_check.style.color = 'red'
-                        ADPAPL_name_check.innerHTML = "이름을 입력하세요!"
-                        fm.ADPAPL_name.focus();
-                        return false;
-                }
-                if(fm.ADPAPL_gender.value=="") {
-                        ADPAPL_gender_check.style.color = 'red'
-                        ADPAPL_gender_check.innerHTML = "성별을 선택하세요!"
-                        fm.ADPAPL_name.focus();
-                        return false;
-                }
-                if(fm.ADPAPL_birth.value=="") {
-                        ADPAPL_birth_check.style.color = 'red'
-                        ADPAPL_birth_check.innerHTML = "생년원일을 입력하세요!"
-                        fm.ADPAPL_birth.focus();
-                        return false;
-                }
-                if(fm.ADPAPL_tel.value=="") {
-                        ADPAPL_tel_check.style.color = 'red'
-                        ADPAPL_tel_check.innerHTML = "전화번호를 입력하세요!"
-                        fm.ADPAPL_tel.focus();
-                        return false;
-                }
-                if(fm.ADPAPL_addr.value=="") {
-                        ADPAPL_addr_check.style.color = 'red'
-                        ADPAPL_addr_check.innerHTML = "주소를 입력하세요!"
-                        fm.ADPAPL_addr.focus();
-                        return false;
-                }
-                
-                //라디오 체크 여부 아직 못함 .....
-                var chk = document.querySelector('input[name="adpapl_fNum"]').checked;
-                if(chk) {
-                        adpapl_fNum_check.style.color = 'red'
-                        adpapl_fNum_check.innerHTML = "가족 구성원을 선택하세요!"
-                        fm.adpapl_fNum.focus();
-                        return false;
-                }
-                if(fm.ADPAPL_job.value=="") {
-                        ADPAPL_job_check.style.color = 'red'
-                        ADPAPL_job_check.innerHTML = "가족 구성원 직업 여부를 선택하세요!"
-                        fm.ADPAPL_job.focus();
-                        return false;
-                }
-                if(fm.ADPAPL_exp.value=="") {
-                        ADPAPL_exp_check.style.color = 'red'
-                        ADPAPL_exp_check.innerHTML = "반려동물을 반려한(키운) 경험 여부를 선택하세요!"
-                        fm.ADPAPL_exp.focus();
-                        return false;
-                }
-                //......
-                
-        }
+$(function () {
+	
+	$('#checkFrm').click(function () {
+		
+		Swal.fire({
+		    title: '정말로 입양 하시겠습니까?',
+		    icon: 'warning',
+		    showCancelButton: true,
+		    confirmButtonColor: '#75c9ba',
+		    cancelButtonColor: '#d33',
+		    confirmButtonText: '승인',
+		    cancelButtonText: '취소',
+		}).then((result) => {
+		    if (result.isConfirmed) {
+		        Swal.fire(
+		            '승인이 완료되었습니다.',
+		        ).then(() => {
+		        	checkAppForm(this.form)
+		        })
+			} else {
+				return false;
+			}
+	    })
+	}) 
+	function checkAppForm(fm) {
+	               	
+	    if(fm.adpapl_fNum.value=="") {
+           adpapl_fNum_check.style.color = 'red'
+           adpapl_fNum_check.innerHTML = "가족 구성원을 선택하세요!"
+           return false;
+	    }
+	    else if(fm.ADPAPL_job.value=="") {
+	        ADPAPL_job_check.style.color = 'red'
+	        ADPAPL_job_check.innerHTML = "가족 구성원 직업 여부를 선택하세요!"
+	    	   adpapl_fNum_check.innerHTML = ""
+	        return false;
+	    }
+	    else if(fm.ADPAPL_exp.value=="") {
+	           ADPAPL_exp_check.style.color = 'red'
+	           ADPAPL_exp_check.innerHTML = "반려동물을 반려한(키운) 경험 여부를 선택하세요!"
+	           return false;
+	   	} else {
+	   		document.adoptionFrm.submit();
+	   	}
+	}
+})
         
-        </script>
+</script>
 
-<form action="../AbandonedAnimal/AdoptApplicationForm.do" id="adoptionFrm" name="adoptionFrm" method="post" style="margin-top:100px"
-onsubmit="return checkAppForm(this);">
+<form action="../AbandonedAnimal/AdoptApplicationForm.do" id="adoptionFrm" name="adoptionFrm" method="post" style="margin-top:100px">
 <input type="hidden" name="abani_idx" value="<%=abani_idx%>">
 <div style="display: flex; justify-content: right; color: #CCCCCC; padding-top: 35px">
 <img src="./images/mypage.png" alt="" style="width:30px; padding-right: 5px"> 마이페이지 > 입양신청관리 > 입양신청
@@ -254,8 +134,17 @@ onsubmit="return checkAppForm(this);">
                           $('#F').attr({style : 'border : 2px solid #75c9ba; width: 190px; background: none; height: 50px; border-radius: 5px; margin-right: 10px'})
                        }
                     }
+                    $(function () {
+                    	if($('#ADPAPL_gender').val() == 'M') {
+                    		$('#M').attr({style : 'border : 2px solid #75c9ba; width: 190px; background: none; height: 50px; border-radius: 5px;'}, {disabled: 'disabled'})
+                            $('#F').attr({style : 'width: 190px ; background: none; height: 50px; border: 1px solid #EBEBEB; border-radius: 5px; margin-right: 10px'}, {disabled: 'disabled'})
+                    	} else if ($('#ADPAPL_gender').val() == 'F') {
+                    		$('#M').attr({style : 'width: 190px; background: none; height: 50px; border: 1px solid #EBEBEB; border-radius: 5px;'}, {disabled: 'disabled'})
+                            $('#F').attr({style : 'border : 2px solid #75c9ba; width: 190px; background: none; height: 50px; border-radius: 5px; margin-right: 10px'}, {disabled: 'disabled'})
+                    	}
+                    })
                 	</script>
-                	<input type="hidden" id="ADPAPL_gender" name="ADPAPL_gender">
+                	<input type="hidden" id="ADPAPL_gender" name="ADPAPL_gender" value="${ adpApp.member_gender }">
 	                <div style="display: flex; margin-top: 15px">
                             <!-- 여성버튼 -->	
                             <input onclick="genderVal(this);" type="button" id="F" value="여성" class="btn btn-default"  style="width: 190px ; background: none; height: 50px; border: 1px solid #EBEBEB; border-radius: 5px; margin-right: 10px">
@@ -310,6 +199,7 @@ onsubmit="return checkAppForm(this);">
             <!-- 가족구성원 -->
             <div style="display: flex; flex-direction: column; flex-grow: 1; flex-basis: 0; margin-top: 54px">
                 <p style="font-size: 17px; font-weight: 600; color: #555555">가족 구성원 <span style="color: #71A2FF">*</span>
+                <p><span id="adpapl_fNum_check" style="color: skyblue"></span></p>
                 </p>
                 <div style="margin-top: 31px; display: flex; align-items: center">
                     <div style="width: 270px; display: flex; align-items: center" class="form-check" >
@@ -352,16 +242,16 @@ onsubmit="return checkAppForm(this);">
                             <label class="form-check-label" for="bigfamily" style="font-size: 17px; margin-left: 10px;">5인 가구 이상</label>
                         </div>
                     </div>
-                    
                 </div>
             </div>
-            <p><span id="adpapl_fNum_check" style="color: skyblue"></span></p>
+            
             
             <!-- 가족구성원 직업 여부 -->
             <div style="display: flex; flex-direction: column; flex-grow: 1; flex-basis: 0; margin-top: 54px">
                 <p style="font-size: 17px; font-weight: 600; color: #555555">
                         본인을 포함한 가족구성원 직업 여부 <span style="color: #71A2FF">*</span>
                 </p>
+                <p><span id="ADPAPL_job_check" style="color: skyblue"></span></p>
                 <div style="margin-top: 31px; display: flex; align-items: center;">
                     <div style="width: 270px">
                         <div style="display: flex; align-items: center" class="form-check">
@@ -381,7 +271,6 @@ onsubmit="return checkAppForm(this);">
                             </label>
                         </div>
                     </div>
-                    <p><span id="ADPAPL_job_check" style="color: skyblue"></span></p>
                 </div>
             </div>
         </div>
@@ -523,10 +412,11 @@ onsubmit="return checkAppForm(this);">
 	</div>
     <div style="margin-top: 80px; display: flex; align-items: center; justify-content: center">
        	<div style="width: 270px; height: 70px; background-color: #71A2FF; border-radius: 5px; display: flex; justify-content: center; align-items: center; cursor: pointer; vertical-align: middle; margin-right: 12px">
-       	<p style="font-size: 20px; font-weight: 600; color: white; " ><input style="background-color: #71A2FF;font-size: 20px; font-weight: 600; color: white;border: none;" type="submit" value="최종 제출"></p>
+       	<p style="font-size: 20px; font-weight: 600; color: white; " >
+       	<button id="checkFrm" style="background-color: #71A2FF;font-size: 20px; font-weight: 600; color: white;border: none;" type="button" >최종 제출</button></p>
        	</div>
 		<div style="width: 270px; height: 70px; background-color: #FFA500; border-radius: 5px; display: flex; justify-content: center; align-items: center; cursor: pointer; vertical-align: middle; margin-right: 12px">
-		<button style="background-color: #FFA500;font-size: 20px; font-weight: 600; color: white;border: none;" class="home" onclick="location.href='/PetsFinder'">신청 취소<br/>(메인페이지로 돌아가기)</button >
+		<button type="button" style="background-color: #FFA500; font-size: 20px; font-weight: 600; color: white;border: none;" class="home" onclick="location.href='/PetsFinder'">신청 취소<br/>(메인페이지로 돌아가기)</button >
 		</div>
    	</div>
 </div>

@@ -29,13 +29,13 @@ textarea {
 	<img src="./images/mypage_color.png" alt="" style="width:30px; height:25px; padding-right: 5px">
 	<p style="margin-top:9px;">마이페이지 > 신청/이용 내역 > 시터 이용 내역</p>
 </div>
-<c:if test="${ m_Reserve eq null}">
+<c:if test="${ m_Reserve.isEmpty() }">
 <div style="display: flex; flex-direction: row; justify-content: center">
-	<img width="200" height="200" src="<c:url value='/'/>images/no_reivew.png" style="object-fit: cover; border-radius: 50%;">
+	<img width="200" height="200" src="<c:url value='/'/>images/no_review.png" style="object-fit: cover; border-radius: 50%;">
 </div>
 </c:if>
 <div style="display:flex; justify-content: center; align-items:center; flex-direction: column;">
-	<c:if test="${ m_Reserve ne null }">
+	<c:if test="${ !m_Reserve.isEmpty() }">
 		<c:forEach items="${ m_Reserve }" var="mr">
 	<div style="display: flex;  flex-direction: column; border: 2px solid #75c9ba; border-radius: 10px; padding: 38px 0px; margin-top: 100px; width: 800px;">
 		<div>
@@ -91,7 +91,7 @@ textarea {
 	</div>
 		</c:forEach>
 	</c:if>
-	<c:if test="${ m_Reserve eq null }">
+	<c:if test="${ m_Reserve.isEmpty() }">
 		<div style="display: flex; flex-direction: row; justify-content: center">
 			<p style="font-size: 2em">이용한 예약이 없어요.. ㅠ ㅠ</p>
 		</div>

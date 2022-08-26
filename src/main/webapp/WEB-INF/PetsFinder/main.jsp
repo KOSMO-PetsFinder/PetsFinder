@@ -66,7 +66,7 @@
 	}
 	
 	.section2 {
-  		background-color: #fff;
+  		background-color: #2E78A6;
   		/*
   		#A2D7ED
   		*/
@@ -75,7 +75,7 @@
 	sitter
 	*/
 	.sitter_main {
-  		background-color: #75c9ba;
+  		background-color: #6CAFD9;
 		/* 
 		#DCF2FF
   		#BACDD9
@@ -135,7 +135,7 @@
 	Information(shopping_mall, hospital, )
 	*/
 	.Information {
-  		background-color: #75c9ba;
+  		background-color: #9BD991;
   		/*
   		#D8BBA0
   		*/
@@ -155,7 +155,7 @@
 		height: 60px; 
 	}
 	.hospital {
-  		background-color: #fff;
+  		background-color: #D5F2E2;
   		/*
   		#D8BBA0
   		*/
@@ -211,21 +211,34 @@
 				display: flex;
 				position:fixed; 
 				z-index: 9999; 
-				padding-top: 25px;
+				padding: 12.5px 0;
 				justify-content: space-around;
 				width: 100%;
 				height: 64px;
 				bottom: 0;
 				background-color: #cccccc;
 			}
-			.main_foot .foot_menu{
+			.main_foot .foot_menu {
 				color: white;
 				background: none;
 				font-size: 1.5em;
+			}
+			.foot_menu {
+				display: flex;
+				flex-direction: column;
+				justify-content: center
+			}
+			.main_foot .foot_menu a {
+				color: white;
 				
 			}
 			</style>
 			<div class="main_foot">
+				<div class="foot_menu" style="left: 50px;">
+					<a href="<c:url value='/'/>notBoardlist" >
+						공지사항
+					</a>
+				</div>
 				<div class="foot_menu" style="left: 50px;">실시간 후원 정보</div>
 				<div class="foot_menu" style="left: 500px;">유기동물에 대한 실시간 정보</div>
 				<div class="foot_menu" style="right: 300px;"><a href="./notifyForm.do">신고</a></div>
@@ -689,17 +702,15 @@
 		    <div class="container-fluid" >
 				<div style="display: flex; flex-direction: column; ">
 			        <p style="color: white; font-size: 55px; font-weight: 600; ">
-			          우리 동네 동물 병원 및 약국을<br />
-			          한눈에 볼 수 있어요.
+			          	입양의 첫 시작,<br />
+				            무엇부터 챙겨야 할 지<br />
+				            잘 모르겠다면!!<br />
 			        </p>
 			        <div style="border-top: 2px solid white; width:500px; align-self: center; margin: 10px 0 80px 0"></div>
 		    	</div>
 		        <div style="display: flex; justify-content: center; flex-direction: column;">
 			        <div style="display: flex; flex-direction: column;">
 			            <p style="color: black; font-size: 40px; text-align: center; ">
-				            입양의 첫 시작,<br />
-				            무엇부터 챙겨야 할 지<br />
-				            잘 모르겠다면!!<br />
 				            <strong style="color: white">Pet's Finder</strong>에서<br />
 				            <strong style="color: white">웰컴 첫 입양키트</strong>를 받아보세요!
 			            </p>
@@ -712,11 +723,13 @@
 		        </div>
 			</div>
 	    </section>
+	    <!-- 
 	    <section class="section6">
 		    <div>
 		      <span class="pageName">Page #6</span>
 	    	</div>
 	    </section>
+	     -->
 	</div>
 	<script src="./full-page-scroll.js"></script>
 	<script type="text/javascript">

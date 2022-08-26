@@ -11,6 +11,8 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<!-- iamport.payment.js -->
 	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+	<!-- alert 창 꾸미기 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 	<!-- <script type="text/javascript">
 	var IMP = window.IMP; // 생략 가능
 	IMP.init("imp70517070"); // 예: imp00000000
@@ -56,7 +58,7 @@
 							<thead >
 								<tr style="border-bottom-color:#75c9ba;font-size: 20px;">
 									<th scope="col" style="padding-left: 20px; ">주문자 정보</th>
-									<th style="font-size: 15px;"><a style="color:#4974a5" href="">배송지 변경 <i class="bi bi-caret-right-fill"></i></a></th>
+									<th style="font-size: 15px;"><a style="color:#4974a5" href="../passCheck?mode=i">배송지 변경 <i class="bi bi-caret-right-fill"></i></a></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -213,94 +215,116 @@
 		$("#pay").click(function(e){
 			
 			if(${ idx } != null) {
-				//결제요청
-				IMP.request_pay({
-					//name과 amout만있어도 결제 진행가능
-					/* pg : 'tosspay',  //pg사 선택 (kakao, kakaopay 둘다 가능) */
-					pg : 'kakaopay',  //pg사 선택 (kakao, kakaopay 둘다 가능)
-					pay_method: 'card',
-					merchant_uid : 'merchant_' + new Date().getTime(),
-					name : product, // 상품명
-					amount : ${ payInfo.amount }, //가격 
-					buyer_addr : '${ memberSDTO.member_addr }', // 구매자 이메일
-					buyer_name : '${ name }', // 구매자 이름
-					buyer_tel : '${ phone }',  // 구매자 전화번호
-					//결제완료후 이동할 페이지 kko나 kkopay는 생략 가능
-					//m_redirect_url : 'https://localhost:8080/payments/complete'
-				}, function(rsp){
-					console.log(rsp);
-					if(rsp.success){//결제 성공시
-						var msg = '결제가 완료되었습니다';
-						var result = {
-						"imp_uid" : rsp.imp_uid, //영수증 아이디
-						"merchant_uid" : rsp.merchant_uid, //상품 아이디
-						"biz_email" : 'petsfinder@naver.com', //우리 이메일
-						"pay_date" : new Date().getTime(), // 결제일
-						"amount" : rsp.paid_amount, //가격.
-						"card_no" : rsp.apply_num, //카드번호
-						"payStus" : 'pay',	//결제상태
-						"recipient" : rsp.buyer_name,
-						"shipping_location" : rsp.buyer_addr,
-						"recipient_phone" : rsp.buyer_tel,
-						"productname" : rsp.name,
-				    	"quanity" : quanity,
-				    	"p_idx" : p_idx,
-						//판매자, 결제방식, 사용자정보, 상품명 추가 .. 
-						}
-						console.log("결제성공 : " + msg);
-						console.log("result : " + JSON.stringify(result,
-				        		['pg', 'imp_uid', 'merchant_uid', 'biz_email', 
-			        			'pay_date', 'amount', 'card_no', 'payStus', 'recipient',
-				        		'shipping_location', 'recipient_phone', 'productname', 'quanity',
-					    		'quanity', 'p_idx',
-				        		]))
-						$.ajax({
-							url : './insertPay', 
-					        type :'POST',
-					        data : JSON.stringify(result,
-					        		['imp_uid', 'merchant_uid', 'biz_email', 
-				        			'pay_date', 'amount', 'card_no', 'payStus', 'recipient',
-					        		'shipping_location', 'recipient_phone', 'productname', 'quanity',
-						    		'quanity', 'p_idx',
-						    		]),
-					        contentType:'application/json;charset=UTF-8',
-					        dataType: 'json', //서버에서 보내줄 데이터 타입
-					        success: function(res){
-					          	if (res == 1){
-					          		<c:if test="${ r ne 'buy' }">
-						        	  	$.ajax({
-							      			url : "../cartDelete",
-							      			type : "GET",
-							      			data : {
-							      				"result" : c_idx,
-							      			},
-							      			dataType : 'text',
-							      			success : function () {
-							      				location.href = "../Shop";
-							      			}, 
-							      			
-							      			error:function(request, status, error) {
-							      				console.log("실패");
-							      				
-							      	        },
-						      			});
-					        	  	</c:if>
-				        	  		console.log("결제 성공!!!")
-				         	 	} else {
-				             		console.log("결제 실패...");
-				          		}
-					        },
-					        error:function(){
-					          console.log("Insert ajax 통신 실패!!!");
-					        }
-						}) //ajax
-					}
-					else{//결제 실패시
-						var msg = '결제에 실패했습니다';
-						msg += '에러 : ' + rsp.error_msg
-					}
-					console.log(msg);
-				});//pay
+				
+				Swal.fire({
+		            title: '정말로 결제 하시겠습니까?',
+		            text: "상품명 : " + product + " \r\n 가격 : " + ${ payInfo.amount } + "원",
+		            icon: 'warning',
+		            showCancelButton: true,
+		            confirmButtonColor: '#75c9ba',
+		            cancelButtonColor: '#d33',
+		            confirmButtonText: '승인',
+		            cancelButtonText: '취소'
+		        }).then((result) => {
+		            if (result.isConfirmed) {
+		                Swal.fire(
+		                    '승인이 완료되었습니다.',
+		                ).then(() => {
+							//결제요청
+							IMP.request_pay({
+								//name과 amout만있어도 결제 진행가능
+								/* pg : 'tosspay',  //pg사 선택 (kakao, kakaopay 둘다 가능) */
+								pg : 'kakaopay',  //pg사 선택 (kakao, kakaopay 둘다 가능)
+								pay_method: 'card',
+								merchant_uid : 'merchant_' + new Date().getTime(),
+								name : product, // 상품명
+								amount : ${ payInfo.amount }, //가격 
+								buyer_addr : '${ memberSDTO.member_addr }', // 구매자 이메일
+								buyer_name : '${ name }', // 구매자 이름
+								buyer_tel : '${ phone }',  // 구매자 전화번호
+								//결제완료후 이동할 페이지 kko나 kkopay는 생략 가능
+								//m_redirect_url : 'https://localhost:8080/payments/complete'
+							}, function(rsp){
+								console.log(rsp);
+								if(rsp.success){//결제 성공시
+									var msg = '결제가 완료되었습니다';
+									var result = {
+									"imp_uid" : rsp.imp_uid, //영수증 아이디
+									"merchant_uid" : rsp.merchant_uid, //상품 아이디
+									"biz_email" : 'petsfinder@naver.com', //우리 이메일
+									"pay_date" : new Date().getTime(), // 결제일
+									"amount" : rsp.paid_amount, //가격.
+									"card_no" : rsp.apply_num, //카드번호
+									"payStus" : 'pay',	//결제상태
+									"recipient" : rsp.buyer_name,
+									"shipping_location" : rsp.buyer_addr,
+									"recipient_phone" : rsp.buyer_tel,
+									"productname" : rsp.name,
+							    	"quanity" : quanity,
+							    	"p_idx" : p_idx,
+									//판매자, 결제방식, 사용자정보, 상품명 추가 .. 
+									}
+									console.log("결제성공 : " + msg);
+									console.log("result : " + JSON.stringify(result,
+							        		['pg', 'imp_uid', 'merchant_uid', 'biz_email', 
+						        			'pay_date', 'amount', 'card_no', 'payStus', 'recipient',
+							        		'shipping_location', 'recipient_phone', 'productname', 'quanity',
+								    		'quanity', 'p_idx',
+							        		]))
+									$.ajax({
+										url : './insertPay', 
+								        type :'POST',
+								        data : JSON.stringify(result,
+								        		['imp_uid', 'merchant_uid', 'biz_email', 
+							        			'pay_date', 'amount', 'card_no', 'payStus', 'recipient',
+								        		'shipping_location', 'recipient_phone', 'productname', 'quanity',
+									    		'quanity', 'p_idx',
+									    		]),
+								        contentType:'application/json;charset=UTF-8',
+								        dataType: 'json', //서버에서 보내줄 데이터 타입
+								        success: function(res){
+								          	if (res == 1){
+								          		<c:if test="${ r ne 'buy' }">
+									        	  	$.ajax({
+										      			url : "../cartDelete",
+										      			type : "GET",
+										      			data : {
+										      				"result" : c_idx,
+										      			},
+										      			dataType : 'text',
+										      			success : function () {
+										      				alert("주문이 완료되었습니다! 쇼핑몰 메인으로 이동합니다!")
+										      				location.href = "../Shop";
+										      			}, 
+										      			
+										      			error:function(request, status, error) {
+										      				console.log("실패");
+										      				
+										      	        },
+									      			});
+								        	  	</c:if>
+								        	  	<c:if test="${ r eq 'buy' }">
+								        	  	location.href = "../Shop";
+								        	  	</c:if>
+							        	  		console.log("결제 성공!!!")
+							         	 	} else {
+							             		console.log("결제 실패...");
+							          		}
+								        },
+								        error:function(){
+								          console.log("Insert ajax 통신 실패!!!");
+								        }
+									}) //ajax
+								}
+								else{//결제 실패시
+									var msg = '결제에 실패했습니다';
+									msg += '에러 : ' + rsp.error_msg
+								}
+								console.log(msg);
+							});//pay
+		                })
+		            }// confirm 승인
+		        })// confirm
 			} else {
 				location.href="./Login";
 			}

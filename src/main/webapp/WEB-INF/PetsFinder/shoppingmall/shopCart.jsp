@@ -48,6 +48,8 @@ tr.cartlist td {
 
 </head>
 <body>
+	<!-- alert 창 꾸미기 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 	<jsp:include page="../common/Header.jsp" />
 	<jsp:include page="../common/Shopheader.jsp" />
 
@@ -55,7 +57,7 @@ tr.cartlist td {
 			<div class="row">
 				<div class="col-xl-12">
 					<div class=" d-flex align-items-center justify-content-center" style="padding-top: 80px;">
-						<h1 style="color:#75c9ba">Cart</h1>
+						<h1 style="color:#75c9ba">장바구니</h1>
 					</div>
 				</div>
 			</div>
@@ -69,11 +71,11 @@ tr.cartlist td {
 						<thead >
 							<tr style="border-bottom-color:#75c9ba; font-size: 20px;">
 								<th scope="col"></th>
-								<th scope="col">Product</th>
-								<th scope="col">Quantity</th>
-								<th scope="col">Price</th>
-								<th scope="col">Total</th>
-								<th scope="col">Shipping</th>
+								<th scope="col">상품명</th>
+								<th scope="col" style="padding-left: 30px;">상품 수량</th>
+								<th scope="col">상품 가격</th>
+								<th scope="col"style="padding-left: 20px;">합계</th>
+								<th scope="col"style="padding-left: 20px;">배송비</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -217,8 +219,8 @@ tr.cartlist td {
 								<td></td>
 								<td></td>
 								<td></td>
-								<td>
-									<h5>Subtotal</h5>
+								<td style="padding-left: 30px;">
+									<h5>총계</h5>
 								</td>
 								<td>
 									<input type="hidden" id="htotalPrice" value="${ total }">
@@ -245,34 +247,11 @@ tr.cartlist td {
 	
 <script type="text/javascript">
 
-	
-    /* function fnCalCount(type, ths){
-        var $input = $(ths).parents("ul").find("input[name='q_num']");
-        var tEqCount = Number($(ths).parents("ul").find("li>p.stock").html());
-        var tCount = Number($input.val()); //일단 밸류값 가져옴 = 1
-        var price_o = "${list.product_price}"; //기존 가격 가져옴
-        console.log('수량 :'+ tCount);
-        console.log('가격 : '+ price_o);
-        if(type=='p'){ //plus이고
-            if(tCount < tEqCount) { //수량이 재고보다 적으면
-            var up = $input.val(Number(tCount)+1);
-            var uptotal = Number(up.val());//수량 카운트 추가
-            $('#total').val(price_o * uptotal);
-            console.log('합계2 : '+uptotal);
-            console.log('p');
-        	}
-                            
-    	}else{ //minus이면
-        	if(tCount > 1) {
-            var down =  $input.val(Number(tCount)-1);
-            var downtotal = Number(down.val());
-            $('#total').val(price_o * downtotal);
-            console.log('합계3 : '+downtotal);
-            console.log('m');
-        	}
-    	}
-    } */
-    
+    var p_names = "";
+ 	<c:forEach items="${ payList }" var="row" varStatus="vs">
+	 	p_names += "${ row.product_name }" + " \n "
+ 	</c:forEach>
+ 	console.log(p_names)
     function cartDelete(){
     	 const query = 'input[name="checkedValue"]:checked';
     	 const selectedEls = 
@@ -281,6 +260,7 @@ tr.cartlist td {
     	 selectedEls.forEach((el) => {
     	   result += el.value + ',';
     	 });
+   	 	
     	console.log(result);
 		$.ajax({
 			url : "./cartDelete",
@@ -290,7 +270,13 @@ tr.cartlist td {
 			},
 			dataType : 'text',
 			success : function () {
-				location.href = "./shopCart";
+				Swal.fire({
+		            icon: 'success',                         // Alert 타입
+		            title: '장바구니에서 삭제 되었습니다',         // Alert 제목
+		            text: p_names,  // Alert 내용
+		        }).then(() => {
+						location.href = "./shopCart";
+		        })
 			}, 
 			
 			error:function(request, status, error) {

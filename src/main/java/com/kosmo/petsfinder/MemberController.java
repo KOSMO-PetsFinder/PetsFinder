@@ -1034,7 +1034,7 @@ public class MemberController {
 	               System.out.println("후기 입력 실패(pdt)");
 	            }
 	            
-	            return "redirect:./myReview?mode=shop";
+	            return "redirect:./myReview?mode=shp";
 	         }
 	      } else {
 	         return "redirect:./Login";

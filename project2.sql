@@ -664,9 +664,11 @@ CREATE TABLE payment
 	member_idx number NOT NULL,
 	PRIMARY KEY (payment_idx)
 );
+
 -- 판매 내역 시퀀스
 CREATE SEQUENCE SEQ_sales_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
 -- 판매내역 테이블
+
 CREATE TABLE SALES_DETAILS
 (
 	-- 판매내역 일련번호

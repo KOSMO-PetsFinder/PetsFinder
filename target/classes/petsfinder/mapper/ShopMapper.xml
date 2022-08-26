@@ -18,10 +18,16 @@
 		    <when test="cate != null and cate == 3">
 		    	where product_category='gds'
 		    </when>
+		    <when test="cate != null and cate == 0">
+		    	where product_name like '%'||#{searchText}||'%'
+		    </when>
 		    <otherwise>
 		        
 		    </otherwise>
 		</choose>
+	  	<if test="searchText!=null and !searchText.equals('') and cate != 0">
+	        and product_name like '%'||#{searchText}||'%'
+        </if>
   	</select>
   	<!-- 상품의 리스트 -->
   	<select id="productList" parameterType="petsfinder.shop.ParameterDTO"
@@ -55,11 +61,16 @@
 		    <when test="cate != null and cate == 3">
 		    	where product_category='gds'
 		    </when>
+		     <when test="cate != null and cate == 0">
+		    	where product_name like '%'||#{searchText}||'%'
+		    </when>
 		    <otherwise>
 		        
 		    </otherwise>
 		</choose>
-		
+		<if test="searchText!=null and !searchText.equals('') and cate != 0">
+	        and product_name like '%'||#{searchText}||'%'
+        </if>
   		<choose>
 		    <when test="sort != null and sort == 2">
 		    	<choose>

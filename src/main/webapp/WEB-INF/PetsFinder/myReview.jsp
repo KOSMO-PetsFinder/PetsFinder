@@ -38,6 +38,8 @@ textarea {
 	margin-top:5px;
 }
 </style>
+<!-- confirm 창 꾸미기 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <!-- ajax -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <c:if test="${ mode eq 'adp' }">
@@ -73,8 +75,7 @@ textarea {
 	<div style="display: flex; flex-direction: column; border-top: 2px solid #75c9ba; padding: 38px 0px; margin-top: 100px; width: 800px;">
 	<c:if test="${ adp ne null }">
 		<c:forEach items="${ adp }" var="ad">
-		<!-- confirm 창 꾸미기 -->
-		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+		
 		<script>
 		$().ready(function () {
 		    $("#delete${ ad.review_idx }").click(function () {
@@ -91,9 +92,9 @@ textarea {
 		            if (result.isConfirmed) {
 		                Swal.fire(
 		                    '승인이 완료되었습니다.',
-		                    'success'
-		                )
-		                location.href='./myReview?mode=del&r=adp&review_idx=${ ad.review_idx }';
+		                ).then(() => {
+			                location.href='./myReview?mode=del&r=shp&review_idx=${ shp.review_idx }';
+				        })
 		            }
 		        })
 		    });
@@ -120,6 +121,9 @@ textarea {
 			<div style="display: flex; flex-direction: row; margin-bottom: 50px;">
 				<p style="font-size: 15px; line-height: 25px; color: rgb(76, 80, 86); margin-top: 18px;">${ ad.review_content }</p>
 			</div>
+			<c:if test="${ ad.review_photo ne null }">
+				<img style="width: 100px" src="./Uploads/${ ad.review_photo }" alt="" />
+			</c:if>
 			<div style="display: flex; justify-content: space-between;">
 				<div>
 					<a href="<c:url value="/"/>AbandonedAnimal/adoptView.do?abani_idx=${ad.abani_idx}" target="_blank">목록보기</a>
@@ -134,14 +138,12 @@ textarea {
 	</c:if>
 	<c:if test="${ sit ne null }">
 		<c:forEach items="${ sit }" var="sit">
-		<!-- confirm 창 꾸미기 -->
-		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 		<script>
 		$().ready(function () {
 		    $("#delete${ sit.review_idx }").click(function () {
 		        Swal.fire({
 		            title: '정말로 삭제 하시겠습니까?',
-		            text: "삭제 후 복구나 재등록이 불가능합니다.",
+		            text: "삭제 후 복구나 재등록이 불가능합니다!",
 		            icon: 'warning',
 		            showCancelButton: true,
 		            confirmButtonColor: '#75c9ba',
@@ -151,10 +153,10 @@ textarea {
 		        }).then((result) => {
 		            if (result.isConfirmed) {
 		                Swal.fire(
-		                    '승인이 완료되었습니다.',
-		                    'success'
-		                )
-		                location.href='./myReview?mode=del&r=sit&review_idx=${ sit.review_idx }';
+		                    '삭제되었습니다!',
+		                ).then(() => {
+			                location.href='./myReview?mode=del&r=shp&review_idx=${ shp.review_idx }';
+				        })
 		            }
 		        })
 		    });
@@ -199,8 +201,6 @@ textarea {
 	</c:if>
 	<c:if test="${ shp ne null }">
 		<c:forEach items="${ shp }" var="shp">
-		<!-- confirm 창 꾸미기 -->
-		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 		<script>
 		$().ready(function () {
 		    $("#delete${ shp.review_idx }").click(function () {
@@ -216,10 +216,10 @@ textarea {
 		        }).then((result) => {
 		            if (result.isConfirmed) {
 		                Swal.fire(
-		                    '승인이 완료되었습니다.',
-		                    'success'
-		                )
-		                location.href='./myReview?mode=del&r=shp&review_idx=${ shp.review_idx }';
+		                    '삭제 완료되었습니다.',
+		                ).then(() => {
+			                location.href='./myReview?mode=del&r=shp&review_idx=${ shp.review_idx }';
+				        })
 		            }
 		        })
 		    });

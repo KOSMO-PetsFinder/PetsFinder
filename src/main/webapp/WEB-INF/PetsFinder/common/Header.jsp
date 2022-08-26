@@ -37,7 +37,7 @@
         <div class="navigation">
           <div class="nav_logo">
             <a href="<c:url value='' />/PetsFinder" class="home" >
-            	<img src="<c:url value='/' />images/main_logo.png" alt="홈페이지로고"/>
+            	<img src="<c:url value='/' />images/main_logo.png" alt="홈페이지로고" style="padding-top: 5px"/>
             </a>
           </div>
           <ul class="menu">

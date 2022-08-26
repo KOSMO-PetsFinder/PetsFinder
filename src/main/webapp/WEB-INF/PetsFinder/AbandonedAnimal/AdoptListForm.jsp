@@ -122,11 +122,11 @@
 				var vs=0;        
 				for(var i=0; i<lists.length; i++){ 
 					if(vs%4 ==0) {
-						content += "<div style='width: 1024px; margin-top: 50px; display: flex; justify-content: space-between'>";
+						content += "<div style='width: 1024px; margin-top: 50px; display: flex; justify-content: flex-start'>";
 					}               
 					content += "<a href='./adoptView.do?abani_idx="+lists[i].abani_idx+"' target='_blank' style='margin-right: 14px; width: 245px;'>"               
 							
-					+ "<div><div style='width: 245px; height: 170px; border-radius: 3px'><img src='../images/4.png' alt='아이 사진' style='width: 245px; height: 170px; border-radius: 3px'></div><p style='font-size: 16px; letter-spacing: -0.2px; line-height: 20px; color: #383c48; margin-top: 20px'>";
+					+ "<div><div style='width: 245px; height: 170px; border-radius: 3px'><img src='<c:url value='/' />Uploads/" + lists[i].abani_photo + "' alt='아이 사진' style='width: 245px; height: 170px; border-radius: 3px'></div><p style='font-size: 16px; letter-spacing: -0.2px; line-height: 20px; color: #383c48; margin-top: 20px'>";
 					if(lists[i].abani_species=='cat') {
 						content += "고양이";
 					}
@@ -253,34 +253,34 @@
         <c:set var="i" value="0" />
 		<c:set var="j" value="4" />
         <c:forEach items="${lists }" var="row" >
-	          <c:if test="${i%j == 0 }">
-			<div style="width: 1024px; margin-top: 50px; display: flex; justify-content: space-between">
+          	<c:if test="${i%j == 0 }">
+			<div style="width: 1024px; margin-top: 50px; display: flex; justify-content: flex-start;">
 			</c:if>	
-			<a href="./adoptView.do?abani_idx=${row.abani_idx }" target="_blank" style="margin-right: 14px; width: 245px;">
-            <div>
-              <div style="width: 245px; height: 170px; border-radius: 3px">
-                <img src="<c:url value="/" />Uploads/${ row.abani_photo }" alt="아이 사진" style="width: 245px; height: 170px; border-radius: 3px">
-              </div>
-              <p style="font-size: 16px; letter-spacing: -0.2px; line-height: 20px; color: #383c48; margin-top: 20px">
-              <c:choose> 
-			  	<c:when test="${row.abani_species eq 'cat'}"> 
-					고양이
-				</c:when> 
-				<c:otherwise> 
-					강아지
-				</c:otherwise> 
-			  </c:choose>  
-                 - ${row.abani_kind } 
-              </p>
-              <p style="font-size: 16px; letter-spacing: -0.2px; line-height: 20px; color: #383c48; margin-top: 5px">
-                ${row.abani_age }
-              </p>
-              <p style="margin-top: 10px;">
-                    ${row.abani_char }
-              </p>
-            </div>
-	        </a>
-	         <c:if test="${i%j == j-1 }">
+				<a href="./adoptView.do?abani_idx=${row.abani_idx }" target="_blank" style="margin-right: 14px; width: 245px;">
+	            <div>
+	              <div style="width: 245px; height: 170px; border-radius: 3px">
+	                <img src="<c:url value="/" />Uploads/${ row.abani_photo }" alt="아이 사진" style="width: 245px; height: 170px; border-radius: 3px">
+	              </div>
+	              <p style="font-size: 16px; letter-spacing: -0.2px; line-height: 20px; color: #383c48; margin-top: 20px">
+	              <c:choose> 
+				  	<c:when test="${row.abani_species eq 'cat'}"> 
+						고양이
+					</c:when> 
+					<c:otherwise> 
+						강아지
+					</c:otherwise> 
+				  </c:choose>  
+	                 - ${row.abani_kind } 
+	              </p>
+	              <p style="font-size: 16px; letter-spacing: -0.2px; line-height: 20px; color: #383c48; margin-top: 5px">
+	                ${row.abani_age }
+	              </p>
+	              <p style="margin-top: 10px;">
+                    	${row.abani_char }
+	              </p>
+	            </div>
+		        </a>
+         	<c:if test="${i%j == j-1 }">
 			</div>
 			</c:if>	
 			<c:set var="i" value="${i+1 }" />
@@ -310,14 +310,14 @@
         </div>
         
         <!-- 테스트용 버튼 -->
-		<a href="<c:url value='/' />AbandonedAnimal/abandonedAnimalRegistration.do">유기동물 등록 ^^</a>       
+		<%-- <a href="<c:url value='/' />AbandonedAnimal/abandonedAnimalRegistration.do">유기동물 등록 ^^</a> --%>       
 
         <!-- 테스트용 버튼 -->
 
         <!-- right -->
         <div>
           <!-- 입양 관련 이미지 -->
-          <img src="" alt="" style="width: 435px; height: 350px;">
+          <img src="<c:url value='/' />images/사지말고.png" alt="" style="width: 435px; height: 350px; padding-bottom: 20px;">
         </div>
       </div>
     </div>
