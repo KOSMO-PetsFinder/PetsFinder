@@ -239,5 +239,56 @@
 	<select id="memberInfo" resultType="petsfinder.member.MemberDTO">
 		select member_name, member_gender, member_addr, member_phone, to_char(member_birth, 'YYYY-MM-DD') member_birth, member_photo, member_type from member where member_idx = #{ param1 }
 	</select>
+	
+	
+	<!-- 펫 등록 -->
+	
+	<insert id="petinsert" parameterType="petsfinder.member.PetDTO">
+		insert into pet 
+			(
+				pet_idx,
+				member_idx,
+				pet_name,
+				pet_age,
+				pet_neut,
+				pet_gender,
+				pet_kind,
+				pet_char,
+				<if test="pet_photo != null">
+				pet_photo,
+				</if>
+				pet_species
+			)
+		values 
+			(SEQ_pet_idx.nextval, #{member_idx}, #{pet_name}, #{pet_age}, #{pet_neut}, #{pet_gender},
+				#{pet_kind}, #{pet_char}, 
+				<if test="pet_photo != null">
+				#{ pet_photo },
+				</if> #{pet_species})
+	</insert>
+	
+	<select id="exsitpet" resultType="petsfinder.abandonedanimal.AbandonedAnimalDTO">
+		select Tb.*,abani_kind, abani_gender, abani_neut, abani_photo, abani_age, abani_species
+			from (select abani_idx, member_idx from adoption_application where adpapl_stt = 'apl')Tb
+    	inner join abandonedanimal ab on Tb.abani_idx=ab.abani_idx where member_idx=#{param1}
+	</select>
+	
+	<update id="petregimod" parameterType="petsfinder.member.PetDTO">
+		UPDATE pet SET 
+			pet_name = #{pet_name}, pet_age = #{pet_age}, pet_neut = #{pet_neut}, pet_gender = #{pet_gender},
+			pet_kind = #{pet_kind}, pet_char = #{pet_char}, pet_species = #{pet_species}
+		<if test="pet_photo != null">
+			, pet_photo = #{ pet_photo }
+		</if>
+		WHERE member_idx = #{ member_idx }
+	</update>
+	
+	<select id="petlist" parameterType="int" resultType="petsfinder.member.PetDTO">
+		select
+			pet_idx, pet_name, pet_gender, pet_kind, pet_char,pet_photo, pet_species, pet_age, pet_neut 
+			from pet where member_idx=#{member_idx}
+	</select>
+	
+	
 </mapper>
 

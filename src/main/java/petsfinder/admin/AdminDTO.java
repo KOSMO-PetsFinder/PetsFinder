@@ -260,7 +260,17 @@ public class AdminDTO {
 	      this.qnacomm_regdate = qnacomm_regdate;
 	   }
 
-		
+	   private String searchTxt;
+
+
+		public String getSearchTxt() {
+			return searchTxt;
+		}
+		public void setSearchTxt(String searchTxt) {
+			this.searchTxt = searchTxt;
+		}
+	   
+	   
 	
 
 }

@@ -166,6 +166,93 @@
 	<delete id="denied" parameterType="int">
 		DELETE FROM sitter_application WHERE member_idx=#{member_idx}
 	</delete>
+	<!-- 상품 목록 -->
+	<select id="pdtlist" parameterType="petsfinder.shop.ParameterDTO"
+  	resultType="petsfinder.shop.ProductDTO" >
+			select 
+	          p.*, photos, NVL(b.cnt,0) review_count 
+	      from 
+	          product p
+	      left OUTER JOIN 
+	          (select 
+	              product_idx, LISTAGG(PDT_IMAGE_FILE, ', ')
+	              WITHIN GROUP (ORDER BY PDT_IMAGE_IDX desc) as photos
+	          from 
+	              product_image 
+	          GROUP BY product_idx
+	         ) a ON p.product_idx = a.product_idx 
+	         LEFT OUTER JOIN (
+	             SELECT
+	                 product_idx, count(*) cnt
+	             FROM review_board
+	             GROUP BY product_idx
+	         ) b ON p.product_idx = b.product_idx
+
+  		<choose>
+		    <when test="cate != null and cate == 1">
+		    	where product_category='ess'
+		    </when>
+		    <when test="cate != null and cate == 2">
+		    	where product_category='mdc'
+		    </when>
+		    <when test="cate != null and cate == 3">
+		    	where product_category='gds'
+		    </when>
+		    <otherwise>
+		        
+		    </otherwise>
+		</choose>
+  		<choose>
+		    <when test="sort != null and sort == 2">
+		    	<choose>
+				    <when test="sortm != null and sortm == 0">
+				    	order by p.product_idx desc
+				    </when>
+				    <when test="sortm != null and sortm == 1">
+				    	order by p.product_price asc 
+				    </when>
+				    <when test="sortm != null and sortm == 2">
+				    	order by p.product_price desc 
+				    </when>
+				    <otherwise>
+				  		order by p.product_idx desc
+				    </otherwise>
+				</choose>
+		    </when>
+		    <when test="sort != null and sort == 3">
+		    	<choose>
+				    <when test="sortm != null and sortm == 0">
+				    	order by p.product_idx desc
+				    </when>
+				    <when test="sortm != null and sortm == 1">
+				    	order by p.product_regdate asc 
+				    </when>
+				    <when test="sortm != null and sortm == 2">
+				    	order by p.product_regdate desc 
+				    </when>
+				    <otherwise>
+				  		order by p.product_idx desc
+				    </otherwise>
+				</choose>
+		    </when>
+		    <when test="sort != null and sort == 1">
+		    	<choose>
+				    <when test="sortm != null and sortm == 0">
+				    	order by a.product_idx desc
+				    </when>
+				    <when test="sortm != null and sortm == 1">
+				    	order by product_regdate desc
+				    </when>
+				    <otherwise>
+				  		order by a.product_idx desc
+				    </otherwise>
+				</choose>
+		    </when>
+		    <otherwise>
+		  		order by p.product_idx desc
+		    </otherwise>
+		</choose>
+	</select>
 	<!-- 상품 삭제 -->
 	<delete id="deletepdt" parameterType="int">
 		DELETE FROM product WHERE product_idx=#{product_idx}

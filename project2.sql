@@ -309,8 +309,8 @@ CREATE TABLE pet
 	pet_name varchar2(30) NOT NULL,
 	-- 펫 나이
 	pet_age number(10,0) NOT NULL,
-	-- 중성화여부(Y,N)
-	pet_neut char(1) NOT NULL,
+	-- 중성화여부(1,0)
+	pet_neut number NOT NULL,
 	-- 펫 성별(F,M)
 	pet_gender char(1) NOT NULL,
 	-- 펫 품종
@@ -480,7 +480,8 @@ CREATE TABLE sitter
 	sit_starcount number NOT NULL,
 	PRIMARY KEY (sit_idx)
 );
-
+ALTER TABLE SITTER ADD SIT_LATITUDE number DEFAULT 37.478763 NOT NULL;
+ALTER TABLE SITTER ADD SIT_LONGTITUDE number DEFAULT 126.878790 NOT NULL;
 
 -- 시터신청 폼 테이블
 CREATE TABLE SITTER_APPLICATION

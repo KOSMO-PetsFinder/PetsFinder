@@ -54,7 +54,7 @@ $(document).ready(function(){
 				
 				예약 고객의 이름 : ${param.member_name } 
 				
-				예약된 페시터의 이름 : ${ param.sitter_name } 
+				예약된 펫시터의 이름 : ${ param.sitter_name } 
 				
 				예약 날짜 : ${param.sbook_start } ~ ${param.sbook_end }
 				

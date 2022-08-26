@@ -5,8 +5,8 @@ public class PetDTO {
 	private int pet_idx; 
 	private int member_idx; 
 	private String pet_name;
-	private int pet_age; 
-	private String pet_neut; 
+	private String pet_age; 
+	private int pet_neut; 
 	private String pet_gender; 
 	private String pet_kind; 
 	private String pet_char; 
@@ -31,16 +31,16 @@ public class PetDTO {
 	public void setPet_name(String pet_name) {
 		this.pet_name = pet_name;
 	}
-	public int getPet_age() {
+	public String getPet_age() {
 		return pet_age;
 	}
-	public void setPet_age(int pet_age) {
+	public void setPet_age(String pet_age) {
 		this.pet_age = pet_age;
 	}
-	public String getPet_neut() {
+	public int getPet_neut() {
 		return pet_neut;
 	}
-	public void setPet_neut(String pet_neut) {
+	public void setPet_neut(int pet_neut) {
 		this.pet_neut = pet_neut;
 	}
 	public String getPet_gender() {

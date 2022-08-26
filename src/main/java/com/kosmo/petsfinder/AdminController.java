@@ -40,6 +40,11 @@ public class AdminController {
 	@Autowired
 	private SqlSession sqlSession;
 	
+	@RequestMapping(value="/Admin/noti")
+	public String noti() {
+		return "./Admin/adminMain";
+	}
+	
 	
 ////////////////////////은아언니/////////////////////////////////////////////
 	
@@ -224,9 +229,9 @@ public class AdminController {
 	
 	//쇼핑몰 리스트
 	@RequestMapping("Admin/AdminShop/shopRegi")
-	public String shopRegi(HttpServletRequest req, ParameterDTO parameterDTO, Model model) {
+	public String shopRegi(HttpServletRequest req, Model model) {
 		
-		ArrayList<ProductDTO> pdt = sqlSession.getMapper(ShopDAOImpl.class).productList(parameterDTO);
+		ArrayList<ProductDTO> pdt = sqlSession.getMapper(AdminDAOImpl.class).pdtlist();
 		model.addAttribute("pdt",pdt);
 		return "Admin/AdminShop/shopRegi";
 	}

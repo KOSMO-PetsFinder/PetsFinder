@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import petsfinder.member.MemberDAOImpl;
 import petsfinder.member.MemberDTO;
+import petsfinder.member.PetDTO;
 
 @Controller
 public class HomeController {
@@ -65,15 +66,30 @@ public class HomeController {
 		}
 	}
 	
+//	@RequestMapping("/default")
+//	public String myPageDefault(HttpServletRequest req, Model model) {
+//		
+//		HttpSession session = req.getSession();
+//		MemberDTO mto = sqlSession.getMapper(MemberDAOImpl.class).memberInfo(Integer.parseInt(session.getAttribute("idx").toString()));
+//		
+//		model.addAttribute("m_info", mto);
+//		return "default";
+//	}
+	
+	//펫 페이지
 	@RequestMapping("/default")
 	public String myPageDefault(HttpServletRequest req, Model model) {
-		
-		HttpSession session = req.getSession();
-		MemberDTO mto = sqlSession.getMapper(MemberDAOImpl.class).memberInfo(Integer.parseInt(session.getAttribute("idx").toString()));
-		
-		model.addAttribute("m_info", mto);
-		return "default";
-	}
+      
+      HttpSession session = req.getSession();
+      MemberDTO mto = sqlSession.getMapper(MemberDAOImpl.class).memberInfo(Integer.parseInt(session.getAttribute("idx").toString()));
+      
+	  int idx = Integer.parseInt(session.getAttribute("idx").toString());
+	  PetDTO pdt = sqlSession.getMapper(MemberDAOImpl.class).petlist(idx);
+	  
+      model.addAttribute("petlist",pdt);
+      model.addAttribute("m_info", mto);
+      return "default";
+   }
 	
 	@RequestMapping("/passCheck")
 	public String passCheck() {

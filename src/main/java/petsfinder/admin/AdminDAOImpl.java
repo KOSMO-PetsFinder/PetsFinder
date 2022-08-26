@@ -92,6 +92,8 @@ public interface AdminDAOImpl {
 	//시터 거절
 	public int denied(int member_idx);
 	
+	//상품 리스트
+	public ArrayList<ProductDTO> pdtlist();
 	//상품 삭제
 	public int deletepdt(int product_idx);
 	//상품 등록

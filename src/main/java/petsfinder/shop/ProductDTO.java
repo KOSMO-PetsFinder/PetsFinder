@@ -100,4 +100,6 @@ public class ProductDTO {
 	public void setRegidate(Date regidate) {
 		this.regidate = regidate;
 	}
+	
+	
 }

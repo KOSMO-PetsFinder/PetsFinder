@@ -76,4 +76,15 @@ public interface MemberDAOImpl {
 	public ArrayList<PayDTO> m_Boughtview(int member_idx, int payment_idx);
 	
 	public MemberDTO memberInfo(int member_idx);
+	
+	/* 펫 등록, 펫 페이지 */
+	public int petinsert(PetDTO petDTO);
+	
+	public AbandonedAnimalDTO exsitpet(int member_idx);
+	
+	public int i_photo(String pet_photo);
+	
+	public PetDTO petlist(int member_idx);
+	
+	public int petregimod(PetDTO petDTO);
 }

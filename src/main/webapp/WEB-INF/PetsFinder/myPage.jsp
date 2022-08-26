@@ -95,6 +95,13 @@
 	                	<a href="./sitterApl" target="rightwin">시터 신청</a>
 	                </li>
 	            </c:if>
+	                <li>
+	                    <a href="./petregiform" target="rightwin">펫 등록</a>
+	                </li>
+	                <li>
+	                    <a href="./petregimodify" target="rightwin">펫 수정</a>
+	                </li>
+	            
                 </ul>
               </li>
               <li class="uk-parent">
