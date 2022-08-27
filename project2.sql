@@ -73,8 +73,6 @@ CREATE SEQUENCE SEQ_abani_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE 
 CREATE SEQUENCE SEQ_ADPAPL_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
 -- 입양 목록 시퀀스
 CREATE SEQUENCE SEQ_ADOPlist_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
--- 승인 시퀀스
-CREATE SEQUENCE SEQ_APR_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
 -- FAQ 시퀀스
 CREATE SEQUENCE SEQ_faq_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
 -- 회원 시퀀스
@@ -111,6 +109,18 @@ CREATE SEQUENCE SEQ_pdt_image_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVA
 CREATE SEQUENCE SEQ_product_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
 -- 장바구니 시퀀스
 CREATE SEQUENCE SEQ_cart_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
+--웹소켓 시퀀스
+CREATE SEQUENCE SEQ_web_chat_room_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
+--QnA 댓글 시퀀스
+CREATE SEQUENCE SEQ_qnacomm_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
+-- 결제 시퀀스
+CREATE SEQUENCE SEQ_payment_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
+-- 판매 내역 시퀀스
+CREATE SEQUENCE SEQ_sales_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
+-- 배송 시퀀스
+CREATE SEQUENCE SEQ_shiplocInfo_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
+-- 최근 본 상품 시퀀스
+CREATE SEQUENCE seq_recentboard_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
 
 /* Create Tables */
 
@@ -192,23 +202,6 @@ CREATE TABLE ADOPTION_list
 );
 
 
--- 승인 테이블
-CREATE TABLE APPROVAL
-(
-	-- 승인 일련번호
-	APR_idx number NOT NULL,
-	-- 승인 허가여부(Y,N)
-	APR_stts char(1) NOT NULL,
-	-- 사유
-	APR_rsn varchar2(2000) NOT NULL,
-	-- 타입(adt ,sit)입양/시터
-	APR_type char(3) NOT NULL,
-	-- 회원번호
-	member_idx number NOT NULL,
-	PRIMARY KEY (APR_idx)
-);
-
-
 -- 이용가능서비스
 CREATE TABLE AVAILABLE_SERVICES
 (
@@ -231,6 +224,21 @@ CREATE TABLE faq_board
 	-- 사진
 	faq_photo varchar2(100),
 	PRIMARY KEY (faq_idx)
+);
+
+
+--QnA 댓글 테이블
+CREATE TABLE qna_Comment
+(
+   -- QnA 댓글 일련번호
+   qnacomm_idx number NOT NULL,
+   -- 댓글 내용
+   qnacomm_content varchar2(1000) NOT NULL,
+   -- 댓글 등록일
+   qnacomm_regdate date NOT NULL,
+   -- 후기 일련번호
+   qna_idx number NOT NULL,
+   PRIMARY KEY (qnacomm_idx)
 );
 
 
@@ -265,20 +273,6 @@ CREATE TABLE member
 );
 
 
--- 새 테이블
-CREATE TABLE NEW_TABLE
-(
-
-);
-
-
--- 새 테이블
-CREATE TABLE NEW_TABLE
-(
-
-);
-
-
 -- 공지게시판 테이블
 CREATE TABLE NOTICE_BOARD
 (
@@ -298,30 +292,29 @@ CREATE TABLE NOTICE_BOARD
 );
 
 
--- 펫 테이블
 CREATE TABLE pet
 (
-	-- 펫번호
-	pet_idx number NOT NULL,
-	-- 회원번호
-	member_idx number NOT NULL,
-	-- 펫 이름
-	pet_name varchar2(30) NOT NULL,
-	-- 펫 나이
-	pet_age number(10,0) NOT NULL,
-	-- 중성화여부(1,0)
-	pet_neut number NOT NULL,
-	-- 펫 성별(F,M)
-	pet_gender char(1) NOT NULL,
-	-- 펫 품종
-	pet_kind varchar2(30) NOT NULL,
-	-- 펫 특징
-	pet_char varchar2(200) NOT NULL,
-	-- 펫 사진
-	pet_photo varchar2(100),
-	-- 펫 종(dog,cat)
-	pet_species char(3) NOT NULL,
-	PRIMARY KEY (pet_idx)
+   -- 펫번호
+   pet_idx number NOT NULL,
+   -- 회원번호
+   member_idx number NOT NULL,
+   -- 펫 이름
+   pet_name varchar2(30) NOT NULL,
+   -- 펫 나이
+   pet_age varchar2(30) NOT NULL,
+   -- 중성화여부(1,0)
+   pet_neut number NOT NULL,
+   -- 펫 성별(F,M)
+   pet_gender char(1) NOT NULL,
+   -- 펫 품종
+   pet_kind varchar2(30) NOT NULL,
+   -- 펫 특징
+   pet_char varchar2(200) NOT NULL,
+   -- 펫 사진
+   pet_photo varchar2(100),
+   -- 펫 종(dog,cat)
+   pet_species char(3) NOT NULL,
+   PRIMARY KEY (pet_idx)
 );
 
 
@@ -347,8 +340,7 @@ CREATE TABLE qna_board
 	PRIMARY KEY (qna_idx)
 );
 
---QnA 시퀀스
-CREATE SEQUENCE SEQ_qnacomm_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
+
 --QnA 댓글
 CREATE TABLE qna_Comment
 (
@@ -378,21 +370,11 @@ CREATE TABLE REPORT_ABANDONED_ANIMALS
 	dclrAbnd_photo varchar2(100),
 	-- 등록일
 	dclrAbnd_regdate date NOT NULL,
-	-- 처리상태(접수,처리중,완료)(reg,PRG,CMP)
+	-- 처리상태(접수,처리중,완료)(reg,prg,cmp)
 	dclrAbnd_stts char(3) NOT NULL,
 	-- 회원번호
 	member_idx number NOT NULL,
 	PRIMARY KEY (dclrAbnd_idx)
-);
-
-
--- 거주지 유형 테이블
-CREATE TABLE RESIDENCE_TYPE
-(
-	-- 시터신청 일련번호
-	SITAPL_idx number NOT NULL,
-	-- 거주지 유형
-	RSD_TYP varchar2(30) NOT NULL
 );
 
 
@@ -503,7 +485,7 @@ CREATE TABLE SITTER_APPLICATION
 	-- 신청자 반려동물 키운 기간
 	SITAPL_havepet varchar2(30) NOT NULL,
 	-- 반려동물 키운 경험 
-	stiapl_exp varchar2(2000) NOT NULL,
+	sitapl_exp varchar2(2000) NOT NULL,
 	-- 회원번호
 	member_idx number NOT NULL,
 	PRIMARY KEY (SITAPL_idx)
@@ -556,7 +538,7 @@ CREATE TABLE sit_book
     totalPrice varchar2(100),
     -- 후기 작성 체크 ( NO -> 0 // YES -> 1 )
     review_check number DEFAULT 0 NOT NULL,
-
+    sbook_date date,
 	PRIMARY KEY (sbook_idx)
 );
 
@@ -599,7 +581,7 @@ CREATE TABLE product
 	product_description varchar2(2000) NOT NULL,
 	-- 상품 등록일
 	product_regdate date NOT NULL,
-	-- 상품 카테고리 (약,사료,굿즈) (gds, fed , mdc)카테고리 (약,사료,굿즈) (gds, fed , mdc)
+	-- 상품 카테고리 (약,필수용품,굿즈) (gds, ess , mdc)
 	product_category char(3) NOT NULL,
 	-- 상품 재고
 	product_stock number NOT NULL,
@@ -626,10 +608,10 @@ CREATE TABLE cart
 	cart_idx number NOT NULL,
 	-- 상품 일련번호
 	product_idx number NOT NULL,
-    --판매수량
-    product_quanity number NOT NULL,
 	-- 회원번호
 	member_idx number NOT NULL,
+     --판매수량
+    product_quanity number NOT NULL,
     
 	PRIMARY KEY (cart_idx)
 );
@@ -640,8 +622,7 @@ create table sale(
     discount_rate number
 ); 
 
--- 결제 시퀀스
-CREATE SEQUENCE SEQ_payment_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
+
 -- 결제 테이블
 CREATE TABLE payment
 (
@@ -666,8 +647,7 @@ CREATE TABLE payment
 	PRIMARY KEY (payment_idx)
 );
 
--- 판매 내역 시퀀스
-CREATE SEQUENCE SEQ_sales_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
+
 -- 판매내역 테이블
 
 CREATE TABLE SALES_DETAILS
@@ -685,8 +665,7 @@ CREATE TABLE SALES_DETAILS
 	PRIMARY KEY (sales_idx)
 );
 
--- 배송 시퀀스
-CREATE SEQUENCE SEQ_shiplocInfo_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
+
 -- 배송지 정보 테이블
 CREATE TABLE shippingLoc_info
 (
@@ -705,16 +684,27 @@ CREATE TABLE shippingLoc_info
 	PRIMARY KEY (shiplocInfo_idx)
 );
 
--- 최근 본 상품 시퀀스
-CREATE SEQUENCE seq_recentboard_idx INCREMENT BY 1 START WITH 1 MINVALUE 1 NOMAXVALUE NOCACHE NOCYCLE;
--- 최근 본 상품
+
+-- 최근 본 상품 테이블
 create table recent_board(
     recent_idx number NOT NULL,
     product_idx number NOT NULL,
     regidate date default sysdate NOT NULL,
     PRIMARY KEY (recent_idx)
 );
-drop table recent_board;
+
+--웹소켓 내용 저장 테이블
+CREATE TABLE "KOSMO"."WEB_CHAT" 
+(   "ROOM_IDX" NUMBER, 
+    "ROOM_ID" VARCHAR2(60 BYTE), 
+    "MEMBER_IDX" NUMBER, 
+    "MESSAGE" VARCHAR2(2000 BYTE), 
+    "CHAT_TIME" DATE DEFAULT SYSDATE, 
+    "SENDER_ID" VARCHAR2(30 BYTE), 
+    "RECEIVER_ID" VARCHAR2(30 BYTE)
+);
+
+----------------------------------------------------------------------------------
 /* Create Foreign Keys */
 
 ALTER TABLE ADOPTION_APPLICATION

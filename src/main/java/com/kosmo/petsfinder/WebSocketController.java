@@ -26,7 +26,7 @@ public class WebSocketController {
 	private SqlSession sqlSession;
 	
 	//웹소켓채팅1 (시터와 회원)
-    @RequestMapping(value="/WebSocket/WebSocket.do", method=RequestMethod.GET)
+    @RequestMapping(value="${pageContext.request.contextPath}/WebSocket/WebSocket.do", method=RequestMethod.GET)
     public String webSocket(HttpSession session, HttpServletRequest req, Model model) {
     	
     	WebChatDTO webChatDTO = new WebChatDTO();
@@ -37,7 +37,7 @@ public class WebSocketController {
     }
     
     //웹소켓채팅2 (관리자와 회원)
-    @RequestMapping(value="/WebSocket/WebSocketManager.do", method=RequestMethod.GET)
+    @RequestMapping(value="${pageContext.request.contextPath}/WebSocket/WebSocketManager.do", method=RequestMethod.GET)
     public String webSocketManager(HttpSession session, HttpServletRequest req, Model model) {
     	
     	WebChatDTO webChatDTO = new WebChatDTO();
@@ -48,7 +48,7 @@ public class WebSocketController {
     }
     
     //웹소켓 채팅 불러오기
-    @RequestMapping(value="/WebSocket/WebChat.do", method=RequestMethod.GET)
+    @RequestMapping(value="${pageContext.request.contextPath}/WebSocket/WebChat.do", method=RequestMethod.GET)
     public String webChat(HttpServletRequest req, Model model, HttpSession session) {
        //채팅 데이터 저장1
        WebChatDTO webChatDTO = new WebChatDTO();
@@ -109,7 +109,7 @@ public class WebSocketController {
     
 
     //웹소켓 채팅 불러오기 (관리자와 회원)
-    @RequestMapping(value="/WebSocket/WebChatManager.do", method=RequestMethod.GET)
+    @RequestMapping(value="${pageContext.request.contextPath}/WebSocket/WebChatManager.do", method=RequestMethod.GET)
     public String webChatManager(HttpServletRequest req, Model model, HttpSession session) {
        //채팅 데이터 저장1
        WebChatDTO webChatDTO = new WebChatDTO();

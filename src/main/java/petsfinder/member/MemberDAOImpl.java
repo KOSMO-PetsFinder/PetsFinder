@@ -84,7 +84,7 @@ public interface MemberDAOImpl {
 	
 	public int i_photo(String pet_photo);
 	
-	public PetDTO petlist(int member_idx);
+	public ArrayList<PetDTO> petlist(int member_idx);
 	
 	public int petregimod(PetDTO petDTO);
 }

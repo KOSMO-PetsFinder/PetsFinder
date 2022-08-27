@@ -270,7 +270,7 @@ function checkValidate(f) {
 		        </div>
                 <script>
                 function genderVal(b) {
-	                var a = $(b).val();
+	                var a = $(b).val(); 
 	                if(a == '남성') {
                    		$('#pet_gender').val('M')
                    		$('#M').attr({style : 'border : 2px solid #75c9ba; width: 190px; background: none; height: 50px; border-radius: 5px;'})

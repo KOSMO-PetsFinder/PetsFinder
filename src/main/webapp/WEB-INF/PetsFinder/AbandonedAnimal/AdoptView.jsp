@@ -189,10 +189,8 @@
 										style="margin-top: 73px; margin-left: auto; margin-right: auto; width: 1027px; display: flex; flex-direction: row; justify-content: space-between;">
 										<div>
 											<div style="display: flex; flex-direction: row;">
-												<div style="overflow: hidden; width: 90px; height: 90px; border: none; border-radius: 12px; margin-top: 5px;">
-													<img width="90" height="90" alt=""
-														src="../sitterView/08d8f81d5fd74638bcd1e4d6792e95d0.jpg"
-														style="object-fit: cover; display: inline-block;">
+												<img width="90" height="90" alt="" src="<c:url value="/" />Uploads/${ abandonedAnimalDTO.abani_photo }"
+                                          style="object-fit: cover; display: inline-block;">
 												</div>
 												<div style="margin-left: 32px;" >
 													<h1

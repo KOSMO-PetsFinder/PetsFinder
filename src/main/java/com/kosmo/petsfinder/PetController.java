@@ -1,9 +1,7 @@
 package com.kosmo.petsfinder;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -19,7 +17,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import fileupload.FileUtil;
 import petsfinder.abandonedanimal.AbandonedAnimalDTO;
-import petsfinder.admin.AdminDAOImpl;
 import petsfinder.member.MemberDAOImpl;
 import petsfinder.member.PetDTO;
 
@@ -36,8 +33,6 @@ public class PetController {
 		AbandonedAnimalDTO dto  = new AbandonedAnimalDTO();
 		int member_idx = Integer.parseInt(session.getAttribute("idx").toString());
 		AbandonedAnimalDTO exist = sqlSession.getMapper(MemberDAOImpl.class).exsitpet(member_idx);
-		exist.setAbani_age(exist.getAbani_age().split("살")[0]);
-		System.out.println(exist.getAbani_age());
 		model.addAttribute("e",exist);
 		return "petregiForm";
 	}
@@ -104,8 +99,6 @@ public class PetController {
 		
 		PetDTO dto  = new PetDTO();
 		int member_idx = Integer.parseInt(session.getAttribute("idx").toString());
-		PetDTO modifypet = sqlSession.getMapper(MemberDAOImpl.class).petlist(member_idx);
-		model.addAttribute("e",modifypet);
 		
 		return "petregiModify";
 	}

@@ -100,7 +100,7 @@ textarea {
 	</c:if>
 	<c:if test="${ m_Bought.isEmpty() }">
 		<div style="display: flex; flex-direction: row; justify-content: center">
-			<p style="font-size: 2em">구매한 예약이 없어요.. ㅠ ㅠ</p>
+			<p style="font-size: 2em">구매한 내역이 없어요.. ㅠ ㅠ</p>
 		</div>
 	</c:if>
 </div>

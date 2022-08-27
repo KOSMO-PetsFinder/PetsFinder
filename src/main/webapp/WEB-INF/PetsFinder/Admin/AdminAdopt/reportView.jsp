@@ -164,7 +164,7 @@
 					<tr>
 						<th>사진</th>
 						<td colspan="3" >
-							${reportView.dclrAbnd_photo }
+						<img width="300" height="300" src="<c:url value="/" />Uploads/${reportView.dclrAbnd_photo }" style="object-fit: cover; display: inline-block;">
 						</td>
 					</tr>		
 					<tr>

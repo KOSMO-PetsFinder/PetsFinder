@@ -2,9 +2,6 @@ package com.kosmo.petsfinder;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,11 +11,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import petsfinder.review.ReviewBoardDAOImpl;
@@ -509,11 +504,10 @@ public class ShopController {
 			
 			//제일 앞 사진 1개만 넣기
 			for(BuyOrCartDTO dto :payList) {
-				total += dto.getProduct_price()*dto.getProduct_quanity();
 				String[] pho = dto.getPhotos().split("\\|");
 				dto.setProduct_photo(pho[0]);
 			}
-			
+			System.out.println("할인: "+ memberSDTO.getSale());
 			//할인 배송비 처리 
 			if(memberSDTO.getSale()==0) {
 				//할인x, 배송비 2500
@@ -538,7 +532,7 @@ public class ShopController {
 					a -= (a*b/100);
 					dto.setAmount(a);
 					System.out.println(dto.getDiscount());
-					total -= dto.getDiscount();
+					total += dto.getAmount()*dto.getProduct_quanity();
 				}
 			}
 			model.addAttribute("cartCount", cartCount);

@@ -111,13 +111,13 @@ tr.cartlist td {
 								</td>
 								<c:if test="${row.deliveryCharge == 0 }" var="dc">
 								<td>
-									<input type="hidden" id="hpPrice${ vs.index }" value="${ row.product_price / 10 * 9 }"/>
-		                           <p style=" ont-size:21px;" id="pPrice${ vs.index }"><fmt:formatNumber type="number" maxFractionDigits="0" value="${ row.product_price / 10 * 9 }" />원</p>
+									<input type="hidden" id="hpPrice${ vs.index }" value="${ row.amount}"/>
+		                           <p style=" ont-size:21px;" id="pPrice${ vs.index }"><fmt:formatNumber type="number" maxFractionDigits="0" value="${ row.amount }" />원</p>
 		                           <p style="font-size:14px; text-decoration: line-through;" ><fmt:formatNumber type="number" maxFractionDigits="0" value="${row.product_price }" />원</p>
 		                        </td>
 		                        <td>
-		                        	<input type="hidden" id="hptPrice${ vs.index }" value="${(row.product_price / 10 * 9) * row.product_quanity }"/>
-		                           <p id="ptPrice${ vs.index }"><fmt:formatNumber type="number" maxFractionDigits="0" value="${(row.product_price / 10 * 9) * row.product_quanity }" />원</p>
+		                        	<input type="hidden" id="hptPrice${ vs.index }" value="${(row.amount) * row.product_quanity }"/>
+		                           <p id="ptPrice${ vs.index }"><fmt:formatNumber type="number" maxFractionDigits="0" value="${(row.amount) * row.product_quanity }" />원</p>
 		                        </td>
 								</c:if>
 								<c:if test="${ not dc }">

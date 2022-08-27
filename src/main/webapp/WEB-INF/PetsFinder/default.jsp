@@ -32,7 +32,7 @@
 }
 a {
   text-decoration: none;
-}s
+}
 
 </style>
 </head>
@@ -42,6 +42,7 @@ a {
 			<section>
 			<c:choose>
 			<c:when test="${not empty petlist }">
+			<c:forEach items="${petlist }" var="row">
 			<div style="display: flex; position:absolute; top: 120px; left: 210px">
 				<c:if test="${ m_info.member_photo ne null}" var="result">
 				<img width="200" height="200" src="<c:url value="/" />Uploads/${ m_info.member_photo }" alt="" style="object-fit: cover; border-radius: 50%;"/>
@@ -57,7 +58,7 @@ a {
 				        	<div style="display:flex; justify-content: center; flex-direction: column; ">
 								<p style="margin-left: 10px; font-size: 20px; font-weight: 600;">펫 이름 : ${petlist.pet_name } </p>
 				            	<p style="margin-left: 10px; font-size: 20px; font-weight: 600;">펫 나이 : ${petlist.pet_age } </p>
-				            	<p style="margin-left: 10px; font-size: 20px; font-weight: 600;">펫 성별 : ${petlist.pet_gender == 'M' ? '남자' : '여자'} </p>
+				            	<p style="margin-left: 10px; font-size: 20px; font-weight: 600;">펫 성별 : ${petlist.pet_gender == 'M' ? '수컷' : '암컷'} </p>
 				            	<p style="margin-left: 10px; font-size: 20px; font-weight: 600;">펫 품종 : ${petlist.pet_kind }</p>
 				        	</div>
 				        	<c:if test="${not empty petlist.pet_photo }">
@@ -85,6 +86,7 @@ a {
 				    </div>
 			    </div>
 			</div>
+			</c:forEach>
 			</c:when>
 			<c:otherwise>
 			<div style="display: flex; flex-direction: row; margin-top: 120px">
