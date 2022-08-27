@@ -102,9 +102,9 @@
                 <li>
                 	<a href="<c:url value='/' />Petsitters/sitterreview">시터이용후기</a>
                 </li>
-                <li class="last_menu_2depth">
+                <%-- <li class="last_menu_2depth">
                   <a href="<c:url value='/' />">근처 동물병원</a>
-                </li>
+                </li> --%>
               </ul>
             </li>
           </ul>
@@ -300,8 +300,21 @@
         });
       </script>
     </div>
-    <div style="position: fixed; right: 50px; bottom:10px; z-index: 999999;">
-       <img type="button" src="<c:url value='/' />images/websocket_icon2.png" onclick="window.open('/Petsfinder/PetsFinder/MultiChatMain.jsp', '', 'width=400,height=400');" alt="소켓이미지" style="width: 100px; height: 100px"/>
-    </div>
+      <%
+    //메인 화면에서 채팅창에 접근할 수 있는 타입 : 일반회원 & 관리자
+    if(session.getAttribute("idx") != null){
+    %>
+    	<%
+    	if(session.getAttribute("type").equals("nor") || session.getAttribute("type").equals("mag")){
+    	%>
+	    <div style="position: fixed; right: 50px; bottom:10px; z-index: 999999;">
+	       <img type="button" src="<c:url value='/' />images/websocket_icon2.png" onclick="window.open('./WebSocket/WebSocketManager.do?', 'chat', 'width=400,height=400');" alt="소켓이미지" style="width: 100px; height: 100px"/>
+	    </div>
+	    <%
+    	}
+	    %>
+	  <%
+    }
+	  %>
   </body>
 </html>

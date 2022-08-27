@@ -349,5 +349,33 @@ public class PetSitterDTO {
 		this.productname = productname;
 	}
 	
+	//거리순 정렬
+	private String sit_latitude;
+	private String sit_longtitude;
+
+	public String getSit_latitude() {
+		return sit_latitude;
+	}
+	public void setSit_latitude(String sit_latitude) {
+		this.sit_latitude = sit_latitude;
+	}
+	public String getSit_longtitude() {
+		return sit_longtitude;
+	}
+	public void setSit_longtitude(String sit_longtitude) {
+		this.sit_longtitude = sit_longtitude;
+	}
+	
+	//시터와의 채팅 시터의 member_id 뽑기
+	private String member_id;
+
+	public String getMember_id() {
+		return member_id;
+	}
+	public void setMember_id(String member_id) {
+		this.member_id = member_id;
+	}
+	
+	
 	
 }

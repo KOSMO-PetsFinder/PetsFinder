@@ -13,17 +13,10 @@
 						<div class="sb-sidenav-menu-heading">Pets Finder 관리자</div>
 						<!-- 뎁스1 -->
 						<!-- 공지사항 리액트 테스트 -->
-						<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#notice" aria-expanded="false" aria-controls="member">
+						<a class="nav-link" href="<c:url value='/' />Admin/noticeReact.do">
 								<div class="sb-nav-link-icon"><i class="fa-solid fa-address-card"></i></div>
-								공지사항 리액트
-								<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+								공지사항
 						</a>
-						<div class="collapse" id="notice" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-								<nav class="sb-sidenav-menu-nested nav">
-										<a class="nav-link" href="#">공지사항</a>
-								</nav>
-						</div>
-						
 						<!-- 뎁스2 -->
 						<!-- 회원관리 -->
 						<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#member" aria-expanded="false" aria-controls="member">
@@ -52,7 +45,6 @@
 										<a class="nav-link" href="<c:url value='/' />Admin/animalRegistration.do">유기동물 등록</a>
 										<a class="nav-link" href="<c:url value='/' />Admin/animalList.do">유기동물 목록</a>
 										<a class="nav-link" href="<c:url value='/' />Admin/adoptAppList.do">입양 신청 접수 목록</a>
-										<!-- <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a> -->
 								</nav>
 						</div>
 						
@@ -66,31 +58,11 @@
 						<div class="collapse" id="sitter" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
 								<nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
 										<a class="nav-link" href="<c:url value='/'/>Admin/sitBList.do">
-												시터예약
+												시터예약 &amp; 결제내역
 										</a>
 										<a class="nav-link" href="<c:url value="/" />Admin/AdminSitter/sitterApp">
 												시터신청
 										</a>
-										<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError2" aria-expanded="false" aria-controls="pagesCollapseError1">
-												결제
-												<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-										</a>
-										<div class="collapse" id="pagesCollapseError2" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-												<nav class="sb-sidenav-menu-nested nav">
-														<a class="nav-link" href="401.html">시터예약 & 결제내역</a>
-												</nav>
-										</div>
-											<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError3" aria-expanded="false" aria-controls="pagesCollapseError">
-												환불
-												<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-										</a>
-										<div class="collapse" id="pagesCollapseError3" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-												<nav class="sb-sidenav-menu-nested nav">
-														<a class="nav-link" href="401.html">미정</a>
-														<a class="nav-link" href="404.html">미정</a>
-														<a class="nav-link" href="500.html">미정</a>
-												</nav>
-										</div>
 								</nav>
 							</div>	
 						
@@ -106,11 +78,9 @@
 								<nav class="sb-sidenav-menu-nested nav">
 										<a class="nav-link" href="<c:url value='/' />Admin/AdpReview.do">입양후기 게시판</a>
 										<a class="nav-link" href="<c:url value="/" />Admin/AdminBoard/sitterps">시터후기 게시판</a>
-										<a class="nav-link" href="layout-static.html">쇼핑몰후기 게시판</a>
+										<!-- <a class="nav-link" href="layout-static.html">쇼핑몰후기 게시판</a> -->
 										<a class="nav-link" href="<c:url value='/' />Admin/FaqList.do">FAQ 게시판</a>
 										<a class="nav-link" href="<c:url value='/' />Admin/qnaList.do">Q&amp;A 게시판</a>
-										<!-- <a class="nav-link" href="layout-static.html">약등록 게시판</a> -->
-										<!-- <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a> -->
 								</nav>
 						</div>
 
@@ -137,32 +107,12 @@
 														<a class="nav-link" href="<c:url value='/' />Admin/ShipLocInfo.do">배송내역</a>
 												</nav>
 										</div>
-											<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
-												환불
-												<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-										</a>
-										<div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-												<nav class="sb-sidenav-menu-nested nav">
-														<a class="nav-link" href="401.html">미정</a>
-														<a class="nav-link" href="404.html">미정</a>
-														<a class="nav-link" href="500.html">미정</a>
-												</nav>
-										</div>
 								</nav>
 							</div>
-						<div class="sb-sidenav-menu-heading">Data</div>
-						<a class="nav-link" href="charts.html">
-								<div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-								Charts
-						</a>
-						<a class="nav-link" href="tables.html">
-								<div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-								Tables
-						</a>
 				</div>
 		</div>
 		<div class="sb-sidenav-footer">
-				<div class="small">Logged in as:</div>
-				Start Bootstrap
+				<div class="small"></div>
+				
 		</div>
 </nav>

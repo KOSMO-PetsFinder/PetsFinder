@@ -1,0 +1,139 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+*{font-family: BM JUA_TTF;}
+</style>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" 
+   rel="stylesheet" 
+   integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" 
+   crossorigin="anonymous">
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>    
+<link rel="stylesheet" href="../jquery/jquery-ui.css">
+<script src="../jquery/jquery-ui.js"></script>
+<script>
+//WebSocketManager는 chat_id를 시터의 아이디에서 이제 관리자의 아이디로 바꾼다.
+//채팅창 오픈을 위한 함수 선언
+function chatWin(skin){
+		
+	//채팅 아이디(대화명)가 입력되었는지 확인한다. (시터)
+  var chat_id = document.getElementById("chat_id");
+	
+	
+	//아이디 입력상자의 DOM을 얻어온 후 value속성을 통해 입력된 값이 있는지 확인한다.
+	if(chat_id.value==''){
+	   alert('채팅 닉네임을 입력 후 채팅창을 열어주세요');
+	   chat_id.focus();
+	   return;
+	}
+
+	
+	//채팅창을 오픈한다. 먼저 채팅방 입력상자의 DOM을 얻어온다.	
+	var member_idx = document.getElementById("member_idx");
+	var member_id = document.getElementById("member_id");
+
+	
+	
+	//채팅방 아이디 만들기(room_시터회원_일반회원)
+	//var room_id = document.getElementById("chat_room");
+  var room_id = "room_"+chat_id.value+"_"+member_id.value
+  console.log(room_id);
+	
+  
+  //채팅창에서 왼쪽에 시터의 리스트들을 뽑아 오기 위해 현재 필요한거. 나중에는 세션에 저장되어 있기에 넘길 필요 없음. 
+	var sit_idx = document.getElementById("sit_idx");
+	
+	//스킨이 적용되지 않은 채팅창과 UI까지 적용된 창을 구분하여 오픈한다.   
+  window.open("WebChatManager.do?room_id="+room_id+"&chat_id="+chat_id.value+"&member_id="+member_id.value+"&member_idx="+member_idx.value+"&sit_idx="+sit_idx.value, "WebChat1","width=800,height=500");
+  
+}
+
+var selectBoxChange = function(value){
+	console.log("member_id값 변경테스트:"+value);
+	$("#member_id").val(value);
+}
+$(document).ready(function () {
+	$("#member_idSelect").change(function () {
+		
+		console.log("값변경테스트: "+ $(this).val());
+		$("#member_id").val($(this).val());
+	});
+	
+});
+</script>
+</head>
+<body>
+<div class="container">
+   <h2 >Pets Finder 채팅 (관리자와의 채팅)</h2>
+   <button type="button" class="btn btn-danger" onclick="location.href='../notifyForm.do'">신고하기</button>
+<c:choose>
+	<c:when test="${sessionScope.type eq 'sit' }">시터회원>></c:when>
+	<c:when test="${sessionScope.type eq 'nor' }">일반회원>></c:when>
+	<c:otherwise>관리자회원>></c:otherwise>
+</c:choose>
+   
+   <table border=1 cellpadding="10" cellspacing="0">       
+<c:choose>
+	<c:when test="${sessionScope.type eq 'mag' }">
+		<!-- 관리자회원일때.. -->
+		<tr>
+		   <td>My아이디</td>
+		   <td>
+		   	<!-- session에 저장되어 있는 값들 받아옴. -->
+		      <input type="text" id="chat_id" value="${ sessionScope.id}"/>            
+		      <input type="hidden" id="member_idx" value="${sessionScope.idx }"/>
+		      <input type="hidden" id="sit_idx" value="${sessionScope.sit_idx }"/>
+		   </td>
+		</tr>
+		<tr>
+		   <td>회원아이디</td>
+		   <td>
+		   		<!-- 관리자일때 회원들의 아이디를 가져오는 방법-->
+		      <input type="text" id="member_id" />
+		      <select id="member_idSelect" onchange="selectBoxChange(this.value);">
+		      	<option>선택해주세요</option>
+		      	<c:forEach var="memberLists" items="${memberLists }">
+		      		<option value="${memberLists }">${memberLists }</option>
+		      	</c:forEach>
+		      </select>
+		   </td>
+		</tr>	
+	</c:when>
+	<c:when test="${sessionScope.type eq 'nor' }">
+		<!-- 일반회원일때.. -->
+		<tr>
+		   <td>My아이디</td>
+		   <td>
+		   	<!-- session에 저장되어 있는 값들 받아옴. -->
+		      <input type="text" id="member_id" value="${ sessionScope.id}"/>            
+		      <input type="hidden" id="member_idx" value="${sessionScope.idx }"/>
+		      <input type="hidden" id="sit_idx" value="${sessionScope.sit_idx }"/>
+		   </td>
+		</tr>
+		<tr>
+		   <td>관리자아이디</td>
+		   <td>
+		   		<!-- 이것도 메인 페이지에서 관리자가 로그인 했을때 session 정보로 가져와야함 -->
+		      <input type="text" id="chat_id" value="petsfinder"/>
+		   </td>
+		</tr>	
+	</c:when>
+	<c:otherwise>시터 일때는 일단 보류</c:otherwise>
+</c:choose>
+      <tr>
+         <td colspan="2" style="text-align: center;">
+            <button type="button" onclick="chatWin('normal');"
+               class="btn btn-primary">채팅창 열기</button>
+         </td>
+      </tr>
+   </table>
+</div>
+</body>
+</html>

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>PetPlanet</title>
+<title>PetsFinder</title>
 <!-- UIkit JS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/css/uikit.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/js/uikit.min.js"></script>
@@ -112,35 +112,46 @@ input#ofile-button{
 <!-- Q&A -->
 <!-- 파일 입력시... 사용예정... enctype="multipart/form-data" -->
 <form action="./qnaeditAc" method="post" onsubmit="return checkForm(this);">
-	<input type="hid den" name="qna_stt" value="${editQnA.qna_stt }" />
-	<input type="hid den" name="member_idx" value="${sessionScope.idx }" />
+	<input type="hidden" name="qna_stt" value="${editQnA.qna_stt }" />
+	<input type="hidden" name="member_idx" value="${sessionScope.idx }" />
 	<input type="hidden" name="qna_idx" id="qna_idx" value="${editQnA.qna_idx }" />
 	<div id="Q&A" style="display: flex; justify-content: center;">
 		<div style="margin-top: 200px; border-top: 1px solid #cccccc; width: 1024px;">
 			<div style="display:flex; border-bottom: 1px solid #cccccc;">
 				<input id="title" name="qna_title" type="text" placeholder="제목을 입력하세요." style="font-size: 1.2em; width: 1000px; height: 52px; border: 0; margin: 0px 12px; padding: 1px 2px; outline: none; font-family: 'BM JUA_TTF';" value="${editQnA.qna_title }" />
 				<!-- <p style="width: 5%; margin-top: 15px;">비공개</p> -->
-				<%-- <input type="checkbox" id="input_check" name="qna_OPENSTATUS" value="${editQnA.qna_OPENSTATUS }" />
-				<input type="hidden" name="qna_OPENSTATUS" value=${editQnA.qna_OPENSTATUS } id="input_check_hidden" /> --%>
-				<c:if test="${editQnA.qna_OPENSTATUS eq 'pri' }" var="sts">
-				<div class="form-check form-switch">
-				  <input class="form-check-input"  type="checkbox" id="input_check1" name="qna_OPENSTATUS" value="pri" checked>
-				  <label class="form-check-label" for="input_check1" value="pub">비공개</label>
-				</div>
-				</c:if>
-				<c:if test="${not sts }">
-				<div class="form-check form-switch">
-				  <input class="form-check-input" type="checkbox" id="input_check2" name="qna_OPENSTATUS" value="pri">
-				  <label class="form-check-label" for="input_check2" value="pub" checked>비공개</label>
-				</div>
-				</c:if>
+				<script>
+					function check${editQnA.qna_idx }(){
+						var test = $("#input_check1").is(":checked"); 
+						if(test == true) {
+							$("#input_check1").attr("checked", true);
+							$("#input_check1").val("pri");
+							console.log($("#input_check1").val());
+							alert("pri");
+							
+						}
+						else {
+							$("#input_check1").attr("checked", false);
+							$("#input_check1").val("pub");
+							console.log($("#input_check1").val());
+							alert("pub");
+							
+						}
+						
+					}
+					</script>
+					<div class="form-check form-switch" style="margin-right:20px;">
+						<input class="form-check-input" type="checkbox" id="input_check1"
+							name="qna_OPENSTATUS" onclick="check${editQnA.qna_idx }();" value="${editQnA.qna_OPENSTATUS }"> 
+						<label class="form-check-label" for="input_check1" style="width:40px;">비공개</label>
+					</div>
 			</div>
 			<div style="border-bottom: 1px solid #cccccc; padding-bottom: 20px; background-color: #fcfcfc;">
 				<textarea id="content" name="qna_content" placeholder="내용을 입력하세요." style="outline: none; margin-top: 20px; padding: 0 12px" onkeydown="resize(this)">${editQnA.qna_content }</textarea>
 				<div style="display: flex; justify-content: space-between; padding: 0 15px">
-					<div>
+					<!-- <div>
 						<input type="file" id="ofile" name="qna_photo" />
-					</div>
+					</div> -->
 				</div>
 			</div>
 			<div style="display: flex; justify-content: right; width: 1000px; margin-top: 50px">

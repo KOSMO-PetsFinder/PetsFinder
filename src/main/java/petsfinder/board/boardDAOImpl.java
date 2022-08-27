@@ -38,4 +38,8 @@ public interface boardDAOImpl {
 		public ArrayList<AdminDTO> qnalistview(int s, int e);
 		
 		public ArrayList<AdminDTO> qnaAll(int s, int e);
+		
+		public int pubtopri(int qna_idx);
+		public int pritopub(int qna_idx);
+		public AdminDTO opensts(int qna_idx);
 }

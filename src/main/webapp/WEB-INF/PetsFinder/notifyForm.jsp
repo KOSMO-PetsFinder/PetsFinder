@@ -141,36 +141,7 @@ var showError = function(error){
     }
 }
 </script>
-<script type="text/javascript">
-window.onload = function(){
-	if(window.Notification){
-		Notification.requestPermission();
-	}else{
-		alert("웹노티를 지원하지 않습니다.");
-	}
-}
-function calculate(){
-	setTimeout(function(){
-		notify();
-	}, 500);
-}
-function notify(){
-	if(Notification.permission != 'granted'){
-		alert('웹노티를 지원하지 않습니다.');
-	}else{
-		var notification = new Notification(
-			'신고가 들어왔습니다',
-			{
-				icon:https://img.freepik.com/premium-vector/siren-icon-emergency-and-ambulance-symbol-isolated-on-white-background_120819-435.jpg?w=2000
-				body: '유기동물 신고접수가 들어왔습니다.',
-			}
-		);
-		notification.onclick = function (){
-			window.open('http://localhost:8088/PetsFinder/Admin/reportList.do');
-		}
-	}
-}
-</script>
+
 </head>
 <body>
 <jsp:include page="./common/Header.jsp" />
@@ -319,6 +290,7 @@ onsubmit="return checkRepForm(this);">
 			<script type="text/javascript">
 				function reportSubmit() {
 					document.reportFrm.submit();
+					alert("신고 접수가 완료되었습니다.");
 				}
 			</script>
 			<div

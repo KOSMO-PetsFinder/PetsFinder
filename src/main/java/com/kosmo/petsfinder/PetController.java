@@ -52,7 +52,6 @@ public class PetController {
 		String pet_gender = req.getParameter("pet_gender");
 		String pet_kind = req.getParameter("pet_kind");
 		String pet_char = req.getParameter("pet_char");
-//		String pet_photo = req.getParameter("pet_photo");
 		String pet_species = req.getParameter("pet_species");
 		
 		

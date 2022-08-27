@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="petsfinder.websocket.WebChatDAOImpl">
+
+
+	<select id="webChatList" resultType="petsfinder.websocket.WebChatDTO">
+		select room_idx, room_id, member_idx, message, to_char(chat_time, 'mm/dd hh24:mi') chat_time,
+			 sender_id, receiver_id
+		from web_chat 
+		where room_id=#{room_id} 
+		order by room_idx asc
+	</select>
+	
+	
+		<!-- 내가 센더 혹은 리시버 일수 있으므로 내역이 있는 모든 항목을 가져온 후 그룹화하여 room_id를 추출한다. 
+		room_id는 "room_시터아이디_회원아이디" 로 구성되어있다. -->
+	<select id="roomName" resultType="petsfinder.websocket.WebChatDTO2" parameterType="petsfinder.websocket.WebChatDTO2">
+		select room_id from web_chat     
+		    where sender_id=#{member_id} or receiver_id=#{member_id}
+		    group by room_id 
+	</select>
+	
+	<insert id="webChatInsert" parameterType="petsfinder.websocket.WebChatDTO">
+		insert into web_chat 
+		(room_idx ,room_id, member_idx, message, 
+			chat_time, sender_id, receiver_id) 
+		values (SEQ_web_chat_room_idx.nextval, #{room_id}, #{member_idx}, #{message}, 
+			sysdate, #{sender_id}, #{receiver_id})
+	</insert>
+	
+	
+	<select id="memberLists" resultType="String">
+		select member_id from member where member_type ='nor'
+	</select>
+	
+	<select id="SmemberLists" resultType="String">
+		select member_id from member m
+			inner join sit_book sb
+			on m.member_idx = sb.member_idx
+			where m.member_type = 'nor'
+	</select>
+
+</mapper>

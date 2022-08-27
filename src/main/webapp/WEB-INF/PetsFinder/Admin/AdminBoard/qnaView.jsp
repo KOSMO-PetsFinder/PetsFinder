@@ -14,94 +14,96 @@
 </head>
 <style>
 * {
-   font-family: 'BM JUA_TTF', sans-serif;
+   font-family: SpoqaHanSans, 'BM JUA_TTF', sans-serif;
 }
 </style>
 <script type="text/javascript">
 function deletecomm(qnacomm_idx) {
-	if(confirm("정말로 삭제하시겠습니까?")){
-		location.href="<c:url value='/' />deletecomm?qnacomm_idx="+qnacomm_idx;
-	}
+   if(confirm("정말로 삭제하시겠습니까?")){
+      location.href="<c:url value='/' />deletecomm?qnacomm_idx="+qnacomm_idx;
+   }
 }
 </script>
 <body>
 <jsp:include page="../common/topHeader.jsp"></jsp:include>
 <div id="layoutSidenav">
-	<div id="layoutSidenav_nav">
-	<jsp:include page="../common/leftHeader.jsp"></jsp:include>
-	</div>
-	<div id="layoutSidenav_content" style="text-align: center;">
-		<div class="container">
-			<h2 style="margin-top: 40px;">QNA 게시판 상세보기 - 관리자</h2>
-			<%-- <input type="hidden" name="searchColumn" value=${viewRow.pagingImg } />  --%>
-			<table class="table table-boardered" width=90% style="text-align: left; margin-top: 50px">
-				<tr>
-					<th>질문번호</th>
-					<td>${qnaView.qna_idx }</td>
-					<th>작성자</th>
-					<td>${qnaView.member_name }</td>
-					<th>등록일</th>
-					<td>${qnaView.qna_regdate }</td>				
-				</tr>
-				<tr>
-					<th>처리상태</th>
-					<c:if test="${qnaView.qna_stt eq 'Inc' }">
-					<td>답변미완료</td>		
-					</c:if>
-					<c:if test="${qnaView.qna_stt  eq 'com' }">
-					<td>답변완료</td>		
-					</c:if>	
-					<th>공개여부</th>
-					<c:if test="${qnaView.qna_OPENSTATUS eq 'pub' }">
-					<td>공개</td>		
-					</c:if>	
-					<c:if test="${qnaView.qna_OPENSTATUS eq 'pri' }">
-					<td>비공개</td>		
-					</c:if>	
-					<th>회원번호</th>
-					<td>${qnaView.member_idx }</td>
-				</tr>
-				<tr>
-					<th>제목</th>
-					<td colspan="10">
-						${qnaView.qna_title }
-					</td>
-				</tr>
-				<tr>
-					<th>내용</th>
-					<td colspan="10" style="height:150px;">
-						${qnaView.qna_content }
-					</td>
-				</tr>
-				<tr>
-					<th>답글내용</th>
-					<td colspan="10" style="height:150px;">
-					${qnaView1.qnacomm_content }
-					<button style="float: right; margin-right: 50px;" class="btn btn-danger btn-sm"
-					onclick="javascript:deletecomm(${qnaView1.qnacomm_idx});">삭제</button>
-					<button style="float: right; margin-right: 50px;" class="btn btn-success btn-sm"
-					onclick="location.href='<c:url value='/' />modifycomm?qna_idx=${qnaView.qna_idx}';">수정</button>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="10" align="center">	
-					<button type="button" 
-		            onclick="location.href='<c:url value='/' />Admin/qnaList.do';">리스트보기</button>
-		            <button type="button" 
-		            onclick="location.href='<c:url value='/' />qnacomment?qna_idx=${qnaView.qna_idx}';">답글달기</button>
-					</td>
-				</tr>
-			</table>
-			</div>
-		</div>
+   <div id="layoutSidenav_nav">
+   <jsp:include page="../common/leftHeader.jsp"></jsp:include>
+   </div>
+   <div id="layoutSidenav_content" style="text-align: center;">
+      <div class="container">
+         <h2 style="margin-top: 40px;">QNA 게시판 상세보기 - 관리자</h2>
+         <%-- <input type="hidden" name="searchColumn" value=${viewRow.pagingImg } />  --%>
+         <table class="table table-boardered" width=90% style="text-align: left; margin-top: 50px">
+            <tr>
+               <th>질문번호</th>
+               <td>${qnaView.qna_idx }</td>
+               <th>작성자</th>
+               <td>${qnaView.member_name }</td>
+               <th>등록일</th>
+               <td>${qnaView.qna_regdate }</td>            
+            </tr>
+            <tr>
+               <th>처리상태</th>
+               <c:if test="${qnaView.qna_stt eq 'Inc' }">
+               <td>답변미완료</td>      
+               </c:if>
+               <c:if test="${qnaView.qna_stt  eq 'com' }">
+               <td>답변완료</td>      
+               </c:if>   
+               <th>공개여부</th>
+               <c:if test="${qnaView.qna_OPENSTATUS eq 'pub' }">
+               <td>공개</td>      
+               </c:if>   
+               <c:if test="${qnaView.qna_OPENSTATUS eq 'pri' }">
+               <td>비공개</td>      
+               </c:if>   
+               <th>회원번호</th>
+               <td>${qnaView.member_idx }</td>
+            </tr>
+            <tr>
+               <th>제목</th>
+               <td colspan="10">
+                  ${qnaView.qna_title }
+               </td>
+            </tr>
+            <tr>
+               <th>내용</th>
+               <td colspan="10" style="height:150px;">
+                  ${qnaView.qna_content }
+               </td>
+            </tr>
+            <tr>
+               <th>답글내용</th>
+               <td colspan="10" style="height:150px;">
+               ${qcv.qnacomm_content }
+               <c:if test="${not empty qcv.qnacomm_content }">
+               <button style="float: right; margin-right: 50px;" class="btn btn-danger btn-sm"
+               onclick="javascript:deletecomm(${qcv.qnacomm_idx});">삭제</button>
+               <button style="float: right; margin-right: 50px;" class="btn btn-success btn-sm"
+               onclick="location.href='<c:url value='/' />modifycomm?qna_idx=${qnaView.qna_idx}';">수정</button>
+               </c:if>
+               </td>
+            </tr>
+            <tr>
+               <td colspan="10" align="center">   
+               <button type="button" 
+                  onclick="location.href='<c:url value='/' />Admin/qnaList.do';">리스트보기</button>
+                  <button type="button" 
+                  onclick="location.href='<c:url value='/' />qnacomment?qna_idx=${qnaView.qna_idx}';">답글달기</button>
+               </td>
+            </tr>
+         </table>
+         </div>
+      </div>
 </div>
 <!-- footer -->
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-	<script src="<c:url value='/'/>jsAdmin/scripts.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-	<script src="<c:url value='/'/>assetsAdmin/demo/chart-area-demo.js"></script>
-	<script src="<c:url value='/'/>assetsAdmin/demo/chart-bar-demo.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-	<script src="<c:url value='/'/>jsAdmin/datatables-simple-demo.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+   <script src="<c:url value='/'/>jsAdmin/scripts.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+   <script src="<c:url value='/'/>assetsAdmin/demo/chart-area-demo.js"></script>
+   <script src="<c:url value='/'/>assetsAdmin/demo/chart-bar-demo.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+   <script src="<c:url value='/'/>jsAdmin/datatables-simple-demo.js"></script>
 </body>
 </html>

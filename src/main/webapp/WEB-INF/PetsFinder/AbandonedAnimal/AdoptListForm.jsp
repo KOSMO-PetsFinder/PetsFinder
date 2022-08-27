@@ -258,6 +258,14 @@
 			</c:if>	
 				<a href="./adoptView.do?abani_idx=${row.abani_idx }" target="_blank" style="margin-right: 14px; width: 245px;">
 	            <div>
+		            <div style="display: inline-block; margin-left:auto;  float: right; margin-bottom: 10px">
+	                  <c:if test="${row.abani_stat eq 'adopt'  }">
+	                  <span class="badge bg-success" style="font-size: 15px;">입양완료</span>
+	                  </c:if>
+	                  <c:if test="${row.abani_stat eq 'prtct'  }">
+	                  <span class="badge bg-danger" style="font-size: 15px;">보호중</span>
+	                  </c:if>
+	               </div>
 	              <div style="width: 245px; height: 170px; border-radius: 3px">
 	                <img src="<c:url value="/" />Uploads/${ row.abani_photo }" alt="아이 사진" style="width: 245px; height: 170px; border-radius: 3px">
 	              </div>

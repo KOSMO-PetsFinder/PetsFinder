@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
    <!-- jQuery -->
+   
    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>    
    <script src="https://kit.fontawesome.com/54b3b8eebf.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -373,6 +374,44 @@
         }
     }
     
+    function distanceArray() {
+    	var path = window.location.href;
+        var distance = document.getElementById('distance');
+        if (distance.style.color == 'rgb(170, 170, 170)') {
+        	if(path == 'http://localhost:8088/PetsFinder/Petsitters/sitterlist?') {
+		        location.href += 'dt=1'
+        	} else if (path == 'http://localhost:8088/PetsFinder/Petsitters/sitterlist') {
+        		location.href += '?dt=1'
+        	} else {
+        		location.href += '&dt=1'
+        	}
+        } else {
+        	if(path.indexOf('http://localhost:8088/PetsFinder/Petsitters/sitterlist?dt=1') != -1 ) {
+        		console.log(path.indexOf('dt=1&'))
+	            var front = path.substr(0, path.indexOf('dt=1&'))
+	            console.log(front)
+	            var back = path.substring(path.indexOf('dt=1&') + 5, path.length)
+	            console.log(back)
+	            location.href = front + back
+	            if (path == 'http://localhost:8088/PetsFinder/Petsitters/sitterlist?dt=1') {
+	            	console.log(path.indexOf('dt=1'))
+		            var front = path.substr(0, path.indexOf('dt=1'))
+		            console.log(front)
+		            var back = path.substring(path.indexOf('dt=1') + 4, path.length)
+		            console.log(back)
+		            location.href = front + back
+	            }
+        	} else {
+	        	console.log(path.indexOf('&dt=1'))
+	            var front = path.substr(0, path.indexOf('&dt=1'))
+	            console.log(front)
+	            var back = path.substring(path.indexOf('&dt=1') + 5, path.length)
+	            console.log(back)
+	            location.href = front + back
+        	}
+        }
+    }
+    
     window.onload = function() {
         	
 	    if ('${ param.np }' == 1) {
@@ -396,6 +435,9 @@
 	    if ('${ param.st }' == 1) {
 	    	$('#star').css({color : '#75c9ba'})
 	    }
+	    if ('${ param.dt }' == 1) {
+	    	$('#distance').css({color : '#75c9ba'})
+	    }
 	}
 
     </script>
@@ -418,6 +460,9 @@
 	            "oc" : '${ param.oc }',
 	            "pr" : '${ param.pr }',
 	            "st" : '${ param.st }',
+	            "dt" : '${ param.dt }',
+	            "lat" : '${ param.lat }',
+	            "lon" : '${ param.lon }',
 	            "count" : $('#typtagCount').val(),
          	},
        		dataType : 'json',
@@ -482,7 +527,9 @@
       });
    };
    </script>
-    
+    <!-- Zipcode -->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
     <!-- main_menu -->
     <input type="hidden" id="nowPage" value="${ nowPage }" name="nowPage" />
     <input type="hidden" id="total" value="${ total }" name="total" />
@@ -494,11 +541,12 @@
           어디에 사시나요?
           <div  style="width: 475px; height: 59px; display: flex; align-items: center; border: 1px solid #cccccc; padding: 0 24px 0 17px; margin-top:27px; padding: 0 24px 0 17px">
             <div>
-              <button type="button" style="border: 0; background: none"><i class="fa-solid fa-magnifying-glass"></i></button>
+              <button onclick="distanceSort();" type="button" style="border: 0; background: none"><i class="fa-solid fa-magnifying-glass"></i></button>
             </div>
             <div>
               <input
-                id=""
+                id="zipcode"
+                name="zipcode"
                 type="text"
                 placeholder="동 이름을 검색하세요 (예. 논현동)"
                 style="width: 350px; height: 52px; border: 0; margin: 0px 12px; padding: 1px 2px"
@@ -580,7 +628,7 @@
                                       <div
                                           style="display: flex; justify-content: space-between; width: 203px; align-items: center;">
                                           <p
-                                              style="font-size: 14px; color: rgb(170, 170, 170); cursor: pointer; " id="">
+                                              style="font-size: 14px; color: rgb(170, 170, 170); cursor: pointer; " id="distance" onclick="distanceArray();">
                                               가까운순</p>
                                           <p
                                               style="font-size: 14px; color: rgb(170, 170, 170); cursor: pointer;" id="star" onclick="starArray();">
@@ -686,6 +734,54 @@
         </div>
     </div>
     <style data-styled="active" data-styled-version="5.1.1"></style>
+    <!-- 거리순 정렬 -->
+<script>
+//주소 받아오기
+$(function() {
+  $("#zipcode").click(()=>{
+    new daum.Postcode({
+        oncomplete: function(data) {
+            $('#zipcode').val(data.address);
+        }
+    }).open();
+  });
+})
+function distanceSort() {
+	var lat ="";
+	var lon ="";
+	var addr = document.getElementById("zipcode").value;
+	console.log(addr);
+	if(addr=="") {
+		console.log("없음");
+		
+	}else {
+		console.log("있음");
+		// 주소로 좌표를 검색합니다
+		geocoder.addressSearch(addr, function(result, status) {
+
+		    // 정상적으로 검색이 완료됐으면 
+		     if (status === kakao.maps.services.Status.OK) {
+
+		        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+				lat = result[0].y;
+				lon = result[0].x;
+				console.log("lan : "+ lat);
+				console.log("lon : "+ lon);
+				location.href="<c:url value='/' />Petsitters/sitterlist?lat=" + lat + "&lon=" + lon;
+		    } 
+		});  
+	}
+}
+</script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c07dc33edcd9e5930b5838c2ae1fcaf7&libraries=services"></script>
+<script>
+
+
+// 주소-좌표 변환 객체를 생성합니다
+var geocoder = new kakao.maps.services.Geocoder();
+
+
+</script>
 </body>
 
 </html>

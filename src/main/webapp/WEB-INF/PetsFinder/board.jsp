@@ -21,7 +21,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <!-- icon -->
 <script src="https://kit.fontawesome.com/54b3b8eebf.js" crossorigin="anonymous"></script>
-<title>PetPlanet</title>
+<title>PetsFinder</title>
 </head>
 <body>
 <style>
@@ -170,6 +170,8 @@ function deleteqna(qna_idx){
 	    </a>
     </div>
 </div>
+
+
 <!-- QnA -->
 <div style="display: flex; justify-content: center; margin-left: -250px">
 	<!-- Qna -->

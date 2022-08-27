@@ -30,6 +30,9 @@ public class BoardController {
 	@RequestMapping("/board")
 	public String board(Model model, HttpServletRequest req,HttpSession session) {
 		
+		
+		
+		
 		ParameterDTO parameterDTO = new ParameterDTO();
 		int totalRecordCount = sqlSession.getMapper(boardDAOImpl.class).getTotalCountSearch(parameterDTO);
 		
@@ -109,8 +112,10 @@ public class BoardController {
 	@RequestMapping("/editqna")
 	public String editqna(Model model, HttpServletRequest req, AdminDTO adminDTO) {
 		
+		String qna_OPENSTATUS = req.getParameter("qna_OPENSTATUS");
 		int qna_idx = Integer.parseInt(req.getParameter("qna_idx"));
 		adminDTO.setQna_idx(qna_idx);
+		adminDTO.setQna_OPENSTATUS(qna_OPENSTATUS);
 		
 		AdminDTO editQnA = sqlSession.getMapper(boardDAOImpl.class).viewQnA(adminDTO);
 		
@@ -123,7 +128,16 @@ public class BoardController {
 	public String qnaAction(HttpServletRequest req, AdminDTO adminDTO){
 		
 		sqlSession.getMapper(boardDAOImpl.class).editQnA(adminDTO);
+		int qna_idx = Integer.parseInt(req.getParameter("qna_idx"));
 		
+		AdminDTO dto = sqlSession.getMapper(boardDAOImpl.class).opensts(qna_idx);
+		if(dto != null) {
+			if(dto.getQna_OPENSTATUS()=="pri") {
+				sqlSession.getMapper(boardDAOImpl.class).pritopub(qna_idx);
+			}else {
+				sqlSession.getMapper(boardDAOImpl.class).pubtopri(qna_idx);
+			}
+		}
 		return "redirect:./board";
 	}
 	
@@ -168,4 +182,20 @@ public class BoardController {
 
 		return "/notBoardlist";
 	}
+//	@RequestMapping(value = "/boardstschange")
+//	public String changests(AdminDTO adminDTO, HttpServletRequest req) {
+//		int qna_idx = Integer.parseInt(req.getParameter("qna_idx"));
+//		
+//		AdminDTO dto = sqlSession.getMapper(boardDAOImpl.class).opensts(qna_idx);
+//		if(dto != null) {
+//			if(dto.getQna_OPENSTATUS()=="pri") {
+//				sqlSession.getMapper(boardDAOImpl.class).pritopub(qna_idx);
+//			}else {
+//				sqlSession.getMapper(boardDAOImpl.class).pubtopri(qna_idx);
+//			}
+//		}
+//		
+//		return "redirect:./editqna?qna_idx="+qna_idx;
+//	}
+	
 }

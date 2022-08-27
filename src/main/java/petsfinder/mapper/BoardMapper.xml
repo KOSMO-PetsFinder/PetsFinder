@@ -75,5 +75,23 @@
 where rnum between #{param1} and #{param2}
 </select>
 
+
+	<!-- 비공개 유무 확인 -->
+	<select id="opensts" resultType="petsfinder.admin.AdminDTO"
+	parameterType="petsfinder.review.ReviewLikeDTO">
+		select qna_OPENSTATUS from qna_board where qna_idx = #{qna_idx}
+	</select>
+	
+	<!-- 비공개 pri->pub -->
+	<update id="pritopub" parameterType="petsfinder.admin.AdminDTO">
+		update qna_board set qna_OPENSTATUS = 'pub' where qna_idx = #{qna_idx}
+	</update>
+	
+	<!-- 비공개 pub->pri -->
+	<update id="pubtopri" parameterType="petsfinder.admin.AdminDTO">
+		update qna_board set qna_OPENSTATUS = 'pri' where qna_idx = #{qna_idx}
+	</update>
+	
+	
  </mapper>
 

@@ -223,91 +223,123 @@
 
 	<!-- 리스트 -->
 	
-	<!-- 리스트 더보기 & 예약 날짜 조회  & 태그 조회 -->
-	<select id="petsitterList" resultType="petsfinder.petsitter.PetSitterDTO" parameterType="petsfinder.petsitter.ParameterDTO">
-		SELECT * FROM (
-			SELECT 
-				a.*, rownum rNum
-			FROM (
-			    SELECT
-			        s.*, sitphoto_idx, sitphoto_photo, NVL(sit_starpoint / DECODE(sit_starcount, 0, NULL, sit_starcount), 0) star
-			    FROM
-			        sitter s 
-			    FULL OUTER JOIN (
-			    	SELECT 
-			    		* 
-			    	FROM
-			    		sitter_photo 
-			    	WHERE
-			    		sitphoto_idx 
-			    	IN (
-			    		SELECT
-			    			min(sitphoto_idx) 
-			    		FROM
-			    			sitter_photo 
-			    		GROUP BY sit_idx
-			    	)
-			    ) sp 
-			    ON 
-			        s.sit_idx = sp.sit_idx
-	        <if test="(sbook_start1 != null and sbook_end1 != null) or (typtag != null and !typtag.isEmpty())">
-			    WHERE
-			        s.sit_idx NOT IN (
-			            SELECT
-			                sit_idx
-			            FROM
-			                sit_book 
-			            WHERE (
-			                (sbook_start <![CDATA[<=]]> #{ sbook_start1 } AND sbook_end <![CDATA[>]]> #{ sbook_start2 }) 
-				            OR 
-				            (sbook_start <![CDATA[<]]> #{ sbook_end1 } AND sbook_end <![CDATA[>=]]> #{ sbook_end2 })
-				            ) and sbook_status not in ('can')
-			        ) 
-				<if test="typtag != null and !typtag.isEmpty()">
-			        AND s.sit_idx IN (
-		                SELECT
-		                    sit_idx 
-		                FROM (
-		                    SELECT
-		                        sit_idx, count(sit_idx) 
-		                    FROM (
-		                        SELECT 
-		                            sit_idx 
-		                        FROM
-		                            sitter_tag 
-				                WHERE
-				                    typtag_idx 
-				                IN 
-	                            <foreach collection="typtag" item="item" index="index" open="(" close=")" separator=",">
-                                	#{ item }
-                            	</foreach>
-		                    ) 
-		                    GROUP BY
-		                        sit_idx 
-		                    HAVING
-		                        count(sit_idx) = #{ count }
-		                )
-		            )
+<!-- 리스트 더보기 & 예약 날짜 조회  & 태그 조회 -->
+   <select id="petsitterList" resultType="petsfinder.petsitter.PetSitterDTO" parameterType="petsfinder.petsitter.ParameterDTO">
+      SELECT * FROM (
+         SELECT 
+            a.*, rownum rNum
+         FROM (
+	             SELECT
+	                 s.*, sitphoto_idx, sitphoto_photo, NVL(sit_starpoint / DECODE(sit_starcount, 0, NULL, sit_starcount), 0) star
+	                 <if test="lat != null and lon != null">
+	                 , (6371 * acos(cos(CAST(s.SIT_LATITUDE AS FLOAT) * ROUND(3.141592653589793,4) / 180.0) * 
+	                    cos(#{lat} * ROUND(3.141592653589793,6) / 180.0) * 
+	                    cos((#{lon} * ROUND(3.141592653589793,6) / 180.0) - 
+	                    (CAST(s.SIT_LONGTITUDE AS FLOAT) * ROUND(3.141592653589793,6) / 180.0)) + 
+	                    sin(CAST(s.SIT_LATITUDE AS FLOAT) * ROUND(3.141592653589793,6) / 180.0)* 
+	                    sin(#{lat} * ROUND(3.141592653589793,6) / 180.0))) as distance
+	                    </if>
+	                 <if test="lat == null or lon == null">
+	                 , (6371 * acos(cos(CAST(s.SIT_LATITUDE AS FLOAT) * ROUND(3.141592653589793,4) / 180.0) * 
+	                    cos(37.478763 * ROUND(3.141592653589793,6) / 180.0) * 
+	                    cos((126.878790 * ROUND(3.141592653589793,6) / 180.0) - 
+	                    (CAST(s.SIT_LONGTITUDE AS FLOAT) * ROUND(3.141592653589793,6) / 180.0)) + 
+	                    sin(CAST(s.SIT_LATITUDE AS FLOAT) * ROUND(3.141592653589793,6) / 180.0)* 
+	                    sin(37.478763 * ROUND(3.141592653589793,6) / 180.0))) as distance
+	                    </if>
+	             FROM
+	                 sitter s 
+             FULL OUTER JOIN (
+                SELECT 
+                   * 
+                FROM
+                   sitter_photo 
+                WHERE
+                   sitphoto_idx 
+                IN (
+                   SELECT
+                      min(sitphoto_idx) 
+                   FROM
+                      sitter_photo 
+                   GROUP BY sit_idx
+                )
+             ) sp 
+             ON 
+                 s.sit_idx = sp.sit_idx
+           <if test="(sbook_start1 != null and sbook_end1 != null) or (typtag != null and !typtag.isEmpty())">
+             WHERE
+                 s.sit_idx NOT IN (
+                     SELECT
+                         sit_idx
+                     FROM
+                         sit_book 
+                     WHERE (
+                         (sbook_start <![CDATA[<=]]> #{ sbook_start1 } AND sbook_end <![CDATA[>]]> #{ sbook_start2 }) 
+                        OR 
+                        (sbook_start <![CDATA[<]]> #{ sbook_end1 } AND sbook_end <![CDATA[>=]]> #{ sbook_end2 })
+                        ) and sbook_status not in ('can')
+                 ) 
+            <if test="typtag != null and !typtag.isEmpty()">
+                 AND s.sit_idx IN (
+                      SELECT
+                          sit_idx 
+                      FROM (
+                          SELECT
+                              sit_idx, count(sit_idx) 
+                          FROM (
+                              SELECT 
+                                  sit_idx 
+                              FROM
+                                  sitter_tag 
+                            WHERE
+                                typtag_idx 
+                            IN 
+                               <foreach collection="typtag" item="item" index="index" open="(" close=")" separator=",">
+                                   #{ item }
+                               </foreach>
+                          ) 
+                          GROUP BY
+                              sit_idx 
+                          HAVING
+                              count(sit_idx) = #{ count }
+                      )
+                  )
                 </if>
-			</if>
-			<if test="price != null and price == 1">
-				ORDER BY s_fee ASC
-				<if test="star != null and star == 1">
-				, star DESC
-				</if>
-			</if>
-			<if test="price == null or price != 1">
-				<if test="star != null and star == 1">
-					ORDER BY star DESC
-				</if>
-				<if test="star == null and star != 1">
-					ORDER BY s.sit_idx DESC
-				</if>
-			</if>
-		    ) a
-		)
-		WHERE rNum BETWEEN #{ start } AND #{ end }
-	</select>
+         </if>
+         <if test="price != null and price == 1">
+            ORDER BY s_fee ASC
+            <if test="star != null and star == 1">
+            , star DESC
+               <if test="distance != null and distance == 1">
+                , distance asc
+               </if>
+            </if>
+            <if test="star == null or star != 1">
+               <if test="distance != null and distance == 1">
+                , distance asc
+               </if>
+            </if>
+         </if>
+         <if test="price == null or price != 1">
+            <if test="star != null and star == 1">
+               ORDER BY star DESC
+               <if test="distance != null and distance == 1">
+                , distance asc
+               </if>
+            </if>
+            <if test="star == null or star != 1">
+               <if test="distance != null and distance == 1">
+                ORDER BY distance asc
+               </if>
+               <if test="distance == null or distance != 1">
+                ORDER BY s.sit_idx desc
+               </if>
+            </if>
+         </if>
+          ) a
+      )
+      WHERE rNum BETWEEN #{ start } AND #{ end }
+   </select>
 
 	<!-- 예약 날짜 조회 시 & 태그 조회 시 전체 개수 -->
 	<select id="searchCount" resultType="int" parameterType="petsfinder.petsitter.ParameterDTO">

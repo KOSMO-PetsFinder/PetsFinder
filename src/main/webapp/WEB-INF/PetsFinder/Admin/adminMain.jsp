@@ -82,46 +82,10 @@
 											<li class="breadcrumb-item active">Pets Finder Admin Page</li>
 									</ol>
 									<div class="row">
-											<div class="col-xl-3 col-md-6">
-													<div class="card bg-primary text-white mb-4">
-															<div class="card-body">Primary Card</div>
-															<div class="card-footer d-flex align-items-center justify-content-between">
-																	<a class="small text-white stretched-link" href="#">View Details</a>
-																	<div class="small text-white"><i class="fas fa-angle-right"></i></div>
-															</div>
-													</div>
-											</div>
-											<div class="col-xl-3 col-md-6">
-													<div class="card bg-warning text-white mb-4">
-															<div class="card-body">Warning Card</div>
-															<div class="card-footer d-flex align-items-center justify-content-between">
-																	<a class="small text-white stretched-link" href="#">View Details</a>
-																	<div class="small text-white"><i class="fas fa-angle-right"></i></div>
-															</div>
-													</div>
-											</div>
-											<div class="col-xl-3 col-md-6">
-													<div class="card bg-success text-white mb-4">
-															<div class="card-body">Success Card</div>
-															<div class="card-footer d-flex align-items-center justify-content-between">
-																	<a class="small text-white stretched-link" href="#">View Details</a>
-																	<div class="small text-white"><i class="fas fa-angle-right"></i></div>
-															</div>
-													</div>
-											</div>
-											<div class="col-xl-3 col-md-6">
-													<div class="card bg-danger text-white mb-4">
-															<div class="card-body">Danger Card</div>
-															<div class="card-footer d-flex align-items-center justify-content-between">
-																	<a class="small text-white stretched-link" href="#">View Details</a>
-																	<div class="small text-white"><i class="fas fa-angle-right"></i></div>
-															</div>
-													</div>
-											</div>
 									</div>
 									<!-- ** Wonjae ** 데이터 그래프 부분 -->
 									<div class="row">
-											<div class="col-xl-6">
+											<div class="col-xl-12">
 													<div class=" mb-4" style="border: 1px solid #cccccc; border-radius: 5px">
 															<div class="card-header">
 																	<i class="fas fa-chart-area me-1"></i>
@@ -130,21 +94,21 @@
 															<div id="curve_chart" style="width: 100%; height: 340px"></div>
 													</div>
 											</div>
-											<div class="col-xl-6">
+											<%-- <div class="col-xl-6">
 													<div class="card mb-4">
 															<div class="card-header">
 																	<i class="fas fa-chart-bar me-1"></i>
-																	Bar Chart Example
+																	유기동물 구조 현황
 															</div>
 															
 															<div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
 													</div>
-											</div>
+											</div> --%>
 									</div>
 									<div class="card mb-4">
 											<div class="card-header">
 													<i class="fas fa-table me-1"></i>
-													DataTable Example
+													PetsFinder 사원 목록
 											</div>
 											<div class="card-body">
 													<table id="datatablesSimple">
@@ -170,60 +134,60 @@
 															</tfoot>
 															<tbody>
 																	<tr>
-																			<td>Tiger Nixon</td>
-																			<td>System Architect</td>
-																			<td>Edinburgh</td>
-																			<td>61</td>
-																			<td>2011/04/25</td>
-																			<td>$320,800</td>
+																			<td>채정우</td>
+																			<td>팀장</td>
+																			<td>강서구</td>
+																			<td>34</td>
+																			<td>2022/03/21</td>
+																			<td>5,000,000</td>
 																	</tr>
 																	<tr>
-																			<td>Garrett Winters</td>
-																			<td>Accountant</td>
-																			<td>Tokyo</td>
-																			<td>63</td>
-																			<td>2011/07/25</td>
-																			<td>$170,750</td>
+																			<td>임도형</td>
+																			<td>부팀장</td>
+																			<td>경기도 부천시</td>
+																			<td>31</td>
+																			<td>2022/03/21</td>
+																			<td>5,000,000</td>
 																	</tr>
 																	<tr>
-																			<td>Ashton Cox</td>
-																			<td>Junior Technical Author</td>
-																			<td>San Francisco</td>
-																			<td>66</td>
-																			<td>2009/01/12</td>
-																			<td>$86,000</td>
+																			<td>서영은</td>
+																			<td>부팀장</td>
+																			<td>경기도 안양시</td>
+																			<td>27</td>
+																			<td>2022/03/21</td>
+																			<td>5,000,000</td>
 																	</tr>
 																	<tr>
-																			<td>Cedric Kelly</td>
-																			<td>Senior Javascript Developer</td>
-																			<td>Edinburgh</td>
-																			<td>22</td>
-																			<td>2012/03/29</td>
-																			<td>$433,060</td>
+																			<td>김은아</td>
+																			<td>팀원(발표자)</td>
+																			<td>경기도 수원시</td>
+																			<td>28</td>
+																			<td>2022/03/21</td>
+																			<td>5,000,000</td>
 																	</tr>
 																	<tr>
-																			<td>Airi Satou</td>
-																			<td>Accountant</td>
-																			<td>Tokyo</td>
-																			<td>33</td>
-																			<td>2008/11/28</td>
-																			<td>$162,700</td>
+																			<td>오승헌</td>
+																			<td>팀원</td>
+																			<td>인천시 청라</td>
+																			<td>30</td>
+																			<td>2022/03/21</td>
+																			<td>5,000,000</td>
 																	</tr>
 																	<tr>
-																			<td>Brielle Williamson</td>
-																			<td>Integration Specialist</td>
-																			<td>New York</td>
-																			<td>61</td>
-																			<td>2012/12/02</td>
-																			<td>$372,000</td>
+																			<td>유택수</td>
+																			<td>팀원</td>
+																			<td>금천구 독산동</td>
+																			<td>30</td>
+																			<td>2022/03/21</td>
+																			<td>5,000,000</td>
 																	</tr>
 																	<tr>
-																			<td>Herrod Chandler</td>
-																			<td>Sales Assistant</td>
-																			<td>San Francisco</td>
-																			<td>59</td>
-																			<td>2012/08/06</td>
-																			<td>$137,500</td>
+																			<td>이원재</td>
+																			<td>팀원(발표자)</td>
+																			<td>인천시 송도</td>
+																			<td>30</td>
+																			<td>2022/03/21</td>
+																			<td>5,000,000</td>
 																	</tr>
 																	<tr>
 																			<td>Rhona Davidson</td>

@@ -480,13 +480,13 @@
 																								$('#like_check${sr.review_idx}').val('1');
 																								$('#like_img${sr.review_idx}').attr('src', "../images/heart_o.png");
 																								var val01 = $('#like_num${sr.review_idx}').val();
+																											}
+																							else {
+																								console.log("minus");
 																								var val02 = parseInt(val01) + 1;
 																								$('#like_num${sr.review_idx}').val(val02);
 
-																							}
-																							else {
-																								console.log("minus");
-																								$('#like_check${sr.review_idx}').val('0');
+																				$('#like_check${sr.review_idx}').val('0');
 																								$('#like_img${sr.review_idx}').attr('src', "../images/heart_x.png");
 																								var val01 = $('#like_num${sr.review_idx}').val();
 																								var val02 = parseInt(val01) - 1;

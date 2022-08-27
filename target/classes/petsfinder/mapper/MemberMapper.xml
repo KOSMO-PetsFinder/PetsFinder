@@ -104,7 +104,7 @@
 	<select id="m_Reserve" resultType="petsfinder.petsitter.PetSitterDTO">
 		SELECT 
 		    sbook_idx, sb.sit_idx, sbook_date, to_char(sbook_start, 'yyyy-mm-dd') sbook_start, to_char(sbook_end, 'yyyy-mm-dd') sbook_end,
-		    sbook_status, p_celldata, totalprice, review_check, sb.member_idx member_idx, member_name, sit_addr
+		    sbook_status, p_celldata, totalprice, review_check, sb.member_idx member_idx, member_name, sit_addr, member_id
 		FROM 
 		    sit_book sb
 		INNER JOIN

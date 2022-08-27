@@ -55,7 +55,7 @@
   
   
   
-  <!-- 리액트 활용 공지사항 게시판 mapper이름이 안겹치도록 앞에 n 붙이자!-->
+<!-- 리액트 활용 공지사항 게시판 mapper이름이 안겹치도록 앞에 n 붙이자!-->
   <select id="nGetTotalCount" resultType="int" parameterType="petsfinder.admin.AdminParameterDTO">
       select count(*) from notice_board
    </select>
@@ -271,44 +271,53 @@
 		#{product_description}, SYSDATE, #{product_category}, #{product_stock})
 	</insert>
 	<!-- 상품 수정 -->
-	<update id="pdtmodify" parameterType="petsfinder.shop.ProductDTO">
-		update product set 
-			product_name=#{product_name},product_price=#{product_price},
-			product_description=#{product_description},product_category=#{product_category},
-			product_stock=#{product_stock} 
-		where product_idx=#{product_idx}
-	</update>
+   <update id="pdtmodify" parameterType="petsfinder.shop.ProductDTO">
+      update product set 
+         product_name=#{product_name},product_price=#{product_price},
+         product_description=#{product_description},product_category=#{product_category},
+         product_stock=#{product_stock} 
+      where product_idx=#{product_idx}
+   </update>
 	
 	<!-- 상품 사진 -->
 	<insert id="i_photo">
 		INSERT INTO product_image VALUES (SEQ_pdt_image_idx.nextval, #{ param1 }, (select max(product_idx) product_idx from product))
 	</insert>
 	
+	<update id="u_photo">
+		update product_image set pdt_image_file = #{param1} where product_idx = #{ param2 }
+	</update> 
+	
 	<delete id="d_photo">
 		DELETE FROM product_image WHERE pdt_image_idx = #{ pdt_image_idx }
 	</delete>
 	
 	  <!-- qna + 댓글-->
-	  
-	  <select id="qnaView1" resultType="petsfinder.admin.AdminDTO" parameterType="int">
-			select * from qna_comment
-				where qna_idx=#{ param1 }
-	  </select>
-	  
-	  <select id="commentlist" resultType="petsfinder.board.QnACommentDTO">
-	  	select * from qna_comment
-	  </select>
-	  
-	  <select id="qnaComment" resultType="petsfinder.board.QnACommentDTO">
-	  	select * from qna_comment where qnacomm_idx=#{qnacomm_idx }
-	  </select>
-	  
-	  <insert id="qnawriteac" parameterType="petsfinder.board.QnACommentDTO">
-	  	INSERT INTO qna_comment (
-	  		qnacomm_idx, qnacomm_content, qnacomm_regdate, qna_idx)
-	  	VALUES
-	  	(seq_qnacomm_idx.nextval, #{qnacomm_content}, sysdate, #{qna_idx})
-	  </insert>
+ <select id="qnaList_s" resultType="petsfinder.admin.AdminDTO">
+     select qna_idx, qna_title, qna_content, to_char(qna_regdate, 'yyyy-mm-dd')qna_regdate, qna_stt, qna_openstatus, member_idx from qna_board
+    order by qna_idx desc
+  </select>
+  
+<select id="qnaView_s" resultType="petsfinder.admin.AdminDTO">
+   select qna_idx, qna_title, qna_content, qna_regdate, qna_stt, qna_OPENSTATUS 
+      from qna_board q
+      inner join 
+       member m on q.member_idx = m.member_idx
+      where q.qna_idx=#{qna_idx}
+</select>
+  
+  <select id="qnacommentview" resultType="petsfinder.admin.AdminDTO" parameterType="int">
+      select * from qna_comment
+         where qna_idx=#{ param1 }
+  </select>
+  
+  <insert id="qnawriteac" parameterType="petsfinder.board.QnACommentDTO">
+     INSERT INTO qna_comment (
+        qnacomm_idx, qnacomm_content, qnacomm_regdate, qna_idx)
+     VALUES
+     (seq_qnacomm_idx.nextval, #{qnacomm_content}, sysdate, #{qna_idx})
+  </insert>
+  
 	  <!-- QnA답변 완료 -->
 	<update id="updatecom" parameterType="int">
 		UPDATE qna_board SET qna_stt='com' WHERE qna_idx=#{qna_idx}

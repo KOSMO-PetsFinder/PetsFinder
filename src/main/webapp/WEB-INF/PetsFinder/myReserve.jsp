@@ -82,6 +82,20 @@ textarea {
 				}
 				</script>
 				<a href="./up_Reserve?mode=latter&m=${ mr.member_name }&ss=${ mr.sbook_start }&se=${ mr.sbook_end }&i=${ mr.sit_idx }&sbook_idx=${mr.sbook_idx}" onclick="check();">후기쓰기</a>
+				
+					<!-- 웹소켓: 로그인한 사람이 있으면 session에 저장되어있는 idx 값으로 판단. -->
+					<input type="hidden" name="member_id" id="member_id"/>${mr.member_id }
+			    <%
+			    if(session.getAttribute("type").equals("nor")){
+			    %>
+				    <div>
+				       <a class="ChatWithSit" style="margin-left: 10px" onclick="window.open('./WebSocket/WebSocket.do?&chat_id=${mr.member_id}', 'chat', 'width=400,height=400');">
+				       시터와 채팅하기 
+				       </a>
+				    </div>
+				  <%
+			    }
+				  %>
 				</c:when>
 				<c:when test="${ mr.sbook_status eq 'can'}">
 				</c:when>
@@ -93,7 +107,7 @@ textarea {
 	</c:if>
 	<c:if test="${ m_Reserve.isEmpty() }">
 		<div style="display: flex; flex-direction: row; justify-content: center">
-			<p style="font-size: 2em">이용한 예약이 없어요.. ㅠ ㅠ</p>
+			<p style="font-size: 2em">예약 내역이 없어요.. ㅠ ㅠ</p>
 		</div>
 	</c:if>
 </div>

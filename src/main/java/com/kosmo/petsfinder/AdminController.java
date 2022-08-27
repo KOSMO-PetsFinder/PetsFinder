@@ -82,6 +82,14 @@ public class AdminController {
 		
 	}
 	
+	
+	//Admin 리액트 연결
+		@RequestMapping("/Admin/noticeReact.do")
+		public String noticeReact(Model model, HttpServletRequest req) {
+			return "./Admin/AdminBoard/noticeReact";
+		}
+		
+	
 	//시터 예약 테이블
 	// 이부분 다시 => 시터 이름, 예약자 이름 한번에 Mapper에서 뽑아와야함 Mapper 수정 need
 	@RequestMapping("/Admin/sitBList.do")
@@ -294,25 +302,42 @@ public class AdminController {
 	}
 	
 	@RequestMapping("Admin/AdminShop/modifypdt")
-	public String viewPdt(Model model, HttpServletRequest req, ProductDTO productDTO) {
-		
-		int product_idx = Integer.parseInt(req.getParameter("product_idx"));
-		
-		productDTO.setProduct_idx(product_idx);
-		
-		ProductDTO pdtedit = sqlSession.getMapper(AdminDAOImpl.class).pdtview(productDTO);
-		
-		model.addAttribute("pdtedit",pdtedit);
-		return "Admin/AdminShop/productMod";
-	}
-	@RequestMapping(value="/modifypdt", method=RequestMethod.POST)
-	public String modifyPdt(HttpServletRequest req, ProductDTO productDTO) {
-		
-		sqlSession.getMapper(AdminDAOImpl.class).pdtmodify(productDTO);
-		
-		
-		return "redirect:Admin/AdminShop/shopRegi";
-	}
+	   public String viewPdt(Model model, HttpServletRequest req, ProductDTO productDTO) {
+	      
+	      int product_idx = Integer.parseInt(req.getParameter("product_idx"));
+	      
+	      productDTO.setProduct_idx(product_idx);
+	      ProductDTO pdtedit = sqlSession.getMapper(AdminDAOImpl.class).pdtview(productDTO);
+	      
+	      model.addAttribute("pdtedit",pdtedit);
+	      return "Admin/AdminShop/productMod";
+	   }
+	
+	
+	   @RequestMapping(value="/modifypdt", method=RequestMethod.POST)
+	   public String modifyPdt(HttpServletRequest req, ProductDTO productDTO, MultipartHttpServletRequest mr) throws Exception  {
+	      
+		  int product_idx = Integer.parseInt(req.getParameter("product_idx"));
+		  System.out.println(product_idx);
+	      sqlSession.getMapper(AdminDAOImpl.class).pdtmodify(productDTO);
+	      
+	      List<MultipartFile> fileList = mr.getFiles("ofile");
+			System.out.println(fileList.get(0).getOriginalFilename());
+			if (fileList.get(0).getOriginalFilename() !="") {
+				String path = req.getSession().getServletContext().getRealPath("/resources/Uploads");
+				
+				for (MultipartFile mf : fileList) {
+					String originalName = new String(mf.getOriginalFilename().getBytes(), "UTF-8");
+					String ext = originalName.substring(originalName.lastIndexOf('.'));
+					String saveFileName = FileUtil.getUuid() + ext;
+					mf.transferTo(new File(path + File.separator + saveFileName));
+					System.out.println(saveFileName);
+					sqlSession.getMapper(AdminDAOImpl.class).u_photo(saveFileName, product_idx);
+				}	
+			}
+	      
+	      return "redirect:Admin/AdminShop/shopRegi";
+	   }
 	
 	@RequestMapping("/Admin/qnaView.do")
 	public String adminQnaView1(Model model, HttpServletRequest req) { 
@@ -321,12 +346,12 @@ public class AdminController {
 		System.out.println("qna_idx"+qna_idx);
 		AdminDTO dto = new AdminDTO();
 		
-		AdminDTO qnaView1 = sqlSession.getMapper(AdminDAOImpl.class).qnaView1(qna_idx);
-		AdminDTO qnaView = sqlSession.getMapper(AdminDAOImpl.class).qnaView(qna_idx);
+		AdminDTO qnacommentview = sqlSession.getMapper(AdminDAOImpl.class).qnacommentview(qna_idx);
+		AdminDTO qnaView = sqlSession.getMapper(AdminDAOImpl.class).qnaView_s(qna_idx);
 		
 		model.addAttribute("req", req);
 		model.addAttribute("qnaView", qnaView);
-		model.addAttribute("qnaView1", qnaView1);
+		model.addAttribute("qcv", qnacommentview);
 		return"./Admin/AdminBoard/qnaView";
 	}
 	
@@ -338,11 +363,11 @@ public class AdminController {
 		
 		int qna_idx = Integer.parseInt(req.getParameter("qna_idx"));
 		adminDTO.setQna_idx(qna_idx);
-		AdminDTO qnaView = sqlSession.getMapper(AdminDAOImpl.class).qnaView(qna_idx);
-		AdminDTO qnaView1 = sqlSession.getMapper(AdminDAOImpl.class).qnaView1(qna_idx);
+		AdminDTO qnaView = sqlSession.getMapper(AdminDAOImpl.class).qnaView_s(qna_idx);
+		AdminDTO qnacommentview  = sqlSession.getMapper(AdminDAOImpl.class).qnacommentview(qna_idx);
 		
 		model.addAttribute("qnaView",qnaView);
-		model.addAttribute("qnaView1",qnaView1);
+		model.addAttribute("qcv",qnacommentview );
 				
 		
 		return "./Admin/AdminBoard/qnacomment";
@@ -382,11 +407,11 @@ public class AdminController {
 		
 		int qna_idx = Integer.parseInt(req.getParameter("qna_idx"));
 		adminDTO.setQna_idx(qna_idx);
-		AdminDTO qnaView = sqlSession.getMapper(AdminDAOImpl.class).qnaView(qna_idx);
-		AdminDTO qnaView1 = sqlSession.getMapper(AdminDAOImpl.class).qnaView1(qna_idx);
+		AdminDTO qnaView = sqlSession.getMapper(AdminDAOImpl.class).qnaView_s(qna_idx);
+		AdminDTO qnacommentview = sqlSession.getMapper(AdminDAOImpl.class).qnacommentview(qna_idx);
 		
 		model.addAttribute("qnaView",qnaView);
-		model.addAttribute("qnaView1",qnaView1);
+		model.addAttribute("qcv",qnacommentview);
 		
 		return "./Admin/AdminBoard/modifycomm";
 		

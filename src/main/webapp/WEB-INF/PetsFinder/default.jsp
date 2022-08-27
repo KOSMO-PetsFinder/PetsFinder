@@ -70,6 +70,17 @@ a {
 				        		<img src="./images/nophoto.png" width="140" height="200" style=" border-radius: 5px"/>
 				        	</div>
 				        	</c:if>
+				        	 <%
+						    if(session.getAttribute("type").equals("sit")){
+						    %>
+						     	<div>
+						       <a class="ChatWithCust" style="margin-left: 10px; color: #75c9ba" onclick="window.open('./WebSocket/WebSocket.do?', 'chat', 'width=400,height=400');">
+						       예약 고객과 채팅하기 
+						       </a>
+						    	</div>
+							  <%
+						    }
+							  %>
 						</div>
 				    </div>
 			    </div>
@@ -89,6 +100,7 @@ a {
 			</div>
 			</c:otherwise>
 			</c:choose>
+			<!-- 
 			<div style="display: flex; flex-direction: row; margin-top: 20px">
 				<div style="display: flex; flex-direction: row; justify-content: space-around; font-size: 1.2em; margin-left: 30px;">
 					<div style="display: flex; flex-direction: column; align-items: center; ">
@@ -106,7 +118,9 @@ a {
 				    </div>
 			    </div>
 			</div>
+			 -->
 		</section>
+		<!-- 
 		<section>
 			<div style="display: flex; flex-direction: row; margin-top: 120px">
 				<div style="display: flex; flex-direction: row; justify-content: space-around; font-size: 1.2em; margin-left: -90px ">
@@ -126,6 +140,7 @@ a {
 			    </div>
 			</div>
 		</section>
+		 -->
 	</div>
 </div>
 </body>

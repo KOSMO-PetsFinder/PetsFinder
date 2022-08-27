@@ -241,7 +241,7 @@
 				</div>
 				<div class="foot_menu" style="left: 50px;"><a href="./board">질문과 답변</a></div>
 				<div class="foot_menu" style="left: 500px;">유기동물에 대한 실시간 정보</div>
-				<div class="foot_menu" style="right: 300px;"><a href="./notifyForm.do">신고</a></div>
+				<!-- <div class="foot_menu" style="right: 300px;"><a href="./notifyForm.do">신고</a></div> -->
 			</div>
 	    	<script>
 	    	function endVideo() {

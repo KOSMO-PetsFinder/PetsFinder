@@ -78,7 +78,14 @@ public class AdminDTO {
 	private String notboard_regdate;
 	private int notboard_hit;
 	private String notboard_photo;
+	private String rNum;
 	
+	public String getrNum() {
+		return rNum;
+	}
+	public void setrNum(String rNum) {
+		this.rNum = rNum;
+	}
 	public int getNotboard_idx() {
 		return notboard_idx;
 	}

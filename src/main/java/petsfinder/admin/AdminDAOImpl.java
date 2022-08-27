@@ -65,7 +65,6 @@ public interface AdminDAOImpl {
 	//시터 후기 리스트 전체 카운트
 	public ArrayList<ReviewBoardDTO> PSlist();
 	
-	
 	//시터 후기 삭제
 	public int deleterv(int review_idx);
 	//멤버 삭제
@@ -103,6 +102,10 @@ public interface AdminDAOImpl {
 	//상품 수정
 	public int pdtmodify(ProductDTO productDTO);
 	
+	public ArrayList<AdminDTO> qnaList_s();
+	
+	
+	
 	//사진 저장
 	public ArrayList<ProductDTO> pdt_image_file(int product_idx);
 	
@@ -110,15 +113,17 @@ public interface AdminDAOImpl {
 	public int d_photo(int product_idx);
 	//사진 등록
 	public int i_photo(String pdt_image_file);
+	//사진 수정
+	public int u_photo(String pdt_image_file, int pdt_image_idx);
 	
 	//기존 게시물 내용을 읽어옴
 	public ProductDTO view(ParameterDTO parameterDTO);	
 	
 	public ArrayList<QnACommentDTO> commentlist(QnACommentDTO qnACommentDTO);
 	
-	public AdminDTO qnaView1(int qna_idx);
+	public AdminDTO qnacommentview(int qna_idx);
 	
-	public AdminDTO qnaView(int qna_idx);
+	public AdminDTO qnaView_s(int qna_idx);
 	
 //	public QnACommentDTO qnaComment(QnACommentDTO qnACommentDTO);
 	

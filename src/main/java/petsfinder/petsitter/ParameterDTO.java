@@ -66,20 +66,43 @@ public class ParameterDTO {
 	}
 	
 	// 정렬
-	private String price; // 가격순
-	private String star; // 인기순
-	
-	public String getStar() {
-		return star;
-	}
-	public void setStar(String star) {
-		this.star = star;
-	}
-	public String getPrice() {
-		return price;
-	}
-	public void setPrice(String price) {
-		this.price = price;
-	}
-	
+	   private String price; // 가격순
+	   private String star; // 인기순
+	   private String distance; // 거리순
+	   
+	   public String getDistance() {
+	      return distance;
+	   }
+	   public void setDistance(String distance) {
+	      this.distance = distance;
+	   }
+	   public String getStar() {
+	      return star;
+	   }
+	   public void setStar(String star) {
+	      this.star = star;
+	   }
+	   public String getPrice() {
+	      return price;
+	   }
+	   public void setPrice(String price) {
+	      this.price = price;
+	   }
+	   
+	   //위치정보
+	   private String lat;
+	   private String lon; 
+
+	   public String getLat() {
+	      return lat;
+	   }
+	   public void setLat(String lat) {
+	      this.lat = lat;
+	   }
+	   public String getLon() {
+	      return lon;
+	   }
+	   public void setLon(String lon) {
+	      this.lon = lon;
+	   }
 }
