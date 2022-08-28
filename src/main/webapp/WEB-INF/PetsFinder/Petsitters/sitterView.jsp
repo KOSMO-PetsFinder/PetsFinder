@@ -195,7 +195,7 @@
 												<div
 													style="overflow: hidden; width: 90px; height: 90px; border: none; border-radius: 12px; margin-top: 5px;">
 													<img width="90" height="90" alt="경북 영주시 휴천동 펫시터"
-														src="<c:url value='/'/>sitterView/08d8f81d5fd74638bcd1e4d6792e95d0.jpg"
+														src="../Uploads/main_logo2.png"
 														style="object-fit: cover; display: inline-block;">
 												</div>
 												<div style="margin-left: 32px;">

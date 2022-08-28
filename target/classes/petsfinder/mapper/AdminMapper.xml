@@ -91,12 +91,12 @@
   </select>
   
   <select id="mListPage" resultType="petsfinder.admin.AdminDTO" parameterType="petsfinder.admin.AdminParameterDTO">
-     select * from (
-     	select tb.*, rowNum rNum from (
-     		select * from notice_board order by notboard_idx desc
-     	) tb
-   	 ) 
-   	 where rNum between #{param1} and #{param2}
+       select notboard_idx, notboard_title, notboard_content, to_char(notboard_regdate,'yyyy-mm-dd')notboard_regdate, notboard_hit, notboard_photo, rnum from (
+        select tb.*, rowNum rNum from (
+           select * from notice_board order by notboard_idx desc
+        ) tb
+       ) 
+       where rNum between #{param1} and #{param2}
    </select> 
   
   

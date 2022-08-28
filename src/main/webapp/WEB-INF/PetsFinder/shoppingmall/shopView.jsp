@@ -59,13 +59,11 @@ a {
                         <div class="row">
                         	<c:set var="i" value="0" />
                         	<c:forEach items="${productDTO.photo}" var="row" varStatus="vv">
-                        	<c:if test="${i== 0 }">
                             <div class="col-4">
                                 <a href="#">
                                     <img class="card-img img-fluid" src="<c:url value='/'/>Uploads/${row }" alt="Product Image 1">
                                 </a>
                             </div>
-                        	</c:if>
                         	<c:set var="i" value="${i+1 }" />
                         	</c:forEach>
                         </div>

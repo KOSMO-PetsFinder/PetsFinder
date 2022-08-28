@@ -121,7 +121,7 @@ input#ofile-button{
 				<input id="title" name="qna_title" type="text" placeholder="제목을 입력하세요." style="font-size: 1.2em; width: 1000px; height: 52px; border: 0; margin: 0px 12px; padding: 1px 2px; outline: none; font-family: 'BM JUA_TTF';" value="${editQnA.qna_title }" />
 				<!-- <p style="width: 5%; margin-top: 15px;">비공개</p> -->
 				<script>
-					function check${editQnA.qna_idx }(){
+					/* function check${editQnA.qna_idx }(){
 						var test = $("#input_check1").is(":checked"); 
 						if(test == true) {
 							$("#input_check1").attr("checked", true);
@@ -138,11 +138,17 @@ input#ofile-button{
 							
 						}
 						
-					}
+					} */
 					</script>
 					<div class="form-check form-switch" style="margin-right:20px;">
+						<c:if test="${editQnA.qna_OPENSTATUS eq 'pri' }">
 						<input class="form-check-input" type="checkbox" id="input_check1"
-							name="qna_OPENSTATUS" onclick="check${editQnA.qna_idx }();" value="${editQnA.qna_OPENSTATUS }"> 
+							name="qna_OPENSTATUS" value="pri" checked="checked"> 
+						</c:if>
+						<c:if test="${editQnA.qna_OPENSTATUS eq 'pub' }">
+						<input class="form-check-input" type="checkbox" id="input_check1"
+							name="qna_OPENSTATUS" value="pri"> 
+						</c:if>
 						<label class="form-check-label" for="input_check1" style="width:40px;">비공개</label>
 					</div>
 			</div>

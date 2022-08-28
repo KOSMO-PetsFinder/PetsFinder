@@ -8,7 +8,6 @@
     <% boolean like1 = false; %>
 <!-- 입양후기 + 유기동물 상세보기 -->
 <!DOCTYPE html>
-<!-- saved from url=(0046)https://petplanet.co/petsitters/details/rsbzj1 -->
 <html>
 <head>
 	<meta charset="UTF-8" />
@@ -143,54 +142,33 @@
 						<div>
 							<div class="wrapper">
 								<div>
-									<div
-										style="z-index: 1; width: 100px; height: 36px; display: flex; align-items: center; justify-content: center; border: 1px solid rgb(223, 227, 234); border-radius: 3px; position: absolute; top: 109px; right: 24px; background-color: white; cursor: pointer; user-select: none;">
+								<input type="hidden" value="${ member_idx }"/>
+									<div style="z-index: 1; width: 100px; height: 36px; display: flex; align-items: center; justify-content: center; border: 1px solid rgb(223, 227, 234); border-radius: 3px; position: absolute; top: 109px; right: 24px; background-color: white; cursor: pointer; user-select: none;">
 										<img width="22" height="22"
 											src="<c:url value='/'/>sitterView/icon_share.png"
 											style="margin-right: 2px;">
 										<p style="font-size: 14px; letter-spacing: -0.2px; line-height: 20px; color: rgb(57, 60, 71);">공유하기</p>
 									</div>
-									<div style="z-index: 0; display: flex; flex-direction: row; width: 100%; height: 580px; margin-top: 85px; position: relative;">
-										<div class="carousel-indicators">
-											<button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
-											<button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
-											<button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
-										</div>
-										<!-- 캐러셀 이미지 -->
-										<div style="width: 100%; height: 580px;" class="carousel-inner">
+									<div class="container" style="z-index: 0; display: flex; flex-direction: row; width: 100%; height: 580px; margin-top: 85px; position: relative;">
+										<!-- 이미지 -->
+										<div style="width: 100%; height: 580px; justify-content: center;" class="carousel-inner">
 											<div class="carousel-item active">
 												<img alt="" width="1500" height="580"
 													class="d-block"
-													src="<c:url value='/'/>sitterView/e0b00068f0f84976a9442d8a89e18646.jpg"
-													style="object-fit: cover; width: 100%; user-select: none; cursor: pointer;">
-											</div>
-											<div class="carousel-item">
-												<img alt="" width="1500" height="580"
-													class="d-block"
-													src="<c:url value='/'/>sitterView/e0b00068f0f84976a9442d8a89e18646.jpg"
-													style="object-fit: cover; width: 100%; user-select: none; cursor: pointer;">
-											</div>
-											<div class="carousel-item">
-												<img alt="" width="1500" height="580"
-													class="d-block"
-													src="<c:url value='/'/>sitterView/e0b00068f0f84976a9442d8a89e18646.jpg"
-													style="object-fit: cover; width: 100%; user-select: none; cursor: pointer;">
+													src="<c:url value='/'/>Uploads/${abandonedAnimalDTO.abani_photo }"
+													style=" width: 100%; user-select: none; cursor: pointer;">
 											</div>
 										</div>
-										<button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
-											<span class="carousel-control-prev-icon"></span>
-										</button>
-										<button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
-											<span class="carousel-control-next-icon"></span>
-										</button>
 									</div>
-									<!-- 캐러셀 이미지 끝 -->
+									<!-- 이미지 끝 -->
 									<div
 										style="margin-top: 73px; margin-left: auto; margin-right: auto; width: 1027px; display: flex; flex-direction: row; justify-content: space-between;">
 										<div>
 											<div style="display: flex; flex-direction: row;">
-												<img width="90" height="90" alt="" src="<c:url value="/" />Uploads/${ abandonedAnimalDTO.abani_photo }"
-                                          style="object-fit: cover; display: inline-block;">
+												<div style="overflow: hidden; width: 90px; height: 90px; border: none; border-radius: 12px; margin-top: 5px;">
+													<img width="90" height="90" alt=""
+														src="../Uploads/main_logo2.png"
+														style="object-fit: cover; display: inline-block;">
 												</div>
 												<div style="margin-left: 32px;" >
 													<h1

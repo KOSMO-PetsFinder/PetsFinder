@@ -90,7 +90,7 @@ p {
 								<p style="font-weight: 600; color: #555555">
 								나이<span style="color: #71a2ff">*</span></p>
 								<div style="display: flex; margin-top: 15px; item-align: center">
-									<input type="number" min="1" id="abani_age" name="abani_age"
+									<input type="text"  id="abani_age" name="abani_age"
 										style="width: 100%; height: 50px; border: 1px solid #EBEBEB; border-radius: 5px; padding-left: 20px; padding-right: 20px" />
 								</div>
 								<p>
@@ -167,7 +167,7 @@ p {
 									사진</p>
 								<div style="margin-top: 15px">
 						            <input type="text" placeholder="Select file" style="width: 100%; height: 50px; border: 1px solid #EBEBEB; border-radius: 5px; padding-left: 20px; padding-right: 20px" disabled>
-									<input name="ofile" type="file" style="width: 40%; align-items: right">
+									<input name="ofile" type="file" multiple style="width: 40%; align-items: right">
 						        </div>
 							</div>
 						</div>

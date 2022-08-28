@@ -236,13 +236,20 @@ public class AdminController {
 	}
 	
 	//쇼핑몰 리스트
-	@RequestMapping("Admin/AdminShop/shopRegi")
-	public String shopRegi(HttpServletRequest req, Model model) {
-		
-		ArrayList<ProductDTO> pdt = sqlSession.getMapper(AdminDAOImpl.class).pdtlist();
-		model.addAttribute("pdt",pdt);
-		return "Admin/AdminShop/shopRegi";
-	}
+		@RequestMapping("Admin/AdminShop/shopRegi")
+		public String shopRegi(HttpServletRequest req, Model model) {
+			
+			ArrayList<ProductDTO> pdt = sqlSession.getMapper(AdminDAOImpl.class).pdtlist();
+			for(ProductDTO dto : pdt) {
+				if(dto.getPhotos()!=null) {
+					dto.setPhoto(dto.getPhotos().split(","));
+				}
+			}
+			
+			
+			model.addAttribute("pdt",pdt);
+			return "Admin/AdminShop/shopRegi";
+		}
 	
 	//쇼핑몰 삭제
 	@RequestMapping("Admin/AdminShop/deletepdt")
@@ -338,6 +345,7 @@ public class AdminController {
 	      
 	      return "redirect:Admin/AdminShop/shopRegi";
 	   }
+	
 	
 	@RequestMapping("/Admin/qnaView.do")
 	public String adminQnaView1(Model model, HttpServletRequest req) { 

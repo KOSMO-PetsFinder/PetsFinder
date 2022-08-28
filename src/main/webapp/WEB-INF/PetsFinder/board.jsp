@@ -234,6 +234,9 @@ function deleteqna(qna_idx){
 						<c:if test="${row.qna_OPENSTATUS eq 'pub'}">
 					  			<pre id="content" name="content" style="outline: none; margin-bottom: 50px; padding: 0 12px; font-family: 'BM JUA_TTF';">${row.qnacomm_content }</pre>
 					  	</c:if>
+						<c:if test="${row.qna_OPENSTATUS eq 'pri' and row.member_idx eq sessionScope.idx}">
+					  			<pre id="content" name="content" style="outline: none; margin-bottom: 50px; padding: 0 12px; font-family: 'BM JUA_TTF';">${row.qnacomm_content }</pre>
+					  	</c:if>
 							<!-- file 관련 -->
 							<c:if test="${ not empty FAQ01.ofile }">
 							<div style="display: flex; justify-content: flex-start;">

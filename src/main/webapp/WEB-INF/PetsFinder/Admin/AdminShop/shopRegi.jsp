@@ -83,7 +83,7 @@ function modifypdt(product_idx){
 							<td>${pdt.product_regdate }</td>
 							<td>${pdt.product_category }</td>
 							<td>${pdt.product_stock}</td>
-							<td><img id="photo${pdt.product_idx }" style="width: 245px; height: 170px; border-radius: 3px"></td>
+							<td><img src="<c:url value='/'/>Uploads/${pdt.photo[0] }" style="width: 245px; height: 170px; border-radius: 3px"></td>
 							<td><button class="btn btn-success btn-sm"
 							onclick="modifypdt(${pdt.product_idx});">수정</button></td>
 							<td><button class="btn btn-danger btn-sm"

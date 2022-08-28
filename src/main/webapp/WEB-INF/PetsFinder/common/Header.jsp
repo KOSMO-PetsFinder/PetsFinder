@@ -196,25 +196,6 @@
 	            %>
               </ul>
               
-              <!-- <div class="m_sns">
-                <a
-                  href="#"
-                  target="_blank"
-                  ><img
-                    src="이미지경로"
-                    alt="sns아이콘모바일버전"
-                /></a>
-                <a
-                  href="#"
-                  target="_blank"
-                  ><img src="이미지경로" alt="sns아이콘모바일버전"
-                /></a>
-                <a href="#" target="_blank"
-                  ><img
-                    src="이미지경로"
-                    alt="sns아이콘모바일버전"
-                /></a>
-              </div> -->
             </div>
           </div>
         </div>
@@ -308,8 +289,8 @@
     	if(session.getAttribute("type").equals("nor") || session.getAttribute("type").equals("mag")){
     	%>
 	    <div style="position: fixed; right: 50px; bottom:10px; z-index: 999999;">
-	       <img type="button" src="<c:url value='/' />images/websocket_icon2.png" onclick="window.open('./WebSocket/WebSocketManager.do?', 'chat', 'width=400,height=400');" alt="소켓이미지" style="width: 100px; height: 100px"/>
-	    </div>
+          <img type="button" src="<c:url value='/' />images/websocket_icon2.png" onclick="window.open('${pageContext.request.contextPath}/WebSocket/WebSocketManager.do?', 'chat', 'width=500,height=350', 'target=_blank');" alt="소켓이미지" style="width: 100px; height: 100px"/>
+       </div>
 	    <%
     	}
 	    %>

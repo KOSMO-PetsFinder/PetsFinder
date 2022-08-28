@@ -85,6 +85,10 @@ public class BoardController {
 		String qna_stt = req.getParameter("qna_stt");
 		String qna_OPENSTATUS = req.getParameter("qna_OPENSTATUS");
 		int member_idx = Integer.parseInt(req.getParameter("member_idx"));
+		if(qna_OPENSTATUS==null) {
+			qna_OPENSTATUS = "pub";
+		}
+		
 		
 		dto.setQna_title(qna_title);
 		dto.setQna_content(qna_content);
@@ -92,6 +96,7 @@ public class BoardController {
 		dto.setQna_OPENSTATUS(qna_OPENSTATUS);
 		dto.setMember_idx(member_idx);
 		
+		System.out.println("이게 뭐냥?"+dto.getQna_OPENSTATUS());
 		sqlSession.getMapper(boardDAOImpl.class).writeQNA(dto);
 		
 		
@@ -127,9 +132,16 @@ public class BoardController {
 	@RequestMapping(value="/qnaeditAc", method=RequestMethod.POST)
 	public String qnaAction(HttpServletRequest req, AdminDTO adminDTO){
 		
+		String qna_OPENSTATUS = req.getParameter("qna_OPENSTATUS");
+		if(qna_OPENSTATUS==null) {
+			qna_OPENSTATUS = "pub";
+		}
+		
+		adminDTO.setQna_OPENSTATUS(qna_OPENSTATUS);
+		
+		
 		sqlSession.getMapper(boardDAOImpl.class).editQnA(adminDTO);
 		int qna_idx = Integer.parseInt(req.getParameter("qna_idx"));
-		
 		AdminDTO dto = sqlSession.getMapper(boardDAOImpl.class).opensts(qna_idx);
 		if(dto != null) {
 			if(dto.getQna_OPENSTATUS()=="pri") {

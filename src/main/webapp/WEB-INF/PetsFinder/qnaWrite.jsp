@@ -120,24 +120,9 @@ textarea {
 					<input id="title" name="qna_title" type="text"
 						placeholder="제목을 입력하세요."
 						style="font-size: 1.2em; width: 1000px; height: 52px; border: 0; margin: 0px 12px; padding: 1px 2px; outline: none; font-family: 'BM JUA_TTF';" />
-					<!-- <script>
-						var test = $("#input_check1").is(":checked"); 
-						if(test == true) {
-							$("#input_check1").attr("checked", true);
-							$("#input_check1").val("pri");
-							alert("pri");
-							
-						}
-						else {
-							$("#input_check1").attr("checked", false);
-							$("#input_check1").val("pub");
-							alert("pub");
-							
-						}
-					</script> -->
 					<div class="form-check form-switch" style="margin-right:20px;">
 						<input class="form-check-input" type="checkbox" id="input_check1"
-							name="qna_OPENSTATUS" value="pub"> 
+							name="qna_OPENSTATUS" value="pri"> 
 						<label class="form-check-label" for="input_check1" style="width:40px;">비공개</label>
 					</div>
 				</div>
@@ -148,9 +133,6 @@ textarea {
 						onkeydown="resize(this)"></textarea>
 					<div
 						style="display: flex; justify-content: space-between; padding: 0 15px">
-						<!-- <div>
-						<input type="file" id="ofile" name="qna_photo" />
-					</div> -->
 					</div>
 				</div>
 				<div
