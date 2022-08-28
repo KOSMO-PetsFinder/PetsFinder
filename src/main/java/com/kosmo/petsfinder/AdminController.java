@@ -236,20 +236,20 @@ public class AdminController {
 	}
 	
 	//쇼핑몰 리스트
-		@RequestMapping("Admin/AdminShop/shopRegi")
-		public String shopRegi(HttpServletRequest req, Model model) {
-			
-			ArrayList<ProductDTO> pdt = sqlSession.getMapper(AdminDAOImpl.class).pdtlist();
-			for(ProductDTO dto : pdt) {
-				if(dto.getPhotos()!=null) {
-					dto.setPhoto(dto.getPhotos().split(","));
-				}
+	@RequestMapping("Admin/AdminShop/shopRegi")
+	public String shopRegi(HttpServletRequest req, Model model) {
+		
+		ArrayList<ProductDTO> pdt = sqlSession.getMapper(AdminDAOImpl.class).pdtlist();
+		for(ProductDTO dto : pdt) {
+			if(dto.getPhotos()!=null) {
+				dto.setPhoto(dto.getPhotos().split(","));
 			}
-			
-			
-			model.addAttribute("pdt",pdt);
-			return "Admin/AdminShop/shopRegi";
 		}
+		
+		
+		model.addAttribute("pdt",pdt);
+		return "Admin/AdminShop/shopRegi";
+	}
 	
 	//쇼핑몰 삭제
 	@RequestMapping("Admin/AdminShop/deletepdt")
@@ -345,7 +345,6 @@ public class AdminController {
 	      
 	      return "redirect:Admin/AdminShop/shopRegi";
 	   }
-	
 	
 	@RequestMapping("/Admin/qnaView.do")
 	public String adminQnaView1(Model model, HttpServletRequest req) { 
@@ -566,9 +565,13 @@ public class AdminController {
     public String modifyAnimalList(Model model, HttpServletRequest req) {
        
        int abani_idx = Integer.parseInt(req.getParameter("abani_idx"));
+       System.out.println(abani_idx);
        String abani_stat = req.getParameter("abani_stat");
+       System.out.println(abani_stat);
        int abani_neut = Integer.parseInt(req.getParameter("abani_neut"));
+       System.out.println(abani_neut);
        int abani_vaccin = Integer.parseInt(req.getParameter("abani_vaccin"));       
+       System.out.println(abani_vaccin);
        int success = sqlSession.getMapper(AdminDAOImpl.class).modifyAnimalList(abani_stat, abani_neut, abani_vaccin, abani_idx);
        if(success == 1) {
     	   System.out.println("회원정보 수정 성공");

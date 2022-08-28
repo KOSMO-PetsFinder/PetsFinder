@@ -362,255 +362,255 @@ public class PetSitterController {
 		return "redirect:/Petsitters/sitterView.do?sit_idx="+idx;
 	}
 	
-	//펫시터 예약 요청시 이메일 전송
-	@RequestMapping("/Petsitters/bookEmailInfo.do")
-	@ResponseBody
-	public int reservEmail(Model model, @RequestBody PetSitterDTO petSitterDTO, HttpSession session, HttpServletResponse resp) throws IOException {
-		//10개의 데이터 중 시터 이메일 정보와, 회원의 이메일 정보는 이메일 전송용. 
-		//시터의 이름과 이메일 정보 
-		//1
-		String sitter_name = petSitterDTO.getMember_name();
-		System.out.println("시터의 이름: "+sitter_name);
-		//2
-		String sitter_email = petSitterDTO.getMember_email();
-		System.out.println("시터의 이메일: "+sitter_email);
-		//3
-		//int idx =Integer.parseInt(sIdx);
-		int sit_idx  = petSitterDTO.getSit_idx();
-		System.out.println("시터의 idx: "+ sit_idx);
-		
-		//고객의 예약 날짜
-		//4
-		String sbook_start = petSitterDTO.getSbook_start();
-		System.out.println("startDate: "+sbook_start);
-		//5
-		String sbook_end = petSitterDTO.getSbook_end();
-		System.out.println("endDate: "+sbook_end);
-		//고객의 예약 합계
-		//6
-		String p_cellData = petSitterDTO.getP_cellData();
-		System.out.println("반려동물정보:"+p_cellData);
-		//고객의 예약 반려동물 정보 
-		//7
-		String totalPrice = petSitterDTO.getTotalPrice();
-		System.out.println("합계: "+totalPrice);
-		
-		//현재 로그인한 고객의 이메일 & member_idx 정보 
-		//8
-		String login_email = session.getAttribute("email").toString();
-		System.out.println("고객의 이메일: "+login_email);
-		//9
-		//int sit_idx  = Integer.parseInt(req.getParameter("sit_idx"));
-		int member_idx = (int) session.getAttribute("idx");
-		System.out.println("고객의 idx: "+member_idx);
-		//고객의 이름
-		String member_name = (String) session.getAttribute("name");
-		//10
-		//sbook_status 를 어디서 결정하지? 일단은 넘길때는 default로 넘겨놔야되겠다. 
-		//String sbook_status = req.getParameter("sbook_status");
-		//System.out.println("예약상태 default:"+ sbook_status);
-		//데이터 DB에 저장 (8개의 데이터 중 sbook_idx 빼고 7개 저장)
-		/*
-		sit_idx (시터의 이름과 이메일을 빼내기 위한 정보)
-		member_idx (세션에서 로그인 정보로 빼오기)
-		sbook_start
-		sbook_end
-		sbook_status 
-		p_cellData
-		totalPrice
-		*/
-		PayInfoDTO p_dto = new PayInfoDTO();
-		p_dto.setMember_idx(member_idx);
-		p_dto.setMerchant_uid(petSitterDTO.getMerchant_uid());
-		p_dto.setProductname(petSitterDTO.getP_cellData());
-		String b = petSitterDTO.getTotalPrice().split("원")[0];
-		String[] a = b.split(",");
-		String amount = "";
-		for (int i = 0; i < a.length; i++) {
-			amount += a[i];
-		}
-		p_dto.setAmount(Integer.parseInt(amount));
-		p_dto.setPayStus(petSitterDTO.getPayStus());
-		int result = sqlSession.getMapper(ShopDAOImpl.class).insertPay(p_dto);
-		int success = sqlSession.getMapper(PetSitterDAOImpl.class).reserve(petSitterDTO);
-		if( success == 1 ) {
-			System.out.println("예약 내역 DB저장 성공");
-		}
-		else {
-			System.out.println("예약 내역 DB저장 실패");
-		}
-		
-		return success;
-	}
-	
-	//이 컨트롤러가 사라지고 위에서 처리하게 만들어야함. 
-	@RequestMapping("/Petsitters/bookEmailSend")
-	public String bookEmailSend(Model model, HttpServletRequest req, HttpSession session) {
-		
-		//info에서 여기로 값을 넘겨서 param값으로 받아오고 있음. 
-		//즉, 여기서 bookEmailSend를 팝업창으로 열어서 넘기면됨.
-		
-		return "./Petsitters/bookEmailSend";
-	}
-	
-	
-	public boolean emailSending2(Map<String, String> map) {
-		
-		boolean sendOk = false;
-		
-		// 네이버 SMTP 서버를 사용하기 위한 속성으로 이미 정해져 있는 값으로 설정
-		Properties p = new Properties();
-        p.put("mail.smtp.host", "smtp.naver.com");
-        p.put("mail.smtp.port", "465");
-        p.put("mail.smtp.starttls.enable", "true");
-        p.put("mail.smtp.auth", "true");
-        p.put("mail.smtp.debug", "true");
-        p.put("mail.smtp.socketFactory.port", "465");
-        p.put("mail.smtp.socketFactory.class",
-                "javax.net.ssl.SSLSocketFactory");
-        p.put("mail.smtp.socketFactory.fallback", "false");
-        
-        try {
-        	// 네이버에 로그인 하여 인증 정보를 얻어온다.
-        	Authenticator auth = new SMTPAuth();
-        	
-        	Session session = Session.getInstance(p, auth);
-        	session.setDebug(true);
-        	
-        	// 제목 설정
-        	MimeMessage msg = new MimeMessage(session);
-        	msg.setSubject(map.get("subject"));
-        	
-        	// 보내는 사람 Email 설정
-        	Address fromAddr = new InternetAddress(map.get("from"));
-        	msg.setFrom(fromAddr);
-        	
-        	// 받는 사람 Email 설정
-        	Address toAddr = new InternetAddress(map.get("to1"));
-        	Address toAddr2 = new InternetAddress(map.get("to2"));
-        	msg.addRecipient(Message.RecipientType.TO, toAddr);
-        	msg.addRecipient(Message.RecipientType.TO, toAddr2);
-        	
-        	// 내용 줄바꿈 처리
-        	msg.setContent(map.get("content"), "text/html;charset=UTF-8");
-        	
-        	// 실제 Email 발송 처리 부분
-        	Transport.send(msg);
-        	sendOk = true;
-        	
-        	
-        } catch (Exception e) {
-        	sendOk = false;
-        	e.printStackTrace();
-        }
-        
-        return sendOk;
-        
-	}
-	//bookemailSendAction.do
-	// 사용자가 작성한 내용을 form값으로 받아 정리한 후 메일 발송
-	@RequestMapping(value="/Petsitters/bookEmailSendAction.do", method = RequestMethod.POST)
-	public void emailSendAction(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		
-		String sendResult = "이메일 전송 준비";
-		// form값 정리를 위한 Map 컬렉션
-		Map<String,	String> emailContent = new HashMap<String, String>();
-		// 보내는 사람
-		emailContent.put("from", req.getParameter("from"));
-		// 받는 사람
-		emailContent.put("to1", req.getParameter("to1"));
-		emailContent.put("to2", req.getParameter("to2"));
-		// 제목
-		emailContent.put("subject", req.getParameter("subject"));
-		
-		// 메일 발송 형식
-		String format = req.getParameter("format");
-		// 내용 (여기서 content를 두개 만들어서 보내보자)
-		String content = req.getParameter("content").replace("\r\n", "<br/>");
-		
-		if(format.equals("text")) {
-			// 전송 형식이 text라면 순수한 텍스트만 내용에 추가
-			emailContent.put("content", content);
-		} else if (format.equals("html")) {
-			// html 형식이라면 우리가 디자인 한 메일form에 내용을 추가한 후 메일 발송
-			String oneLine="", mailContents="";
-			try {
-				// 메일 form이 있는 디렉토리의 물리적 경로 얻어오기
-				String dirPath = req.getSession().getServletContext().getRealPath("/resources/mailForm/MailForm.html");
-				// 파일의 내용을 읽어오기 위해 IO스트림을 생성한다.
-	            BufferedReader br = new BufferedReader(new FileReader(dirPath));
-	            // 파일의 내용을 한 줄씩 읽어 변수에 저장
-	            // 더 이상 내용이 없으면 while문 탈출
-	            while((oneLine = br.readLine()) != null){
-	               mailContents += oneLine + "\n";
-	            }
-	            // 스트림 자원 반납
-	            br.close();
+	 //펫시터 예약 요청시 이메일 전송
+	   @RequestMapping("/Petsitters/bookEmailInfo.do")
+	   @ResponseBody
+	   public int reservEmail(Model model, @RequestBody PetSitterDTO petSitterDTO, HttpSession session, HttpServletResponse resp) throws IOException {
+	      //10개의 데이터 중 시터 이메일 정보와, 회원의 이메일 정보는 이메일 전송용. 
+	      //시터의 이름과 이메일 정보 
+	      //1
+	      String sitter_name = petSitterDTO.getMember_name();
+	      System.out.println("시터의 이름: "+sitter_name);
+	      //2
+	      String sitter_email = petSitterDTO.getMember_email();
+	      System.out.println("시터의 이메일: "+sitter_email);
+	      //3
+	      //int idx =Integer.parseInt(sIdx);
+	      int sit_idx  = petSitterDTO.getSit_idx();
+	      System.out.println("시터의 idx: "+ sit_idx);
+	      
+	      //고객의 예약 날짜
+	      //4
+	      String sbook_start = petSitterDTO.getSbook_start();
+	      System.out.println("startDate: "+sbook_start);
+	      //5
+	      String sbook_end = petSitterDTO.getSbook_end();
+	      System.out.println("endDate: "+sbook_end);
+	      //고객의 예약 합계
+	      //6
+	      String p_cellData = petSitterDTO.getP_cellData();
+	      System.out.println("반려동물정보:"+p_cellData);
+	      //고객의 예약 반려동물 정보 
+	      //7
+	      String totalPrice = petSitterDTO.getTotalPrice();
+	      System.out.println("합계: "+totalPrice);
+	      
+	      //현재 로그인한 고객의 이메일 & member_idx 정보 
+	      //8
+	      String login_email = session.getAttribute("email").toString();
+	      System.out.println("고객의 이메일: "+login_email);
+	      //9
+	      //int sit_idx  = Integer.parseInt(req.getParameter("sit_idx"));
+	      int member_idx = (int) session.getAttribute("idx");
+	      System.out.println("고객의 idx: "+member_idx);
+	      //고객의 이름
+	      String member_name = (String) session.getAttribute("name");
+	      //10
+	      //sbook_status 를 어디서 결정하지? 일단은 넘길때는 default로 넘겨놔야되겠다. 
+	      //String sbook_status = req.getParameter("sbook_status");
+	      //System.out.println("예약상태 default:"+ sbook_status);
+	      //데이터 DB에 저장 (8개의 데이터 중 sbook_idx 빼고 7개 저장)
+	      /*
+	      sit_idx (시터의 이름과 이메일을 빼내기 위한 정보)
+	      member_idx (세션에서 로그인 정보로 빼오기)
+	      sbook_start
+	      sbook_end
+	      sbook_status 
+	      p_cellData
+	      totalPrice
+	      */
+	      PayInfoDTO p_dto = new PayInfoDTO();
+	      p_dto.setMember_idx(member_idx);
+	      p_dto.setMerchant_uid(petSitterDTO.getMerchant_uid());
+	      p_dto.setProductname(petSitterDTO.getP_cellData());
+	      String b = petSitterDTO.getTotalPrice().split("원")[0];
+	      String[] a = b.split(",");
+	      String amount = "";
+	      for (int i = 0; i < a.length; i++) {
+	         amount += a[i];
+	      }
+	      p_dto.setAmount(Integer.parseInt(amount));
+	      p_dto.setPayStus(petSitterDTO.getPayStus());
+	      int result = sqlSession.getMapper(ShopDAOImpl.class).insertPay(p_dto);
+	      int success = sqlSession.getMapper(PetSitterDAOImpl.class).reserve(petSitterDTO);
+	      if( success == 1 ) {
+	         System.out.println("예약 내역 DB저장 성공");
+	      }
+	      else {
+	         System.out.println("예약 내역 DB저장 실패");
+	      }
+	      
+	      return success;
+	   }
+	   
+	   //이 컨트롤러가 사라지고 위에서 처리하게 만들어야함. 
+	   @RequestMapping("/Petsitters/bookEmailSend")
+	   public String bookEmailSend(Model model, HttpServletRequest req, HttpSession session) {
+	      
+	      //info에서 여기로 값을 넘겨서 param값으로 받아오고 있음. 
+	      //즉, 여기서 bookEmailSend를 팝업창으로 열어서 넘기면됨.
+	      
+	      return "./Petsitters/bookEmailSend";
+	   }
+	   
+	   
+	   public boolean emailSending2(Map<String, String> map) {
+	      
+	      boolean sendOk = false;
+	      
+	      // 네이버 SMTP 서버를 사용하기 위한 속성으로 이미 정해져 있는 값으로 설정
+	      Properties p = new Properties();
+	        p.put("mail.smtp.host", "smtp.naver.com");
+	        p.put("mail.smtp.port", "465");
+	        p.put("mail.smtp.starttls.enable", "true");
+	        p.put("mail.smtp.auth", "true");
+	        p.put("mail.smtp.debug", "true");
+	        p.put("mail.smtp.socketFactory.port", "465");
+	        p.put("mail.smtp.socketFactory.class",
+	                "javax.net.ssl.SSLSocketFactory");
+	        p.put("mail.smtp.socketFactory.fallback", "false");
+	        
+	        try {
+	           // 네이버에 로그인 하여 인증 정보를 얻어온다.
+	           Authenticator auth = new SMTPAuth();
+	           
+	           Session session = Session.getInstance(p, auth);
+	           session.setDebug(true);
+	           
+	           // 제목 설정
+	           MimeMessage msg = new MimeMessage(session);
+	           msg.setSubject(map.get("subject"));
+	           
+	           // 보내는 사람 Email 설정
+	           Address fromAddr = new InternetAddress(map.get("from"));
+	           msg.setFrom(fromAddr);
+	           
+	           // 받는 사람 Email 설정
+	           Address toAddr = new InternetAddress(map.get("to1"));
+	           Address toAddr2 = new InternetAddress(map.get("to2"));
+	           msg.addRecipient(Message.RecipientType.TO, toAddr);
+	           msg.addRecipient(Message.RecipientType.TO, toAddr2);
+	           
+	           // 내용 줄바꿈 처리
+	           msg.setContent(map.get("content"), "text/html;charset=UTF-8");
+	           
+	           // 실제 Email 발송 처리 부분
+	           Transport.send(msg);
+	           sendOk = true;
+	           
+	           
+	        } catch (Exception e) {
+	           sendOk = false;
+	           e.printStackTrace();
+	        }
+	        
+	        return sendOk;
+	        
+	   }
+	   //bookemailSendAction.do
+	   // 사용자가 작성한 내용을 form값으로 받아 정리한 후 메일 발송
+	   @RequestMapping(value="/Petsitters/bookEmailSendAction.do", method = RequestMethod.POST)
+	   public void emailSendAction(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+	      
+	      String sendResult = "이메일 전송 준비";
+	      // form값 정리를 위한 Map 컬렉션
+	      Map<String,   String> emailContent = new HashMap<String, String>();
+	      // 보내는 사람
+	      emailContent.put("from", req.getParameter("from"));
+	      // 받는 사람
+	      emailContent.put("to1", req.getParameter("to1"));
+	      emailContent.put("to2", req.getParameter("to2"));
+	      // 제목
+	      emailContent.put("subject", req.getParameter("subject"));
+	      
+	      // 메일 발송 형식
+	      String format = req.getParameter("format");
+	      // 내용 (여기서 content를 두개 만들어서 보내보자)
+	      String content = req.getParameter("content").replace("\r\n", "<br/>");
+	      
+	      if(format.equals("text")) {
+	         // 전송 형식이 text라면 순수한 텍스트만 내용에 추가
+	         emailContent.put("content", content);
+	      } else if (format.equals("html")) {
+	         // html 형식이라면 우리가 디자인 한 메일form에 내용을 추가한 후 메일 발송
+	         String oneLine="", mailContents="";
+	         try {
+	            // 메일 form이 있는 디렉토리의 물리적 경로 얻어오기
+	            String dirPath = req.getSession().getServletContext().getRealPath("/resources/mailForm/MailForm.html");
+	            // 파일의 내용을 읽어오기 위해 IO스트림을 생성한다.
+	               BufferedReader br = new BufferedReader(new FileReader(dirPath));
+	               // 파일의 내용을 한 줄씩 읽어 변수에 저장
+	               // 더 이상 내용이 없으면 while문 탈출
+	               while((oneLine = br.readLine()) != null){
+	                  mailContents += oneLine + "\n";
+	               }
+	               // 스트림 자원 반납
+	               br.close();
 
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			// 메일 form에서 읽어온 내용(HTML태그)에서 내용 부분 변경
-	        mailContents = mailContents.replace("__CONTENT__", content);
-	        // 내용을 Map컬렉션에 추가
-	        emailContent.put("content", mailContents);
-		}
-		if(req.getParameter("content") != null) {
-			// 입력된 내용이 있다면 메일 발송.
-			// 이 때 form값을 저장한 Map컬렉션을 인수로 전달
-			// emailSending2(emailContent);
-			// 전송 여부 확인 용
-            boolean emailResult = emailSending2(emailContent);
-            if(emailResult==true) {
-               System.out.println("이메일 전송 성공");
-               sendResult = "이메일 전송 성공";
-            }
-            else {
-               System.out.println("이메일 전송 실패");
-               sendResult = "이메일 전송 실패";
-            }
-        }
-		// 컨트롤러에서 즉시 전송 결과 출력
-        resp.setContentType("text/html; charset=utf-8");
-        // 전송 완료 후 뜨는 페이지에 뜨자마자 닫는 script 태그 삽입
-        resp.getWriter().write("<script src=\"https://code.jquery.com/jquery-3.6.0.js\" integrity=\"sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=\" crossorigin=\"anonymous\"></script>\r\n"
-        		+ "<script>\r\n"
-        		+ "$(document).ready(function(){\r\n"
-        		+ "	self.close();\r\n"
-        		+ "});\r\n"
-        		+ "</script>");
-        // resp.getWriter().write(sendResult);
-	}
+	         } catch (Exception e) {
+	            e.printStackTrace();
+	         }
+	         // 메일 form에서 읽어온 내용(HTML태그)에서 내용 부분 변경
+	           mailContents = mailContents.replace("__CONTENT__", content);
+	           // 내용을 Map컬렉션에 추가
+	           emailContent.put("content", mailContents);
+	      }
+	      if(req.getParameter("content") != null) {
+	         // 입력된 내용이 있다면 메일 발송.
+	         // 이 때 form값을 저장한 Map컬렉션을 인수로 전달
+	         // emailSending2(emailContent);
+	         // 전송 여부 확인 용
+	            boolean emailResult = emailSending2(emailContent);
+	            if(emailResult==true) {
+	               System.out.println("이메일 전송 성공");
+	               sendResult = "이메일 전송 성공";
+	            }
+	            else {
+	               System.out.println("이메일 전송 실패");
+	               sendResult = "이메일 전송 실패";
+	            }
+	        }
+	      // 컨트롤러에서 즉시 전송 결과 출력
+	        resp.setContentType("text/html; charset=utf-8");
+	        // 전송 완료 후 뜨는 페이지에 뜨자마자 닫는 script 태그 삽입
+	        resp.getWriter().write("<script src=\"https://code.jquery.com/jquery-3.6.0.js\" integrity=\"sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=\" crossorigin=\"anonymous\"></script>\r\n"
+	              + "<script>\r\n"
+	              + "$(document).ready(function(){\r\n"
+	              + "   self.close();\r\n"
+	              + "});\r\n"
+	              + "</script>");
+	        // resp.getWriter().write(sendResult);
+	   }
 	
 	//시터 후기
-	@RequestMapping("/Petsitters/sitterreview")
-	public String PSreview(Model model, HttpServletRequest req) {
-		
-		int totalRecordCount = sqlSession.getMapper(ReviewBoardDAOImpl.class).getTotalCount();
-		
-		int pageSize = 6;
-		int blockPage = 3;
-		
-		int nowPage = req.getParameter("nowPage") == null ? 1:Integer.parseInt(req.getParameter("nowPage"));
-		
-		int totalPage = (int)Math.ceil((double)totalRecordCount/pageSize);
-		int start = (nowPage-1) * pageSize + 1;
-		int end = nowPage * pageSize;
-		
-		ArrayList<ReviewBoardDTO> reviewlist = sqlSession.getMapper(ReviewBoardDAOImpl.class).PSlist(start, end);
-		String pagingImg = PagingUtil.pagingImg(totalRecordCount, pageSize, blockPage, nowPage, req.getContextPath()+
-				"/petsitter/sitterreview?");
-		
-		model.addAttribute("pagingImg", pagingImg);
-		
-		for(ReviewBoardDTO dto : reviewlist) {
-			String temp = dto.getReview_content().replace("\r\n", "<br/>");
-			dto.setReview_content(temp);
+		@RequestMapping("/Petsitters/sitterreview")
+		public String PSreview(Model model, HttpServletRequest req) {
+			
+			int totalRecordCount = sqlSession.getMapper(ReviewBoardDAOImpl.class).getTotalCount();
+			
+			int pageSize = 6;
+			int blockPage = 3;
+			
+			int nowPage = req.getParameter("nowPage")==null ? 1:Integer.parseInt(req.getParameter("nowPage"));
+			
+			int totalPage = (int)Math.ceil((double)totalRecordCount/pageSize);
+			int start = (nowPage-1) * pageSize +1;
+			int end = nowPage * pageSize;
+			
+			ArrayList<ReviewBoardDTO> reviewlist = sqlSession.getMapper(ReviewBoardDAOImpl.class).PSlist(start, end);
+			String pagingImg = PagingUtil.pagingImg(totalRecordCount, pageSize, blockPage, nowPage, req.getContextPath()+
+					"/Petsitters/sitterreview?");
+			
+			model.addAttribute("pagingImg", pagingImg);
+			
+			for(ReviewBoardDTO dto : reviewlist) {
+				String temp = dto.getReview_content().replace("\r\n", "<br/>");
+				dto.setReview_content(temp);
+			}
+			model.addAttribute("reviewlist", reviewlist);
+			
+			return "./Petsitters/sitterreview";
 		}
-		model.addAttribute("reviewlist", reviewlist);
-		
-		return "./Petsitters/sitterreview";
-	}
 	
 	//시터 전체보기 혹은 검색시 나타나는 전체 시터리스트
 	   @RequestMapping("/Petsitters/sitterlist")

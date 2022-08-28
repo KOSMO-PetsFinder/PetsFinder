@@ -1,7 +1,9 @@
 package com.kosmo.petsfinder;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -17,6 +19,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import fileupload.FileUtil;
 import petsfinder.abandonedanimal.AbandonedAnimalDTO;
+import petsfinder.admin.AdminDAOImpl;
 import petsfinder.member.MemberDAOImpl;
 import petsfinder.member.PetDTO;
 
@@ -97,8 +100,11 @@ public class PetController {
 	@RequestMapping(value="/petregimodify")
 	public String petregimodify(HttpServletRequest req, Model model, HttpSession session) {
 		
-		PetDTO dto  = new PetDTO();
-		int member_idx = Integer.parseInt(session.getAttribute("idx").toString());
+		int pet_idx = Integer.parseInt(req.getParameter("pet_idx"));
+		
+		
+		PetDTO dto = sqlSession.getMapper(MemberDAOImpl.class).petSelect(pet_idx);
+		model.addAttribute("e",dto);
 		
 		return "petregiModify";
 	}
@@ -139,5 +145,16 @@ public class PetController {
 		}
 	}
 	
+	//펫 삭제하기
+	@RequestMapping(value = "/deletePet")
+	public String deletePet(HttpServletRequest req) {
+		int pet_idx = Integer.parseInt(req.getParameter("pet_idx"));
+		
+		int result = sqlSession.getMapper(MemberDAOImpl.class).deletePet(pet_idx);
+		
+		
+		
+		return "myPage";
+	}
 	
 }

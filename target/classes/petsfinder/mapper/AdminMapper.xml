@@ -61,18 +61,18 @@
    </select>
    
    <select id="nListPage" resultType="petsfinder.admin.AdminDTO" parameterType="petsfinder.admin.AdminParameterDTO">
-     select * from (select tb.*, rowNum rNum from (select notboard_idx, notboard_title, notboard_content, to_char(notboard_regdate,'yyyy-mm-dd')notboard_regdate, notboard_hit, notboard_photo from notice_board
+     select * from (select tb.*, rowNum rNum from (select notboard_idx, notboard_title, notboard_content, to_char(notboard_regdate,'yyyy-mm-dd')notboard_regdate, from notice_board
      order by notboard_idx desc
      ) tb
    	) where rNum between #{ start } and #{ end }
    </select>
    
 	<select id="nView" resultType="petsfinder.admin.AdminDTO" parameterType="petsfinder.admin.AdminParameterDTO">
-   	SELECT notboard_idx, notboard_title, notboard_content, to_char(notboard_regdate,'yyyy-mm-dd')notboard_regdate, notboard_hit, notboard_photo FROM notice_board WHERE notboard_idx=#{num}
+   	SELECT notboard_idx, notboard_title, notboard_content, to_char(notboard_regdate,'yyyy-mm-dd')notboard_regdate, FROM notice_board WHERE notboard_idx=#{num}
    </select>
   
   <update id="nWrite" parameterType="petsfinder.admin.AdminDTO">
-		INSERT INTO notice_board (notboard_idx, notboard_title, notboard_content, notboard_regdate, notboard_hit, notboard_photo) 
+		INSERT INTO notice_board (notboard_idx, notboard_title, notboard_content, notboard_regdate) 
 		VALUES (SEQ_notboard_idx.nextval, #{notboard_title}, #{notboard_content}, sysdate, 0, #{notboard_photo})
   </update>
   
@@ -91,7 +91,7 @@
   </select>
   
   <select id="mListPage" resultType="petsfinder.admin.AdminDTO" parameterType="petsfinder.admin.AdminParameterDTO">
-       select notboard_idx, notboard_title, notboard_content, to_char(notboard_regdate,'yyyy-mm-dd')notboard_regdate, notboard_hit, notboard_photo, rnum from (
+       select notboard_idx, notboard_title, notboard_content, to_char(notboard_regdate,'yyyy-mm-dd')notboard_regdate,  rnum from (
         select tb.*, rowNum rNum from (
            select * from notice_board order by notboard_idx desc
         ) tb
@@ -299,7 +299,7 @@
   </select>
   
 <select id="qnaView_s" resultType="petsfinder.admin.AdminDTO">
-   select qna_idx, qna_title, qna_content, qna_regdate, qna_stt, qna_OPENSTATUS 
+   select qna_idx, qna_title, qna_content, qna_regdate, qna_stt, qna_OPENSTATUS, m.member_idx, m.member_name 
       from qna_board q
       inner join 
        member m on q.member_idx = m.member_idx

@@ -150,7 +150,7 @@ function checkValidate(f) {
 
 	  })
  </script>
-<jsp:include page="./common/Header.jsp" />
+<
 <!-- registration -->
 <form id="" name="petRegiFrm" action="./petmodiaction" enctype="multipart/form-data" method="post">
 <div style="display: flex; flex-direction: column; align-items: center; ">
@@ -275,9 +275,9 @@ function checkValidate(f) {
 	               <input type="hidden" id="pet_gender" name="pet_gender" value="${ e.pet_gender }">
 	               <div style="display: flex; margin-top: 15px">
 	                    <!-- 여성버튼 -->   
-	                    <input onclick="genderVal(this);" type="button" id="F" value="여성" class="btn btn-default"  style="width: 190px ; background: none; height: 50px; border: 1px solid #EBEBEB; border-radius: 5px; margin-right: 10px">
+	                    <input onclick="genderVal(this);" type="button" id="F" value="암컷" class="btn btn-default"  style="width: 190px ; background: none; height: 50px; border: 1px solid #EBEBEB; border-radius: 5px; margin-right: 10px">
 	                    <!-- 남성버튼 -->   
-	                    <input onclick="genderVal(this);" type="button" id="M" value="남성" class="btn btn-default"  style="width: 190px; background: none; height: 50px; border: 1px solid #EBEBEB; border-radius: 5px; ">
+	                    <input onclick="genderVal(this);" type="button" id="M" value="수컷" class="btn btn-default"  style="width: 190px; background: none; height: 50px; border: 1px solid #EBEBEB; border-radius: 5px; ">
 	                </div>
 		            <div style="margin-top: 5px;">
 		            	<p><span id="pet_gender_check" style="color: skyblue"></span></p>
@@ -328,7 +328,7 @@ function checkValidate(f) {
 	                  style="width: 95px; height: 52px; border: 1px solid #cccccc; margin: 0px 12px 0 0; padding: 1px 2px; outline: none;"
 	                >
 	                	<option value="">선택</option>
-	                	<option value="dog">개</option>
+	                	<option value="dog">강아지</option>
 	                	<option value="cat">고양이</option>
 	                </select>
              	</div>

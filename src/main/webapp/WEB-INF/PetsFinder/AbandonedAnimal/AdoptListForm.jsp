@@ -1,6 +1,8 @@
+<%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-   <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!-- 유기동물 리스트 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -121,12 +123,33 @@
 				var content="";    
 				var vs=0;        
 				for(var i=0; i<lists.length; i++){ 
+					
+					//날짜 계산
+					var strDate1 = lists[i].abani_regdate;
+					var arr1 = strDate1.split('월');
+					var arr2 = arr1[1].split(',');
+					var dat1 = new Date(arr2[1].trim(),arr1[0]-1, arr2[0].trim());
+					var strDate2 = new Date();
+					var aa = dat1.getTime() /(1000*60*60*24);
+					var bb = strDate2.getTime() /(1000*60*60*24);
+					
 					if(vs%4 ==0) {
 						content += "<div style='width: 1024px; margin-top: 50px; display: flex; justify-content: flex-start'>";
 					}               
 					content += "<a href='./adoptView.do?abani_idx="+lists[i].abani_idx+"' target='_blank' style='margin-right: 14px; width: 245px;'>"               
-							
-					+ "<div><div style='width: 245px; height: 170px; border-radius: 3px'><img src='<c:url value='/' />Uploads/" + lists[i].abani_photo + "' alt='아이 사진' style='width: 245px; height: 170px; border-radius: 3px'></div><p style='font-size: 16px; letter-spacing: -0.2px; line-height: 20px; color: #383c48; margin-top: 20px'>";
+					
+					+ "<div><div style='display: inline-block; margin-left:auto;  float: right; margin-bottom: 10px'>"
+					+ "구조된지 " + Math.floor((bb-aa)) + "일 경과";
+					if(lists[i].abani_stat=='adopt') {
+						content += "<span class='badge bg-success' style='font-size: 15px;'>입양완료</span>";	
+					}
+					else if(lists[i].abani_stat=='prtct') {
+						content += "<span class='badge bg-danger' style='font-size: 15px;'>보호중</span>";
+					}
+					content +="</div><br/>"
+					
+					
+					content += "<div style='width: 245px; height: 170px; border-radius: 3px'><img src='<c:url value='/' />Uploads/" + lists[i].abani_photo + "' alt='아이 사진' style='width: 245px; height: 170px; border-radius: 3px'></div><p style='font-size: 16px; letter-spacing: -0.2px; line-height: 20px; color: #383c48; margin-top: 20px'>";
 					if(lists[i].abani_species=='cat') {
 						content += "고양이";
 					}
@@ -259,6 +282,15 @@
 				<a href="./adoptView.do?abani_idx=${row.abani_idx }" target="_blank" style="margin-right: 14px; width: 245px;">
 	            <div>
 		            <div style="display: inline-block; margin-left:auto;  float: right; margin-bottom: 10px">
+			            <!-- 날짜 계산 -->
+						<fmt:formatDate var="sDate" value="${row.abani_regdate }" pattern="yyyyMMdd" />
+						<fmt:parseDate var="pDate" value="${sDate }" pattern="yyyyMMdd" />
+						<fmt:parseNumber value="${pDate.time / (1000*60*60*24)}" integerOnly="true" var="isDate" scope="request" />
+						<%long currentMilliseconds = new Date().getTime();
+						String nDate = String.valueOf(currentMilliseconds /(1000*60*60*24) +1); %>
+						<fmt:parseNumber value="<%=nDate %>" integerOnly="true" var="nowDate" scope="request" />
+						<!-- 등록일로부터 10일이 지나면 nowDate - isDate >=10  -->
+						구조된지 ${nowDate - isDate }일 경과
 	                  <c:if test="${row.abani_stat eq 'adopt'  }">
 	                  <span class="badge bg-success" style="font-size: 15px;">입양완료</span>
 	                  </c:if>
@@ -266,6 +298,7 @@
 	                  <span class="badge bg-danger" style="font-size: 15px;">보호중</span>
 	                  </c:if>
 	               </div>
+	               <br/>
 	              <div style="width: 245px; height: 170px; border-radius: 3px">
 	                <img src="<c:url value="/" />Uploads/${ row.abani_photo }" alt="아이 사진" style="width: 245px; height: 170px; border-radius: 3px">
 	              </div>
@@ -313,7 +346,7 @@
         <!-- left -->
         <div style="display: flex; flex-direction: column; align-items: center; align-self: center;">
           <p style="font-size: 38px; line-height: 55px; font-weight: bold; color: white;">
-            간단한 소개
+            사지말고 입양하세요!
           </p>
         </div>
         

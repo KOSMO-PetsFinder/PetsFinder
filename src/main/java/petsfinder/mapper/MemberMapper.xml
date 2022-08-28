@@ -289,6 +289,14 @@
 			from pet where member_idx=#{member_idx}
 	</select>
 	
+	<!-- 펫 삭제 -->
+   <delete id="deletePet">
+      delete from pet where pet_idx = #{ param1 }
+   </delete>
+   <!-- 펫 수정 시 하나 가져오기 -->
+   <select id="petSelect" resultType="petsfinder.member.PetDTO">
+      select * from pet where pet_idx= #{ param1 }
+   </select>
 	
 </mapper>
 

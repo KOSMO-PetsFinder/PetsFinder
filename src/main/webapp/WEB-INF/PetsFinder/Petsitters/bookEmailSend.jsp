@@ -23,7 +23,7 @@ $(document).ready(function(){
 		<tr>	
 			<td> 
 				보내는사람 : 
-				<input type="text" name="from" value="gnsl0127@naver.com" />
+				<input type="text" name="from" value="pets_finder@naver.com" />
 			</td>
 		</tr>
 		<tr>	

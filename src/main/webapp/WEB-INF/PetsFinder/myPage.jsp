@@ -98,9 +98,9 @@
 	                <li>
 	                    <a href="./petregiform" target="rightwin">펫 등록</a>
 	                </li>
-	                <li>
+	                <!-- <li>
 	                    <a href="./petregimodify" target="rightwin">펫 수정</a>
-	                </li>
+	                </li> -->
 	            
                 </ul>
               </li>
@@ -114,7 +114,7 @@
                   <li>
                     <a href="./petsitterForm" target="rightwin">시터 페이지 생성 및 수정</a>
                   </li>
-                </c:if> 
+                </c:if>
                   <li>
                     <a href="./myReview?mode=adp" target="rightwin">입양 후기</a>
                   </li>
@@ -135,6 +135,17 @@
 	                <li>
 	                    <a href="./myReserve" target="rightwin">시터 이용 내역</a>
 	                </li>
+	                <%
+                  	if(session.getAttribute("type").equals("sit")){
+                    %>
+                      <li>
+                     <a onclick="window.open('${pageContext.request.contextPath}/WebSocket/WebSocket.do?', 'chat', 'width=800,height=600');">
+                     예약 고객과 채팅하기 
+                     </a>
+                     </li>
+                   <%
+                  	}
+                   %> 
 	                <li>
 	                    <a href="./myBought" target="rightwin">구매 내역</a>
 	                </li>

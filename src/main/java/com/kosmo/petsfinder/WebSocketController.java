@@ -26,7 +26,7 @@ public class WebSocketController {
 	private SqlSession sqlSession;
 	
 	//웹소켓채팅1 (시터와 회원)
-    @RequestMapping(value="$/WebSocket/WebSocket.do", method=RequestMethod.GET)
+    @RequestMapping(value="/WebSocket/WebSocket.do", method=RequestMethod.GET)
     public String webSocket(HttpSession session, HttpServletRequest req, Model model) {
     	
     	WebChatDTO webChatDTO = new WebChatDTO();

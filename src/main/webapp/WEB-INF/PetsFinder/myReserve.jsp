@@ -84,7 +84,7 @@ textarea {
 				<a href="./up_Reserve?mode=latter&m=${ mr.member_name }&ss=${ mr.sbook_start }&se=${ mr.sbook_end }&i=${ mr.sit_idx }&sbook_idx=${mr.sbook_idx}" onclick="check();">후기쓰기</a>
 				
 					<!-- 웹소켓: 로그인한 사람이 있으면 session에 저장되어있는 idx 값으로 판단. -->
-					<input type="hidden" name="member_id" id="member_id"/>${mr.member_id }
+					<input type="hidden" name="member_id" id="member_id" value="${mr.member_id }"/>
 			    <%
 			    if(session.getAttribute("type").equals("nor")){
 			    %>

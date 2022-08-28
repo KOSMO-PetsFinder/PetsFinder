@@ -8,7 +8,42 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-*{font-family: BM JUA_TTF;}
+*{
+font-family: BM JUA_TTF;
+}
+
+@font-face {
+  font-family: neon;
+  src: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/707108/neon.ttf);
+}
+
+.neon {
+  font-family: BM JUA_TTF, neon;
+  color: #75c9ba;
+  font-weight:bold;
+  font-size: 19px;
+  line-height: 15px;
+  text-shadow: 0 0 2vw #ffffff;
+  }
+
+.neon {
+  animation: neon 1s ease infinite;
+  -moz-animation: neon 1s ease infinite;
+  -webkit-animation: neon 1s ease infinite;
+}
+
+@keyframes neon {
+  0%,
+  50% {
+    text-shadow: 0 0 1vw #75c9ba, 0 0 3vw #75c9ba, 0 0 10vw #75c9ba, 0 0 10vw #75c9ba, 0 0 .4vw #75c9ba, .5vw .5vw .1vw #75c9ba;
+    color: #960316;
+  }
+  25% {
+    text-shadow: 0 0 .5vw #75c9ba, 0 0 1.5vw #75c9ba, 0 0 5vw #75c9ba, 0 0 5vw #75c9ba, 0 0 .2vw #75c9ba, .5vw .5vw .1vw #75c9ba;
+    color: #960316;
+  }
+}
+
 </style>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" 
    rel="stylesheet" 
@@ -57,81 +92,110 @@ $(document).ready(function () {
 </script>
 </head>
 <body>
-<div class="container">
-   <h2 >Pets Finder 채팅 (시터와의 채팅)</h2>
-   <button type="button" class="btn btn-danger" onclick="location.href='../notifyForm.do'">신고하기</button>
-
-<c:choose>
-	<c:when test="${sessionScope.type eq 'sit' }">시터회원>></c:when>
-	<c:when test="${sessionScope.type eq 'nor' }">일반회원>></c:when>
-	<c:otherwise>관리자회원>></c:otherwise>
-</c:choose>
-   
-   <table border=1 cellpadding="10" cellspacing="0">       
-<c:choose>
-	<c:when test="${sessionScope.type eq 'sit' }">
-		<!-- 시터회원일때.. -->
-		<tr>
-		   <td>My아이디</td>
-		   <td>
-		   	<!-- session에 저장되어 있는 값들 받아옴. -->
-		      <input type="text" id="chat_id" value="${ sessionScope.id}"/>            
-		      <input type="hidden" id="member_idx" value="${sessionScope.idx }"/>
-		      <input type="hidden" id="sit_idx" value="${sessionScope.sit_idx }"/>
-		   </td>
-		</tr>
-		<tr>
-		   <td>회원아이디</td>
-		   <td>
-		   		<!-- 시터일때 회원들의 아이디 가져오기 -->
-		   		<input type="text" id="member_id" />
-		      <select id="member_idSelect" onchange="selectBoxChange(this.value);">
-		      	<option>선택해주세요</option>
-		      	<c:forEach var="SmemberLists" items="${SmemberLists }">
-		      		<option value="${SmemberLists }">${SmemberLists }</option>
-		      	</c:forEach>
-		      </select>
-<!-- 		      <input type="text" id="member_id" value="ganzi1234"/>
-		      <input type="text" id="manager_id" value="petsfinder"/> -->
-		   </td>
-		</tr>	
-	</c:when>
-	<c:when test="${sessionScope.type eq 'nor' }">
-		<!-- 일반회원일때.. -->
-		<tr>
-		   <td>My아이디</td>
-		   <td>
-		   	<!-- session에 저장되어 있는 값들 받아옴. -->
-		      <input type="text" id="member_id" value="${ sessionScope.id}"/>            
-		      <input type="hidden" id="member_idx" value="${sessionScope.idx }"/>
-		      <input type="hidden" id="sit_idx" value="${sessionScope.sit_idx }"/>
-		   </td>
-		</tr>
-		<tr>
-		   <td>펫시터아이디</td>
-		   <td>
-		   		<!-- 고객일때 내가 예약한 펫시터 아이디 뽑기 여긴 하나의 값을 뽑아와야함 -->
-		   		<input type="text" id="chat_id"  name="chat_id" value="${param.chat_id }" />
-<!-- 		      <input type="text" id="chat_id" value="lemon123"/> -->
-<%-- 		      <input type="text" id="member_id" />
-		      <select id="member_idSelect" onchange="selectBoxChange(this.value);">
-		      	<option>선택해주세요</option>
-		      	<c:forEach var="SmemberLists" items="${SmemberLists }">
-		      		<option value="${SmemberLists }">${SmemberLists }</option>
-		      	</c:forEach>
-		      </select> --%>
-		   </td>
-		</tr>	
-	</c:when>
-	<c:otherwise>관리자 회원일때는 일단 보류</c:otherwise>
-</c:choose>
-      <tr>
-         <td colspan="2" style="text-align: center;">
-            <button type="button" onclick="chatWin('normal');"
-               class="btn btn-primary">채팅창 열기</button>
-         </td>
-      </tr>
-   </table>
+<div class="view">
+	<div class="scrollBlind">
+			<section>
+			<div style="display: flex; flex-direction: row; margin-top: 20px;">
+				<div style="display: flex; flex-direction: row; justify-content: space-around; font-size: 1em; margin-left: 30px; margin-right:-10px">
+					<div style="display: flex; flex-direction: column; align-items: center; ">
+				        <div style="background-color: white; width: 600px; height: 450px; padding-top: 50px; border-radius: 30px; display: flex; justify-content: space-around; flex-direction: row; align-items: center; box-shadow: rgba(0, 0, 0, 0.65) 0px 2px 10px;">
+				        	<div style="display:; justify-content: center; flex-direction: column; ">
+								<div class="container">
+									<img alt="" src="<c:url value='/' />images/main_logo.png" style="width: 100px; float:right; margin-right:30px; margin-bottom: 30px;">
+									   <button type="button" formtarget="_blank" style="margin-bottom:20px;border:none;" class="neon" onclick="window.open('../notifyForm.do')">유기동물 신고하기</button>
+								   <h2 >Pets Finder</h2>
+								   <h4>시터 채팅방</h4>
+								<c:choose>
+									<c:when test="${sessionScope.type eq 'sit' }">
+									<span class="badge rounded-pill bg-dark">
+										시터회원>>
+									</span>
+									</c:when>
+									<c:when test="${sessionScope.type eq 'nor' }">
+									<span class="badge rounded-pill bg-dark">
+										일반회원>>
+									</span>
+									</c:when>
+									<c:otherwise>
+										<span class="badge rounded-pill bg-dark">
+											관리자회원>>
+										</span>
+									</c:otherwise>
+								</c:choose>
+								   
+								   <table border="0" cellpadding="10" cellspacing="0">       
+								<c:choose>
+									<c:when test="${sessionScope.type eq 'sit' }">
+										<!-- 시터회원일때.. -->
+										<tr>
+										   <td>My아이디</td>
+										   <td>
+										   	<!-- session에 저장되어 있는 값들 받아옴. -->
+										      <input class="form-control" type="text" id="chat_id" value="${ sessionScope.id}"/>            
+										      <input type="hidden" id="member_idx" value="${sessionScope.idx }"/>
+										      <input type="hidden" id="sit_idx" value="${sessionScope.sit_idx }"/>
+										   </td>
+										</tr>
+										<tr>
+										   <td>회원아이디</td>
+										   <td>
+										   		<!-- 시터일때 회원들의 아이디 가져오기 -->
+										      <select class="form-control" id="member_idSelect" onchange="selectBoxChange(this.value);">
+										      	<option>선택해주세요</option>
+										      	<c:forEach var="SmemberLists" items="${SmemberLists }">
+										      		<option value="${SmemberLists }">${SmemberLists }</option>
+										      	</c:forEach>
+										      </select>
+										   		<input type="text" id="member_id" class="form-control" readonly />
+								<!-- 		      <input type="text" id="member_id" value="ganzi1234"/>
+										      <input type="text" id="manager_id" value="petsfinder"/> -->
+										   </td>
+										</tr>	
+									</c:when>
+									<c:when test="${sessionScope.type eq 'nor' }">
+										<!-- 일반회원일때.. -->
+										<tr>
+										   <td>My아이디</td>
+										   <td>
+										   	<!-- session에 저장되어 있는 값들 받아옴. -->
+										      <input type="text" class="form-control" id="member_id" value="${ sessionScope.id}"/>            
+										      <input type="hidden" id="member_idx" value="${sessionScope.idx }"/>
+										      <input type="hidden" id="sit_idx" value="${sessionScope.sit_idx }"/>
+										   </td>
+										</tr>
+										<tr>
+										   <td>펫시터아이디</td>
+										   <td>
+										   		<!-- 고객일때 내가 예약한 펫시터 아이디 뽑기 여긴 하나의 값을 뽑아와야함 -->
+										   		<input class="form-control" type="text" id="chat_id"  name="chat_id" value="${param.chat_id }" />
+								<!-- 		      <input type="text" id="chat_id" value="lemon123"/> -->
+								<%-- 		      <input type="text" id="member_id" />
+										      <select id="member_idSelect" onchange="selectBoxChange(this.value);">
+										      	<option>선택해주세요</option>
+										      	<c:forEach var="SmemberLists" items="${SmemberLists }">
+										      		<option value="${SmemberLists }">${SmemberLists }</option>
+										      	</c:forEach>
+										      </select> --%>
+										   </td>
+										</tr>	
+									</c:when>
+									<c:otherwise>관리자 회원일때는 일단 보류</c:otherwise>
+								</c:choose>
+								      <tr>
+								         <td colspan="2" style="text-align: center;">
+								            <button type="button" onclick="chatWin('normal');"
+								               class="btn btn-outline-dark">채팅창 열기</button>
+								         </td>
+								      </tr>
+								   </table>
+								</div>
+							</div>
+						</div>
+				    </div>
+			    </div>
+			</div>
+		</section>
+	</div>
 </div>
 </body>
 </html>

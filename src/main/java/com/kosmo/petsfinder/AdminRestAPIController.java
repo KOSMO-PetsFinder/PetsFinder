@@ -93,7 +93,6 @@ public class AdminRestAPIController {
     	map.put("notboard_title", dto.getNotboard_title());
     	map.put("notboard_content", dto.getNotboard_content());
     	map.put("notboard_regdate", dto.getNotboard_regdate());
-    	map.put("notboard_photo", dto.getNotboard_photo());
       }
       return map;
    }
@@ -111,7 +110,7 @@ public class AdminRestAPIController {
       System.out.println("제목:"+adminDTO.getNotboard_content());
       System.out.println("제목:"+adminDTO.getNotboard_regdate());
       System.out.println("내용:"+adminDTO.getNotboard_hit());
-      System.out.println("사진:"+adminDTO.getNotboard_photo());
+//      System.out.println("사진:"+adminDTO.getNotboard_photo());
       
       //interface를 통해 Mapper를 호출한다.<insert>엘리먼트의 경우 항상 0혹은 1을 반환한다.
       int affected = sqlSession.getMapper(AdminDAOImpl.class).nWrite(adminDTO);
@@ -162,7 +161,6 @@ public class AdminRestAPIController {
       System.out.println("내용:"+jsonObj.get("notboard_content"));
       System.out.println("등록일:"+jsonObj.get("notboard_regdate")); 
       System.out.println("조회수:"+jsonObj.get("notboard_hit"));
-      System.out.println("사진:"+jsonObj.get("notboard_photo"));
       //전송된 값이 문제가 없다면 DTO객체에 저장한다.
       //String notboard_idx =jsonObj.get("notboard_idx").toString();
       //adminDTO.setNotboard_idx(Integer.parseInt(notboard_idx));
@@ -173,9 +171,9 @@ public class AdminRestAPIController {
       adminDTO.setNotboard_content(jsonObj.get("notboard_content").toString());
       
       // 사진 처리
-      String photo = jsonObj.get("notboard_photo").toString();
-      System.out.println(photo);
-      adminDTO.setNotboard_photo(photo);
+//      String photo = jsonObj.get("notboard_photo").toString();
+//      System.out.println(photo);
+//      adminDTO.setNotboard_photo(photo);
       
       //Mapper를 호출해서 insert처리한다.
       int affected = sqlSession.getMapper(AdminDAOImpl.class).nWrite(adminDTO);
@@ -232,7 +230,7 @@ public class AdminRestAPIController {
     	map.put("notboard_title", dto.getNotboard_title());
     	map.put("notboard_content", dto.getNotboard_content());
     	map.put("notboard_regdate", dto.getNotboard_regdate());
-    	map.put("notboard_photo", dto.getNotboard_photo());
+//    	map.put("notboard_photo", dto.getNotboard_photo());
       }
       return map;
    }

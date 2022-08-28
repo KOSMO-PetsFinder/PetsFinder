@@ -86,8 +86,6 @@ function checkValidate(f) {
 	
 }
 </script>
-</head>
-<body>
   <style>
     * {
       font-family: 'BM JUA_TTF', sans-serif;
@@ -135,6 +133,16 @@ function checkValidate(f) {
   display:inline-block;
   padding-left:10px;
 }
+.view {
+	width:1200px;
+	height: 800px;
+	overflow: hidden;
+}
+.scrollBlind {
+	width:1230px;
+	height: 100%;
+	overflow-y: scroll;
+}
   </style>
  
  <script>
@@ -149,10 +157,16 @@ function checkValidate(f) {
 
 	  })
  </script>
-<script>
+</head>
+<body>
 
-<jsp:include page="./common/Header.jsp" />
+	<noscript>
+		<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PDQCPDS"
+			height="0" width="0" style="display: none; visibility: hidden;"></iframe>
+	</noscript>
 
+<div class="view" >
+<div class="scrollBlind">
 <!-- registration -->
 <form id="" name="petRegiFrm" action="./Petaction" enctype="multipart/form-data" method="post">
 <div style="display: flex; flex-direction: column; align-items: center; ">
@@ -271,11 +285,11 @@ function checkValidate(f) {
                 <script>
                 function genderVal(b) {
 	                var a = $(b).val(); 
-	                if(a == '남성') {
+	                if(a == '수컷') {
                    		$('#pet_gender').val('M')
                    		$('#M').attr({style : 'border : 2px solid #75c9ba; width: 190px; background: none; height: 50px; border-radius: 5px;'})
                    		$('#F').attr({style : 'width: 190px ; background: none; height: 50px; border: 1px solid #EBEBEB; border-radius: 5px; margin-right: 10px'})
-	                } else if (a == '여성') {
+	                } else if (a == '암컷') {
                    		$('#pet_gender').val('F')
                    		$('#M').attr({style : 'width: 190px; background: none; height: 50px; border: 1px solid #EBEBEB; border-radius: 5px;'})
                    		$('#F').attr({style : 'border : 2px solid #75c9ba; width: 190px; background: none; height: 50px; border-radius: 5px; margin-right: 10px'})
@@ -305,10 +319,10 @@ function checkValidate(f) {
                <div style="width: 475px; height: 59px; display: flex; align-items: center; border: 0; margin-top: 10px;">
 	               <input type="hidden" id="pet_gender" name="pet_gender" value="${ e.abani_gender }">
 	               <div style="display: flex; margin-top: 15px">
-	                    <!-- 여성버튼 -->   
-	                    <input onclick="genderVal(this);" type="button" id="F" value="여성" class="btn btn-default"  style="width: 190px ; background: none; height: 50px; border: 1px solid #EBEBEB; border-radius: 5px; margin-right: 10px">
-	                    <!-- 남성버튼 -->   
-	                    <input onclick="genderVal(this);" type="button" id="M" value="남성" class="btn btn-default"  style="width: 190px; background: none; height: 50px; border: 1px solid #EBEBEB; border-radius: 5px; ">
+	                    <!-- 암컷버튼 -->   
+	                    <input onclick="genderVal(this);" type="button" id="F" value="암컷" class="btn btn-default"  style="width: 190px ; background: none; height: 50px; border: 1px solid #EBEBEB; border-radius: 5px; margin-right: 10px">
+	                    <!-- 수컷버튼 -->   
+	                    <input onclick="genderVal(this);" type="button" id="M" value="수컷" class="btn btn-default"  style="width: 190px; background: none; height: 50px; border: 1px solid #EBEBEB; border-radius: 5px; ">
 	                </div>
 		            <div style="margin-top: 5px;">
 		            	<p><span id="abani_gender_check" style="color: skyblue"></span></p>
@@ -359,7 +373,7 @@ function checkValidate(f) {
 	                  style="width: 95px; height: 52px; border: 1px solid #cccccc; margin: 0px 12px 0 0; padding: 1px 2px; outline: none;"
 	                >
 	                	<option value="">선택</option>
-	                	<option value="dog">개</option>
+	                	<option value="dog">강아지</option>
 	                	<option value="cat">고양이</option>
 	                </select>
              	</div>
@@ -396,6 +410,8 @@ function checkValidate(f) {
         </div>
       
     </div>
+</div>
+<div>
 </div>
 </form>
 </body>

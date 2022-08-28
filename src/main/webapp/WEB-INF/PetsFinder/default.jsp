@@ -32,7 +32,7 @@
 }
 a {
   text-decoration: none;
-}
+}s
 
 </style>
 </head>
@@ -56,37 +56,52 @@ a {
 					<div style="display: flex; flex-direction: column; align-items: center; ">
 				        <div style="background-color: white; width: 500px; height: 300px; padding-top: 50px; border-radius: 30px; display: flex; justify-content: space-around; flex-direction: row; align-items: center; box-shadow: rgba(0, 0, 0, 0.65) 0px 2px 10px;">
 				        	<div style="display:flex; justify-content: center; flex-direction: column; ">
-								<p style="margin-left: 10px; font-size: 20px; font-weight: 600;">펫 이름 : ${petlist.pet_name } </p>
-				            	<p style="margin-left: 10px; font-size: 20px; font-weight: 600;">펫 나이 : ${petlist.pet_age } </p>
-				            	<p style="margin-left: 10px; font-size: 20px; font-weight: 600;">펫 성별 : ${petlist.pet_gender == 'M' ? '수컷' : '암컷'} </p>
-				            	<p style="margin-left: 10px; font-size: 20px; font-weight: 600;">펫 품종 : ${petlist.pet_kind }</p>
+								<p style="margin-left: 10px; font-size: 20px; font-weight: 600;">펫 이름 : ${row.pet_name } </p>
+				            	<p style="margin-left: 10px; font-size: 20px; font-weight: 600;">펫 나이 : ${row.pet_age } </p>
+				            	<p style="margin-left: 10px; font-size: 20px; font-weight: 600;">펫 성별 : ${row.pet_gender == 'M' ? '남자' : '여자'} </p>
+				            	<p style="margin-left: 10px; font-size: 20px; font-weight: 600;">펫 품종 : ${row.pet_kind }</p>
 				        	</div>
-				        	<c:if test="${not empty petlist.pet_photo }">
+				        	<c:if test="${not empty row.pet_photo }">
 				        	<div>
-				        		<img src="./Uploads/${petlist.pet_photo }" width="140" height="200" style=" border-radius: 5px"/>
+				        		<img src="./Uploads/${row.pet_photo }" width="140" height="200" style=" border-radius: 5px"/>
 				        	</div>
 				        	</c:if>
-				        	<c:if test="${empty petlist.pet_photo }">
+				        	<c:if test="${empty row.pet_photo }">
 				        	<div>
 				        		<img src="./images/nophoto.png" width="140" height="200" style=" border-radius: 5px"/>
 				        	</div>
 				        	</c:if>
+							<div>
+								<a class="" style="margin-left: 10px; color: #75c9ba" href="./petregimodify?pet_idx=${row.pet_idx }" target="rightwin">
+						       수정
+						       </a>
+						       &nbsp;
+								<a class="" style="margin-left: 10px; color: #75c9ba" onclick="deletePet(${row.pet_idx});" target="rightwin">
+						       삭제
+						       </a>
+						       
+							</div>
+						</div>
+				    </div>
+			    </div>
+			</div>
+			</c:forEach>
+			
+			
+			<br />
+			<br />
+			<br />
 				        	 <%
 						    if(session.getAttribute("type").equals("sit")){
 						    %>
 						     	<div>
-						       <a class="ChatWithCust" style="margin-left: 10px; color: #75c9ba" onclick="window.open('./WebSocket/WebSocket.do?', 'chat', 'width=400,height=400');">
+						       <a class="ChatWithCust" style="margin-left: 10px; color: #75c9ba; cursor: pointer;" onclick="window.open('${pageContext.request.contextPath}/WebSocket/WebSocket.do?', 'chat', 'width=800,height=600');">
 						       예약 고객과 채팅하기 
 						       </a>
 						    	</div>
 							  <%
 						    }
 							  %>
-						</div>
-				    </div>
-			    </div>
-			</div>
-			</c:forEach>
 			</c:when>
 			<c:otherwise>
 			<div style="display: flex; flex-direction: row; margin-top: 120px">
@@ -145,5 +160,12 @@ a {
 		 -->
 	</div>
 </div>
+ <script type="text/javascript">
+    function deletePet(idx) {
+    if(confirm("정말로 삭제하시겠습니까?")){
+        location.href = "./deletePet?pet_idx="+idx;
+       }
+    }
+    </script>
 </body>
 </html>

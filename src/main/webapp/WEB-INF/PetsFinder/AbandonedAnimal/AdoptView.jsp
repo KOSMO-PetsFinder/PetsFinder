@@ -152,11 +152,11 @@
 									<div class="container" style="z-index: 0; display: flex; flex-direction: row; width: 100%; height: 580px; margin-top: 85px; position: relative;">
 										<!-- 이미지 -->
 										<div style="width: 100%; height: 580px; justify-content: center;" class="carousel-inner">
-											<div class="carousel-item active">
-												<img alt="" width="1500" height="580"
+											<div class="carousel-item active" style="margin : auto;">
+												<img alt="" width="1500" height="580" 
 													class="d-block"
 													src="<c:url value='/'/>Uploads/${abandonedAnimalDTO.abani_photo }"
-													style=" width: 100%; user-select: none; cursor: pointer;">
+													style="margin : auto; text-align : center; max-height: auto; max-width: 600px; user-select: none; cursor: pointer;">
 											</div>
 										</div>
 									</div>

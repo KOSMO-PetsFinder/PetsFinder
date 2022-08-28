@@ -33,8 +33,10 @@
 	    <c:if test="${ vs.index % 3 == 0 }">
     <div style="display: flex; justify-content: flex-start; margin-left:200px;">
       </c:if>
-	    <input type="hidden" value="${list.member_idx }" />
-	    <input type="hidden" value="${list.sit_idx }" />
+	    <input type="hidden" id="nowPage" value="${ nowPage }" name="nowPage" />
+	    <input type="hidden" id="total" value="${ total }" name="total" />
+	    <input type="hidden" value="${list.member_idx }" name="member_idx"/>
+	    <input type="hidden" value="${list.sit_idx }" name="sit_idx" />
         <div style="width: 480px; padding-top: 50px; padding-bottom: 50px; margin-right:50px;" >
           <div
             style="
@@ -114,6 +116,7 @@
 	     </c:forEach>
       <!-- 후기 한 줄 끝 -->
     </section>
+      <div style="display: flex;justify-content: center; padding-bottom: 50px;padding-top: 50px;">${pagingImg }</div>
     
     <jsp:include page="../common/foot.jsp" />
   </body>

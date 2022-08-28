@@ -87,4 +87,8 @@ public interface MemberDAOImpl {
 	public ArrayList<PetDTO> petlist(int member_idx);
 	
 	public int petregimod(PetDTO petDTO);
+	
+	public int deletePet(int pet_idx);
+	
+	public PetDTO petSelect(int pet_idx);
 }

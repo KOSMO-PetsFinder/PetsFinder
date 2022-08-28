@@ -91,7 +91,7 @@
             </li>
             <li class="admin">
             <ul>
-            	<li class="admin_menu_2depth" style="margin-left:150px; position:absolute;"><a href="./Admin/adminMain">AdminPage</a></li>
+            	<li class="admin_menu_2depth" style="margin-left:150px; position:absolute;"><a href="<c:url value='/' />Admin/adminMain">AdminPage</a></li>
             </ul>
             </li>
             <li class="sitter" >
@@ -289,7 +289,7 @@
     	if(session.getAttribute("type").equals("nor") || session.getAttribute("type").equals("mag")){
     	%>
 	    <div style="position: fixed; right: 50px; bottom:10px; z-index: 999999;">
-          <img type="button" src="<c:url value='/' />images/websocket_icon2.png" onclick="window.open('${pageContext.request.contextPath}/WebSocket/WebSocketManager.do?', 'chat', 'width=500,height=350', 'target=_blank');" alt="소켓이미지" style="width: 100px; height: 100px"/>
+          <img type="button" src="<c:url value='/' />images/websocket_icon2.png" onclick="window.open('${pageContext.request.contextPath}/WebSocket/WebSocketManager.do?', 'chat', 'width=800,height=600', 'target=_blank');" alt="소켓이미지" style="width: 100px; height: 100px"/>
        </div>
 	    <%
     	}
