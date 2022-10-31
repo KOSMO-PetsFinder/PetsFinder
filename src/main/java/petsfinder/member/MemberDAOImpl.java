@@ -19,6 +19,8 @@ public interface MemberDAOImpl {
 	
 	public String idValidate(String id);
 	
+	public String emailValidate(String email);
+	
 	public String idSearch(MemberDTO memberDTO);
 	
 	public String pwSearch(MemberDTO memberDTO);

@@ -871,3 +871,8 @@ select tb.*, p.product_name from
 select * from sit_book where sit_idx = 11;
 
 select * from sit_book where sit_idx = 11 and sbook_status != 'can';
+
+select * from 
+(select tb.*, rowNum rNum from 
+(select notboard_idx, notboard_title, notboard_content, to_char(notboard_regdate,'yyyy-mm-dd') notboard_regdate from notice_board      
+order by notboard_idx desc) tb) where rNum between 1 and 3;

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.session.SqlSession;
 import org.json.simple.JSONObject;
@@ -36,7 +37,14 @@ public class AdminRestAPIController {
    //요청명에 대한 매핑 및 게시판 리스트를 JSON배열로 출력한다.
    @RequestMapping("/Admin/noticeList.do")
    @ResponseBody
-   public ArrayList<AdminDTO> boardList(HttpServletRequest req){
+   public ArrayList<AdminDTO> boardList(HttpServletRequest req, HttpServletResponse resp){
+	   
+	   try {
+		   resp.setHeader("Access-Control-Allow-Origin", "*");
+	   } catch (Exception e) {
+		   resp.setStatus(500);
+//		   resp.sendError(e.getMessage());
+	   }
       //파라미터를 저장할 용도의 DTO객체 생성
       AdminParameterDTO parameterDTO = new AdminParameterDTO();
       //검색 기능 삭제
@@ -50,7 +58,8 @@ public class AdminRestAPIController {
       int totalPage = (int)Math.ceil((double)totalRecordCount/pageSize);
       //현재 페이지번호 가져오기. 첫 진입시에는 무조건 1페이지로 지정한다.
       int nowPage = req.getParameter("nowPage")==null ? 1 : Integer.parseInt(req.getParameter("nowPage"));
-      int start = (nowPage-1)*pageSize + 1;
+      int start 
+      = (nowPage-1)*pageSize + 1;
       int end = nowPage * pageSize;
       //게시물의 구간 계산 및 DTO객체에 저장
       parameterDTO.setStart(start);
@@ -63,7 +72,9 @@ public class AdminRestAPIController {
       for(AdminDTO dto : lists) {
          String temp = dto.getNotboard_content().replace("\r\n", "<br/>");
          dto.setNotboard_content(temp);
+         dto.setTotalPage(totalPage);
       }
+      
       return lists;
    }
    

@@ -130,7 +130,8 @@ public class PetSitterController {
 		}
 		
 		if (sit_idx == 0) {
-			sit_idx = sqlSession.getMapper(PetSitterDAOImpl.class).u_sitIdx(sit_title);
+		
+			sit_idx = sqlSession.getMapper(PetSitterDAOImpl.class).u_sitIdx(Integer.parseInt(session.getAttribute("idx").toString()));
 		}
 		
 		// 재 입력

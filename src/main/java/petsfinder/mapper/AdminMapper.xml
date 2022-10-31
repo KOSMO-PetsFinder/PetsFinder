@@ -61,14 +61,14 @@
    </select>
    
    <select id="nListPage" resultType="petsfinder.admin.AdminDTO" parameterType="petsfinder.admin.AdminParameterDTO">
-     select * from (select tb.*, rowNum rNum from (select notboard_idx, notboard_title, notboard_content, to_char(notboard_regdate,'yyyy-mm-dd')notboard_regdate, from notice_board
+     select * from (select tb.*, rowNum rNum from (select notboard_idx, notboard_title, notboard_content, to_char(notboard_regdate,'yyyy-mm-dd') notboard_regdate from notice_board
      order by notboard_idx desc
      ) tb
    	) where rNum between #{ start } and #{ end }
    </select>
    
 	<select id="nView" resultType="petsfinder.admin.AdminDTO" parameterType="petsfinder.admin.AdminParameterDTO">
-   	SELECT notboard_idx, notboard_title, notboard_content, to_char(notboard_regdate,'yyyy-mm-dd')notboard_regdate, FROM notice_board WHERE notboard_idx=#{num}
+   	SELECT notboard_idx, notboard_title, notboard_content, to_char(notboard_regdate,'yyyy-mm-dd') notboard_regdate FROM notice_board WHERE notboard_idx=#{num}
    </select>
   
   <update id="nWrite" parameterType="petsfinder.admin.AdminDTO">

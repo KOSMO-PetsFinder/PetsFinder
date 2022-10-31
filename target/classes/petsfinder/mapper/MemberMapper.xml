@@ -44,6 +44,10 @@
 	<select id="idValidate" resultType="String">
 		SELECT member_id FROM member WHERE member_id = #{ param1 }
 	</select>
+	
+	<select id="emailValidate" resultType="String">
+		SELECT member_email FROM member WHERE member_email = #{ email }
+	</select>
 
 	<select id="idSearch" resultType="String" parameterType="petsfinder.member.MemberDTO">
 		SELECT member_id FROM member WHERE member_name = #{ member_name } and member_email = #{ member_email }

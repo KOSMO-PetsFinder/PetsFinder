@@ -14,8 +14,14 @@ public class AdminDTO {
 	private String qna_OPENSTATUS;
 	private int member_idx;
 	private String member_name;
+	private int totalPage;
 	
-	
+	public int getTotalPage() {
+		return totalPage;
+	}
+	public void setTotalPage(int totalPage) {
+		this.totalPage = totalPage;
+	}
 	public String getMember_name() {
 		return member_name;
 	}

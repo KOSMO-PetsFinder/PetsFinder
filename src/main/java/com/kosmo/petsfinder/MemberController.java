@@ -272,6 +272,41 @@ public class MemberController {
 		pw.print(result);
 	}
 	
+	@RequestMapping("/emailDuple")
+	@ResponseBody
+	public void emailDuple(Model model, HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		resp.setContentType("text/html; charset=UTF-8");
+		String email = req.getParameter("email");
+		
+		String result = "";
+		
+		var symbol01 = 0;
+    	var symbol02 = 0;
+    	for (int i = 0; i < email.length(); i++) {
+			if(email.charAt(i) == '@') {
+				symbol01++;
+			}
+			if(email.charAt(i) == '.') {
+				symbol02++;
+			}
+    	}
+    	
+    	if(symbol01 != 1 || symbol02 != 1) {
+    		result = "이메일 형식을 지켜주세요";
+    	} else {
+    		String check_email = sqlSession.getMapper(MemberDAOImpl.class).emailValidate(email);
+    		
+    		if (check_email != null) {    			
+    			result = "중복되었습니다.";
+    		} else {
+    			result = "사용 가능한 이메일입니다.";
+    		}
+    	}
+		
+    	PrintWriter pw = resp.getWriter();
+		pw.print(result);
+	}
+	
 	@RequestMapping(value="/Regist", method = RequestMethod.POST)
 	public String Regist(Model model, HttpServletRequest req) {
 		

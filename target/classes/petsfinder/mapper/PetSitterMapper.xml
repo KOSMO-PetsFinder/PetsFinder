@@ -461,6 +461,6 @@
 	</delete>
 
 	<select id="u_sitIdx" resultType="int">
-		select sit_idx from sitter where sit_title = #{ sit_title }
+		select sit_idx from sitter where member_idx = #{ member_idx }
 	</select>
 </mapper>
